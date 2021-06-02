@@ -1,13 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    void Start()
-    {
-        Debug.Log("Starting game controller.");
+	void Start()
+	{
+		Debug.Log("Starting game controller.");
 
-        Game.UpdateObjects();
+		Game.UpdateObjects();
 
-        enabled = false;
-    }
+		enabled = false;
+	}
 }

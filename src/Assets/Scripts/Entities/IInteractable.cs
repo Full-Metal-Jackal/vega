@@ -11,6 +11,6 @@ public interface IInteractable
 	/// </summary>
 	/// <param name="mob">The user of the object.</param>
 	/// <returns>true if the object was used successfully, false otherwise.</returns>
-	public bool OnUsed(Mob mob);
+	public bool OnUse(Mob mob);
 	public bool CanBeUsedBy(Mob mob);
 }

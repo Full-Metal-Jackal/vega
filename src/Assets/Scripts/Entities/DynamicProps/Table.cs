@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +14,8 @@ public class Table : DynamicProp, IInteractable
 	protected float lastFlipTime;
 	protected bool flipped = false;
 
-	public bool OnUsed(Mob mob)
+	public bool OnUse(Mob mob)
 	{
-
 		Flip(mob.transform.position - transform.position);
 		return true;
 	}
@@ -26,7 +25,7 @@ public class Table : DynamicProp, IInteractable
 		SetFrozen(false);
 
 		Vector3 force = new Vector3(0, flipLiftingForce);
-		Body.AddForce(force, ForceMode.Impulse);
+	    Body.AddForce(force, ForceMode.Impulse);
 
 		Vector3 torque = Quaternion.Euler(0, 270, 0) * direction;
 		torque.Scale(new Vector3(flipTorque, flipTorque, flipTorque));

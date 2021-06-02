@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DynamicProp : Entity
 {
-	public bool StartFrozen = false;
+	public bool startFrozen = false;
 
 	protected override bool Initialize()
 	{
 		if (!base.Initialize())
 			return false;
-		SetFrozen(StartFrozen);
+		SetFrozen(startFrozen);
 		return true;
 	}
 

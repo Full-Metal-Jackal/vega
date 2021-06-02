@@ -149,5 +149,5 @@ public class Mob : Entity, IDamageable, IPossessable
 		return true;
 	}
 
-	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUsed(this);
+	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUse(this);
 }
