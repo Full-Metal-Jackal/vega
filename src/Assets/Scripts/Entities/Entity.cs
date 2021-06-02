@@ -9,10 +9,21 @@ public class Entity : MonoBehaviour
 	public Rigidbody Body { get; protected set; }
 	public bool Initialized { get; private set; } = false;
 
+	protected Outline outerOutline;
+	public Outline OuterOutline
+	{
+		get => outerOutline;
+		private set
+		{
+			outerOutline = value;
+		}
+	}
+
 	void Start()
 	{
 		enabled = false;
-		Initialize();
+		if (Initialize())
+			Game.Entities.Add(this);
 	}
 
 	void Update()
@@ -29,7 +40,10 @@ public class Entity : MonoBehaviour
 			Debug.LogWarning($"Multiple initialization attempts of {this}!");
 			return false;
 		}
+
 		Body = GetComponent<Rigidbody>();
+		TryGetComponent(out outerOutline);
+
 		Initialized = true;
 		enabled = true;
 		return true;

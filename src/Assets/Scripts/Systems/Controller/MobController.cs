@@ -43,7 +43,10 @@ public class MobController : MonoBehaviour
     {
         if (!Possessed)
             return;
+
         Movement = GetMovement();
+
+        OnUpdate();
     }
 
     protected virtual Vector3 GetMovement() => Vector3.zero;
@@ -52,4 +55,8 @@ public class MobController : MonoBehaviour
     {
         Possessed.Move(Time.fixedDeltaTime, Movement);
     }
+
+    protected virtual void OnUpdate()
+	{
+	}
 }

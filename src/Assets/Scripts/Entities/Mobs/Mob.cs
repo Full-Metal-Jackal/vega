@@ -10,11 +10,13 @@ public class Mob : Entity, IDamageable, IPossessable
 	/// <summary>
 	/// The mob's runnning speed.
 	/// </summary>
-	public float MoveSpeed { get; set; } = 400f;
+	public float MoveSpeed { get; set; } = 250f;
 	public float walkSpeedFactor = .5f;
 	public float sprintSpeedFactor = 1.5f;
 	public readonly float movementHaltThreshold = .01f;
 	public readonly bool turnsToMovementDirection = true;
+
+	private Vector3 velocityBuffer = Vector3.zero;
 
 	public bool Alive { get; protected set; } = true;
 
@@ -77,7 +79,7 @@ public class Mob : Entity, IDamageable, IPossessable
 
 	public void TakeDamage()
 	{
-		throw new System.NotImplementedException();
+		throw new NotImplementedException();
 	}
 
 	protected override void Tick(float delta)
@@ -90,9 +92,11 @@ public class Mob : Entity, IDamageable, IPossessable
 	/// <param name="delta">delta between two ticks</param>
 	/// <param name="movement">vector describing the movement of the mob with magnitude between 0 and 1</param>
 	/// <param name="targetState">the movement state that is trying to be enforced on the mob</param>
+	/// <param name="affectY">if the mob should be moving vertically during this command</param>
 	public virtual void Move(
 		float delta, Vector3 movement,
-		MovementState targetState = MovementState.Running
+		MovementState targetState = MovementState.Running,
+		bool affectY = false
 		)
 	{
 		if (!Initialized)
@@ -118,18 +122,25 @@ public class Mob : Entity, IDamageable, IPossessable
 		MobMovementState = targetState;
 
 		Vector3 targetVelocity = MoveSpeed * movement * delta;
+		if (!affectY)
+			targetVelocity.y = Body.velocity.y;
 
-		Vector3 currentVelocity = Vector3.zero;
 		Body.velocity = Vector3.SmoothDamp(
 			Body.velocity,
 			targetVelocity,
-			ref currentVelocity,
+			ref velocityBuffer,
 			MovementSmoothing
 		);
+
 		if (turnsToMovementDirection)
 			transform.rotation = Quaternion.LookRotation(Body.velocity, Vector3.up);
 	}
 
+	/// <summary>
+	/// Makes the mob possessed by the provided controller.
+	/// </summary>
+	/// <param name="controller">The controller that should possess the mob.</param>
+	/// <returns></returns>
 	public bool SetPossessed(MobController controller)
 	{
 		if (Controller)
@@ -137,4 +148,6 @@ public class Mob : Entity, IDamageable, IPossessable
 		Controller = controller;
 		return true;
 	}
+
+	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUsed(this);
 }

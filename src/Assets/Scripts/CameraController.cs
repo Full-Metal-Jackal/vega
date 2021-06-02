@@ -15,8 +15,8 @@ public class CameraController : MonoBehaviour
     /// Smoothing applied to the camera movement.
     /// </summary>
     public float movementSmoothing = .04f;
-
     public float positionTolerance = .02f;
+    private Vector3 currentVelocity = Vector3.zero;
 
     public void SetTrackedMob(Mob mob) => this.mob = mob;
 
@@ -46,11 +46,10 @@ public class CameraController : MonoBehaviour
         if (Vector3.Distance(currentPos, targetPos) < positionTolerance)
             return;
 
-        Vector3 resultVector = Vector3.zero;
         transform.position = Vector3.SmoothDamp(
             transform.position,
             targetPos,
-            ref resultVector,
+            ref currentVelocity,
             movementSmoothing
         );
     }
@@ -60,7 +59,7 @@ public class CameraController : MonoBehaviour
     /// </summary>
     /// <param name="heightOffset">Vertical offset of the plane the cursor is projected onto.</param>
     /// <returns>Cursor position in the world or Vector3.zero in case of error.</returns>
-    private static Vector3 GetWorldCursorPosition(float heightOffset = 0)
+    public static Vector3 GetWorldCursorPosition(float heightOffset = 0)
 	{
         Plane plane = new Plane(Vector3.up, heightOffset);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
