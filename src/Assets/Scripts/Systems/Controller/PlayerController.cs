@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -35,7 +35,7 @@ public class PlayerController : MobController
     private bool usePressed = false;
 
     protected override bool Initialize()
-	{
+    {
         if (!camController && !TryGetComponent(out camController))
             Debug.LogWarning($"Couldn't get camera controller for {this}.");
         interactableMask = LayerMask.GetMask("Interactables");
@@ -43,12 +43,12 @@ public class PlayerController : MobController
     }
 
     public override bool PossessMob(Mob mob)
-	{
+    {
         bool result = base.PossessMob(mob);
         if (result && camController)
             camController.SetTrackedMob(mob);
         return result;
-	}
+    }
 
     protected override Vector3 GetMovement()
     {
@@ -58,25 +58,25 @@ public class PlayerController : MobController
         return movement;
     }
 
-	protected override void OnUpdate()
-	{
+    protected override void OnUpdate()
+    {
         UpdateSelectedEntitiy();
         UpdateActions();
     }
 
     protected void UpdateActions()
-	{
+    {
         if (Input.GetButton("Use"))
-		{
+        {
             if (!usePressed && SelectedEntity is IInteractable interactable)
                 Possessed.Use(interactable);
             usePressed = true;
         }
         else
-		{
+        {
             usePressed = false;
         }
-	}
+    }
 
     public void SetSelectedOutline(bool selected)
     {
@@ -85,7 +85,7 @@ public class PlayerController : MobController
     }
 
     void UpdateSelectedEntitiy()
-	{
+    {
         IInteractable newSelected = GetSelectedEntity();
         if (newSelected != SelectedEntity)
         {
@@ -137,7 +137,7 @@ public class PlayerController : MobController
 
     // Deprecated, but let's not delete this method until the new one is proven working.
     private IInteractable GetSelectedEntity_Inefficient()
-	{
+    {
         IInteractable result = null;
 
         Vector3 mobPos = Possessed.transform.position;
@@ -159,5 +159,5 @@ public class PlayerController : MobController
         }
 
         return result;
-	}
+    }
 }
