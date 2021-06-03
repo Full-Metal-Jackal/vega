@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -18,9 +16,16 @@ public class CameraController : MonoBehaviour
 	public float positionTolerance = .02f;
 	private Vector3 currentVelocity = Vector3.zero;
 
+	private void Start()
+	{
+		if (Game.cameraController)
+			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.cameraController}");
+		Game.cameraController = this;
+	}
+
 	public void SetTrackedMob(Mob mob) => this.mob = mob;
 
-	void Update()
+	private void Update()
 	{
 		Follow();
 	}

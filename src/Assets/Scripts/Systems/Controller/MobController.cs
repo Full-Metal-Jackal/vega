@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MobController : MonoBehaviour
+public abstract class MobController : MonoBehaviour
 {
 	/// <summary>
 	/// Tells the controller what mob should be possessed as the level starts.
@@ -24,8 +24,12 @@ public class MobController : MonoBehaviour
 
 	protected virtual bool Initialize()
 	{
+		if (Initialized)
+			throw new System.Exception($"Multiple initialization attempts of {this}.");
+
 		if ((possessAtStart is Mob mob) || TryGetComponent(out mob))
 			PossessMob(mob);
+
 		return Initialized = true;
 	}
 
@@ -51,12 +55,7 @@ public class MobController : MonoBehaviour
 
 	protected virtual Vector3 GetMovement() => Vector3.zero;
 
-	private void FixedUpdate()
-	{
-		Possessed.Move(Time.fixedDeltaTime, Movement);
-	}
+	private void FixedUpdate() => Possessed.Move(Time.fixedDeltaTime, Movement);
 
-	protected virtual void OnUpdate()
-	{
-	}
+	protected abstract void OnUpdate();
 }
