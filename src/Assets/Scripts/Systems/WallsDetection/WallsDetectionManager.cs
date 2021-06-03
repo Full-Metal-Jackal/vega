@@ -30,18 +30,29 @@ public class WallsDetectionManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, (player.transform.position - cam.transform.position), out hit))
         {
-            var selection = hit.transform;
-            if (selection.CompareTag(detectableTag))
+            if (_detection != null)
             {
-                var selectionGr = selection.parent;
-                Debug.Log(selectionGr);
-                Renderer[] selectionRenderer = selectionGr.GetComponentsInChildren<Renderer>();
+                Renderer[] selectionRenderer = _detection.GetComponentsInChildren<Renderer>();
+                for (int i = 0; i < selectionRenderer.Length; i++)
+                {
+                    selectionRenderer[i].material = defaultMat;
+                    _detection = null;
+                }
+            }
+            var detection = hit.transform;
+            if (detection.CompareTag(detectableTag))
+            {
+                var detectionGr = detection.parent;
+                Debug.Log(detectionGr);
+                Renderer[] selectionRenderer = detectionGr.GetComponentsInChildren<Renderer>();
                 if (selectionRenderer != null)
                 {
                     for (int i = 0; i < selectionRenderer.Length; i++)
                     {
                         selectionRenderer[i].material = highlighMat;
                     }
+
+                    _detection = detectionGr;
                 }
             }
            
