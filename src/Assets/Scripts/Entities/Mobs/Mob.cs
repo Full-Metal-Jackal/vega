@@ -20,9 +20,11 @@ public class Mob : Entity, IDamageable, IPossessable
 	public readonly float movementHaltThreshold = .01f;
 	public readonly bool turnsToMovementDirection = true;
 
+	private Vector3 velocityBuffer = Vector3.zero;
+	private readonly float movementSmoothing = .01f;
+
 	public bool Alive { get; protected set; } = true;
 
-	public float MovementSmoothing { get; protected set; } = .0f;
 
 	public MobController Controller { get; set; }
 
@@ -109,14 +111,18 @@ public class Mob : Entity, IDamageable, IPossessable
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 
-		Body.velocity = targetVelocity;
+		Body.velocity = Vector3.SmoothDamp(
+			Body.velocity,
+			targetVelocity,
+			ref velocityBuffer,
+			movementSmoothing
+		);
 
-		if (turnsToMovementDirection && movement.magnitude > movementHaltThreshold)
-		{
-			Vector3 horDir = Body.velocity;
-			horDir.y = 0;
+		Vector3 horDir = Body.velocity;
+		horDir.y = 0f;
+		if (turnsToMovementDirection && horDir.magnitude > movementHaltThreshold)
 			transform.rotation = Quaternion.LookRotation(horDir, Vector3.up);
-		}
+		
 	}
 
 	/// <summary>
