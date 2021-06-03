@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Mob : Entity, IDamageable, IPossessable
@@ -8,19 +6,25 @@ public class Mob : Entity, IDamageable, IPossessable
 	public virtual float MaxHealth { get; set; } = 100;
 	public float Health { get; protected set; }
 	/// <summary>
-	/// The mob's runnning speed.
+	/// The mob's running speed.
 	/// </summary>
 	public float MoveSpeed { get; set; } = 250f;
+	/// <summary>
+	/// The multiplier of the mob's walking speed.
+	/// </summary>
 	public float walkSpeedFactor = .5f;
+	/// <summary>
+	/// The multiplier of the mob's sprinting speed.
+	/// </summary>
 	public float sprintSpeedFactor = 1.5f;
 	public readonly float movementHaltThreshold = .01f;
 	public readonly bool turnsToMovementDirection = true;
 
 	private Vector3 velocityBuffer = Vector3.zero;
+	private readonly float movementSmoothing = .01f;
 
 	public bool Alive { get; protected set; } = true;
 
-	public float MovementSmoothing { get; protected set; } = .0f;
 
 	public MobController Controller { get; set; }
 
@@ -64,16 +68,7 @@ public class Mob : Entity, IDamageable, IPossessable
 
 	protected override bool Initialize()
 	{
-		try
-		{
-			animator = GetComponentInChildren<Animator>();
-		}
-		catch (ArgumentException)
-		{
-			Debug.LogError($"Couldn't get animator component for {this}!");
-			return false;
-		}
-
+		animator = GetComponentInChildren<Animator>();
 		return base.Initialize();
 	}
 
@@ -82,12 +77,8 @@ public class Mob : Entity, IDamageable, IPossessable
 		throw new NotImplementedException();
 	}
 
-	protected override void Tick(float delta)
-	{
-	}
-
 	/// <summary>
-	/// Handles the mob's active movement
+	/// Handles the mob's active movement.
 	/// </summary>
 	/// <param name="delta">delta between two ticks</param>
 	/// <param name="movement">vector describing the movement of the mob with magnitude between 0 and 1</param>
@@ -106,11 +97,7 @@ public class Mob : Entity, IDamageable, IPossessable
 			movement.Normalize();
 
 		if (movement.magnitude <= movementHaltThreshold)
-		{
-			Body.velocity = Vector3.zero;
-			MobMovementState = MovementState.Standing;
-			return;
-		}
+			targetState = MovementState.Standing;
 
 		// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
 		switch (targetState)
@@ -118,7 +105,6 @@ public class Mob : Entity, IDamageable, IPossessable
 			default:
 				break;
 		}
-
 		MobMovementState = targetState;
 
 		Vector3 targetVelocity = MoveSpeed * movement * delta;
@@ -129,11 +115,14 @@ public class Mob : Entity, IDamageable, IPossessable
 			Body.velocity,
 			targetVelocity,
 			ref velocityBuffer,
-			MovementSmoothing
+			movementSmoothing
 		);
 
-		if (turnsToMovementDirection)
-			transform.rotation = Quaternion.LookRotation(Body.velocity, Vector3.up);
+		Vector3 horDir = Body.velocity;
+		horDir.y = 0f;
+		if (turnsToMovementDirection && horDir.magnitude > movementHaltThreshold)
+			transform.rotation = Quaternion.LookRotation(horDir, Vector3.up);
+		
 	}
 
 	/// <summary>

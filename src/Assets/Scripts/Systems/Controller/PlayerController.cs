@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerController : MobController
 {
-	public CameraController camController;
 	/// <summary>
 	/// The entity currently selected by the Possessed.
 	/// </summary>
@@ -36,17 +35,20 @@ public class PlayerController : MobController
 
 	protected override bool Initialize()
 	{
-		if (!camController && !TryGetComponent(out camController))
-			Debug.LogWarning($"Couldn't get camera controller for {this}.");
 		interactableMask = LayerMask.GetMask("Interactables");
+
+		if (Game.playerController)
+			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.playerController}");
+		Game.playerController = this;
+		
 		return Initialized = base.Initialize();
 	}
 
 	public override bool PossessMob(Mob mob)
 	{
 		bool result = base.PossessMob(mob);
-		if (result && camController)
-			camController.SetTrackedMob(mob);
+		if (result && Game.cameraController)
+			Game.cameraController.SetTrackedMob(mob);
 		return result;
 	}
 

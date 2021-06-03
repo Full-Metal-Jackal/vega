@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,11 +26,15 @@ public class Entity : MonoBehaviour
 			Game.Entities.Add(this);
 	}
 
-	void Update()
+	private void Update()
 	{
 		float delta = Time.deltaTime;
 		Tick(delta);
-		MovePhysics(delta);
+	}
+
+	private void FixedUpdate()
+	{
+		MovePhysics(Time.fixedDeltaTime);
 	}
 
 	protected virtual bool Initialize()
