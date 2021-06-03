@@ -19,8 +19,8 @@ public class WallsDetectionManager : MonoBehaviour
 	private Transform curentDetection;
 	void Start()
 	{
-		player = GameObject.Find("Human");
-		cam = GameObject.Find("MainCamera").GetComponent<Camera>();
+		player = GameObject.Find("Human");  //<TODO> Need another way to find player model
+		cam = Camera.main;
 	}
 
 	void Update()
