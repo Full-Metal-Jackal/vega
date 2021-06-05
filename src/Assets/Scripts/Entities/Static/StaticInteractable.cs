@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class StaticInteractable : StaticEntity
 {
 	public float radius = 3f;
+
 
 	private void OnDrawGizmosSelected()
 	{

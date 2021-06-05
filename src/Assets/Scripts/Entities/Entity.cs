@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class Entity : MonoBehaviour
 {
 	public string Name = "unnamed entity";
-	public Rigidbody Body { get; protected set; }
+
 	public bool Initialized { get; private set; } = false;
 
 	protected Outline outerOutline;
@@ -32,11 +32,6 @@ public class Entity : MonoBehaviour
 		Tick(delta);
 	}
 
-	private void FixedUpdate()
-	{
-		MovePhysics(Time.fixedDeltaTime);
-	}
-
 	protected virtual bool Initialize()
 	{
 		if (Initialized)
@@ -45,7 +40,6 @@ public class Entity : MonoBehaviour
 			return false;
 		}
 
-		Body = GetComponent<Rigidbody>();
 		TryGetComponent(out outerOutline);
 
 		Initialized = true;
@@ -58,19 +52,11 @@ public class Entity : MonoBehaviour
 		if (!(Initialized || Initialize()))
 			return false;
 
-		Body.MovePosition(pos);
+		//Body.MovePosition(pos);
 		return true;
 	}
 
 	protected virtual void Tick(float delta)
-	{
-	}
-
-	/// <summary>
-	/// Handles the entity's movement.
-	/// </summary>
-	/// <param name="delta">delta between two ticks</param>
-	public virtual void MovePhysics(float delta)
 	{
 	}
 
