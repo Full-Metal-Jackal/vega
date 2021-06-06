@@ -6,27 +6,42 @@ public class Door : StaticEntity, IInteractable
 	public bool opened = false;
 	public bool active = false;
 
+	private string tagName = "TempCollision"; //Changable if needed 
+
 	public Animator Anim;
 	public bool Selectable { get; set; } = true;
 
 	protected override bool Initialize()
 	{
-		Anim = GetComponent<Animator>();
+		Anim = GetComponentInChildren<Animator>();
 		return base.Initialize();
 	}
 
 	public bool CanBeUsedBy(Mob mob) => !active;
 
-		public bool OnUse(Mob mob)
+	public bool OnUse(Mob mob)
 	{
-		Debug.Log(this + " Has been used");
 		if (opened)
 		{
 			Anim.SetBool("IsOpening", false);
+			foreach (Transform elem in GetComponentInChildren<Transform>())
+			{
+				if (elem.tag == tagName)
+				{
+					elem.gameObject.SetActive(true);
+				}
+			}
 		}
 		else
 		{
 			Anim.SetBool("IsOpening", true);
+			foreach (Transform elem in GetComponentInChildren<Transform>())
+			{
+				if (elem.tag == tagName)
+				{
+					elem.gameObject.SetActive(false);
+				}
+			}
 		}
 		opened = !opened;
 		return true;
@@ -37,7 +52,4 @@ public class Door : StaticEntity, IInteractable
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, radius);
 	}
-
-
-
 }
