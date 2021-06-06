@@ -26,7 +26,7 @@ public class Door : StaticEntity, IInteractable
 			Anim.SetBool("IsOpening", false);
 			foreach (Transform elem in GetComponentInChildren<Transform>())
 			{
-				if (elem.tag == tagName)
+				if (elem.CompareTag(tagName))
 				{
 					elem.gameObject.SetActive(true);
 				}
@@ -37,7 +37,7 @@ public class Door : StaticEntity, IInteractable
 			Anim.SetBool("IsOpening", true);
 			foreach (Transform elem in GetComponentInChildren<Transform>())
 			{
-				if (elem.tag == tagName)
+				if (elem.CompareTag(tagName))
 				{
 					elem.gameObject.SetActive(false);
 				}

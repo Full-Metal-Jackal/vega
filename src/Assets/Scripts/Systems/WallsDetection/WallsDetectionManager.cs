@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Detecting walls and changing their material to transparent 
  */
 using System.Collections;
@@ -11,7 +11,7 @@ public class WallsDetectionManager : MonoBehaviour
 	private Camera cam;
 	private GameObject walls; // <TODO> It is necessary that when loading the lvl,
 							  // the tags of all child objects of the "Walls" object are set to " Detectable"
-	private int layerMask = 1 << 3; // <TODO> Understand why masks don't work
+	// private int layerMask = 1 << 3; // <TODO> Understand why masks don't work
 	[SerializeField] private string detectableTag = "Detectable";
 	[SerializeField] private Material highlighMat;
 	[SerializeField] private Material defaultMat;
