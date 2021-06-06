@@ -8,5 +8,4 @@ public class StaticEntity : Entity
 	{
 		return base.Initialize();
 	}
-
 }

@@ -5,9 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class DynamicEntity : Entity
 {
-	
 	public Rigidbody Body { get; protected set; }
-	// Start is called before the first frame update
 
 	protected override bool Initialize()
 	{

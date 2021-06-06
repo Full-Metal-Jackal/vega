@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Rigidbody))]
 public class Entity : MonoBehaviour
 {
 	public string Name = "unnamed entity";
-
 	public bool Initialized { get; private set; } = false;
 
 	protected Outline outerOutline;
@@ -52,7 +50,7 @@ public class Entity : MonoBehaviour
 		if (!(Initialized || Initialize()))
 			return false;
 
-		//Body.MovePosition(pos);
+		transform.position = pos;
 		return true;
 	}
 
