@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Mob : Entity, IDamageable, IPossessable
+public class Mob : DynamicEntity, IDamageable, IPossessable
 {
 	public virtual float MaxHealth { get; set; } = 100;
 	public float Health { get; protected set; }
