@@ -24,7 +24,6 @@ public class Entity : MonoBehaviour
 		enabled = false;
 		if (Initialize())
 			Game.Entities.Add(this);
-		Debug.Log(Game.Entities.Count);
 	}
 
 	private void Update()

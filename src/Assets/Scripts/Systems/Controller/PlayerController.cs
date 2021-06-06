@@ -131,7 +131,6 @@ public class PlayerController : MobController
 
 			minDist = distance;
 			result = interactable;
-			Debug.Log(result);
 		}
 
 		return result;
