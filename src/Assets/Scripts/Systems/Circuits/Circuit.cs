@@ -10,12 +10,20 @@ namespace Circuitry
 		/// </summary>
 		public string label;
 		/// <summary>
-		/// Description of the circuit.
+		/// Description of the circuit shown in the constructor.
 		/// </summary>
 		public string desc;
-		public List<Terminal> inPins;
-		public List<Terminal> outPins;
-
+		/// <summary>
+		/// List of terminals receiving incoming pulses.
+		/// </summary>
+		public List<Terminal> inputTerminals;
+		/// <summary>
+		/// List of terminals sending pulses to other ciruits.
+		/// </summary>
+		public List<Terminal> outputTerminals;
+		/// <summary>
+		/// If the circuit is currently active (not affected by the Sleep method).
+		/// </summary>
 		public bool IsSleeping => (cooldown > 0f);
 		protected float cooldown = 0f;
 
