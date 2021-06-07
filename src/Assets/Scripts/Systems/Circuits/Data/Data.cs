@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Circuitry
 {
+	/// <summary>
+	/// Represents in-game data blocks.
+	/// </summary>
 	public class Data
 	{
 		public static readonly string typeName = "ANY";

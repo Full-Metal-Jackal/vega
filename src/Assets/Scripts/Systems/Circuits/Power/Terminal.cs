@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Circuitry
 {
+	/// <summary>
+	/// Terminal are used to transfer pulses and power between circuit.
+	/// </summary>
 	public class Terminal : MonoBehaviour
 	{
 		/// <summary>
