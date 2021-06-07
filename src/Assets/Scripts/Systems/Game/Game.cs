@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+using UI;
 
 public static class Game
 {
@@ -8,14 +9,23 @@ public static class Game
 	/// The collection of all entites currently represented in the game.
 	/// </summary>
 	public readonly static List<Entity> Entities = new List<Entity>();
+
 	/// <summary>
-	/// The game's player controller.
+	/// The player controller singleton.
 	/// </summary>
 	public static PlayerController playerController;
 	/// <summary>
-	/// The game's camera controller.
+	/// The camera controller singleton.
 	/// </summary>
 	public static CameraController cameraController;
+	/// <summary>
+	/// The circuit constructor UI handler singleton.
+	/// </summary>
+	public static CircuitConstructor circuitConstructor;
+
+	// <TODO> Change to UiOnly as soon as we get the main menu.
+	public static InputState inputState = InputState.WorldOnly;
+
 	public static bool Initialized { get; private set; } = false;
 	public static void Initialize()
 	{
@@ -25,4 +35,6 @@ public static class Game
 		Initialized = true;
 		Debug.Log("Game initialization complete.");
 	}
+
+	public static bool IsWorldInputAllowed => inputState == InputState.WorldOnly;
 }

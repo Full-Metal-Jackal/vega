@@ -54,6 +54,9 @@ public class PlayerController : MobController
 
 	protected override Vector3 GetMovement()
 	{
+		if (!Game.IsWorldInputAllowed)
+			return Vector3.zero;
+
 		float x = Input.GetAxis("Horizontal");
 		float z = Input.GetAxis("Vertical");
 		Vector3 movement = new Vector3(x, 0, z);
@@ -68,6 +71,9 @@ public class PlayerController : MobController
 
 	protected void UpdateActions()
 	{
+		if (!Game.IsWorldInputAllowed)
+			return;
+
 		if (Input.GetButton("Use"))
 		{
 			if (!usePressed && SelectedEntity is IInteractable interactable)
