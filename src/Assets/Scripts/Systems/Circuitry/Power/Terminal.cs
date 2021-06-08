@@ -5,18 +5,17 @@ using UnityEngine;
 namespace Circuitry
 {
 	/// <summary>
-	/// Terminal are used to transfer pulses and power between circuit.
+	/// Terminal are used to transfer power between circuit.
 	/// </summary>
-	public class Terminal : MonoBehaviour
+	public abstract class Terminal : Element
 	{
-		/// <summary>
-		/// The name of the terminal.
-		/// </summary>
-		public string label;
-
 		/// <summary>
 		/// The amperage limit for the terminal.
 		/// </summary>
 		public float maxAmperage = 1f;
+
+		protected Terminal(Circuit circuit) : base(circuit)
+		{
+		}
 	}
 }

@@ -15,9 +15,9 @@ namespace Circuitry
 		}
 
 		public static implicit operator int(Number number) => (int)number.Value;
-		public static implicit operator Number(int number) => number;
+		public static implicit operator Number(int number) => new Number(number);
 		public static implicit operator float(Number number) => number.Value;
-		public static implicit operator Number(float number) => number;
+		public static implicit operator Number(float number) => new Number(number);
 
 		public static implicit operator Number(Bool boolean) => new Number(boolean ? 1 : 0);
 		public static implicit operator Number(Text text) => Single.Parse(text);
