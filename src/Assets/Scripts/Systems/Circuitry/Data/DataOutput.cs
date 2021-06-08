@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Circuitry
 {
 	public class DataOutput<T> : DataPin<T>
 	{
-		public DataInput<Data> destination;
+		public HashSet<DataInput<Data>> destinations;
 
 		public DataOutput(Circuit circuit, string label) : base(circuit, label)
 		{
@@ -24,6 +25,10 @@ namespace Circuitry
 		/// Sets the value of the destination pin to this pin's value.
 		/// The essential element in the data transfering system.
 		/// </summary>
-		public void Push() => destination?.Set(Value as Data);
+		public void Push()
+		{
+			foreach (DataInput<Data> input in destinations)
+				input.Set(Value as Data);
+		}
 	}
 }

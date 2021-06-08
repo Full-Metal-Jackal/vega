@@ -11,7 +11,7 @@ namespace Circuitry
 
 		public Assembly(string jsonSerializedAssembly)
 		{
-			// <TODO>
+			throw new System.NotImplementedException();
 		}
 
 		public string JSONserialize()

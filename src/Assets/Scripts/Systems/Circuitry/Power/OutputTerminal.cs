@@ -17,7 +17,7 @@ namespace Circuitry
 				throw new System.Exception("Attempting to attach a power output to a not power source circuit.");
 		}
 
-		private IPowerSource powerSource;
+		private readonly IPowerSource powerSource;
 
 		/// <summary>
 		/// Attempts to withdraw power from the circuit.
