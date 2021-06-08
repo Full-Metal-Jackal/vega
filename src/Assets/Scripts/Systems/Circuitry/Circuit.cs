@@ -11,12 +11,17 @@ namespace Circuitry
 		/// <summary>
 		/// The name of the circuit.
 		/// </summary>
-		public string label;
+		public readonly string label;
 
 		/// <summary>
 		/// Description of the circuit shown in the constructor.
 		/// </summary>
-		public string desc;
+		public readonly string desc;
+
+		/// <summary>
+		/// The assembly this circuit is attached to.
+		/// </summary>
+		public Assembly assembly;
 
 		/// <summary>
 		/// List of circuit data inputs.
@@ -48,11 +53,6 @@ namespace Circuitry
 		/// </summary>
 		public bool IsSleeping => (cooldown > 0f);
 		protected float cooldown = 0f;
-
-		/// <summary>
-		/// The assembly this circuit is attached to.
-		/// </summary>
-		public Assembly assembly;
 
 		/// <summary>
 		/// How much power is withdrawn from the assembly per single use.
@@ -104,19 +104,20 @@ namespace Circuitry
 		/// </summary>
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the input.</param>
-		/// <returns></returns>
+		/// <returns>The added input.</returns>
 		public DataInput<T> AddDataInput<T>(string label)
 		{
 			DataInput<T> pin = new DataInput<T>(this, label);
 			dataInputs.Add(pin as DataInput<Data>);
 			return pin;
 		}
+
 		/// <summary>
 		/// Adds data output to the circuit.
 		/// </summary>
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the output.</param>
-		/// <returns></returns>
+		/// <returns>The added output.</returns>
 		public DataOutput<T> AddDataOutput<T>(string label)
 		{
 			DataOutput<T> pin = new DataOutput<T>(this, label);
@@ -135,15 +136,15 @@ namespace Circuitry
 		/// Adds pulse input to the circuit.
 		/// </summary>
 		/// <param name="label">The name of the input.</param>
-		/// <param name="action">The action performed by the circuit when the input is pulsed</param>
-		/// <returns></returns>
+		/// <param name="action">The action performed by the circuit when the input is pulsed.</param>
+		/// <returns>The added input.</returns>
 		public PulseInput AddPulseInput(string label, CircuitAction action) => AddPulseInput(label, action);
 
 		/// <summary>
 		/// Adds pulse output to the circuit.
 		/// </summary>
 		/// <param name="label">The name of the output.</param>
-		/// <returns></returns>
+		/// <returns>The added output.</returns>
 		public PulseOutput AddPulseOutput(string label)
 		{
 			PulseOutput output = new PulseOutput(this, label);
@@ -156,8 +157,8 @@ namespace Circuitry
 		/// After the provided action is complete, the output is automatically pulsed.
 		/// </summary>
 		/// <param name="inputLabel">The name of the input.</param>
-		/// <param name="action"></param>
-		/// <param name="outputLabel"></param>
+		/// <param name="action">The action performed by the circuit when the input is pulsed.</param>
+		/// <param name="outputLabel">The name of the output.</param>
 		public void AddPulsePipeline(string inputLabel, CircuitAction action, string outputLabel)
 		{
 			AddPulseInput(inputLabel, action, AddPulseOutput(outputLabel));
