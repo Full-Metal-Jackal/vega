@@ -27,7 +27,7 @@ namespace Circuitry
 			{
 				if (circuit.assembly)
 				{
-					//circuit.assembly
+					// <TODO> Implement default power withdrawal from power cells here.
 				}	
 			}
 			else
@@ -37,6 +37,10 @@ namespace Circuitry
 			return withdrawn;
 		}
 
+		/// <summary>
+		/// Connects two terminals.
+		/// </summary>
+		/// <param name="output">The terimal from which this one will draw power.</param>
 		public void Connect(OutputTerminal output)
 		{
 			source = output;
