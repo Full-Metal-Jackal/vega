@@ -9,11 +9,11 @@ namespace Circuitry
 		private readonly DataInput<Number> input;
 		private readonly DataOutput<Number> output;
 
-		public Bump()
+		public Bump() : base(
+			"Bump Circuits",
+			"Increases the input value by 1"
+			)
 		{
-			label = "Bump Circuits";
-			desc = "Increases the input value by 1";
-
 			input = AddDataInput<Number>("In");
 			output = AddDataOutput<Number>("Out");
 

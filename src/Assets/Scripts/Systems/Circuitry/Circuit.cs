@@ -59,8 +59,11 @@ namespace Circuitry
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
 
-		public Circuit()
+		public Circuit(string label, string desc)
 		{
+			this.label = label;
+			this.desc = desc;
+
 			PowerInput = new InputTerminal(this);
 		}
 
