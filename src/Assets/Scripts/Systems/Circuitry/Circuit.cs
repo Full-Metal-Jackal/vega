@@ -6,6 +6,9 @@ namespace Circuitry
 {
 	public delegate bool CircuitAction();
 
+	/// <summary>
+	/// Represents a circuit.
+	/// </summary>
 	public abstract class Circuit : MonoBehaviour
 	{
 		/// <summary>

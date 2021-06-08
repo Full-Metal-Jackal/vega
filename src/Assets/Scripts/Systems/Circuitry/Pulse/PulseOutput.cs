@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Circuitry
 {
 	public class PulseOutput : PulsePin
@@ -13,13 +12,25 @@ namespace Circuitry
 		{
 		}
 
+		/// <summary>
+		/// "Sends" pulse to every connected destination input.
+		/// </summary>
 		public override void Pulse()
 		{
 			foreach (PulseInput input in destinations)
 				input.Pulse();
 		}
 
-		public void AddDestination(PulseInput input) => destinations.Add(input);
-		public void RemoveDestination(PulseInput input) => destinations.Remove(input);
+		/// <summary>
+		/// Adds destination input to the output.
+		/// </summary>
+		/// <param name="input">The destination input.</param>
+		public void Connect(PulseInput input) => destinations.Add(input);
+
+		/// <summary>
+		/// Removes destination input from the output.
+		/// </summary>
+		/// <param name="input">The destination output.</param>
+		public void Disconnect(PulseInput input) => destinations.Remove(input);
 	}
 }

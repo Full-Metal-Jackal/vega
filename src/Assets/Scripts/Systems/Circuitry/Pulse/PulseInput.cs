@@ -16,6 +16,10 @@ namespace Circuitry
 			this.pipeline = pipeline;
 		}
 
+		/// <summary>
+		/// Performs the assigned action.
+		/// If the input is a part of pipeline, the pipeline's output will be pulsed after the action is performed.
+		/// </summary>
 		public override void Pulse()
 		{
 			if (action())

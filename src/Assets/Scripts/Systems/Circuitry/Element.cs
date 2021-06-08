@@ -2,6 +2,9 @@
 
 namespace Circuitry
 {
+	/// <summary>
+	/// Represents elements attached to circuits: pins, terminals etc.
+	/// </summary>
 	public abstract class Element
 	{
 		/// <summary>
