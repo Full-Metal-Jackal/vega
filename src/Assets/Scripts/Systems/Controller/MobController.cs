@@ -57,5 +57,7 @@ public abstract class MobController : MonoBehaviour
 
 	private void FixedUpdate() => Possessed.Move(Time.fixedDeltaTime, Movement);
 
-	protected abstract void OnUpdate();
+	protected virtual void OnUpdate()
+	{
+	}
 }

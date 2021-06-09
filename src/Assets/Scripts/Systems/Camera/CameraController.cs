@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
 
 		Vector3 cursorShift = Vector3.zero;
 
-		if (cursorFactor > .0f)
+		if (cursorFactor > .0f && Game.IsWorldInputAllowed)
 		{
 			Vector3 cursorPos = GetWorldCursorPosition();
 			cursorShift = (cursorPos - mobPos) * cursorFactor;
