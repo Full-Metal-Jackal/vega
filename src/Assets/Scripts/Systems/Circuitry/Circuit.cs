@@ -14,12 +14,12 @@ namespace Circuitry
 		/// <summary>
 		/// The name of the circuit.
 		/// </summary>
-		public readonly string label;
+		public string label;
 
 		/// <summary>
 		/// Description of the circuit shown in the constructor.
 		/// </summary>
-		public readonly string desc;
+		public string desc;
 
 		/// <summary>
 		/// The assembly this circuit is attached to.
@@ -62,11 +62,8 @@ namespace Circuitry
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
 
-		public Circuit(string label, string desc)
+		public Circuit()
 		{
-			this.label = label;
-			this.desc = desc;
-
 			PowerInput = new InputTerminal(this);
 		}
 
@@ -168,6 +165,46 @@ namespace Circuitry
 		public void AddPulsePipeline(string inputLabel, CircuitAction action, string outputLabel)
 		{
 			AddPulseInput(inputLabel, action, AddPulseOutput(outputLabel));
+		}
+
+		/// <summary>
+		/// Gets attached data input pins.
+		/// </summary>
+		/// <returns>Attached data input pins.</returns>
+		public IEnumerable<DataInput<Data>> GetDataInputs()
+		{
+			foreach (DataInput<Data> input in dataInputs)
+				yield return input;
+		}
+
+		/// <summary>
+		/// Gets attached data output pins.
+		/// </summary>
+		/// <returns>Attached data output pins.</returns>
+		public IEnumerable<DataOutput<Data>> GetDataOutputs()
+		{
+			foreach (DataOutput<Data> output in dataOutputs)
+				yield return output;
+		}
+
+		/// <summary>
+		/// Gets attached pulse input pins.
+		/// </summary>
+		/// <returns>Attached pulse input pins.</returns>
+		public IEnumerable<PulseInput> GetPulseInputs()
+		{
+			foreach (PulseInput input in pulseInputs)
+				yield return input;
+		}
+
+		/// <summary>
+		/// Gets attached pulse output pins.
+		/// </summary>
+		/// <returns>Attached pulse output pins.</returns>
+		public IEnumerable<PulseOutput> GetPulseOutputs()
+		{
+			foreach (PulseOutput output in pulseOutputs)
+				yield return output;
 		}
 	}
 }

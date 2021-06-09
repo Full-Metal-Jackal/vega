@@ -12,12 +12,6 @@ namespace Circuitry
 
 		protected DataPin(Circuit circuit, string label) : base(circuit)
 		{
-			if (!(Value is Data))
-			{
-				throw new System.Exception(
-					"Invalid use of data pins, data pins should be set to Circuitry.Data derived types, "
-					+ $"but {this} was set to {Value}");
-			}
 			this.label = label;
 		}
 

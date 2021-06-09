@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 
+using Circuitry;
+
 namespace UI
 {
 	[RequireComponent(typeof(Canvas))]
 	public class CircuitConstructor : MonoBehaviour
 	{
 		private Canvas canvas;
+
+		public GameObject circuitPrefab;
+
+		public Assembly assembly;
 
 		public bool Initialized { get; private set; }
 
@@ -22,6 +28,9 @@ namespace UI
 
 			canvas = GetComponent<Canvas>();
 			canvas.enabled = false;
+
+			if (!circuitPrefab)
+				throw new System.Exception($"No circuit prefab provided to the circuit constructor.");
 
 			return Initialized = true;
 		}
@@ -40,9 +49,15 @@ namespace UI
 			Game.inputState = InputState.WorldOnly;
 		}
 
-		public void ShowCircuitInfo(Circuitry.Circuit circuit)
+		public void ShowCircuitInfo(Circuit circuit)
 		{
 			Debug.Log($"Information about {circuit} should be shown now.");
+		}
+
+		public void SpawnCircuit<T>() where T : Circuit, new()
+		{
+			GameObject uiCircuit = Instantiate(circuitPrefab);
+			CircuitPanel panel = uiCircuit.GetComponent<CircuitPanel>();
 		}
 	}
 }
