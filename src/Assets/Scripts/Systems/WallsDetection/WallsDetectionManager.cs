@@ -7,11 +7,10 @@ using UnityEngine;
 
 public class WallsDetectionManager : MonoBehaviour
 {
-	private GameObject player;
+	private Mob player;
 	private Camera cam;
 	private GameObject walls; // <TODO> It is necessary that when loading the lvl,
 							  // the tags of all child objects of the "Walls" object are set to " Detectable"
-	// private int layerMask = 1 << 3; // <TODO> Understand why masks don't work
 	[SerializeField] private string detectableTag = "Detectable";
 	[SerializeField] private Material highlighMat;
 	[SerializeField] private Material defaultMat;
@@ -19,14 +18,21 @@ public class WallsDetectionManager : MonoBehaviour
 	private Transform curentDetection;
 	void Start()
 	{
-		player = GameObject.Find("Human");  //<TODO> Need another way to find player model
+		player = GameObject.Find("Player").GetComponent<PlayerController>().possessAtStart;  //Still not optimal I think.
+		Debug.Log(player);
 		cam = Camera.main;
 	}
 
+	void Initialize()
+	{
+		
+	}
+
+	
 	void Update()
 	{
 		RaycastHit hit;
-		if (Physics.Raycast(cam.transform.position, (player.transform.position - cam.transform.position), out hit))
+		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out hit))
 		{
 			if (curentDetection != null)
 			{
