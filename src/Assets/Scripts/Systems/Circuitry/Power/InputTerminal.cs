@@ -25,6 +25,9 @@ namespace Circuitry
 			float withdrawn = 0f;
 			if (source is null)
 			{
+				// <TODO> Remove when the power system will be implemented.
+				return amount;
+
 				if (circuit.assembly)
 				{
 					// <TODO> Implement default power withdrawal from power cells here.

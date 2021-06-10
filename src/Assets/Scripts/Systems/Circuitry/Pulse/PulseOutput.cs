@@ -17,6 +17,7 @@ namespace Circuitry
 		/// </summary>
 		public override void Pulse()
 		{
+			base.Pulse();
 			foreach (PulseInput input in destinations)
 				input.Pulse();
 		}

@@ -1,33 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!222 &422252149283467158
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092130602859723977}
-  m_CullTransparentMesh: 1
---- !u!114 &5742887214169133057
+--- !u!114 &8352234648787090883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092130602859723977}
+  m_GameObject: {fileID: 7578607402945220893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be30b830f0517214a86a62e069da4ea8, type: 3}
+  m_Script: {fileID: 11500000, guid: 49234ea4bed9da547bb5da34353a77b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: {fileID: 2092130601490419245}
---- !u!1001 &416480003957429212
+  label: {fileID: 7578607404310389753}
+--- !u!1001 &8206544431289007624
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787682665490494285, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_Color.b
+      value: 0.34509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494285, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494285, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8352234648787090883}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI.PulsePinWidget, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787682665490494386, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1787682665490494387, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -62,11 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787682665844109076, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787682665844109076, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787682665844109076, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_AnchorMin.x
@@ -134,11 +166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787682665844109077, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_Name
-      value: DataOutput Variant
+      value: PulseOutput Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1787682666676493809, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_Text
-      value: Data output
+      value: Pulse output
       objectReference: {fileID: 0}
     - target: {fileID: 1787682666676493814, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -162,15 +194,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
---- !u!1 &2092130602859723977 stripped
+--- !u!1 &7578607402945220893 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1787682665844109077, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
-  m_PrefabInstance: {fileID: 416480003957429212}
+  m_PrefabInstance: {fileID: 8206544431289007624}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2092130601490419245 stripped
+--- !u!114 &7578607404310389753 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1787682666676493809, guid: 7dee1781e72c07e48a3e6cd51f87a58c, type: 3}
-  m_PrefabInstance: {fileID: 416480003957429212}
+  m_PrefabInstance: {fileID: 8206544431289007624}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

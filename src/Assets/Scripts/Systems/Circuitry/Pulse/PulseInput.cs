@@ -22,6 +22,7 @@ namespace Circuitry
 		/// </summary>
 		public override void Pulse()
 		{
+			base.Pulse();
 			if (action())
 				pipeline?.Pulse();
 		}

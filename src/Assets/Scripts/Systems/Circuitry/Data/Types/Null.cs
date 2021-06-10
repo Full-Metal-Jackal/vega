@@ -6,6 +6,8 @@ namespace Circuitry
 {
 	public class Null : Data
 	{
-		public new static readonly string typeName = "NULL";
+		public override string TypeName => "NULL";
+
+		public override string ToString() => TypeName;
 	}
 }

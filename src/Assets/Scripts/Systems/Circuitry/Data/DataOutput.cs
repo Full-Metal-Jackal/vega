@@ -3,32 +3,41 @@ using UnityEngine;
 
 namespace Circuitry
 {
-	public class DataOutput<T> : DataPin<T>
+	public class DataOutput : DataPin
 	{
-		public HashSet<DataInput<Data>> destinations;
+		private readonly HashSet<DataInput> destinations = new HashSet<DataInput>();
 
 		public DataOutput(Circuit circuit, string label) : base(circuit, label)
 		{
 		}
 
 		/// <summary>
-		/// Set the value and push it to the destination pin.
+		/// Sets the value and pushes it to destination pins.
 		/// Intended to be used by circuits.
 		/// </summary>
 		/// <param name="value"></param>
-		public void Push(T value)
+		public void Push(Data value)
 		{
 			Set(value);
 			Push();
 		}
+
 		/// <summary>
-		/// Sets the value of the destination pin to this pin's value.
-		/// The essential element in the data transfering system.
+		/// Sets the value of every destination pin to this pin's value.
 		/// </summary>
 		public void Push()
 		{
-			foreach (DataInput<Data> input in destinations)
-				input.Set(Value as Data);
+			foreach (DataInput input in destinations)
+				input.Set(Value);
+		}
+
+		/// <summary>
+		/// Adds destination input pin to this output.
+		/// </summary>
+		/// <param name="input"></param>
+		public void Connect(DataInput input)
+		{
+			destinations.Add(input);
 		}
 	}
 }

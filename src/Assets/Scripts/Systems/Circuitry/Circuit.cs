@@ -29,12 +29,12 @@ namespace Circuitry
 		/// <summary>
 		/// List of circuit data inputs.
 		/// </summary>
-		private readonly List<DataInput<Data>> dataInputs = new List<DataInput<Data>>();
+		private readonly List<DataInput> dataInputs = new List<DataInput>();
 
 		/// <summary>
 		/// List of circuit data outputs.
 		/// </summary>
-		private readonly List<DataOutput<Data>> dataOutputs = new List<DataOutput<Data>>();
+		private readonly List<DataOutput> dataOutputs = new List<DataOutput>();
 
 		/// <summary>
 		/// List of circuit data inputs.
@@ -108,12 +108,16 @@ namespace Circuitry
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the input.</param>
 		/// <returns>The added input.</returns>
-		public DataInput<T> AddDataInput<T>(string label)
+		public DataInput AddDataInput<T>(string label) where T : Data, new()
 		{
-			DataInput<T> pin = new DataInput<T>(this, label);
-			dataInputs.Add(pin as DataInput<Data>);
+			DataInput pin = new DataInput(this, label);
+			pin.Set(new T());
+
+			dataInputs.Add(pin);
 			return pin;
 		}
+
+		public DataInput AddDataInput(string label) => AddDataInput<Null>(label);
 
 		/// <summary>
 		/// Adds data output to the circuit.
@@ -121,12 +125,15 @@ namespace Circuitry
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the output.</param>
 		/// <returns>The added output.</returns>
-		public DataOutput<T> AddDataOutput<T>(string label)
+		public DataOutput AddDataOutput<T>(string label) where T : Data, new()
 		{
-			DataOutput<T> pin = new DataOutput<T>(this, label);
-			dataOutputs.Add(pin as DataOutput<Data>);
+			DataOutput pin = new DataOutput(this, label);
+			pin.Set(new T());
+
+			dataOutputs.Add(pin);
 			return pin;
 		}
+		public DataOutput AddDataOutput(string label) => AddDataOutput<Null>(label);
 
 		private PulseInput AddPulseInput(string label, CircuitAction action, PulseOutput pipeline = null)
 		{
@@ -171,9 +178,9 @@ namespace Circuitry
 		/// Gets attached data input pins.
 		/// </summary>
 		/// <returns>Attached data input pins.</returns>
-		public IEnumerable<DataInput<Data>> GetDataInputs()
+		public IEnumerable<DataInput> GetDataInputs()
 		{
-			foreach (DataInput<Data> input in dataInputs)
+			foreach (DataInput input in dataInputs)
 				yield return input;
 		}
 
@@ -181,9 +188,9 @@ namespace Circuitry
 		/// Gets attached data output pins.
 		/// </summary>
 		/// <returns>Attached data output pins.</returns>
-		public IEnumerable<DataOutput<Data>> GetDataOutputs()
+		public IEnumerable<DataOutput> GetDataOutputs()
 		{
-			foreach (DataOutput<Data> output in dataOutputs)
+			foreach (DataOutput output in dataOutputs)
 				yield return output;
 		}
 
@@ -206,5 +213,7 @@ namespace Circuitry
 			foreach (PulseOutput output in pulseOutputs)
 				yield return output;
 		}
+
+		public override string ToString() => label;
 	}
 }
