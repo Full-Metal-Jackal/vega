@@ -7,7 +7,7 @@ namespace UI
 {
 	public class UILineRenderer : Graphic
 	{
-		public List<Vector2> line = new List<Vector2>();
+		public List<Vector2> dots = new List<Vector2>();
 		private int vertices = 0;
 
 		public float thickness = 4f;
@@ -72,25 +72,24 @@ namespace UI
 
 		protected void DrawLine(VertexHelper vh)
 		{
-			if (line.Count < 2)
+			if (dots.Count < 2)
 				return;
 
-			if (line.Count == 2)
+			if (dots.Count == 2)
 			{
-				DrawSingleLine(vh, line[0], line[1]);
+				DrawSingleLine(vh, dots[0], dots[1]);
 				return;
 			}
 
-			DrawAngled(vh, line[0], line[1], line[2]);
-			DrawAngled(vh, line[line.Count - 1], line[line.Count - 2], line[line.Count - 3]);
-			for (int i = 0; i <= line.Count - 4; i++)
-				DrawAngled(vh, line[i], line[i + 1], line[i + 2], line[i + 3]);
+			// Am clueless about how to make it less kludgy. – Ocelot
+			DrawAngled(vh, dots[0], dots[1], dots[2]);
+			DrawAngled(vh, dots[dots.Count - 1], dots[dots.Count - 2], dots[dots.Count - 3]);
+			for (int i = 0; i <= dots.Count - 4; i++)
+				DrawAngled(vh, dots[i], dots[i + 1], dots[i + 2], dots[i + 3]);
 		}
 
 		protected void DrawQuad(VertexHelper vh, Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, Color color)
 		{
-			Debug.Log($"Quad: {v1}, {v2}, {v3}, {v4}");
-
 			UIVertex vertex = UIVertex.simpleVert;
 			vertex.color = color;
 

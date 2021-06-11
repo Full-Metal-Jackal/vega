@@ -14,8 +14,6 @@ namespace Circuitry
 			input = AddDataInput<Number>("In");
 			output = AddDataOutput<Number>("Out");
 
-			output.Connect(input);
-
 			AddPulsePipeline("Compute", DoBump, "On computed");
 		}
 

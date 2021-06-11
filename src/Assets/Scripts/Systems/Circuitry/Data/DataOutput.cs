@@ -35,9 +35,12 @@ namespace Circuitry
 		/// Adds destination input pin to this output.
 		/// </summary>
 		/// <param name="input"></param>
-		public void Connect(DataInput input)
+		public bool Connect(DataInput input)
 		{
-			destinations.Add(input);
+			if (!destinations.Add(input))
+				return false;
+			UI.CircuitryLog.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
+			return true;
 		}
 	}
 }

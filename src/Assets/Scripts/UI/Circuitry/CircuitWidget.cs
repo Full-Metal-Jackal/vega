@@ -22,7 +22,7 @@ namespace UI
 		private Transform dataOutputs;
 		private Transform pulseOutputs;
 
-		private void Start()
+		private void Awake()
 		{
 			Initialize();
 		}
@@ -66,7 +66,7 @@ namespace UI
 			GameObject widgetObject = Instantiate(widgetPrefab);
 			widgetObject.transform.SetParent(toParent);
 
-			PinWidget widget = widgetObject.GetComponent<PinWidget>();
+			PinWidget widget = widgetObject.GetComponentInChildren<PinWidget>();
 			widget.SetLabel(pin.label);
 			widget.pin = pin;
 
