@@ -27,6 +27,11 @@ namespace Circuitry
 		public Assembly assembly;
 
 		/// <summary>
+		/// The grid cells occupied by this circuit.
+		/// </summary>
+		public readonly Shape shape;
+
+		/// <summary>
 		/// List of circuit data inputs.
 		/// </summary>
 		private readonly List<DataInput> dataInputs = new List<DataInput>();

@@ -11,8 +11,8 @@ namespace UI
 		public Text label;
 		public Circuitry.Pin pin;
 
-		public HashSet<LineRenderer> lines;
-		public LineRenderer line;
+		public HashSet<UIGridRenderer> lines;
+		public UIGridRenderer line;
 
 		public void SetLabel(string text)
 		{
@@ -30,12 +30,6 @@ namespace UI
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			line = gameObject.AddComponent<LineRenderer>();
-			line.startColor = Color.green;
-			line.endColor = Color.green;
-			line.positionCount = 2;
-
-			line.SetPosition(0, eventData.position);
 			Debug.Log($"Started drag at {eventData.position}");
 		}
 
@@ -46,7 +40,6 @@ namespace UI
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			line.SetPosition(line.positionCount - 1, eventData.position);
 		}
 
 		public void OnDrop(PointerEventData eventData)

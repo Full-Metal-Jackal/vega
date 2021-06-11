@@ -12,6 +12,8 @@ namespace Circuitry
 
 		private readonly HashSet<Circuit> circuits = new HashSet<Circuit>();
 
+		public Grid grid;
+
 		public Assembly(string jsonSerializedAssembly)
 		{
 			throw new System.NotImplementedException();

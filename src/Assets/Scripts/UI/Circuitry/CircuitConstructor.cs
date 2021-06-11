@@ -24,7 +24,7 @@ namespace UI
 				throw new System.Exception($"Multiple instances of circuit constructor detected: {this}, {Game.circuitConstructor}");
 			Game.circuitConstructor = this;
 
-			enabled = false;
+			gameObject.SetActive(false);
 
 			if (!circuitPrefab)
 				throw new System.Exception($"No circuit prefab provided to the circuit constructor.");
@@ -35,14 +35,14 @@ namespace UI
 		public void Open()
 		{
 			Debug.Log("Opening the circuit constructor...");
-			enabled = true;
+			gameObject.SetActive(true);
 			Game.inputState = InputState.UIOnly;
 		}
 
 		public void Close()
 		{
 			Debug.Log("Closing the circuit constructor...");
-			enabled = false;
+			gameObject.SetActive(false);
 			Game.inputState = InputState.WorldOnly;
 		}
 
