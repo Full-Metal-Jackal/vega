@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.CircuitConstructor
 {
-	public class UIGridRenderer : Graphic
+	public class UIGridRenderer : UIGraphics
 	{
 		public Dictionary<Vector2Int, bool> grid = new Dictionary<Vector2Int, bool>();
 
@@ -22,7 +22,7 @@ namespace UI.CircuitConstructor
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
-			vh.Clear();
+			base.OnPopulateMesh(vh);
 
 			foreach (KeyValuePair<Vector2Int, bool> pair in grid)
 				DrawCell(vh, pair.Key, pair.Value ? highlightedLineColor : lineColor);

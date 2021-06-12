@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
-	public class UILineRenderer : Graphic
+	public class UILineRenderer : UIGraphics
 	{
 		public List<Vector2> dots = new List<Vector2>();
-		private int vertices = 0;
 
 		public float thickness = 4f;
 
@@ -17,21 +16,8 @@ namespace UI
 
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{
-			vh.Clear();
-			vertices = 0;
+			base.OnPopulateMesh(vh);
 			DrawLine(vh);
-		}
-
-		protected void DrawSingleLine(VertexHelper vh, Vector2 from, Vector2 to)
-		{
-			Vector2 thicknessOffset = Quaternion.Euler(0, 0, 90) * ((to - from).normalized * thickness);
-			DrawQuad(
-				vh,
-				from + thicknessOffset,
-				to + thicknessOffset,
-				to - thicknessOffset,
-				from - thicknessOffset
-				);
 		}
 
 		private Vector2 GetUniformOffset(Vector2 direction, float angle) => Quaternion.Euler(0, 0, angle) * direction.normalized * thickness / Mathf.Sin(angle * Mathf.Deg2Rad);
@@ -70,6 +56,22 @@ namespace UI
 				);
 		}
 
+		protected void AppendAngled(VertexHelper vh, Vector2 from, Vector2 to, Vector2 post)
+		{
+			float toAngle = Vector3.SignedAngle(post - to, from - to, Vector3.forward);
+			Vector2 toOffset = GetUniformOffset(post - to, toAngle / 2);
+
+			int vxCount = vh.currentVertCount;
+			AppendQuad(
+				vh,
+				vxCount - 1,
+				vxCount - 2,
+				to + toOffset,
+				to - toOffset,
+				lineColor
+				);
+		}
+
 		protected void DrawLine(VertexHelper vh)
 		{
 			if (dots.Count < 2)
@@ -77,55 +79,21 @@ namespace UI
 
 			if (dots.Count == 2)
 			{
-				DrawSingleLine(vh, dots[0], dots[1]);
+				DrawLine(vh, dots[0], dots[1], thickness, lineColor);
 				return;
 			}
 
-			// Am clueless about how to make it less kludgy. – Ocelot
+			// <TODO> Still not optimized for 3 vertices case for it generates additional two points at the start segment.
+
 			DrawAngled(vh, dots[0], dots[1], dots[2]);
+			for (int i = 1; i <= dots.Count - 4; i++)
+				AppendAngled(vh, dots[i], dots[i + 1], dots[i + 2]);
+
 			DrawAngled(vh, dots[dots.Count - 1], dots[dots.Count - 2], dots[dots.Count - 3]);
-			for (int i = 0; i <= dots.Count - 4; i++)
-				DrawAngled(vh, dots[i], dots[i + 1], dots[i + 2], dots[i + 3]);
+			int index = vh.currentVertCount - 6;
+			JoinQuad(vh, index + 1, index, index + 5, index + 4);
+
+			Debug.Log(vh.currentVertCount);
 		}
-
-		protected void DrawQuad(VertexHelper vh, Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, Color color)
-		{
-			UIVertex vertex = UIVertex.simpleVert;
-			vertex.color = color;
-
-			vertex.position = v1;
-			vh.AddVert(vertex);
-			vertex.position = v2;
-			vh.AddVert(vertex);
-			vertex.position = v3;
-			vh.AddVert(vertex);
-			vertex.position = v4;
-			vh.AddVert(vertex);
-
-			vh.AddTriangle(vertices, vertices + 1, vertices + 2);
-			vh.AddTriangle(vertices + 2, vertices + 3, vertices);
-
-			vertices += 4;
-		}
-
-		protected void DrawQuad(VertexHelper vh, Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4) => DrawQuad(vh, v1, v2, v3, v4, lineColor);
-
-		protected void DrawTriangle(VertexHelper vh, Vector2 v1, Vector2 v2, Vector2 v3, Color color)
-		{
-			UIVertex vertex = UIVertex.simpleVert;
-			vertex.color = color;
-
-			vertex.position = v1;
-			vh.AddVert(vertex);
-			vertex.position = v2;
-			vh.AddVert(vertex);
-			vertex.position = v3;
-			vh.AddVert(vertex);
-
-			vh.AddTriangle(vertices, vertices + 1, vertices + 2);
-
-			vertices += 3;
-		}
-		protected void DrawTriangle(VertexHelper vh, Vector2 v1, Vector2 v2, Vector2 v3) => DrawTriangle(vh, v1, v2, v3, lineColor);
 	}
 }
