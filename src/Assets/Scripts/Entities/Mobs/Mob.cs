@@ -13,6 +13,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	/// The multiplier of the mob's walking speed.
 	/// </summary>
 	public float walkSpeedFactor = .5f;
+	public readonly float RollSpeed = 0.15f;
 	/// <summary>
 	/// The multiplier of the mob's sprinting speed.
 	/// </summary>
@@ -146,16 +147,16 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 
 	public void DodgeRoll(Vector3 rollVector) 
 	{
-		float speedOfRoll = 0.15f;
-
 		if (MobMovementState == MovementState.Dodging)
+			return;
+		if (MobMovementState == MovementState.Standing)
 			return;
 		if (!Initialized)
 			return;
 		MobMovementState = MovementState.Dodging;
 		if (rollVector.magnitude > 1f)
 			rollVector.Normalize();
-		Vector3 targetVelocity = MoveSpeed * rollVector * speedOfRoll;
+		Vector3 targetVelocity = MoveSpeed * rollVector * RollSpeed;
 		Body.velocity = Vector3.SmoothDamp(
 						Body.velocity,
 						targetVelocity,
