@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Circuitry;
 
-namespace UI
+namespace UI.CircuitConstructor
 {
 	public class PulsePinWidget : PinWidget
 	{

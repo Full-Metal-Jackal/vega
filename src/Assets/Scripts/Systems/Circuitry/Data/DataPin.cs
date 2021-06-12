@@ -20,8 +20,9 @@ namespace Circuitry
 		/// <param name="value"></param>
 		public void Set(Data value)
 		{
-			UI.CircuitryLog.Log($"{circuit}: {label} was set to {value}");
 			Value = value;
+			UI.CircuitConstructor.EventHandler.Log($"{circuit}: {label} has been set to {value}");
+			UI.CircuitConstructor.EventHandler.Trigger(this);
 		}
 	}
 }

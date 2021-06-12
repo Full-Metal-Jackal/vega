@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 using Circuitry;
 
-namespace UI
+namespace UI.CircuitConstructor
 {
-	public class CircuitWidget : MonoBehaviour
+	public class CircuitWidget : MonoBehaviour, ITriggerable<Circuit>
 	{
 		public Circuit circuit;
 		public bool Initialized { get; private set; } = false;
@@ -58,6 +58,8 @@ namespace UI
 			foreach (PulseOutput output in circuit.GetPulseOutputs())
 				AddPin(output);
 
+			EventHandler.Bind(this);
+
 			return Initialized = true;
 		}
 
@@ -67,8 +69,7 @@ namespace UI
 			widgetObject.transform.SetParent(toParent);
 
 			PinWidget widget = widgetObject.GetComponentInChildren<PinWidget>();
-			widget.SetLabel(pin.label);
-			widget.pin = pin;
+			widget.Setup(pin);
 
 			return widget;
 		}
@@ -82,5 +83,10 @@ namespace UI
 		private void AddPin(PulseOutput output) => AddPin(pulseOutputPrefab, pulseOutputs, output);
 
 		public override string ToString() => base.ToString() + $" (Holding {circuit})";
+
+		public bool Trigger(Circuit caller)
+		{
+			return false;
+		}
 	}
 }

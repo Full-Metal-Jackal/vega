@@ -2,7 +2,7 @@
 
 using Circuitry;
 
-namespace UI
+namespace UI.CircuitConstructor
 {
 	public class CircuitConstructor : MonoBehaviour
 	{
@@ -12,6 +12,8 @@ namespace UI
 		public Assembly assembly;
 
 		public bool Initialized { get; private set; }
+
+		public bool IsOpened => gameObject.activeInHierarchy;
 
 		private void Start()
 		{
@@ -25,6 +27,7 @@ namespace UI
 			Game.circuitConstructor = this;
 
 			gameObject.SetActive(false);
+			enabled = false;
 
 			if (!circuitPrefab)
 				throw new System.Exception($"No circuit prefab provided to the circuit constructor.");
@@ -49,12 +52,6 @@ namespace UI
 		public void ShowCircuitInfo(Circuit circuit)
 		{
 			Debug.Log($"Information about {circuit} should be shown now.");
-		}
-
-		public void SpawnCircuit<T>() where T : Circuit, new()
-		{
-			GameObject uiCircuit = Instantiate(circuitPrefab);
-			CircuitWidget panel = uiCircuit.GetComponent<CircuitWidget>();
 		}
 	}
 }

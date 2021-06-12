@@ -6,10 +6,10 @@ namespace Circuitry
 {
 	public class Bump : Circuit
 	{
-		private readonly DataInput input;
-		private readonly DataOutput output;
+		private DataInput input;
+		private DataOutput output;
 
-		public Bump() : base()
+		public override void Setup()
 		{
 			input = AddDataInput<Number>("In");
 			output = AddDataOutput<Number>("Out");

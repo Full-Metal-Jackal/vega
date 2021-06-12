@@ -5,7 +5,7 @@ namespace UI
 {
 	public class UIGridRenderer : Graphic
 	{
-		public Circuitry.Grid grid;
+		public global::Circuitry.Grid grid;
 
 		public float thickness = 4f;
 

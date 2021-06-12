@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace UI
+namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(RectTransform))]
-	public abstract class PinWidget : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
+	public abstract class PinWidget : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, ITriggerable<Circuitry.Pin>
 	{
 		public Text label;
 		public Circuitry.Pin pin;
@@ -18,7 +18,7 @@ namespace UI
 		protected RectTransform pinButtonWidget;
 		protected RectTransform rectTransform;
 
-		protected HashSet<TrackLineBuilder> lines;
+		protected HashSet<TrackLineBuilder> lines = new HashSet<TrackLineBuilder>();
 		protected TrackLineBuilder activeLine;
 
 		private void Awake()
@@ -35,15 +35,19 @@ namespace UI
 			}
 
 			rectTransform = GetComponent<RectTransform>();
-			tracksHolder = transform.parent.Find("Tracks");
+			tracksHolder = transform.Find("Tracks");
 
 			return Initialized = true;
 		}
 
-		public void SetLabel(string text)
+		public virtual void Setup(Circuitry.Pin pin)
 		{
-			label.text = text;
+			this.pin = pin;
+			SetLabel(pin.label);
+			EventHandler.Bind(this);
 		}
+
+		public void SetLabel(string text) => label.text = text;
 
 		public virtual void OnClick()
 		{
@@ -77,7 +81,7 @@ namespace UI
 			}
 		}
 
-		public virtual bool TryConnect(Circuitry.Pin other) => false;
+		public virtual bool TryConnect(global::Circuitry.Pin other) => false;
 
 		public TrackLineBuilder CreateLine(Vector2 from, Vector2 to)
 		{
@@ -90,5 +94,6 @@ namespace UI
 			return trackLine;
 		}
 
+		public virtual bool Trigger(Circuitry.Pin caller) => true;
 	}
 }

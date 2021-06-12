@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
+using UI;
+
+namespace UI.CircuitConstructor
 {
 	/// <summary>
 	/// Class responsible for building a line that looks like a circuit track and does not intersect with 

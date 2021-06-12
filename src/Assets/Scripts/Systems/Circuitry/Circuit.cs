@@ -11,6 +11,8 @@ namespace Circuitry
 	/// </summary>
 	public abstract class Circuit : MonoBehaviour
 	{
+		public bool Initialized { get; set; } = false;
+
 		/// <summary>
 		/// The name of the circuit.
 		/// </summary>
@@ -81,6 +83,26 @@ namespace Circuitry
 		{
 			cooldown = time;
 		}
+
+		private void Awake()
+		{
+			Initialize();
+		}
+
+		private bool Initialize()
+		{
+			if (Initialized)
+			{
+				Debug.LogWarning($"Multiple initialization attempts of {this}!");
+				return false;
+			}
+
+			Setup();
+
+			return Initialized = true;
+		}
+
+		public abstract void Setup();
 
 		private void FixedUpdate()
 		{

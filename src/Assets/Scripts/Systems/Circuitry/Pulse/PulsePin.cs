@@ -12,7 +12,8 @@ namespace Circuitry
 
 		public virtual void Pulse()
 		{
-			UI.CircuitryLog.Log($"{circuit}: {this} has been pulsed.");
+			UI.CircuitConstructor.EventHandler.Log($"{circuit}: {this} has been pulsed.");
+			UI.CircuitConstructor.EventHandler.Trigger(this);
 		}
 	}
 }

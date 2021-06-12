@@ -29,6 +29,6 @@ namespace Circuitry
 		public static implicit operator Number(Bool boolean) => new Number(boolean ? 1 : 0);
 		public static implicit operator Number(Text text) => Single.Parse(text);
 
-		public override string ToString() => Value.ToString();
+		public override string ToString() => $"{Value}";
 	}
 }

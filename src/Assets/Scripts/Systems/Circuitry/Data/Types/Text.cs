@@ -20,6 +20,6 @@ namespace Circuitry
 		public static implicit operator Text(Number number) => number.ToString();
 		public static implicit operator Text(Bool boolean) => boolean;
 
-		public override string ToString() => Value;
+		public override string ToString() => $"\"{Value}\"";
 	}
 }

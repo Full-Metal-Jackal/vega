@@ -17,9 +17,9 @@ namespace Circuitry
 		/// </summary>
 		public override void Pulse()
 		{
-			base.Pulse();
 			foreach (PulseInput input in destinations)
 				input.Pulse();
+			base.Pulse();
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Circuitry
 		{
 			if (!destinations.Add(input))
 				return false;
-			UI.CircuitryLog.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
+			UI.CircuitConstructor.EventHandler.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
 			return true;
 		}
 

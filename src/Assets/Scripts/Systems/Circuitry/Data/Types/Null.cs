@@ -7,7 +7,5 @@ namespace Circuitry
 	public class Null : Data
 	{
 		public override string TypeName => "NULL";
-
-		public override string ToString() => TypeName;
 	}
 }

@@ -11,5 +11,6 @@ namespace Circuitry
 	{
 		public virtual string TypeName => "ANY";
 
+		public override string ToString() => TypeName;
 	}
 }

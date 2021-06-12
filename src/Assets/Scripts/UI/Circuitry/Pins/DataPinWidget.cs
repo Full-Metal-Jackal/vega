@@ -1,11 +1,14 @@
-﻿using Circuitry;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
+using Circuitry;
+
+namespace UI.CircuitConstructor
 {
 	public class DataPinWidget : PinWidget
 	{
+		public UnityEngine.UI.Text value;
+
 		public override bool TryConnect(Pin other)
 		{
 			bool connected = false;
@@ -16,6 +19,27 @@ namespace UI
 				connected = (pin as DataOutput).Connect(other as DataInput);
 
 			return connected;
+		}
+
+		public override bool Trigger(Pin caller)
+		{
+			if (!base.Trigger(caller))
+				return false;
+
+			UpdateValue();
+
+			return true;
+		}
+
+		public void UpdateValue()
+		{
+			value.text = $"{(pin as DataPin)?.Value}";
+		}
+
+		public override void Setup(Pin pin)
+		{
+			base.Setup(pin);
+			UpdateValue();
 		}
 	}
 }
