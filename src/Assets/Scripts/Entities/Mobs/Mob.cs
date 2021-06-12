@@ -25,7 +25,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 
 	public bool Alive { get; protected set; } = true;
 
-
 	public MobController Controller { get; set; }
 
 	private MovementState movementState;
@@ -51,6 +50,9 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 					break;
 				case MovementState.Sprinting:
 					animator.SetInteger(animatorVariable, 3);
+					break;
+				case MovementState.Dodging:
+					animator.SetTrigger("DodgeRollTrigger");
 					break;
 				default:
 					break;
@@ -99,8 +101,20 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		if (movement.magnitude <= movementHaltThreshold)
 			targetState = MovementState.Standing;
 
-		// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
-		switch (targetState)
+		//If You Have bug with dodging, it is here...
+		if (MobMovementState == MovementState.Dodging)
+		{
+			if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge Roll")))
+			{
+				return;
+			} else 
+			{
+				MobMovementState = MovementState.Standing;
+			}		
+		}
+
+			// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
+			switch (targetState)
 		{
 			default:
 				break;
@@ -139,4 +153,24 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	}
 
 	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUse(this);
+	public void DodgeRoll(Vector3 rollVector) 
+	{
+		float delta = 0.15f;
+
+		if (MobMovementState == MovementState.Dodging)
+			return;
+		if (!Initialized)
+			return;
+		MobMovementState = MovementState.Dodging;
+		if (rollVector.magnitude > 1f)
+			rollVector.Normalize();
+		Vector3 targetVelocity = MoveSpeed * rollVector * delta;
+		Body.velocity = Vector3.SmoothDamp(
+						Body.velocity,
+						targetVelocity,
+						ref velocityBuffer,
+						movementSmoothing
+						);
+		return;
+	}
 }

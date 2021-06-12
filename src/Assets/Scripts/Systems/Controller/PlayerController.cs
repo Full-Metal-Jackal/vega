@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,6 +34,9 @@ public class PlayerController : MobController
 
 	private bool usePressed = false;
 
+	//public long timeDown = DateTime.Now.Ticks;
+
+
 	protected override bool Initialize()
 	{
 		interactableMask = LayerMask.GetMask("Interactables");
@@ -61,6 +65,7 @@ public class PlayerController : MobController
 		float z = Input.GetAxis("Vertical");
 		Vector3 movement = new Vector3(x, 0, z);
 		return movement;
+
 	}
 
 	protected override void OnUpdate()
@@ -79,6 +84,12 @@ public class PlayerController : MobController
 			if (!usePressed && SelectedEntity is IInteractable interactable)
 				Possessed.Use(interactable);
 			usePressed = true;
+		} else if (Input.GetButton("Jump"))
+		{
+			float x = Input.GetAxis("Horizontal");
+			float z = Input.GetAxis("Vertical");
+			Vector3 rollVector = new Vector3(x, 0, z);
+			Possessed.DodgeRoll(rollVector);
 		}
 		else
 		{
