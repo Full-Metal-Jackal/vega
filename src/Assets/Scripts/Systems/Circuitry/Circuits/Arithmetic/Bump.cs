@@ -26,6 +26,7 @@ namespace Circuitry
 				return false;
 
 			output.Push(++number);
+			Sleep(CooldownPerUse);
 			return true;
 		}
 	}

@@ -10,15 +10,15 @@ namespace UI.CircuitConstructor
 		public Circuit circuit;
 		public bool Initialized { get; private set; } = false;
 
+		public CircuitCooldownOverlay cooldownOverlay;
+
 		public GameObject dataInputPrefab;
 		public GameObject dataOutputPrefab;
 		public GameObject pulseInputPrefab;
 		public GameObject pulseOutputPrefab;
 
-		private Transform inputsHolder;
 		private Transform dataInputs;
 		private Transform pulseInputs;
-		private Transform outputsHolder;
 		private Transform dataOutputs;
 		private Transform pulseOutputs;
 
@@ -41,11 +41,14 @@ namespace UI.CircuitConstructor
 			if (!dataInputPrefab)
 				throw new System.Exception($"Data input prefab not set up for {this}.");
 
-			inputsHolder = transform.Find("Inputs");
+
+			Transform pinsHolder = transform.Find("Pins");
+
+			Transform inputsHolder = pinsHolder.Find("Inputs");
 			dataInputs = inputsHolder.Find("Data");
 			pulseInputs = inputsHolder.Find("Pulse");
 
-			outputsHolder = transform.Find("Outputs");
+			Transform outputsHolder = pinsHolder.Find("Outputs");
 			dataOutputs = outputsHolder.Find("Data");
 			pulseOutputs = outputsHolder.Find("Pulse");
 
@@ -84,9 +87,21 @@ namespace UI.CircuitConstructor
 
 		public override string ToString() => base.ToString() + $" (Holding {circuit})";
 
+		public void Cooldown()
+		{
+		}
+
 		public bool Trigger(Circuit caller)
 		{
-			return false;
+			if (caller.IsSleeping)
+				StartCooldownAnimation();
+
+			return true;
+		}
+
+		public void StartCooldownAnimation()
+		{
+			cooldownOverlay.Activate(circuit.Cooldown);
 		}
 	}
 }

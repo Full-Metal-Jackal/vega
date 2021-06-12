@@ -22,8 +22,12 @@ namespace Circuitry
 		/// </summary>
 		public override void Pulse()
 		{
+			if (circuit.IsSleeping)
+				return;
+
 			if (action())
 				pipeline?.Pulse();
+			
 			base.Pulse();
 		}
 	}

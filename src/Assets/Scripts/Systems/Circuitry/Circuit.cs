@@ -61,13 +61,22 @@ namespace Circuitry
 		/// <summary>
 		/// If the circuit is currently active (not affected by the Sleep method).
 		/// </summary>
-		public bool IsSleeping => (cooldown > 0f);
-		protected float cooldown = 0f;
+		public bool IsSleeping => (Cooldown > 0f);
+
+		/// <summary>
+		/// How much seconds left to the circuit's awakening.
+		/// </summary>
+		public float Cooldown { get; protected set; } = 0f;
 
 		/// <summary>
 		/// How much power is withdrawn from the assembly per single use.
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
+
+		/// <summary>
+		/// How much time should pass between two uses of this circuit.
+		/// </summary>
+		public virtual float CooldownPerUse => .1f;
 
 		public Circuit()
 		{
@@ -81,7 +90,8 @@ namespace Circuitry
 		/// <param name="time">Amount of seconds to sleep.</param>
 		public void Sleep(float time)
 		{
-			cooldown = time;
+			Cooldown = time;
+			UI.CircuitConstructor.EventHandler.Trigger(this);
 		}
 
 		private void Awake()
@@ -107,7 +117,7 @@ namespace Circuitry
 		private void FixedUpdate()
 		{
 			if (IsSleeping)
-				cooldown = Math.Max(cooldown - Time.fixedDeltaTime, 0f);
+				Cooldown = Math.Max(Cooldown - Time.fixedDeltaTime, 0f);
 		}
 
 		/// <summary>
