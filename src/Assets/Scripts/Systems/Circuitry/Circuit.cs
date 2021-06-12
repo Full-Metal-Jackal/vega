@@ -80,6 +80,7 @@ namespace Circuitry
 
 		public Circuit()
 		{
+			shape = Shape.Single;
 			PowerInput = new InputTerminal(this);
 		}
 

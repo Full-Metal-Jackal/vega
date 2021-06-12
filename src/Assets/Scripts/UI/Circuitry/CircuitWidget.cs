@@ -11,6 +11,7 @@ namespace UI.CircuitConstructor
 		public bool Initialized { get; private set; } = false;
 
 		public CircuitCooldownOverlay cooldownOverlay;
+		public UIGridRenderer gridRenderer;
 
 		public GameObject dataInputPrefab;
 		public GameObject dataOutputPrefab;
@@ -43,6 +44,8 @@ namespace UI.CircuitConstructor
 
 
 			Transform pinsHolder = transform.Find("Pins");
+
+			gridRenderer.AddCells(circuit.shape);
 
 			Transform inputsHolder = pinsHolder.Find("Inputs");
 			dataInputs = inputsHolder.Find("Data");
