@@ -28,6 +28,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	public MobController Controller { get; set; }
 
 	private MovementState movementState;
+
 	public MovementState MobMovementState
 	{
 		get => movementState;
@@ -95,43 +96,32 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		if (!Initialized)
 			return;
 
+		if (MobMovementState == MovementState.Dodging)
+			return;
+
 		if (movement.magnitude > 1f)
 			movement.Normalize();
 
 		if (movement.magnitude <= movementHaltThreshold)
 			targetState = MovementState.Standing;
 
-		//If You Have bug with dodging, it is here...
-		if (MobMovementState == MovementState.Dodging)
-		{
-			if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge Roll")))
-			{
-				return;
-			} else 
-			{
-				MobMovementState = MovementState.Standing;
-			}		
-		}
-
 			// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
-			switch (targetState)
+		switch (targetState)
 		{
-			default:
-				break;
+		default:
+			break;
 		}
 		MobMovementState = targetState;
 
 		Vector3 targetVelocity = MoveSpeed * movement * delta;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
-
 		Body.velocity = Vector3.SmoothDamp(
 			Body.velocity,
 			targetVelocity,
 			ref velocityBuffer,
 			movementSmoothing
 		);
-
 		Vector3 horDir = Body.velocity;
 		horDir.y = 0f;
 		if (turnsToMovementDirection && horDir.magnitude > movementHaltThreshold)
@@ -153,9 +143,10 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	}
 
 	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUse(this);
+
 	public void DodgeRoll(Vector3 rollVector) 
 	{
-		float delta = 0.15f;
+		float speedOfRoll = 0.15f;
 
 		if (MobMovementState == MovementState.Dodging)
 			return;
@@ -164,7 +155,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		MobMovementState = MovementState.Dodging;
 		if (rollVector.magnitude > 1f)
 			rollVector.Normalize();
-		Vector3 targetVelocity = MoveSpeed * rollVector * delta;
+		Vector3 targetVelocity = MoveSpeed * rollVector * speedOfRoll;
 		Body.velocity = Vector3.SmoothDamp(
 						Body.velocity,
 						targetVelocity,
@@ -172,5 +163,12 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 						movementSmoothing
 						);
 		return;
+	}
+
+	public void DodgeRollOff()
+	{
+		if (!Initialized)
+			return;
+		MobMovementState = MovementState.Sprinting;
 	}
 }
