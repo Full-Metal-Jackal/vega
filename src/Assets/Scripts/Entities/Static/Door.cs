@@ -8,12 +8,12 @@ public class Door : StaticEntity, IInteractable
 
 	private string tagName = "TempCollision"; //Changable if needed 
 
-	public Animator Anim;
+	public Animator[] Anim;
 	public bool Selectable { get; set; } = true;
 
 	protected override bool Initialize()
 	{
-		Anim = GetComponentInChildren<Animator>();
+		Anim = GetComponentsInChildren<Animator>();
 		return base.Initialize();
 	}
 
@@ -23,25 +23,13 @@ public class Door : StaticEntity, IInteractable
 	{
 		if (opened)
 		{
-			Anim.SetBool("IsOpening", false);
-			foreach (Transform elem in GetComponentInChildren<Transform>())
-			{
-				if (elem.CompareTag(tagName))
-				{
-					elem.gameObject.SetActive(true);
-				}
-			}
+			Anim[0].SetBool("IsOpening", false);
+			Anim[1].SetBool("IsOpening", false);
 		}
 		else
 		{
-			Anim.SetBool("IsOpening", true);
-			foreach (Transform elem in GetComponentInChildren<Transform>())
-			{
-				if (elem.CompareTag(tagName))
-				{
-					elem.gameObject.SetActive(false);
-				}
-			}
+			Anim[0].SetBool("IsOpening", true);
+			Anim[1].SetBool("IsOpening", true);
 		}
 		opened = !opened;
 		return true;
