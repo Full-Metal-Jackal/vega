@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Circuitry
 {
@@ -9,6 +10,10 @@ namespace Circuitry
 	{
 		public string label = "unnamed assembly";
 
+		private readonly HashSet<Circuit> circuits = new HashSet<Circuit>();
+
+		public Grid grid;
+
 		public Assembly(string jsonSerializedAssembly)
 		{
 			throw new System.NotImplementedException();
@@ -17,6 +22,13 @@ namespace Circuitry
 		public string JSONserialize()
 		{
 			throw new System.NotImplementedException();
+		}
+
+		public T AddCircuit<T>() where T : Circuit, new()
+		{
+			T circuit = new T();
+			circuits.Add(circuit);
+			return circuit;
 		}
 	}
 }

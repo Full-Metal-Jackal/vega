@@ -6,13 +6,10 @@ namespace Circuitry
 {
 	public class Bump : Circuit
 	{
-		private readonly DataInput<Number> input;
-		private readonly DataOutput<Number> output;
+		private DataInput input;
+		private DataOutput output;
 
-		public Bump() : base(
-			"Bump Circuits",
-			"Increases the input value by 1"
-			)
+		public override void Setup()
 		{
 			input = AddDataInput<Number>("In");
 			output = AddDataOutput<Number>("Out");
@@ -24,8 +21,12 @@ namespace Circuitry
 		{
 			if (!UseFullPower())
 				return false;
-			int number = input.Value;
+
+			if (!(input.Value is Number number))
+				return false;
+
 			output.Push(++number);
+			Sleep(CooldownPerUse);
 			return true;
 		}
 	}
