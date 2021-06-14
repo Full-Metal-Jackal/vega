@@ -13,20 +13,18 @@ namespace Circuitry
 	{
 		public bool Initialized { get; set; } = false;
 
-		/// <summary>
-		/// The name of the circuit.
-		/// </summary>
-		public string label;
+		[SerializeField]
+		private string label;
+		public string Label => label;
 
-		/// <summary>
-		/// Description of the circuit shown in the constructor.
-		/// </summary>
-		public string desc;
+		[SerializeField]
+		private string desc;
+		public string Desc => desc;
 
 		/// <summary>
 		/// The assembly this circuit is attached to.
 		/// </summary>
-		public Assembly assembly;
+		protected Assembly assembly;
 
 		/// <summary>
 		/// The grid cells occupied by this circuit.
