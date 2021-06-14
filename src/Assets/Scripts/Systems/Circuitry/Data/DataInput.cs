@@ -8,6 +8,6 @@ namespace Circuitry
 		{
 		}
 
-		public override string ToString() => base.ToString() + $" [{Value}]";
+		public override string ToString() => $"{this} [{Value}]";
 	}
 }

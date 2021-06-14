@@ -30,7 +30,7 @@ namespace UI.CircuitConstructor
 			enabled = false;
 
 			if (!circuitPrefab)
-				throw new System.Exception($"No circuit prefab provided to the circuit constructor.");
+				throw new System.Exception("No circuit prefab provided to the circuit constructor.");
 
 			return Initialized = true;
 		}

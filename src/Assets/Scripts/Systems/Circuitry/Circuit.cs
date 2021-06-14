@@ -216,41 +216,25 @@ namespace Circuitry
 		/// Gets attached data input pins.
 		/// </summary>
 		/// <returns>Attached data input pins.</returns>
-		public IEnumerable<DataInput> GetDataInputs()
-		{
-			foreach (DataInput input in dataInputs)
-				yield return input;
-		}
+		public IEnumerable<DataInput> GetDataInputs() => new List<DataInput>(dataInputs);
 
 		/// <summary>
 		/// Gets attached data output pins.
 		/// </summary>
 		/// <returns>Attached data output pins.</returns>
-		public IEnumerable<DataOutput> GetDataOutputs()
-		{
-			foreach (DataOutput output in dataOutputs)
-				yield return output;
-		}
+		public IEnumerable<DataOutput> GetDataOutputs() => new List<DataOutput>(dataOutputs);
 
 		/// <summary>
 		/// Gets attached pulse input pins.
 		/// </summary>
 		/// <returns>Attached pulse input pins.</returns>
-		public IEnumerable<PulseInput> GetPulseInputs()
-		{
-			foreach (PulseInput input in pulseInputs)
-				yield return input;
-		}
+		public IEnumerable<PulseInput> GetPulseInputs() => new List<PulseInput>(pulseInputs);
 
 		/// <summary>
 		/// Gets attached pulse output pins.
 		/// </summary>
 		/// <returns>Attached pulse output pins.</returns>
-		public IEnumerable<PulseOutput> GetPulseOutputs()
-		{
-			foreach (PulseOutput output in pulseOutputs)
-				yield return output;
-		}
+		public IEnumerable<PulseOutput> GetPulseOutputs() => new List<PulseOutput>(pulseOutputs);
 
 		public override string ToString() => label;
 	}
