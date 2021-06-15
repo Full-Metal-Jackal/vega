@@ -106,7 +106,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		if (movement.magnitude <= movementHaltThreshold)
 			targetState = MovementState.Standing;
 
-			// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
+		// <TODO> That'll do for now, but we should implement this shit as soon as we get dodgerolls and lying/dead states.
 		switch (targetState)
 		{
 		default:
@@ -154,8 +154,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		if (!Initialized)
 			return;
 		MobMovementState = MovementState.Dodging;
-		if (rollVector.magnitude > 1f)
-			rollVector.Normalize();
+		rollVector.Normalize();
 		Vector3 targetVelocity = MoveSpeed * rollVector * RollSpeed;
 		Body.velocity = Vector3.SmoothDamp(
 						Body.velocity,
@@ -163,7 +162,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 						ref velocityBuffer,
 						movementSmoothing
 						);
-		return;
 	}
 
 	public void DodgeRollOff()

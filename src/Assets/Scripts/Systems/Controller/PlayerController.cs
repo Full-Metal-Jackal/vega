@@ -83,7 +83,8 @@ public class PlayerController : MobController
 			if (!usePressed && SelectedEntity is IInteractable interactable)
 				Possessed.Use(interactable);
 			usePressed = true;
-		} else if (Input.GetButton("Jump"))
+		} 
+		else if (Input.GetButton("Jump"))
 		{
 			float x = Input.GetAxis("Horizontal");
 			float z = Input.GetAxis("Vertical");
