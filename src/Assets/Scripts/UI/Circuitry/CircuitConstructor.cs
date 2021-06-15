@@ -42,6 +42,17 @@ namespace UI.CircuitConstructor
 			Game.inputState = InputState.UIOnly;
 		}
 
+		public void Open(Assembly assembly)
+		{
+			Open();
+			OpenAssembly(assembly);
+		}
+
+		public void OpenAssembly(Assembly assembly)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		public void Close()
 		{
 			Debug.Log("Closing the circuit constructor...");

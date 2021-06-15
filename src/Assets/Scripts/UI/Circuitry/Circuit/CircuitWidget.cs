@@ -5,18 +5,23 @@ using Circuitry;
 
 namespace UI.CircuitConstructor
 {
+	[RequireComponent(typeof(Circuit))]
 	public class CircuitWidget : MonoBehaviour, ITriggerable<Circuit>
 	{
-		public Circuit circuit;
+		public Circuit BoundCircuit { get; private set; }
 		public bool Initialized { get; private set; } = false;
 
 		public CircuitCooldownOverlay cooldownOverlay;
-		public UIGridRenderer gridRenderer;
+		public ConstructorGrid grid;
 
-		public GameObject dataInputPrefab;
-		public GameObject dataOutputPrefab;
-		public GameObject pulseInputPrefab;
-		public GameObject pulseOutputPrefab;
+		[SerializeField]
+		private GameObject dataInputPrefab;
+		[SerializeField]
+		private GameObject dataOutputPrefab;
+		[SerializeField]
+		private GameObject pulseInputPrefab;
+		[SerializeField]
+		private GameObject pulseOutputPrefab;
 
 		private Transform dataInputs;
 		private Transform pulseInputs;
@@ -36,16 +41,14 @@ namespace UI.CircuitConstructor
 				return false;
 			}
 
-			if (!circuit)
-				throw new System.Exception("Attempted to create circuit panel without circuit.");
+			if (!(dataInputPrefab && dataOutputPrefab && pulseInputPrefab && pulseOutputPrefab))
+				throw new System.Exception($"Pin prefabs not set up properly for {this}.");
 
-			if (!dataInputPrefab)
-				throw new System.Exception($"Data input prefab not set up for {this}.");
-
+			BoundCircuit = GetComponent<Circuit>();
 
 			Transform pinsHolder = transform.Find("Pins");
 
-			gridRenderer.AddCells(circuit.shape);
+			grid.BuildGrid(BoundCircuit.shape);
 
 			Transform inputsHolder = pinsHolder.Find("Inputs");
 			dataInputs = inputsHolder.Find("Data");
@@ -55,13 +58,13 @@ namespace UI.CircuitConstructor
 			dataOutputs = outputsHolder.Find("Data");
 			pulseOutputs = outputsHolder.Find("Pulse");
 
-			foreach (DataInput input in circuit.GetDataInputs())
+			foreach (DataInput input in BoundCircuit.GetDataInputs())
 				AddPin(input);
-			foreach (DataOutput output in circuit.GetDataOutputs())
+			foreach (DataOutput output in BoundCircuit.GetDataOutputs())
 				AddPin(output);
-			foreach (PulseInput input in circuit.GetPulseInputs())
+			foreach (PulseInput input in BoundCircuit.GetPulseInputs())
 				AddPin(input);
-			foreach (PulseOutput output in circuit.GetPulseOutputs())
+			foreach (PulseOutput output in BoundCircuit.GetPulseOutputs())
 				AddPin(output);
 
 			EventHandler.Bind(this);
@@ -88,11 +91,7 @@ namespace UI.CircuitConstructor
 
 		private void AddPin(PulseOutput output) => AddPin(pulseOutputPrefab, pulseOutputs, output);
 
-		public override string ToString() => base.ToString() + $" (Holding {circuit})";
-
-		public void Cooldown()
-		{
-		}
+		public override string ToString() => $"{base.ToString()} (Holding {BoundCircuit})";
 
 		public bool Trigger(Circuit caller)
 		{
@@ -104,7 +103,7 @@ namespace UI.CircuitConstructor
 
 		public void StartCooldownAnimation()
 		{
-			cooldownOverlay.Activate(circuit.Cooldown);
+			cooldownOverlay.Activate(BoundCircuit.Cooldown);
 		}
 	}
 }

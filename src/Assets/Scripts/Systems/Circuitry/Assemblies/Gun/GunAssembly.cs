@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace Circuitry
 {
-	public class Grid : MonoBehaviour
+	public abstract class GunAssembly : Assembly
 	{
-		public Dictionary<Vector2Int, Circuit> cells;
 	}
 }

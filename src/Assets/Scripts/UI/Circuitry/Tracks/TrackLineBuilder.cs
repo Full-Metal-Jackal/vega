@@ -37,12 +37,24 @@ namespace UI.CircuitConstructor
 		/// <summary>
 		/// Updates the line to be shaped as a circuit track.
 		/// </summary>
-		/// <param name="start"></param>
-		/// <param name="end"></param>
+		public void ReshapeLine()
+		{
+			line.SetVerticesDirty();
+		}
+
+		/// <summary>
+		/// Updates the start and the end vertices of the line.
+		/// </summary>
+		/// <param name="start">The start position.</param>
+		/// <param name="end">The end position.</param>
 		public void UpdateLine(Vector2 start, Vector2 end)
 		{
-			UpdateLineStart(start);
-			UpdateLineEnd(end);
+			if (line.dots.Count < 2)
+				return;
+
+			line.dots[0] = start;
+			line.dots[line.dots.Count - 1] = end;
+			ReshapeLine();
 		}
 
 		public void UpdateLineStart(Vector2 start)
@@ -51,7 +63,7 @@ namespace UI.CircuitConstructor
 				return;
 
 			line.dots[0] = start;
-			line.SetVerticesDirty();
+			ReshapeLine();
 		}
 
 		public void UpdateLineEnd(Vector2 end)
@@ -61,6 +73,7 @@ namespace UI.CircuitConstructor
 
 			line.dots[line.dots.Count - 1] = end;
 			line.SetVerticesDirty();
+			ReshapeLine();
 		}
 
 		public void Destroy()

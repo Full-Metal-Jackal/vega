@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircuitGun : MonoBehaviour
+
+namespace Circuitry
 {
+	public abstract class DroneAssembly : Assembly
+	{
+	}
 }

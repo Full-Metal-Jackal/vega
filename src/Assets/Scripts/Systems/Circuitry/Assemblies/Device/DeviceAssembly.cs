@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneAssembly : MonoBehaviour
+namespace Circuitry
 {
+	public abstract class DeviceAssembly : Assembly
+	{
+	}
 }

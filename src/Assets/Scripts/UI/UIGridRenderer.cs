@@ -12,7 +12,18 @@ namespace UI.CircuitConstructor
 
 		public float thickness = 1f;
 
-		public float cellSize = 32f;
+		public bool background = true;
+
+		private float cellSize = 64f;
+		public float CellSize
+		{
+			get => cellSize;
+			set
+			{
+				cellSize = value;
+				SetVerticesDirty();
+			}
+		}
 		
 		public Color lineColor = new Color(0f, 1f, 0f);
 		public Color highlightedLineColor = new Color(0f, 1f, 0f);
@@ -25,55 +36,65 @@ namespace UI.CircuitConstructor
 			base.OnPopulateMesh(vh);
 
 			foreach (KeyValuePair<Vector2Int, bool> pair in grid)
-				DrawCell(vh, pair.Key, pair.Value ? highlightedLineColor : lineColor);
+				DrawCell(vh, pair.Key, pair.Value);
 		}
 
-		protected void DrawCell(VertexHelper vh, Vector2Int cell, Color color)
+		protected void DrawCell(VertexHelper vh, Vector2Int cell, bool highlighted = false)
 		{
-			UIVertex vertex = UIVertex.simpleVert;
-			vertex.color = color;
+			Color currentColor;
+			Vector2 cellOffset = new Vector2(CellSize, CellSize) * (cell);
+
+			if (background)
+			{
+				currentColor = highlighted ? highlightedBackgroundColor : backgroundColor;
+				DrawQuad(
+					vh,
+					Vector2.zero + cellOffset,
+					new Vector2(0, CellSize) + cellOffset,
+					new Vector2(CellSize, CellSize) + cellOffset,
+					new Vector2(CellSize, 0) + cellOffset,
+					currentColor
+					);
+			}
+
+			currentColor = highlighted ? highlightedLineColor : lineColor;
 
 			float thicknessOffset = thickness / Mathf.Sqrt(2);
-			Vector3 cellOffset = new Vector3(cellSize * cell.x, cellSize * cell.y);
 
-			vertex.position = new Vector3(0, 0) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(cellSize, 0) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(cellSize, cellSize) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(0, cellSize) + cellOffset;
-			vh.AddVert(vertex);
+			int index = vh.currentVertCount - 1;
+			DrawQuad(
+				vh,
+				cellOffset,
+				new Vector2(thicknessOffset, thicknessOffset) + cellOffset,
+				new Vector2(CellSize - thicknessOffset, thicknessOffset) + cellOffset,
+				new Vector2(CellSize, 0) + cellOffset,
+				currentColor
+				);
 
-			vertex.position = new Vector3(thicknessOffset, thicknessOffset) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(cellSize - thicknessOffset, thicknessOffset) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(cellSize - thicknessOffset, cellSize - thicknessOffset) + cellOffset;
-			vh.AddVert(vertex);
-			vertex.position = new Vector3(thicknessOffset, cellSize - thicknessOffset) + cellOffset;
-			vh.AddVert(vertex);
+			AppendQuad(
+				vh, index + 4, index + 3,
+				new Vector2(CellSize - thicknessOffset, CellSize - thicknessOffset) + cellOffset,
+				new Vector2(CellSize, CellSize) + cellOffset,
+				currentColor
+				);
 
-			vh.AddTriangle(0, 1, 4);
-			vh.AddTriangle(1, 4, 5);
+			AppendQuad(
+				vh, index + 6, index + 5,
+				new Vector2(thicknessOffset, CellSize - thicknessOffset) + cellOffset,
+				new Vector2(0, CellSize) + cellOffset,
+				currentColor
+				);
 
-			vh.AddTriangle(1, 2, 5);
-			vh.AddTriangle(2, 5, 6);
-
-			vh.AddTriangle(2, 3, 6);
-			vh.AddTriangle(3, 6, 7);
-
-			vh.AddTriangle(3, 0, 7);
-			vh.AddTriangle(0, 7, 4);
+			JoinQuad(vh, index + 8, index + 7, index + 2, index + 1);
 		}
 
 		private void AddCellNoUpdate(Vector2Int cell, bool highlight)
 		{
+			Debug.Log(cell);
+
 			if (grid.ContainsKey(cell))
 				return;
 			
-			Debug.Log($"{cell} cell has been added");
-
 			grid.Add(cell, highlight);
 		}
 
@@ -85,13 +106,11 @@ namespace UI.CircuitConstructor
 
 		public void AddCells(IEnumerable<Vector2Int> cells, bool highlight = false)
 		{
-			Debug.Log($"{new HashSet<Vector2Int>(cells).Count} cells have been added");
-
 			foreach (Vector2Int cell in cells)
 				AddCellNoUpdate(cell, highlight);
 			SetVerticesDirty();
 		}
-		public void AddCells(Circuitry.Shape shape, bool highlight = false) => AddCells(shape.cells, highlight);
+		public void AddCells(Circuitry.Shape shape, bool highlight = false) => AddCells(shape.Cells, highlight);
 
 		private void SetHighlightNoUpdate(Vector2Int cell, bool highlight)
 		{
@@ -113,6 +132,6 @@ namespace UI.CircuitConstructor
 				SetHighlightNoUpdate(cell, highlight);
 			SetAllDirty();
 		}
-		public void SetHighlight(Circuitry.Shape shape, bool highlight = false) => SetHighlight(shape.cells, highlight);
+		public void SetHighlight(Circuitry.Shape shape, bool highlight = false) => SetHighlight(shape.Cells, highlight);
 	}
 }

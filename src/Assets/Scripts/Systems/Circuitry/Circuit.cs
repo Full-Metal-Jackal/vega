@@ -21,6 +21,8 @@ namespace Circuitry
 		private string desc;
 		public string Desc => desc;
 
+		public Category category;
+
 		/// <summary>
 		/// The assembly this circuit is attached to.
 		/// </summary>
