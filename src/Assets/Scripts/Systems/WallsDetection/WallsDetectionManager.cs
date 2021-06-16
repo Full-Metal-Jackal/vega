@@ -10,6 +10,7 @@ public class WallsDetectionManager : MonoBehaviour
 	private Mob player;
 	private Camera cam;
 	private int wallsId;
+	private int detectionRange = 1000;
 	public int layerMask;
 	[SerializeField] private string detectableTag = "Detectable";
 	[SerializeField] private Material highlighMat;
@@ -18,8 +19,9 @@ public class WallsDetectionManager : MonoBehaviour
 	private Transform curentDetection;
 	void Start()
 	{
-		wallsId = LayerMask.NameToLayer("Main Walls");
-		layerMask = (1 << wallsId);
+		wallsId = LayerMask.NameToLayer("StopCamRaycast");
+		Debug.Log(wallsId);
+		layerMask = 1 << wallsId;
 		player = GameObject.Find("Player").GetComponent<PlayerController>().possessAtStart;  //Still not optimal I think.
 		Debug.Log(player);
 		cam = Camera.main;
@@ -34,7 +36,7 @@ public class WallsDetectionManager : MonoBehaviour
 	void Update()
 	{
 		RaycastHit hit;
-		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out hit, layerMask))
+		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out hit, detectionRange, layerMask))
 		{
 			if (curentDetection != null)
 			{
@@ -46,11 +48,10 @@ public class WallsDetectionManager : MonoBehaviour
 				}
 			}
 			var detection = hit.transform;
-			Debug.Log(detection);
 			if (detection.CompareTag(detectableTag))
 			{
-				var detectionGr = detection.parent;
-				Debug.Log(detectionGr);
+				Debug.DrawRay(cam.transform.position, player.transform.position - cam.transform.position, Color.red);
+				var detectionGr = detection.parent;;
 				Renderer[] selectionRenderer = detectionGr.GetComponentsInChildren<Renderer>();
 				if (selectionRenderer != null)
 				{
@@ -60,7 +61,20 @@ public class WallsDetectionManager : MonoBehaviour
 					}
 					curentDetection = detectionGr;
 				}
-			}  
+			}
+		}
+		else
+		{
+			Debug.DrawRay(cam.transform.position, player.transform.position - cam.transform.position, Color.green);
+			if (curentDetection != null)
+			{
+				Renderer[] selectionRenderer = curentDetection.GetComponentsInChildren<Renderer>();
+				for (int i = 0; i < selectionRenderer.Length; i++)
+				{
+					selectionRenderer[i].material = defaultMat;
+					curentDetection = null;
+				}
+			}
 		}
 	}
 }
