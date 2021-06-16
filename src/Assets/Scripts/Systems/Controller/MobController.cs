@@ -16,7 +16,7 @@ public abstract class MobController : MonoBehaviour
 	protected int Id { get; private set; }
 
 	private Vector3 direction;
-	private MovementState state;
+	private MovementState state = MovementState.Standing;
 
 	private void Awake()
 	{

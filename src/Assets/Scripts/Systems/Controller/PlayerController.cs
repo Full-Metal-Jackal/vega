@@ -65,8 +65,6 @@ public class PlayerController : MobController
 		if (!Game.IsWorldInputAllowed)
 			return Vector3.zero;
 
-		UpdateActions();
-
 		float x = Input.GetAxis("Horizontal");
 		float z = Input.GetAxis("Vertical");
 		Vector3 movement = new Vector3(x, 0, z);
@@ -75,6 +73,7 @@ public class PlayerController : MobController
 		//isWalking = Input.GetKey("Walk");
 		//isSprinting = Input.GetKey("Sprint");
 
+		UpdateActions();
 		// The following checks should descend from those of critical importance to the less important ones.
 		if (requestDodging)
 		{

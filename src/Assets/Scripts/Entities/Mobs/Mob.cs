@@ -131,8 +131,13 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 			speed *= sprintSpeedFactor;
 			break;
 		case MovementState.Dodging:
-			MobMovementState = requestedState;
-			return;
+			if (CanDodge)
+			{
+				MobMovementState = requestedState;
+				return;
+			}
+			requestedState = MovementState.Running;
+			break;
 		default:
 			break;
 		}
@@ -173,7 +178,9 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 
 	public void OnDodgeRoll() 
 	{
-		Vector3 direction = activeDirection;
+		Debug.Log("OnDodgeRoll");
+
+		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
 		direction.y = 0f;
 		direction.Normalize();
 
@@ -186,7 +193,11 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		Body.AddForce(force, ForceMode.Impulse);
 	}
 
-	public void OnDodgeRollEnd() => MobMovementState = MovementState.Sprinting;
+	public void OnDodgeRollEnd()
+	{
+		Debug.Log("OnDodgeRollEnd");
+		MobMovementState = MovementState.Sprinting;
+	}
 
 	public bool CanMoveActively
 	{
@@ -197,6 +208,26 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 			case MovementState.Dead:
 			case MovementState.Dodging:
 			case MovementState.Unconscious:
+				return false;
+			default:
+				break;
+			}
+
+			return true;
+		}
+	}
+
+	public bool CanDodge
+	{
+		get
+		{
+			if (!CanMoveActively)
+				return false;
+
+			switch (MobMovementState)
+			{
+			case MovementState.Standing:
+			case MovementState.Walking:
 				return false;
 			default:
 				break;
