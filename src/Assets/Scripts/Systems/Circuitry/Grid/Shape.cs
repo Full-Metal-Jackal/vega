@@ -94,14 +94,27 @@ namespace Circuitry
 
 		public Shape GetCopy() => new Shape(Cells);
 
+		public void Join(Shape shape, Vector2Int offset)
+		{
+			foreach (Vector2Int cell in shape.Cells)
+				shape.AddCell(cell + offset);
+		}
+
+		public void Join(Shape shape) => Join(shape, Vector2Int.zero);
+
+		public void AddRect(int width, int height, Vector2Int position)
+		{
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < height; y++)
+					AddCell(new Vector2Int(x, y) + position);
+		}
+
 		public static Shape Empty => new Shape(new HashSet<Vector2Int>());
 		public static Shape Single => new Shape(new HashSet<Vector2Int>{ Vector2Int.zero });
 		public static Shape Rect(int width, int height)
 		{
 			Shape shape = Empty;
-			for (int x = 0; x < width; x++)
-				for (int y = 0; y < height; y++)
-					shape.AddCell(x, y);
+			shape.AddRect(width, height, Vector2Int.zero);
 			return shape;
 		}
 	}

@@ -47,7 +47,8 @@ namespace UI.CircuitConstructor
 		/// </summary>
 		public void ClearGrid()
 		{
-
+			foreach (Transform child in transform)
+				Destroy(child.gameObject);
 		}
 
 		/// <summary>

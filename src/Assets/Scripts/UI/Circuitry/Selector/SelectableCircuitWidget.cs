@@ -57,17 +57,17 @@ namespace UI.CircuitConstructor
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log($"{this} drag began: {eventData.selectedObject}");
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			throw new System.NotImplementedException();
+			Debug.Log($"{this} drag ended: {eventData.selectedObject}");
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			throw new System.NotImplementedException();
+			//Debug.Log($"{this} drag ended: {eventData.selectedObject}");
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
@@ -110,6 +110,7 @@ namespace UI.CircuitConstructor
 			CircuitTooltipWidget tooltip = tooltipObject.GetComponent<CircuitTooltipWidget>();
 			tooltip.label.text = circuit.Label;
 			tooltip.desc.text = circuit.Desc;
+			tooltip.DisplayCircuit(circuitWidgetPrefab);
 		}
 
 		public void DestroyTooltip()

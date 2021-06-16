@@ -7,13 +7,21 @@ namespace UI.CircuitConstructor
 {
 	public class CircuitTooltipWidget : MonoBehaviour
 	{
-		[SerializeField]
 		public Text label;
-
-		[SerializeField]
 		public Text desc;
+		private Transform circuitHolder;
 
+		private void Awake()
+		{
+			circuitHolder = transform.Find("PaddedContainer").Find("Circuit");
+		}
 
+		public void DisplayCircuit(GameObject circuitWidgetPrefab)
+		{
+			CircuitWidget circuitWidget = Instantiate(circuitWidgetPrefab).GetComponent<CircuitWidget>();
+			circuitWidget.transform.SetParent(circuitHolder, false);
 
+			// <TODO> Make sure that circuitWidget is "deactivated" and can be used only for visualization.
+		}
 	}
 }

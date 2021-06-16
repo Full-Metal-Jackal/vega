@@ -48,8 +48,6 @@ namespace UI.CircuitConstructor
 
 			Transform pinsHolder = transform.Find("Pins");
 
-			grid.BuildGrid(BoundCircuit.shape);
-
 			Transform inputsHolder = pinsHolder.Find("Inputs");
 			dataInputs = inputsHolder.Find("Data");
 			pulseInputs = inputsHolder.Find("Pulse");
@@ -57,6 +55,15 @@ namespace UI.CircuitConstructor
 			Transform outputsHolder = pinsHolder.Find("Outputs");
 			dataOutputs = outputsHolder.Find("Data");
 			pulseOutputs = outputsHolder.Find("Pulse");
+
+			EventHandler.Bind(this);
+
+			return Initialized = true;
+		}
+
+		private void Start()
+		{
+			Setup();
 
 			foreach (DataInput input in BoundCircuit.GetDataInputs())
 				AddPin(input);
@@ -66,10 +73,11 @@ namespace UI.CircuitConstructor
 				AddPin(input);
 			foreach (PulseOutput output in BoundCircuit.GetPulseOutputs())
 				AddPin(output);
+		}
 
-			EventHandler.Bind(this);
-
-			return Initialized = true;
+		public void Setup()
+		{
+			grid.BuildGrid(BoundCircuit.shape);
 		}
 
 		private PinWidget AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)
@@ -91,7 +99,7 @@ namespace UI.CircuitConstructor
 
 		private void AddPin(PulseOutput output) => AddPin(pulseOutputPrefab, pulseOutputs, output);
 
-		public override string ToString() => $"{base.ToString()} (Holding {BoundCircuit})";
+		public override string ToString() => $"{BoundCircuit}'s widget";
 
 		public bool Trigger(Circuit caller)
 		{
