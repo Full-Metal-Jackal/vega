@@ -9,8 +9,8 @@ public class WallsDetectionManager : MonoBehaviour
 {
 	private Mob player;
 	private Camera cam;
-	private GameObject walls; // <TODO> It is necessary that when loading the lvl,
-							  // the tags of all child objects of the "Walls" object are set to " Detectable"
+	private int wallsId;
+	public int layerMask;
 	[SerializeField] private string detectableTag = "Detectable";
 	[SerializeField] private Material highlighMat;
 	[SerializeField] private Material defaultMat;
@@ -18,6 +18,8 @@ public class WallsDetectionManager : MonoBehaviour
 	private Transform curentDetection;
 	void Start()
 	{
+		wallsId = LayerMask.NameToLayer("Main Walls");
+		layerMask = (1 << wallsId);
 		player = GameObject.Find("Player").GetComponent<PlayerController>().possessAtStart;  //Still not optimal I think.
 		Debug.Log(player);
 		cam = Camera.main;
@@ -32,7 +34,7 @@ public class WallsDetectionManager : MonoBehaviour
 	void Update()
 	{
 		RaycastHit hit;
-		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out hit))
+		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out hit, layerMask))
 		{
 			if (curentDetection != null)
 			{
@@ -44,9 +46,11 @@ public class WallsDetectionManager : MonoBehaviour
 				}
 			}
 			var detection = hit.transform;
+			Debug.Log(detection);
 			if (detection.CompareTag(detectableTag))
 			{
 				var detectionGr = detection.parent;
+				Debug.Log(detectionGr);
 				Renderer[] selectionRenderer = detectionGr.GetComponentsInChildren<Renderer>();
 				if (selectionRenderer != null)
 				{

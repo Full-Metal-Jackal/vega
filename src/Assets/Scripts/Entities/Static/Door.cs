@@ -46,10 +46,4 @@ public class Door : StaticEntity, IInteractable
 		opened = !opened;
 		return true;
 	}
-
-	private void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, radius);
-	}
 }
