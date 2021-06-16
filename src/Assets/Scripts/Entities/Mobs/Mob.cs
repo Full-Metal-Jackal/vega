@@ -178,8 +178,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 
 	public void OnDodgeRoll() 
 	{
-		Debug.Log("OnDodgeRoll");
-
 		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
 		direction.y = 0f;
 		direction.Normalize();
@@ -195,7 +193,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 
 	public void OnDodgeRollEnd()
 	{
-		Debug.Log("OnDodgeRollEnd");
 		MobMovementState = MovementState.Sprinting;
 	}
 
