@@ -19,13 +19,20 @@ namespace Circuitry
 		{
 			foreach (PulseInput input in destinations)
 				input.Pulse();
+			base.Pulse();
 		}
 
 		/// <summary>
 		/// Adds destination input to the output.
 		/// </summary>
 		/// <param name="input">The destination input.</param>
-		public void Connect(PulseInput input) => destinations.Add(input);
+		public bool Connect(PulseInput input)
+		{
+			if (!destinations.Add(input))
+				return false;
+			UI.CircuitConstructor.EventHandler.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
+			return true;
+		}
 
 		/// <summary>
 		/// Removes destination input from the output.

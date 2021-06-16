@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using UI;
-
 public static class Game
 {
 	/// <summary>
@@ -21,7 +19,7 @@ public static class Game
 	/// <summary>
 	/// The circuit constructor UI handler singleton.
 	/// </summary>
-	public static CircuitConstructor circuitConstructor;
+	public static UI.CircuitConstructor.CircuitConstructor circuitConstructor;
 
 	// <TODO> Change to UiOnly as soon as we get the main menu.
 	public static InputState inputState = InputState.WorldOnly;

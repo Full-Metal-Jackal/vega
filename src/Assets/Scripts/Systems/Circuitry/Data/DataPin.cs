@@ -5,20 +5,12 @@ namespace Circuitry
 	/// <summary>
 	/// Pins are used to transfer data between circuits.
 	/// </summary>
-	public abstract class DataPin<T> : Element
+	public abstract class DataPin : Pin
 	{
-		public readonly string label;
-		public T Value { get; private set; }
+		public Data Value { get; private set; }
 
-		protected DataPin(Circuit circuit, string label) : base(circuit)
+		protected DataPin(Circuit circuit, string label) : base(circuit, label)
 		{
-			if (!(Value is Data))
-			{
-				throw new System.Exception(
-					"Invalid use of data pins, data pins should be set to Circuitry.Data derived types, "
-					+ $"but {this} was set to {Value}");
-			}
-			this.label = label;
 		}
 
 		/// <summary>
@@ -26,6 +18,11 @@ namespace Circuitry
 		/// Doesn't affect anything else.
 		/// </summary>
 		/// <param name="value"></param>
-		public void Set(T value) => Value = value;
+		public void Set(Data value)
+		{
+			Value = value;
+			UI.CircuitConstructor.EventHandler.Log($"{circuit}: {label} has been set to {value}");
+			UI.CircuitConstructor.EventHandler.Trigger(this);
+		}
 	}
 }
