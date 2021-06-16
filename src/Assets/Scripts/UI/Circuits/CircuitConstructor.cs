@@ -9,7 +9,7 @@ namespace UI
 
 		public bool Initialized { get; private set; }
 
-		private void Start()
+		private void Awake()
 		{
 			Initialize();
 		}

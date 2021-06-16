@@ -1,15 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum MovementState
+﻿public enum MovementState
 {
-	Standing,
-	Walking,
+	Dead,
+	Dodging,
 	Running,
 	Sprinting,
-	Dodging,
-	Crouching,  // Might be unused
-	Lying,
-	Dead
+	Standing,
+	Unconscious,
+	Walking
 }
