@@ -20,7 +20,7 @@ namespace Circuitry
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{
@@ -28,10 +28,14 @@ namespace Circuitry
 				return false;
 			}
 
+			// <TODO> This call should be moved to the Start message as soon as we implement assemblies initializtion in game;
+			// It should stay here till we initialize our widgets simultaneously with assemblies.
 			Setup();
 
 			return Initialized = true;
 		}
+
+		public abstract void Setup();
 
 		/// <summary>
 		/// Attempts to deserialize the assembly from a string.
@@ -67,7 +71,5 @@ namespace Circuitry
 			circuits.Add(circuit);
 			UI.CircuitConstructor.EventHandler.Log($"{this}: {circuit} has been placed at {cell}");
 		}
-
-		public abstract void Setup();
 	}
 }

@@ -100,7 +100,7 @@ namespace Circuitry
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{
@@ -108,9 +108,12 @@ namespace Circuitry
 				return false;
 			}
 
-			Setup();
-
 			return Initialized = true;
+		}
+
+		private void Start()
+		{
+			Setup();
 		}
 
 		public abstract void Setup();

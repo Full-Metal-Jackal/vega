@@ -6,33 +6,46 @@ namespace UI.CircuitConstructor
 {
 	public class CircuitConstructor : MonoBehaviour
 	{
+		[SerializeField]
+		private ConstructorViewport viewport;
+		public ConstructorViewport Viewport => viewport;
 
-		public GameObject circuitPrefab;
-
-		public Assembly assembly;
+		[SerializeField]
+		private AssemblyWidget assemblyWidget;
+		public AssemblyWidget AssemblyWidget => assemblyWidget;
 
 		public bool Initialized { get; private set; }
 
 		public bool IsOpened => gameObject.activeInHierarchy;
 
-		private void Start()
+		private void Awake()
 		{
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Game.circuitConstructor)
 				throw new System.Exception($"Multiple instances of circuit constructor detected: {this}, {Game.circuitConstructor}");
 			Game.circuitConstructor = this;
 
-			gameObject.SetActive(false);
-			enabled = false;
-
-			if (!circuitPrefab)
-				throw new System.Exception("No circuit prefab provided to the circuit constructor.");
+			if (!viewport)
+				throw new System.Exception("No viewport assigned to the circuit constructor.");
 
 			return Initialized = true;
+		}
+
+		private void Start()
+		{
+			Setup();
+		}
+
+		public void Setup()
+		{
+			// <TODO> Remove this as soon as we implement OpenAssembly.
+			viewport.Zoom = .7f;
+
+			gameObject.SetActive(false);
 		}
 
 		public void Open()
@@ -42,14 +55,22 @@ namespace UI.CircuitConstructor
 			Game.inputState = InputState.UIOnly;
 		}
 
-		public void Open(Assembly assembly)
+		public void Open(AssemblyWidget assemblyWidget)
 		{
 			Open();
-			OpenAssembly(assembly);
+
+			throw new System.NotImplementedException();
+
+			// OpenAssembly(assemblyWidget);
 		}
 
-		public void OpenAssembly(Assembly assembly)
+		public void OpenAssembly(AssemblyWidget assemblyWidget)
 		{
+			this.assemblyWidget = assemblyWidget;
+
+			viewport.minZoom = assemblyWidget.minZoom;
+			viewport.Zoom = assemblyWidget.preferedZoom;
+
 			throw new System.NotImplementedException();
 		}
 

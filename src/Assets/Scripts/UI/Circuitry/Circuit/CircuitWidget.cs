@@ -12,7 +12,7 @@ namespace UI.CircuitConstructor
 		public bool Initialized { get; private set; } = false;
 
 		public CircuitCooldownOverlay cooldownOverlay;
-		public ConstructorGrid grid;
+		public CellGridWidget grid;
 
 		[SerializeField]
 		private GameObject dataInputPrefab;
@@ -33,7 +33,7 @@ namespace UI.CircuitConstructor
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{
@@ -64,6 +64,11 @@ namespace UI.CircuitConstructor
 		private void Start()
 		{
 			Setup();
+		}
+
+		public void Setup()
+		{
+			grid.BuildGrid(BoundCircuit.shape);
 
 			foreach (DataInput input in BoundCircuit.GetDataInputs())
 				AddPin(input);
@@ -73,11 +78,6 @@ namespace UI.CircuitConstructor
 				AddPin(input);
 			foreach (PulseOutput output in BoundCircuit.GetPulseOutputs())
 				AddPin(output);
-		}
-
-		public void Setup()
-		{
-			grid.BuildGrid(BoundCircuit.shape);
 		}
 
 		private PinWidget AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)

@@ -13,8 +13,12 @@ namespace UI.CircuitConstructor
 		public Assembly BoundAssembly { get; private set; }
 		public bool Initialized { get; private set; } = false;
 
+		public float minZoom = .6f;
+		public float preferedZoom = .71f;
+
 		[SerializeField]
-		private ConstructorGrid grid;
+		private AssemblyGridWidget grid;
+		public AssemblyGridWidget Grid => grid;
 
 		private void Awake()
 		{
@@ -26,7 +30,7 @@ namespace UI.CircuitConstructor
 			grid.BuildGrid(BoundAssembly.grid);
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{

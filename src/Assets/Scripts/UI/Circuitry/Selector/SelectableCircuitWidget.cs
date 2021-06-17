@@ -8,22 +8,26 @@ using Circuitry;
 
 namespace UI.CircuitConstructor
 {
-	public class SelectableCircuitWidget : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+	[RequireComponent(typeof(RectTransform))]
+	public class SelectableCircuitWidget : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 	{
 		public GameObject circuitWidgetPrefab;
 		private Circuit circuit;
 
 		[SerializeField]
-		private GameObject tooltipPrefab;
+		private GameObject circuitGhostPrefab;
+		private CircuitGhostWidget ghost;
 
+		[SerializeField]
+		private GameObject tooltipPrefab;
 		private GameObject tooltipObject;
 
-		public ConstructorGrid grid;
+		public CellGridWidget grid;
 		public Image icon;
 
 		public float initialTooltipDelay = .5f;
 		private float tooltipDelay = 0f;
-		private bool pointerOver = false;
+		private bool hovered = false;
 
 		public bool Initialized { get; private set; } = false;
 
@@ -34,10 +38,11 @@ namespace UI.CircuitConstructor
 
 		private void Start()
 		{
-			Setup(circuitWidgetPrefab);
+			if (circuitWidgetPrefab)
+				Setup(circuitWidgetPrefab);
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{
@@ -57,45 +62,36 @@ namespace UI.CircuitConstructor
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			Debug.Log($"{this} drag began: {eventData.selectedObject}");
+			CreateGhost();
+		}
+
+		private void CreateGhost()
+		{
+			ghost = Instantiate(circuitGhostPrefab).GetComponent<CircuitGhostWidget>();
+			ghost.Setup(circuitWidgetPrefab);
+			ghost.RectTransform.SetParent(Game.circuitConstructor.transform, false);
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			Debug.Log($"{this} drag ended: {eventData.selectedObject}");
+			ghost.Suicide();
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			//Debug.Log($"{this} drag ended: {eventData.selectedObject}");
+			ghost.SetPosition(eventData.pointerCurrentRaycast.screenPosition);
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			pointerOver = true;
+			hovered = true;
 
 			tooltipDelay = 0f;
 		}
 
-		public void Update()
-		{
-			if (!pointerOver)
-				return;
-
-			if (tooltipObject)
-			{
-				tooltipObject.transform.position = Input.mousePosition;
-				return;
-			}
-
-			tooltipDelay += Time.deltaTime;
-			if (tooltipDelay > initialTooltipDelay)
-				CreateTooltip();
-		}
-
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			pointerOver = false;
+			hovered = false;
 			tooltipDelay = 0f;
 
 			if (tooltipObject)
@@ -116,6 +112,22 @@ namespace UI.CircuitConstructor
 		public void DestroyTooltip()
 		{
 			Destroy(tooltipObject);
+		}
+
+		public void OnPointerDown(PointerEventData eventData)
+		{
+			if (!hovered)
+				return;
+
+			if (tooltipObject)
+			{
+				tooltipObject.transform.position = eventData.pointerCurrentRaycast.screenPosition;
+				return;
+			}
+
+			tooltipDelay += Time.deltaTime;
+			if (tooltipDelay > initialTooltipDelay)
+				CreateTooltip();
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace UI.CircuitConstructor
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{

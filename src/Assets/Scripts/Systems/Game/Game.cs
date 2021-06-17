@@ -12,12 +12,14 @@ public static class Game
 	/// The player controller singleton.
 	/// </summary>
 	public static PlayerController playerController;
+
 	/// <summary>
 	/// The camera controller singleton.
 	/// </summary>
 	public static CameraController cameraController;
+
 	/// <summary>
-	/// The circuit constructor UI handler singleton.
+	/// The circuit constructor UI singleton.
 	/// </summary>
 	public static UI.CircuitConstructor.CircuitConstructor circuitConstructor;
 
