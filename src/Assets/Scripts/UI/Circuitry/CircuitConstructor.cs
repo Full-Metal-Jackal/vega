@@ -81,7 +81,7 @@ namespace UI.CircuitConstructor
 			Game.inputState = InputState.WorldOnly;
 		}
 
-		public void ShowCircuitInfo(Circuit circuit)
+		public void ShowCircuitInfo(Circuitry.Circuit circuit)
 		{
 			Debug.Log($"Information about {circuit} should be shown now.");
 		}

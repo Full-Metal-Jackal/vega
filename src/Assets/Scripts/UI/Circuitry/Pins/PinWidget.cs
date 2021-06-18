@@ -12,7 +12,7 @@ namespace UI.CircuitConstructor
 		public Text label;
 		public Circuitry.Pin pin;
 		public GameObject trackLinePrefab;
-		public bool Initialized { get; private set; } = false;
+		public bool Initialized { get; protected set; } = false;
 
 		private Transform tracksHolder;
 		protected RectTransform pinButtonWidget;

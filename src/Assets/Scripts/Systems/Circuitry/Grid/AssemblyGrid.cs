@@ -82,7 +82,7 @@ namespace Circuitry
 			if (cells.Values.Contains(circuit))
 				return false;
 
-			if (!DoesFit(circuit.shape, cell))
+			if (!DoesFit(circuit.Shape, cell))
 				return false;
 
 			ForceAddCircuit(circuit, cell);
@@ -92,7 +92,7 @@ namespace Circuitry
 
 		private void ForceAddCircuit(Circuit circuit, Vector2Int gridCell)
 		{
-			foreach (Vector2Int shapeCell in circuit.shape.Cells)
+			foreach (Vector2Int shapeCell in circuit.Shape.Cells)
 				cells[gridCell + shapeCell] = circuit;
 		}
 
@@ -101,11 +101,11 @@ namespace Circuitry
 		/// </summary>
 		/// <param name="circuit">The circuit to place.</param>
 		/// <returns>true if the circuit was placed succesfully, false otherwise</returns>
-		public bool AddCircuit(Circuit circuit) => FindFirstFree(circuit.shape, out Vector2Int free) && AddCircuit(circuit, free);
+		public bool AddCircuit(Circuit circuit) => FindFirstFree(circuit.Shape, out Vector2Int free) && AddCircuit(circuit, free);
 
 		public bool MoveCircuit(Circuit circuit, Vector2Int cell)
 		{
-			if (!DoesFit(circuit.shape, cell, new HashSet<Circuit> { circuit }))
+			if (!DoesFit(circuit.Shape, cell, new HashSet<Circuit> { circuit }))
 				return false;
 
 			if (!RemoveCircuit(circuit))

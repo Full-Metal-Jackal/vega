@@ -7,7 +7,7 @@ namespace UI.CircuitConstructor
 {
 	public class ConstructorViewport : MonoBehaviour, IScrollHandler
 	{
-		public bool Initialized { get; private set; } = false;
+		public bool Initialized { get; protected set; } = false;
 
 		private RectTransform content;
 		public RectTransform Content => content;

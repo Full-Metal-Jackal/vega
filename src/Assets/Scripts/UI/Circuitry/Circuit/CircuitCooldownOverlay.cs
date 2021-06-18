@@ -18,7 +18,7 @@ namespace UI.CircuitConstructor
 			gameObject.SetActive(false);
 		}
 
-		public void Activate(float cooldown)
+		public void StartCooldownAnimation(float cooldown)
 		{
 			initialCooldown = cooldown;
 			this.cooldown = initialCooldown;

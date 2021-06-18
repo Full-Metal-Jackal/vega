@@ -7,9 +7,11 @@ namespace Circuitry
 	public delegate bool CircuitAction();
 
 	/// <summary>
-	/// Represents a circuit.
+	/// Represents a circuit in assembly.
+	/// 
+	/// Ideally should be completely devoid of MonoBehaviour inheritance.
 	/// </summary>
-	public abstract class Circuit : MonoBehaviour
+	public class Circuit : MonoBehaviour
 	{
 		public bool Initialized { get; set; } = false;
 
@@ -31,7 +33,7 @@ namespace Circuitry
 		/// <summary>
 		/// The grid cells occupied by this circuit.
 		/// </summary>
-		public readonly Shape shape;
+		public Shape Shape { get; protected set; }
 
 		/// <summary>
 		/// List of circuit data inputs.
@@ -78,12 +80,6 @@ namespace Circuitry
 		/// </summary>
 		public virtual float CooldownPerUse => .1f;
 
-		public Circuit()
-		{
-			shape = Shape.Single;
-			PowerInput = new InputTerminal(this);
-		}
-
 		/// <summary>
 		/// Makes the circuit inactive for the set amount of time.
 		/// An inactive circuit is unable to receive and send pulses.
@@ -98,6 +94,7 @@ namespace Circuitry
 		private void Awake()
 		{
 			Initialize();
+			Setup();
 		}
 
 		protected virtual bool Initialize()
@@ -108,15 +105,15 @@ namespace Circuitry
 				return false;
 			}
 
+			Shape = Shape.Single;
+			PowerInput = new InputTerminal(this);
+
 			return Initialized = true;
 		}
 
-		private void Start()
+		public virtual void Setup()
 		{
-			Setup();
 		}
-
-		public abstract void Setup();
 
 		private void FixedUpdate()
 		{

@@ -5,103 +5,33 @@ using Circuitry;
 
 namespace UI.CircuitConstructor
 {
-	[RequireComponent(typeof(Circuit))]
-	public class CircuitWidget : MonoBehaviour, ITriggerable<Circuit>
+	public class CircuitWidget : DraggableCircuitWidget, ITriggerable<Circuitry.Circuit>
 	{
-		public Circuit BoundCircuit { get; private set; }
-		public bool Initialized { get; private set; } = false;
-
-		public CircuitCooldownOverlay cooldownOverlay;
-		public CellGridWidget grid;
-
 		[SerializeField]
-		private GameObject dataInputPrefab;
-		[SerializeField]
-		private GameObject dataOutputPrefab;
-		[SerializeField]
-		private GameObject pulseInputPrefab;
-		[SerializeField]
-		private GameObject pulseOutputPrefab;
+		private GameObject cooldownOverlayPrefab;
+		private CircuitCooldownOverlay cooldownOverlay;
 
-		private Transform dataInputs;
-		private Transform pulseInputs;
-		private Transform dataOutputs;
-		private Transform pulseOutputs;
-
-		private void Awake()
+		protected override void Setup()
 		{
-			Initialize();
+			CreateCooldownOverlay();
 		}
 
-		protected virtual bool Initialize()
+		public void CreateCooldownOverlay()
 		{
-			if (Initialized)
+			if (cooldownOverlay)
 			{
-				Debug.LogWarning($"Multiple initialization attempts of {this}!");
-				return false;
+				Debug.LogWarning($"Multiple attempts to create a cooldown overlay for {this}.");
+				return;
 			}
 
-			if (!(dataInputPrefab && dataOutputPrefab && pulseInputPrefab && pulseOutputPrefab))
-				throw new System.Exception($"Pin prefabs not set up properly for {this}.");
+			GameObject cooldownOverlayObject = Instantiate(cooldownOverlayPrefab);
+			if (!cooldownOverlayPrefab.TryGetComponent(out cooldownOverlay))
+				throw new System.Exception($"{this} has invalid cooldown overlay prefab.");
 
-			BoundCircuit = GetComponent<Circuit>();
-
-			Transform pinsHolder = transform.Find("Pins");
-
-			Transform inputsHolder = pinsHolder.Find("Inputs");
-			dataInputs = inputsHolder.Find("Data");
-			pulseInputs = inputsHolder.Find("Pulse");
-
-			Transform outputsHolder = pinsHolder.Find("Outputs");
-			dataOutputs = outputsHolder.Find("Data");
-			pulseOutputs = outputsHolder.Find("Pulse");
-
-			EventHandler.Bind(this);
-
-			return Initialized = true;
+			cooldownOverlayObject.transform.SetParent(Circuit.Icon.transform, false);
 		}
 
-		private void Start()
-		{
-			Setup();
-		}
-
-		public void Setup()
-		{
-			grid.BuildGrid(BoundCircuit.shape);
-
-			foreach (DataInput input in BoundCircuit.GetDataInputs())
-				AddPin(input);
-			foreach (DataOutput output in BoundCircuit.GetDataOutputs())
-				AddPin(output);
-			foreach (PulseInput input in BoundCircuit.GetPulseInputs())
-				AddPin(input);
-			foreach (PulseOutput output in BoundCircuit.GetPulseOutputs())
-				AddPin(output);
-		}
-
-		private PinWidget AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)
-		{
-			GameObject widgetObject = Instantiate(widgetPrefab);
-			widgetObject.transform.SetParent(toParent);
-
-			PinWidget widget = widgetObject.GetComponentInChildren<PinWidget>();
-			widget.Setup(pin);
-
-			return widget;
-		}
-
-		private void AddPin(DataInput input) => AddPin(dataInputPrefab, dataInputs, input);
-
-		private void AddPin(DataOutput output) => AddPin(dataOutputPrefab, dataOutputs, output);
-
-		private void AddPin(PulseInput input) => AddPin(pulseInputPrefab, pulseInputs, input);
-
-		private void AddPin(PulseOutput output) => AddPin(pulseOutputPrefab, pulseOutputs, output);
-
-		public override string ToString() => $"{BoundCircuit}'s widget";
-
-		public bool Trigger(Circuit caller)
+		public bool Trigger(Circuitry.Circuit caller)
 		{
 			if (caller.IsSleeping)
 				StartCooldownAnimation();
@@ -111,7 +41,12 @@ namespace UI.CircuitConstructor
 
 		public void StartCooldownAnimation()
 		{
-			cooldownOverlay.Activate(BoundCircuit.Cooldown);
+			cooldownOverlay.StartCooldownAnimation(Circuit.BoundCircuit.CooldownPerUse);
+		}
+
+		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)
+		{
+			assemblyWidget.MoveCircuit(Circuit, cell);
 		}
 	}
 }

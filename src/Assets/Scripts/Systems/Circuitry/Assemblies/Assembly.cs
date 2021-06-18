@@ -64,12 +64,23 @@ namespace Circuitry
 			return circuit;
 		}
 
-		public void AddCircuit(Circuit circuit, Vector2Int cell)
+		public bool AddCircuit(Circuit circuit, Vector2Int cell)
 		{
 			if (!grid.AddCircuit(circuit, cell))
-				return;
+				return false;
+
 			circuits.Add(circuit);
 			UI.CircuitConstructor.EventHandler.Log($"{this}: {circuit} has been placed at {cell}");
+			return true;
+		}
+
+		public bool MoveCircuit(Circuit circuit, Vector2Int cell)
+		{
+			if (!grid.MoveCircuit(circuit, cell))
+				return false;
+
+			UI.CircuitConstructor.EventHandler.Log($"{this}: {circuit} has been moved to {cell}");
+			return true;
 		}
 	}
 }

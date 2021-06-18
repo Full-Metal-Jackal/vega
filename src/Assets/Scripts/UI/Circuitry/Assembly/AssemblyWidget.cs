@@ -11,14 +11,14 @@ namespace UI.CircuitConstructor
 	public class AssemblyWidget : MonoBehaviour, ITriggerable<Assembly>
 	{
 		public Assembly BoundAssembly { get; private set; }
-		public bool Initialized { get; private set; } = false;
+		public bool Initialized { get; protected set; } = false;
 
 		public float minZoom = .6f;
 		public float preferedZoom = .71f;
 
 		[SerializeField]
-		private AssemblyGridWidget grid;
-		public AssemblyGridWidget Grid => grid;
+		private AssemblyGrid grid;
+		public AssemblyGrid Grid => grid;
 
 		private void Awake()
 		{
@@ -48,6 +48,22 @@ namespace UI.CircuitConstructor
 		public bool Trigger(Assembly caller)
 		{
 			return true;
+		}
+
+		public void MoveCircuit(Circuit circuit, Vector2Int cell)
+		{
+			if (!BoundAssembly.MoveCircuit(circuit.BoundCircuit, cell))
+				return;
+
+
+		}
+
+		public void AddCircuit(Circuit circuit, Vector2Int cell)
+		{
+			if (!BoundAssembly.AddCircuit(circuit.BoundCircuit, cell))
+				return;
+
+
 		}
 	}
 }

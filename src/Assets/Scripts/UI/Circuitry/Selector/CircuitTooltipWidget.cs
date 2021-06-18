@@ -5,23 +5,24 @@ using UnityEngine.UI;
 
 namespace UI.CircuitConstructor
 {
-	public class CircuitTooltipWidget : MonoBehaviour
+	public class CircuitTooltipWidget : CircuitWidgetBase
 	{
-		public Text label;
-		public Text desc;
-		private Transform circuitHolder;
+		[SerializeField]
+		private Text label;
 
-		private void Awake()
+		[SerializeField]
+		private Text desc;
+
+		[SerializeField]
+		private RectTransform circuitHolder;
+		protected override RectTransform CircuitHolder => circuitHolder;
+
+		public override void Setup(GameObject circuitPrefab)
 		{
-			circuitHolder = transform.Find("PaddedContainer").Find("Circuit");
-		}
+			base.Setup(circuitPrefab);
 
-		public void DisplayCircuit(GameObject circuitWidgetPrefab)
-		{
-			CircuitWidget circuitWidget = Instantiate(circuitWidgetPrefab).GetComponent<CircuitWidget>();
-			circuitWidget.transform.SetParent(circuitHolder, false);
-
-			// <TODO> Make sure that circuitWidget is "deactivated" and can be used only for visualization.
+			label.text = Circuit.BoundCircuit.Label;
+			desc.text = Circuit.BoundCircuit.Desc;
 		}
 	}
 }

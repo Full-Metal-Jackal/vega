@@ -10,7 +10,7 @@ namespace UI.CircuitConstructor
 	{
 		public static bool echoToConsole = true;
 		public static Dictionary<Pin, PinWidget> pinBounds = new Dictionary<Pin, PinWidget>();
-		public static Dictionary<Circuit, CircuitWidget> circuitBounds = new Dictionary<Circuit, CircuitWidget>();
+		public static Dictionary<Circuitry.Circuit, CircuitWidget> circuitBounds = new Dictionary<Circuitry.Circuit, CircuitWidget>();
 		public static Dictionary<Assembly, AssemblyWidget> assemblyBounds = new Dictionary<Assembly, AssemblyWidget>();
 
 		public static void Log(string text)
@@ -29,8 +29,8 @@ namespace UI.CircuitConstructor
 
 		public static void Bind(Pin pin, PinWidget widget) => Bind(pin, widget, pinBounds);
 		public static void Bind(PinWidget widget) => Bind(widget.pin, widget);
-		public static void Bind(Circuit circuit, CircuitWidget widget) => Bind(circuit, widget, circuitBounds);
-		public static void Bind(CircuitWidget widget) => Bind(widget.BoundCircuit, widget);
+		public static void Bind(Circuitry.Circuit circuit, CircuitWidget widget) => Bind(circuit, widget, circuitBounds);
+		public static void Bind(CircuitWidget widget) => Bind(widget.Circuit.BoundCircuit, widget);
 		public static void Bind(Assembly assembly, AssemblyWidget widget) => Bind(assembly, widget, assemblyBounds);
 		public static void Bind(AssemblyWidget widget) => Bind(widget.BoundAssembly, widget);
 
@@ -46,7 +46,7 @@ namespace UI.CircuitConstructor
 		}
 
 		public static void Trigger(Pin pin) => Trigger(pin, pinBounds);
-		public static void Trigger(Circuit circuit) => Trigger(circuit, circuitBounds);
+		public static void Trigger(Circuitry.Circuit circuit) => Trigger(circuit, circuitBounds);
 		public static void Trigger(Assembly assembly) => Trigger(assembly, assemblyBounds);
 	}
 }

@@ -8,17 +8,20 @@ namespace UI.CircuitConstructor
 {
 	public class CellWidget : MonoBehaviour
 	{
-		public bool Initialized { get; private set; } = false;
-
 		[SerializeField]
 		private Color normalColor;
-		
+
 		[SerializeField]
 		private Color highlightedColor;
 
 		[SerializeField]
+		private Color errorColor;
+
+		[SerializeField]
 		private Image border;
 
-		public void SetHighlight(bool enabled) => border.color = enabled ? highlightedColor : normalColor;
+		private void Start() => SetHighlight(false);
+
+		public void SetHighlight(bool enabled, bool error = false) => border.color = enabled ? (error ? errorColor : highlightedColor) : normalColor;
 	}
 }

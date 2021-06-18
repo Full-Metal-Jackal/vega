@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 namespace UI.CircuitConstructor
 {
+	[RequireComponent(typeof(RectTransform))]
 	[RequireComponent(typeof(GridLayoutGroup))]
 	public class CellGridWidget : MonoBehaviour
 	{
-		public bool Initialized { get; private set; } = false;
+		public bool Initialized { get; protected set; } = false;
 
 		[SerializeField]
 		private GameObject cellPrefab;
 
-		public GridLayoutGroup Layout { get; protected set; }
+		public GridLayoutGroup Layout { get; private set; }
 
-		public CellWidget selectedWidget;
+		public RectTransform RectTransform { get; private set; }
 
 		protected Circuitry.Shape shape;
 
@@ -35,15 +36,16 @@ namespace UI.CircuitConstructor
 			}
 
 			Layout = GetComponent<GridLayoutGroup>();
+			RectTransform = GetComponent<RectTransform>();
 
 			return Initialized = true;
 		}
 
-		protected virtual GameObject CreateCell(Vector2Int cell)
+		protected virtual CellWidget CreateCell(Vector2Int cell)
 		{
 			GameObject cellObject = Instantiate(cellPrefab);
 			cellObject.transform.SetParent(Layout.transform, false);
-			return cellObject;
+			return cellObject.GetComponent<CellWidget>();
 		}
 
 		/// <summary>
@@ -58,7 +60,7 @@ namespace UI.CircuitConstructor
 		/// <summary>
 		/// Creates grid for a provided shape.
 		/// </summary>
-		/// <param name="shape"></param>
+		/// <param name="shape">Shape of the grid.</param>
 		public void BuildGrid(Circuitry.Shape shape)
 		{
 			ClearGrid();

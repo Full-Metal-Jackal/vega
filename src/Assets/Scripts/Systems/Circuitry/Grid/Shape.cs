@@ -108,6 +108,7 @@ namespace Circuitry
 				for (int y = 0; y < height; y++)
 					AddCell(new Vector2Int(x, y) + position);
 		}
+		public void AddRect(int width, int height) => AddRect(width, height, Vector2Int.zero);
 
 		public static Shape Empty => new Shape(new HashSet<Vector2Int>());
 		public static Shape Single => new Shape(new HashSet<Vector2Int>{ Vector2Int.zero });
