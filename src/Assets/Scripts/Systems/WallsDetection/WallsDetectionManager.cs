@@ -10,7 +10,7 @@ public class WallsDetectionManager : MonoBehaviour
 	private Mob player;
 	private Camera cam;
 	private int wallsId;
-	private int shadesId;
+	private int roomsId;
 	private int detectionRange = 1000;
 	public int layerMask1;
 	public int layerMask2;
@@ -19,13 +19,14 @@ public class WallsDetectionManager : MonoBehaviour
 	[SerializeField] private Material defaultMat;
 
 	private Transform curentWallDetection;
-	private Transform curentShadeDetection;
+	private Transform curentRoomDetection;
+	private Transform lastRoomDetection;
 	void Start()
 	{
 		wallsId = LayerMask.NameToLayer("StopCamRaycast");
-		shadesId = LayerMask.NameToLayer("RoomShade");
+		roomsId = LayerMask.NameToLayer("RoomDetector");
 		layerMask1 = 1 << wallsId;
-		layerMask2 = 1 << shadesId;
+		layerMask2 = 1 << roomsId;
 		player = GameObject.Find("Player").GetComponent<PlayerController>().possessAtStart;  //Still not optimal I think.
 		Debug.Log(player);
 		cam = Camera.main;
@@ -85,40 +86,60 @@ public class WallsDetectionManager : MonoBehaviour
 	{
 		RaycastHit hit;
 		Renderer[] selectionRenderer;
+		Transform walls;
 		Vector3 direction = new Vector3 (0, 5, 0);
 		if (Physics.Raycast(player.transform.position, direction, out hit, detectionRange, layerMask2))
 		{
-			if (curentShadeDetection != null)
+			var detection = hit.transform;
+			if (curentRoomDetection == null)
 			{
-				selectionRenderer = curentShadeDetection.GetComponents<Renderer>();
-				for (int i = 0; i < selectionRenderer.Length; i++)
+				curentRoomDetection = detection.transform.parent;
+				walls = curentRoomDetection.Find("Walls");
+				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
+				Debug.Log(selectionRenderer.Length);
+				if (selectionRenderer != null)
 				{
-					selectionRenderer[i].enabled = true;
-					curentShadeDetection = null;
+					for (int i = 0; i < selectionRenderer.Length; i++)
+					{
+						selectionRenderer[i].material = highlighMat;
+					}
 				}
 			}
-
-			Debug.DrawRay(player.transform.position, direction, Color.red);
-
-			var detection = hit.transform;
-			selectionRenderer = detection.GetComponents<Renderer>();
-			for (int i = 0; i < selectionRenderer.Length; i++)
+			
+			if (detection.transform.parent != curentRoomDetection)
 			{
-				selectionRenderer[i].enabled = false;
-				curentShadeDetection = detection;
-			}
+				walls = curentRoomDetection.Find("Walls");
+				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
+				for (int i = 0; i < selectionRenderer.Length; i++)
+				{
+					selectionRenderer[i].material = defaultMat;
+					curentRoomDetection = null;
+				}
 
+				Debug.DrawRay(player.transform.position, direction, Color.red);
+				curentRoomDetection = detection.transform.parent;
+				walls = curentRoomDetection.Find("Walls");
+				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
+				if (selectionRenderer != null)
+				{
+					for (int i = 0; i < selectionRenderer.Length; i++)
+					{
+						selectionRenderer[i].material = highlighMat;
+					}
+				}
+			}
 		}
 		else
 		{
 			Debug.DrawRay(player.transform.position, direction, Color.green);
-			if (curentShadeDetection != null)
+			if (curentRoomDetection != null)
 			{
-				selectionRenderer = curentShadeDetection.GetComponents<Renderer>();
+				walls = curentRoomDetection.Find("Walls");
+				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
 				for (int i = 0; i < selectionRenderer.Length; i++)
 				{
-					selectionRenderer[i].enabled = true;
-					curentShadeDetection = null;
+					selectionRenderer[i].material = defaultMat;
+					curentRoomDetection = null;
 				}
 			}
 		}
@@ -126,6 +147,6 @@ public class WallsDetectionManager : MonoBehaviour
 	void Update()
 	{
 		RayToZone();
-		RayToWalls();
+		//RayToWalls();
 	}
 }

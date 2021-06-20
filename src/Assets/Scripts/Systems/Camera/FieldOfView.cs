@@ -24,7 +24,7 @@ public class FieldOfView : MonoBehaviour
 		StartCoroutine("FindTargetDelay", .2f);
 	}
 
-	private void Update()
+	void LateUpdate()
 	{
 		DrawFieldOfView();
 	}
@@ -68,9 +68,10 @@ public class FieldOfView : MonoBehaviour
 		float stepAngleSize = viewAngle / stepCount;
 		List<Vector3> viewPoints = new List<Vector3>(); 
 
-		for (int i = 0; i <=stepCount; i++)
+		for (int i = 0; i <= stepCount; i++)
 		{
 			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+			Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
 			ViewCastInfo newViewCast = ViewCast(angle);
 			viewPoints.Add(newViewCast.point);
 		}
@@ -82,6 +83,7 @@ public class FieldOfView : MonoBehaviour
 
 		for (int i = 0; i < vertexCount - 1; i++)
 		{
+			vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 			if (i < vertexCount - 2)
 			{
 				vertices[i + 1] = viewPoints[i];
@@ -102,12 +104,15 @@ public class FieldOfView : MonoBehaviour
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
+
 		if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
 		{
+			Debug.DrawLine(transform.position, hit.point, Color.white);
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 		}
 		else
 		{
+			Debug.DrawLine(transform.position, transform.position + dir * viewRadius, Color.green);
 			return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
 		}
 	}
