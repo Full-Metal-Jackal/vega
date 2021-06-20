@@ -85,6 +85,6 @@ namespace UI.CircuitConstructor
 			}
 		}
 
-		protected void SkipCell() => new GameObject("BlankCell").transform.SetParent(Layout.transform);
+		protected virtual void SkipCell() => new GameObject("BlankCell").transform.SetParent(Layout.transform);
 	}
 }

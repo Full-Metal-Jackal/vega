@@ -20,6 +20,9 @@ namespace UI.CircuitConstructor
 		private AssemblyGrid grid;
 		public AssemblyGrid Grid => grid;
 
+		[SerializeField]
+		private RectTransform cirucitHolder;
+
 		private void Awake()
 		{
 			Initialize();
@@ -50,20 +53,33 @@ namespace UI.CircuitConstructor
 			return true;
 		}
 
-		public void MoveCircuit(Circuit circuit, Vector2Int cell)
+		public bool MoveCircuit(CircuitWidget circuitWidget, Vector2Int cell)
 		{
-			if (!BoundAssembly.MoveCircuit(circuit.BoundCircuit, cell))
-				return;
+			if (!BoundAssembly.MoveCircuit(circuitWidget.Circuit.BoundCircuit, cell))
+				return false;
 
-
+			PlaceCircuitOnGrid(circuitWidget, cell);
+			return true;
 		}
 
-		public void AddCircuit(Circuit circuit, Vector2Int cell)
+		public bool AddCircuit(CircuitWidget circuitWidget, Vector2Int cell)
 		{
-			if (!BoundAssembly.AddCircuit(circuit.BoundCircuit, cell))
-				return;
+			if (!BoundAssembly.AddCircuit(circuitWidget.Circuit.BoundCircuit, cell))
+				return false;
 
+			PlaceCircuitOnGrid(circuitWidget, cell);
+			return true;
+		}
 
+		public void PlaceCircuitOnGrid(CircuitWidget circuitWidget, Vector2Int cell)
+		{
+			circuitWidget.RectTransform.SetParent(cirucitHolder, false);
+
+			// <TODO> Ivestigate why y-coordinate has to be inverted.
+			Vector2 positionOnGrid = grid.GetCellWidget(cell).GetComponent<RectTransform>().anchoredPosition;
+			positionOnGrid += (grid.RectTransform.rect.min * new Vector2Int(1, -1)) - circuitWidget.Circuit.OriginOffset;
+
+			circuitWidget.RectTransform.anchoredPosition = positionOnGrid;
 		}
 	}
 }

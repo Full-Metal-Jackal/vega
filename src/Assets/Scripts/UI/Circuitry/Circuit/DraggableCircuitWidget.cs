@@ -11,16 +11,10 @@ namespace UI.CircuitConstructor
 		private GameObject circuitGhostPrefab;
 		private GhostCircuitWidget ghost;
 
-		public Vector2 GripOffset
-		{
-			get
-			{
-				Vector2 gripOffset = -(Circuit.Grid.Layout.cellSize * .5f + Circuit.Grid.RectTransform.rect.min);
-				return gripOffset * RectTransform.localScale;
-			}
-		}
+		// In future, we may want to change this value to implement the ability to drag circuits at specific point.
+		public Vector2 GripOffset => Circuit.OriginOffset;
 
-		public void OnBeginDrag(PointerEventData eventData)
+		public virtual void OnBeginDrag(PointerEventData eventData)
 		{
 			CreateGhost();
 		}
@@ -29,7 +23,7 @@ namespace UI.CircuitConstructor
 		{
 			ghost = Instantiate(circuitGhostPrefab).GetComponent<GhostCircuitWidget>();
 			ghost.RectTransform.SetParent(Game.circuitConstructor.transform, false);
-			ghost.Setup(CircuitPrefab, GripOffset);
+			ghost.Setup(this, CircuitPrefab, GripOffset);
 		}
 
 		public virtual void OnEndDrag(PointerEventData eventData)

@@ -20,8 +20,23 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private Image border;
 
+		[SerializeField]
+		private Image background;
+
 		private void Start() => SetHighlight(false);
 
-		public void SetHighlight(bool enabled, bool error = false) => border.color = enabled ? (error ? errorColor : highlightedColor) : normalColor;
+		public Color BorderColor
+		{
+			get => border.color;
+			set => border.color = value;
+		}
+
+		public Color BackgroundColor
+		{
+			get => background.color;
+			set => background.color = value;
+		}
+
+		public void SetHighlight(bool enabled, bool error = false) => BorderColor = enabled ? (error ? errorColor : highlightedColor) : normalColor;
 	}
 }

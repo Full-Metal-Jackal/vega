@@ -120,7 +120,7 @@ namespace Circuitry
 		{
 			bool found = false;
 
-			foreach (Vector2Int cell in cells.Keys.Where((Vector2Int c) => cells[c] == circuit))
+			foreach (Vector2Int cell in  new HashSet<Vector2Int>(cells.Keys.Where((Vector2Int c) => cells[c] == circuit)))
 			{
 				cells[cell] = null;
 				found = true;

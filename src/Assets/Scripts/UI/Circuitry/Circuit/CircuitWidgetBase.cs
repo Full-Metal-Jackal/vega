@@ -9,8 +9,8 @@ namespace UI.CircuitConstructor
 		public bool Initialized { get; protected set; } = false;
 
 		[SerializeField]
-		private GameObject circuitPrefab;
-		public GameObject CircuitPrefab => circuitPrefab;
+		private GameObject startCircuitPrefab;
+		public GameObject CircuitPrefab { get; protected set; }
 
 		public RectTransform RectTransform { get; private set; }
 
@@ -43,15 +43,18 @@ namespace UI.CircuitConstructor
 
 		protected virtual void Setup()
 		{
-			if (circuitPrefab)
-				Setup(circuitPrefab);
+			if (startCircuitPrefab)
+				Setup(startCircuitPrefab);
 		}
 
 		public virtual void Setup(GameObject circuitPrefab)
 		{
+			CircuitPrefab = circuitPrefab;
+
 			GameObject circuitObject = Instantiate(circuitPrefab);
 			if (!circuitObject.TryGetComponent(out Circuit circuit))
 				throw new System.Exception($"Attempted to create invalid visualization for {this}");
+			
 			circuitObject.transform.SetParent(CircuitHolder, false);
 
 			Circuit = circuit;

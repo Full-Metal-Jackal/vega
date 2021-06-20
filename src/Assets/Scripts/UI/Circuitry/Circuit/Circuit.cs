@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Circuitry;
+using System;
 
 namespace UI.CircuitConstructor
 {
@@ -31,6 +32,11 @@ namespace UI.CircuitConstructor
 
 		[SerializeField]
 		private RectTransform pulseOutputs;
+
+		public Vector2 OriginOffset => -(Grid.Layout.cellSize * (BoundCircuit.Shape.GetSize() - Vector2Int.one) * new Vector2Int(1, -1) * .5f) * RectTransform.localScale;
+		
+		[ObsoleteAttribute("This getter is actually more reliable, but won't work until the grid is setup. May be merged with the previous one later.")]
+		public Vector2 OriginOffsetByGrid => -(Grid.Layout.cellSize * .5f + Grid.RectTransform.rect.min) * RectTransform.localScale;
 
 		public RectTransform RectTransform { get; private set; }
 		public Circuitry.Circuit BoundCircuit { get; private set; }

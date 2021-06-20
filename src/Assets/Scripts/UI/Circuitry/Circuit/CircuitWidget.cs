@@ -2,18 +2,41 @@
 using UnityEngine.UI;
 
 using Circuitry;
+using UnityEngine.EventSystems;
 
 namespace UI.CircuitConstructor
 {
+	[RequireComponent(typeof(CanvasGroup))]
 	public class CircuitWidget : DraggableCircuitWidget, ITriggerable<Circuitry.Circuit>
 	{
+		private CanvasGroup canvasGroup;
+
 		[SerializeField]
 		private GameObject cooldownOverlayPrefab;
 		private CircuitCooldownOverlay cooldownOverlay;
 
-		protected override void Setup()
+		protected override bool Initialize()
 		{
+			canvasGroup = GetComponent<CanvasGroup>();
+			return base.Initialize();
+		}
+
+		public override void Setup(GameObject circuitPrefab)
+		{
+			base.Setup(circuitPrefab);
 			CreateCooldownOverlay();
+		}
+
+		public override void OnBeginDrag(PointerEventData eventData)
+		{
+			base.OnBeginDrag(eventData);
+			canvasGroup.blocksRaycasts = false;
+		}
+
+		public override void OnEndDrag(PointerEventData eventData)
+		{
+			base.OnEndDrag(eventData);
+			canvasGroup.blocksRaycasts = true;
 		}
 
 		public void CreateCooldownOverlay()
@@ -24,6 +47,7 @@ namespace UI.CircuitConstructor
 				return;
 			}
 
+			Circuit.Icon.gameObject.AddComponent<Mask>();
 			GameObject cooldownOverlayObject = Instantiate(cooldownOverlayPrefab);
 			if (!cooldownOverlayPrefab.TryGetComponent(out cooldownOverlay))
 				throw new System.Exception($"{this} has invalid cooldown overlay prefab.");
@@ -46,7 +70,7 @@ namespace UI.CircuitConstructor
 
 		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)
 		{
-			assemblyWidget.MoveCircuit(Circuit, cell);
+			assemblyWidget.MoveCircuit(this, cell);
 		}
 	}
 }

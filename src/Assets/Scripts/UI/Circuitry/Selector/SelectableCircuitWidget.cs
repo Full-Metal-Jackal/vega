@@ -15,6 +15,9 @@ namespace UI.CircuitConstructor
 		private GameObject tooltipPrefab;
 		private GameObject tooltipObject;
 
+		[SerializeField]
+		private GameObject circuitWidgetPrefab;
+
 		public float initialTooltipDelay = .5f;
 		private float tooltipDelay = 0f;
 		private bool hovered = false;
@@ -69,11 +72,13 @@ namespace UI.CircuitConstructor
 			if (tooltipDelay > initialTooltipDelay)
 				CreateTooltip();
 		}
-
 		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)
 		{
-			Circuit copy = Instantiate(CircuitPrefab).GetComponent<Circuit>();
-			assemblyWidget.AddCircuit(copy, cell);
+			CircuitWidget circuitWidget = Instantiate(circuitWidgetPrefab).GetComponent<CircuitWidget>();
+			circuitWidget.Setup(CircuitPrefab);
+
+			if (!assemblyWidget.AddCircuit(circuitWidget, cell))
+				Destroy(circuitWidget.gameObject);
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace UI.CircuitConstructor
 	public class GhostCircuitWidget : CircuitWidgetBase
 	{
 		public GameObject CircuitWidgetPrefab { get; protected set; }
+		public DraggableCircuitWidget Source { get; protected set; }
 
 		private Vector2 gripOffset;
 
@@ -26,8 +27,9 @@ namespace UI.CircuitConstructor
 			}
 		}
 
-		public void Setup(GameObject circuitPrefab, Vector2 offset)
+		public void Setup(DraggableCircuitWidget source, GameObject circuitPrefab, Vector2 offset)
 		{
+			Source = source;
 			gripOffset = offset;
 			Setup(circuitPrefab);
 		}

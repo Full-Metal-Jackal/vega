@@ -28,12 +28,13 @@ namespace UI.CircuitConstructor
 			if (Selected == gridCell)
 				return;
 
-			Shape shape = ghost.Circuit.BoundCircuit.Shape;
+			Shape shape = ghost.Source.Circuit.BoundCircuit.Shape;
 			DeselectPrevious(shape);
 
 			Selected = gridCell;
 
-			bool error = !assemblyWidget.BoundAssembly.grid.DoesFit(shape, gridCell);
+			IEnumerable<Circuitry.Circuit> toIgnore = new HashSet<Circuitry.Circuit> { ghost.Source.Circuit.BoundCircuit };
+			bool error = !assemblyWidget.BoundAssembly.grid.DoesFit(shape, gridCell, toIgnore);
 
 			foreach (Vector2Int cell in shape.Cells)
 				if (GetCellWidget(Selected + cell) is CellWidget widget)
@@ -48,7 +49,7 @@ namespace UI.CircuitConstructor
 
 		public void OnGhostDestroyed(GhostCircuitWidget ghost)
 		{
-			DeselectPrevious(ghost.Circuit.BoundCircuit.Shape);
+			DeselectPrevious(ghost.Source.Circuit.BoundCircuit.Shape);
 		}
 
 		public Vector2Int GetCell(Vector2 position)
@@ -79,6 +80,7 @@ namespace UI.CircuitConstructor
 			if (!eventData.pointerDrag.TryGetComponent(out DraggableCircuitWidget draggable))
 				return;
 
+			Debug.Log($"Sieg!!");
 			Vector2Int cell = GetCell(eventData.position + draggable.GripOffset);
 			draggable.DropOnAssembly(assemblyWidget, cell);
 		}
