@@ -5,7 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
 	public string Name = "unnamed entity";
-	public bool Initialized { get; private set; } = false;
+	public bool Initialized { get; protected set; } = false;
 
 	protected Outline outerOutline;
 	public Outline OuterOutline

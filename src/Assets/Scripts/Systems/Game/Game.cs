@@ -12,12 +12,15 @@ public static class Game
 	/// The player controller singleton.
 	/// </summary>
 	public static PlayerController playerController;
+
 	/// <summary>
 	/// The camera controller singleton.
 	/// </summary>
 	public static CameraController cameraController;
+	
+	// <TODO> May be we should move UI related stuff to another static class later?
 	/// <summary>
-	/// The circuit constructor UI handler singleton.
+	/// The circuit constructor UI singleton.
 	/// </summary>
 	public static UI.CircuitConstructor.CircuitConstructor circuitConstructor;
 

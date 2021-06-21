@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DroneController : MobController
 {
-	public DroneAssembly assembly;
+	public Circuitry.DroneAssembly assembly;
 }

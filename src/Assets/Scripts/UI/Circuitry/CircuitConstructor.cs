@@ -6,33 +6,45 @@ namespace UI.CircuitConstructor
 {
 	public class CircuitConstructor : MonoBehaviour
 	{
+		[field: SerializeField]
+		public ConstructorViewport Viewport { get; private set; }
+		public Vector2 ViewportScale => Viewport.Content.localScale;
 
-		public GameObject circuitPrefab;
-
-		public Assembly assembly;
+		[field: SerializeField]
+		public AssemblyWidget AssemblyWidget { get; private set; }
 
 		public bool Initialized { get; private set; }
 
 		public bool IsOpened => gameObject.activeInHierarchy;
 
-		private void Start()
+		private void Awake()
 		{
 			Initialize();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Game.circuitConstructor)
 				throw new System.Exception($"Multiple instances of circuit constructor detected: {this}, {Game.circuitConstructor}");
 			Game.circuitConstructor = this;
 
-			gameObject.SetActive(false);
-			enabled = false;
-
-			if (!circuitPrefab)
-				throw new System.Exception("No circuit prefab provided to the circuit constructor.");
+			if (!Viewport)
+				throw new System.Exception("No viewport assigned to the circuit constructor.");
 
 			return Initialized = true;
+		}
+
+		private void Start()
+		{
+			Setup();
+		}
+
+		public void Setup()
+		{
+			// <TODO> Remove this as soon as we implement OpenAssembly.
+			Viewport.Zoom = .7f;
+
+			gameObject.SetActive(false);
 		}
 
 		public void Open()
@@ -42,6 +54,25 @@ namespace UI.CircuitConstructor
 			Game.inputState = InputState.UIOnly;
 		}
 
+		public void Open(AssemblyWidget assemblyWidget)
+		{
+			Open();
+
+			throw new System.NotImplementedException();
+
+			// OpenAssembly(assemblyWidget);
+		}
+
+		public void OpenAssembly(AssemblyWidget assemblyWidget)
+		{
+			AssemblyWidget = assemblyWidget;
+
+			Viewport.minZoom = assemblyWidget.minZoom;
+			Viewport.Zoom = assemblyWidget.preferedZoom;
+
+			throw new System.NotImplementedException();
+		}
+
 		public void Close()
 		{
 			Debug.Log("Closing the circuit constructor...");
@@ -49,7 +80,7 @@ namespace UI.CircuitConstructor
 			Game.inputState = InputState.WorldOnly;
 		}
 
-		public void ShowCircuitInfo(Circuit circuit)
+		public void ShowCircuitInfo(Circuitry.Circuit circuit)
 		{
 			Debug.Log($"Information about {circuit} should be shown now.");
 		}

@@ -42,7 +42,7 @@ namespace UI
 		protected void DrawAngled(VertexHelper vh, Vector2 from, Vector2 to, Vector2 post)
 		{
 			const float straightEdge = 90f;
-			Vector2 fromOffset = Quaternion.Euler(0, 0, straightEdge) * ((to - from).normalized * thickness);
+			Vector2 fromOffset = GetUniformOffset((to - from), straightEdge);
 
 			float toAngle = Vector3.SignedAngle(post - to, from - to, Vector3.forward);
 			Vector2 toOffset = GetUniformOffset(post - to, toAngle / 2);
@@ -83,7 +83,7 @@ namespace UI
 				return;
 			}
 
-			// <TODO> Still not optimized for 3 vertices case for it generates additional two points at the start segment.
+			// <TODO> Still not optimized for 3 segments line case for it generates two additional vertices at the start segment.
 
 			DrawAngled(vh, dots[0], dots[1], dots[2]);
 			for (int i = 1; i <= dots.Count - 4; i++)
@@ -92,8 +92,6 @@ namespace UI
 			DrawAngled(vh, dots[dots.Count - 1], dots[dots.Count - 2], dots[dots.Count - 3]);
 			int index = vh.currentVertCount - 6;
 			JoinQuad(vh, index + 1, index, index + 5, index + 4);
-
-			Debug.Log(vh.currentVertCount);
 		}
 	}
 }

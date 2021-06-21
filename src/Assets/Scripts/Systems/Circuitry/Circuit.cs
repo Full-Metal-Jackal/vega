@@ -7,31 +7,31 @@ namespace Circuitry
 	public delegate bool CircuitAction();
 
 	/// <summary>
-	/// Represents a circuit.
+	/// Represents a circuit in assembly.
+	/// 
+	/// Ideally should be completely devoid of MonoBehaviour inheritance.
 	/// </summary>
-	public abstract class Circuit : MonoBehaviour
+	public class Circuit : MonoBehaviour
 	{
 		public bool Initialized { get; set; } = false;
 
-		/// <summary>
-		/// The name of the circuit.
-		/// </summary>
-		public string label;
+		[field: SerializeField]
+		public string Label { get; private set; }
 
-		/// <summary>
-		/// Description of the circuit shown in the constructor.
-		/// </summary>
-		public string desc;
+		[field: SerializeField]
+		public string Desc { get; private set; }
+
+		public Category category;
 
 		/// <summary>
 		/// The assembly this circuit is attached to.
 		/// </summary>
-		public Assembly assembly;
+		protected Assembly assembly;
 
 		/// <summary>
 		/// The grid cells occupied by this circuit.
 		/// </summary>
-		public readonly Shape shape;
+		public Shape Shape { get; protected set; }
 
 		/// <summary>
 		/// List of circuit data inputs.
@@ -70,19 +70,15 @@ namespace Circuitry
 
 		/// <summary>
 		/// How much power is withdrawn from the assembly per single use.
+		/// This value is shown in the circuit info tooltip, but may vary in the circuit implementation.
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
 
 		/// <summary>
 		/// How much time should pass between two uses of this circuit.
+		/// This value is shown in the circuit info tooltip, but may vary in the circuit implementation.
 		/// </summary>
 		public virtual float CooldownPerUse => .1f;
-
-		public Circuit()
-		{
-			shape = Shape.Single;
-			PowerInput = new InputTerminal(this);
-		}
 
 		/// <summary>
 		/// Makes the circuit inactive for the set amount of time.
@@ -92,15 +88,16 @@ namespace Circuitry
 		public void Sleep(float time)
 		{
 			Cooldown = time;
-			UI.CircuitConstructor.EventHandler.Trigger(this);
+			UI.CircuitConstructor.EventHandler.Trigger(this, "cooldown");
 		}
 
 		private void Awake()
 		{
 			Initialize();
+			Setup();
 		}
 
-		private bool Initialize()
+		protected virtual bool Initialize()
 		{
 			if (Initialized)
 			{
@@ -108,12 +105,15 @@ namespace Circuitry
 				return false;
 			}
 
-			Setup();
+			Shape = Shape.Single;
+			PowerInput = new InputTerminal(this);
 
 			return Initialized = true;
 		}
 
-		public abstract void Setup();
+		public virtual void Setup()
+		{
+		}
 
 		private void FixedUpdate()
 		{
@@ -236,6 +236,6 @@ namespace Circuitry
 		/// <returns>Attached pulse output pins.</returns>
 		public IEnumerable<PulseOutput> GetPulseOutputs() => new List<PulseOutput>(pulseOutputs);
 
-		public override string ToString() => label;
+		public override string ToString() => Label;
 	}
 }
