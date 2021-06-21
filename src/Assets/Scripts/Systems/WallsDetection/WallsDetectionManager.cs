@@ -14,21 +14,22 @@ public class WallsDetectionManager : MonoBehaviour
 	private int detectionRange = 1000;
 	public int layerMask1;
 	public int layerMask2;
-	[SerializeField] private string detectableTag = "Detectable";
-	[SerializeField] private Material highlighMat;
-	[SerializeField] private Material defaultMat;
+	[SerializeField] 
+	private string detectableTag = "Detectable";
+	[SerializeField] 
+	private Material highlighMat;
+	[SerializeField] 
+	private Material defaultMat;
 
 	private Transform curentWallDetection;
 	private Transform curentRoomDetection;
-	private Transform lastRoomDetection;
 	void Start()
 	{
 		wallsId = LayerMask.NameToLayer("StopCamRaycast");
 		roomsId = LayerMask.NameToLayer("RoomDetector");
 		layerMask1 = 1 << wallsId;
 		layerMask2 = 1 << roomsId;
-		player = GameObject.Find("Player").GetComponent<PlayerController>().possessAtStart;  //Still not optimal I think.
-		Debug.Log(player);
+		player = Game.playerController.possessAtStart;
 		cam = Camera.main;
 	}
 
@@ -115,12 +116,15 @@ public class WallsDetectionManager : MonoBehaviour
 					selectionRenderer[i].material = defaultMat;
 				}
 				HideObjects();
+				ShowShadow();
 				curentRoomDetection = null;
 				Debug.DrawRay(player.transform.position, direction, Color.red);
+
 				curentRoomDetection = detection.transform.parent;
 				walls = curentRoomDetection.Find("Walls");
 				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
 				ShowObjects();
+				HideShadow();
 				if (selectionRenderer != null)
 				{
 					for (int i = 0; i < selectionRenderer.Length; i++)
@@ -170,7 +174,27 @@ public class WallsDetectionManager : MonoBehaviour
 				selectionRenderer[i].enabled = false;
 			}
 		}
-		
+	}
+
+	void HideShadow()
+	{
+		Transform shade = curentRoomDetection.Find("ShadeRoomPlane");
+		if (shade != null)
+		{
+			Renderer selectionRenderer = shade.GetComponentInChildren<Renderer>();
+			selectionRenderer.enabled = false;
+			shade.GetComponent<RoomShade>().changeState();
+		}
+	}
+
+	void ShowShadow()
+	{
+		Transform shade = curentRoomDetection.Find("ShadeRoomPlane");
+		if (shade != null)
+		{
+			Renderer selectionRenderer = shade.GetComponentInChildren<Renderer>();
+			selectionRenderer.enabled = true;
+		}
 	}
 	void Update()
 	{
