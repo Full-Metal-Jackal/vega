@@ -27,6 +27,11 @@ namespace UI.CircuitConstructor
 			base.Setup();
 		}
 
+		public override void PostBeginDrag(PointerEventData eventData)
+		{
+			DestroyTooltip();
+		}
+
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			hovered = true;

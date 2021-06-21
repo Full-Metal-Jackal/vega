@@ -15,10 +15,6 @@ namespace UI.CircuitConstructor
 		private Text desc;
 
 		[SerializeField]
-		private RectTransform circuitHolder;
-		protected override RectTransform CircuitHolder => circuitHolder;
-
-		[SerializeField]
 		private CircuitPorts ports;
 
 		protected override bool Initialize()

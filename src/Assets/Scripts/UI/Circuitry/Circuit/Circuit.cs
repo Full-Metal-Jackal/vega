@@ -13,13 +13,11 @@ namespace UI.CircuitConstructor
 	{
 		public bool Initialized { get; protected set; } = false;
 
-		[SerializeField]
-		private Image icon;
-		public Image Icon => icon;
+		[field: SerializeField]
+		public Image Icon { get; private set; }
 
-		[SerializeField]
-		private CellGridWidget grid;
-		public CellGridWidget Grid => grid;
+		[field: SerializeField]
+		public CellGridWidget Grid { get; private set; }
 
 		[SerializeField]
 		private RectTransform dataInputs;
@@ -67,7 +65,7 @@ namespace UI.CircuitConstructor
 
 		public virtual void Setup()
 		{
-			grid.BuildGrid(BoundCircuit.Shape);
+			Grid.BuildGrid(BoundCircuit.Shape);
 		}
 
 		private PinWidgetBase AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)

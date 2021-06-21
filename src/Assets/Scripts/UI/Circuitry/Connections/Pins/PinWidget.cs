@@ -18,9 +18,8 @@ namespace UI.CircuitConstructor
 		
 		protected readonly HashSet<TrackLineBuilder> tracks = new HashSet<TrackLineBuilder>();
 
-		[SerializeField]
-		private RectTransform buttonRectTransform;
-		public RectTransform ButtonRectTransform => buttonRectTransform;
+		[field: SerializeField]
+		public RectTransform ButtonRectTransform { get; private set; }
 
 		public override void Setup(Circuitry.Pin pin)
 		{

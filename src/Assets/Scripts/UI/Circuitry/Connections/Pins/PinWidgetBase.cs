@@ -11,9 +11,8 @@ namespace UI.CircuitConstructor
 		
 		public RectTransform RectTransform { get; private set; }
 
-		[SerializeField]
-		private Text label;
-		public Text Label => label;
+		[field: SerializeField]
+		public Text Label { get; private set; }
 
 		public Circuitry.Pin BoundPin { get; protected set; }
 

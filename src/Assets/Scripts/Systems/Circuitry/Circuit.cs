@@ -15,13 +15,11 @@ namespace Circuitry
 	{
 		public bool Initialized { get; set; } = false;
 
-		[SerializeField]
-		private string label;
-		public string Label => label;
+		[field: SerializeField]
+		public string Label { get; private set; }
 
-		[SerializeField]
-		private string desc;
-		public string Desc => desc;
+		[field: SerializeField]
+		public string Desc { get; private set; }
 
 		public Category category;
 
@@ -238,6 +236,6 @@ namespace Circuitry
 		/// <returns>Attached pulse output pins.</returns>
 		public IEnumerable<PulseOutput> GetPulseOutputs() => new List<PulseOutput>(pulseOutputs);
 
-		public override string ToString() => label;
+		public override string ToString() => Label;
 	}
 }

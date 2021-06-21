@@ -6,14 +6,12 @@ namespace UI.CircuitConstructor
 {
 	public class CircuitConstructor : MonoBehaviour
 	{
-		[SerializeField]
-		private ConstructorViewport viewport;
-		public ConstructorViewport Viewport => viewport;
+		[field: SerializeField]
+		public ConstructorViewport Viewport { get; private set; }
 		public Vector2 ViewportScale => Viewport.Content.localScale;
 
-		[SerializeField]
-		private AssemblyWidget assemblyWidget;
-		public AssemblyWidget AssemblyWidget => assemblyWidget;
+		[field: SerializeField]
+		public AssemblyWidget AssemblyWidget { get; private set; }
 
 		public bool Initialized { get; private set; }
 
@@ -30,7 +28,7 @@ namespace UI.CircuitConstructor
 				throw new System.Exception($"Multiple instances of circuit constructor detected: {this}, {Game.circuitConstructor}");
 			Game.circuitConstructor = this;
 
-			if (!viewport)
+			if (!Viewport)
 				throw new System.Exception("No viewport assigned to the circuit constructor.");
 
 			return Initialized = true;
@@ -44,7 +42,7 @@ namespace UI.CircuitConstructor
 		public void Setup()
 		{
 			// <TODO> Remove this as soon as we implement OpenAssembly.
-			viewport.Zoom = .7f;
+			Viewport.Zoom = .7f;
 
 			gameObject.SetActive(false);
 		}
@@ -67,10 +65,10 @@ namespace UI.CircuitConstructor
 
 		public void OpenAssembly(AssemblyWidget assemblyWidget)
 		{
-			this.assemblyWidget = assemblyWidget;
+			AssemblyWidget = assemblyWidget;
 
-			viewport.minZoom = assemblyWidget.minZoom;
-			viewport.Zoom = assemblyWidget.preferedZoom;
+			Viewport.minZoom = assemblyWidget.minZoom;
+			Viewport.Zoom = assemblyWidget.preferedZoom;
 
 			throw new System.NotImplementedException();
 		}

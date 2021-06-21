@@ -7,7 +7,8 @@ namespace UI.CircuitConstructor
 {
 	public class DataPinWidget : PinWidget
 	{
-		public UnityEngine.UI.Text value;
+		[field: SerializeField]
+		public UnityEngine.UI.Text Value { get; private set; }
 
 		public override bool TryConnect(Pin other)
 		{
@@ -41,7 +42,7 @@ namespace UI.CircuitConstructor
 
 		public void UpdateValue()
 		{
-			value.text = $"{(BoundPin as DataPin)?.Value}";
+			Value.text = $"{(BoundPin as DataPin)?.Value}";
 		}
 
 		public override void Setup(Pin pin)

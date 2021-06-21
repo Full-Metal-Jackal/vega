@@ -16,9 +16,8 @@ namespace UI.CircuitConstructor
 		public float minZoom = .6f;
 		public float preferedZoom = .71f;
 
-		[SerializeField]
-		private AssemblyGrid grid;
-		public AssemblyGrid Grid => grid;
+		[field: SerializeField]
+		public AssemblyGrid Grid { get; private set; }
 
 		[SerializeField]
 		private RectTransform cirucitHolder;
@@ -30,7 +29,7 @@ namespace UI.CircuitConstructor
 
 		private void Start()
 		{
-			grid.BuildGrid(BoundAssembly.grid);
+			Grid.BuildGrid(BoundAssembly.grid);
 		}
 
 		protected virtual bool Initialize()
@@ -84,8 +83,8 @@ namespace UI.CircuitConstructor
 			circuitWidget.RectTransform.SetParent(cirucitHolder, false);
 
 			// <TODO> Ivestigate why y-coordinate has to be inverted.
-			Vector2 positionOnGrid = grid.GetCellWidget(cell).GetComponent<RectTransform>().anchoredPosition;
-			positionOnGrid += (grid.RectTransform.rect.min * new Vector2Int(1, -1)) - circuitWidget.Circuit.OriginOffset;
+			Vector2 positionOnGrid = Grid.GetCellWidget(cell).GetComponent<RectTransform>().anchoredPosition;
+			positionOnGrid += (Grid.RectTransform.rect.min * new Vector2Int(1, -1)) - circuitWidget.Circuit.OriginOffset;
 
 			circuitWidget.RectTransform.anchoredPosition = positionOnGrid;
 		}

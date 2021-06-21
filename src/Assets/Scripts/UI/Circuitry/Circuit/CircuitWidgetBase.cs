@@ -8,6 +8,7 @@ namespace UI.CircuitConstructor
 	{
 		public bool Initialized { get; protected set; } = false;
 
+		// <TODO> ideally, will be removed in the future; we will use Setup(GameObject circuitPrefab) instead.
 		[SerializeField]
 		private GameObject startCircuitPrefab;
 		public GameObject CircuitPrefab { get; protected set; }
@@ -16,7 +17,8 @@ namespace UI.CircuitConstructor
 
 		public Circuit Circuit { get; private set; }
 
-		protected virtual RectTransform CircuitHolder => RectTransform;
+		[field: SerializeField]
+		public virtual RectTransform CircuitHolder { get; private set; }
 
 		private void Awake()
 		{
