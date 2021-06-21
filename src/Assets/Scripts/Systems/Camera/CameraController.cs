@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
 	public float positionTolerance = .02f;
 	private Vector3 currentVelocity = Vector3.zero;
 
-	private void Start()
+	private void Awake()
 	{
 		if (Game.cameraController)
 			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.cameraController}");

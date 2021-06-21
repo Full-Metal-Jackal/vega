@@ -17,7 +17,7 @@ public class Entity : MonoBehaviour
 		}
 	}
 
-	void Start()
+	void Awake()
 	{
 		enabled = false;
 		if (Initialize())
@@ -40,9 +40,7 @@ public class Entity : MonoBehaviour
 
 		TryGetComponent(out outerOutline);
 
-		Initialized = true;
-		enabled = true;
-		return true;
+		return Initialized = true;
 	}
 
 	public virtual bool Spawn(Vector3 pos)

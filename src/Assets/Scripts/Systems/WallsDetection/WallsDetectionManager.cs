@@ -17,7 +17,7 @@ public class WallsDetectionManager : MonoBehaviour
 	[SerializeField] private Material defaultMat;
 
 	private Transform curentDetection;
-	void Start()
+	void Awake()
 	{
 		player = GameObject.Find("Human");  //<TODO> Need another way to find player model
 		cam = Camera.main;
