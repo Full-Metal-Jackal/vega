@@ -20,17 +20,21 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private GameObject pulseOutputPrefab;
 
+		protected readonly HashSet<PinWidgetBase> pins = new HashSet<PinWidgetBase>();
+
 		public void Setup(Circuit circuit)
 		{
 			// кайкоц краирсирсый окдок прияптнонго аетпаиатаа!!
 			foreach (DataInput input in circuit.BoundCircuit.GetDataInputs())
-				circuit.AddPin(dataInputPrefab, input);
+				pins.Add(circuit.AddPin(dataInputPrefab, input));
 			foreach (DataOutput output in circuit.BoundCircuit.GetDataOutputs())
-				circuit.AddPin(dataOutputPrefab, output);
+				pins.Add(circuit.AddPin(dataOutputPrefab, output));
 			foreach (PulseInput input in circuit.BoundCircuit.GetPulseInputs())
-				circuit.AddPin(pulseInputPrefab, input);
+				pins.Add(circuit.AddPin(pulseInputPrefab, input));
 			foreach (PulseOutput output in circuit.BoundCircuit.GetPulseOutputs())
-				circuit.AddPin(pulseOutputPrefab, output);
+				pins.Add(circuit.AddPin(pulseOutputPrefab, output));
 		}
+
+		public IEnumerable<PinWidgetBase> Pins => new HashSet<PinWidgetBase>(pins);
 	}
 }

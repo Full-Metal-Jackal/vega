@@ -14,9 +14,9 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private RectTransform tracksHolder;
 
-		protected TrackLineBuilder activeLine;
+		protected TrackLineBuilder activeTrack;
 		
-		protected HashSet<TrackLineBuilder> lines = new HashSet<TrackLineBuilder>();
+		protected readonly HashSet<TrackLineBuilder> tracks = new HashSet<TrackLineBuilder>();
 
 		[SerializeField]
 		private RectTransform buttonRectTransform;
@@ -34,18 +34,18 @@ namespace UI.CircuitConstructor
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			activeLine = CreateLine(RectTransform.position, eventData.position);
+			activeTrack = CreateTrackBuilder();
+			activeTrack.CreateLine(Vector3.zero, activeTrack.ScreenToPinLocal(this, eventData.position));
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			activeLine.UpdateLineEnd(eventData.position);
-			activeLine.Destroy();
+			activeTrack.Destroy();
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			activeLine.UpdateLineEnd(eventData.position);
+			activeTrack.UpdateLineEnd(activeTrack.ScreenToPinLocal(this, eventData.position));
 		}
 
 		public void OnDrop(PointerEventData eventData)
@@ -55,29 +55,34 @@ namespace UI.CircuitConstructor
 
 			if (TryConnect(pinWidget.BoundPin))
 			{
-				TrackLineBuilder conneciton = CreateLine(transform.position, pinWidget.transform.position);
-				lines.Add(conneciton);
+				TrackLineBuilder conneciton = CreateTrackBuilder();
+				conneciton.CreateLine(this, pinWidget);
+				tracks.Add(conneciton);
+				pinWidget.tracks.Add(conneciton);
 			}
 		}
 
 		public virtual bool TryConnect(Circuitry.Pin other) => false;
 
-		public TrackLineBuilder CreateLine(Vector2 from, Vector2 to)
+		private TrackLineBuilder CreateTrackBuilder()
 		{
 			GameObject trackLineObject = Instantiate(trackLinePrefab);
-			trackLineObject.transform.SetParent(tracksHolder);
-			
-			TrackLineBuilder trackLine = trackLineObject.GetComponent<TrackLineBuilder>();
-			trackLine.CreateLine(from, to);
+			trackLineObject.transform.SetParent(tracksHolder, false);
 
+			return trackLineObject.GetComponent<TrackLineBuilder>();
+		}
+
+		public TrackLineBuilder CreateLine(Vector2 from, Vector2 to)
+		{
+			TrackLineBuilder trackLine = CreateTrackBuilder();
+			trackLine.CreateLine(from, to);
 			return trackLine;
 		}
 
 		public void UpdateLines()
 		{
-			foreach (TrackLineBuilder line in lines)
-			{
-			}
+			foreach (TrackLineBuilder track in tracks)
+				track.UpdateLine();
 		}
 
 		public virtual bool Trigger(Circuitry.Pin caller, string eventLabel) => true;

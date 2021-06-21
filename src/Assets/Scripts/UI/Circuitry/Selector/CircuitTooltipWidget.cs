@@ -19,11 +19,11 @@ namespace UI.CircuitConstructor
 		protected override RectTransform CircuitHolder => circuitHolder;
 
 		[SerializeField]
-		private CircuitPorts connections;
+		private CircuitPorts ports;
 
 		protected override bool Initialize()
 		{
-			connections = GetComponent<CircuitPorts>();
+			ports = GetComponent<CircuitPorts>();
 
 			return base.Initialize();
 		}
@@ -34,7 +34,7 @@ namespace UI.CircuitConstructor
 
 			label.text = Circuit.BoundCircuit.Label;
 			desc.text = Circuit.BoundCircuit.Desc;
-			connections.Setup(Circuit);
+			ports.Setup(Circuit);
 		}
 	}
 }

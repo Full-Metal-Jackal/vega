@@ -16,12 +16,12 @@ namespace UI.CircuitConstructor
 		private GameObject cooldownOverlayPrefab;
 		private CircuitCooldownOverlay cooldownOverlay;
 
-		private CircuitPorts connections;
+		public CircuitPorts Ports { get; private set; }
 
 		protected override bool Initialize()
 		{
 			canvasGroup = GetComponent<CanvasGroup>();
-			connections = GetComponent<CircuitPorts>();
+			Ports = GetComponent<CircuitPorts>();
 
 			return base.Initialize();
 		}
@@ -31,7 +31,7 @@ namespace UI.CircuitConstructor
 			base.Setup(circuitPrefab);
 
 			CreateCooldownOverlay();
-			connections.Setup(Circuit);
+			Ports.Setup(Circuit);
 			EventHandler.Bind(this);
 		}
 
@@ -87,7 +87,11 @@ namespace UI.CircuitConstructor
 
 		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)
 		{
-			assemblyWidget.MoveCircuit(this, cell);
+			if (!assemblyWidget.MoveCircuit(this, cell))
+				return;
+
+			foreach (PinWidget pin in Ports.Pins)
+				pin.UpdateLines();
 		}
 	}
 }

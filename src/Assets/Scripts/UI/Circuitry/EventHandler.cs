@@ -8,7 +8,7 @@ namespace UI.CircuitConstructor
 {
 	public static class EventHandler
 	{
-		public static bool echoToConsole = false;
+		public static bool echoToConsole = true;
 
 		public static Dictionary<Pin, PinWidget> pinBounds = new Dictionary<Pin, PinWidget>();
 		public static Dictionary<Circuitry.Circuit, CircuitWidget> circuitBounds = new Dictionary<Circuitry.Circuit, CircuitWidget>();

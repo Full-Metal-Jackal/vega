@@ -9,6 +9,7 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private ConstructorViewport viewport;
 		public ConstructorViewport Viewport => viewport;
+		public Vector2 ViewportScale => Viewport.Content.localScale;
 
 		[SerializeField]
 		private AssemblyWidget assemblyWidget;

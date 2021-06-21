@@ -17,7 +17,8 @@ public static class Game
 	/// The camera controller singleton.
 	/// </summary>
 	public static CameraController cameraController;
-
+	
+	// <TODO> May be we should move UI related stuff to another static class later?
 	/// <summary>
 	/// The circuit constructor UI singleton.
 	/// </summary>

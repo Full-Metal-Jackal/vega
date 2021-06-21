@@ -36,7 +36,7 @@ namespace UI.CircuitConstructor
 
 		private void OnGUI()
 		{
-			RectTransform.localScale = Game.circuitConstructor.Viewport.Content.localScale;
+			RectTransform.localScale = Game.circuitConstructor.ViewportScale;
 		}
 
 		public void Suicide()

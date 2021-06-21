@@ -66,6 +66,7 @@ namespace UI.CircuitConstructor
 				return false;
 
 			PlaceCircuitOnGrid(circuitWidget, cell);
+
 			return true;
 		}
 
