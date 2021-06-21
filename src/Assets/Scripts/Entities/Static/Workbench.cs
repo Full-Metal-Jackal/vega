@@ -6,7 +6,8 @@
 
 	public bool OnUse(Mob mob)
 	{
-		Game.circuitConstructor.Open();
+		if (Game.circuitConstructor.Initialized)
+			Game.circuitConstructor.Open();
 		return true;
 	}
 }

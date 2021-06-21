@@ -9,27 +9,33 @@ public class PlayerController : MobController
 	/// The entity currently selected by the Possessed.
 	/// </summary>
 	public IInteractable SelectedEntity { get; protected set; }
-	private readonly Collider[] colliderBuffers = new Collider[16];
+	private readonly Collider[] colliderBuffer = new Collider[16];
 	private LayerMask interactableMask;
+
+	private bool requestDodging = false;
+	private bool isSprinting = false;
+	private bool isWalking = false;
 
 	/// <summary>
 	/// The angular size of selection sector.
 	/// </summary>
 	public float selectionScope = 45f;
+
 	/// <summary>
 	/// The radius of the selection sector.
 	/// </summary>
 	public float selectionDistance = 2f;
+
 	/// <summary>
 	/// The color of the outline of selected entities.
 	/// </summary>
 	public Color selectedColor = Color.white;
+
 	/// <summary>
 	/// The color of the outline of deselected entities.
 	/// <TODO> implement some constant or something instead of this
 	/// </summary>
 	public Color deselectedColor = Color.black;
-
 
 	private bool usePressed = false;
 
@@ -51,22 +57,48 @@ public class PlayerController : MobController
 			Game.cameraController.SetTrackedMob(mob);
 		return result;
 	}
-
-	protected override Vector3 GetMovement()
+	
+	protected override Vector3 GetMovement(out MovementState state)
 	{
+		state = MovementState.Standing;
+
 		if (!Game.IsWorldInputAllowed)
 			return Vector3.zero;
 
 		float x = Input.GetAxis("Horizontal");
 		float z = Input.GetAxis("Vertical");
 		Vector3 movement = new Vector3(x, 0, z);
+
+		// <TODO implement as soon as we switch to the new InputSystem.>
+		//isWalking = Input.GetKey("Walk");
+		//isSprinting = Input.GetKey("Sprint");
+
+		UpdateActions();
+		// The following checks should descend from those of critical importance to the less important ones.
+		if (requestDodging)
+		{
+			state = MovementState.Dodging;
+			requestDodging = false;
+		}
+		else if (isSprinting)
+		{
+			state = MovementState.Sprinting;
+		}
+		else if (isWalking)
+		{
+			state = MovementState.Walking;
+		}
+		else if (movement.magnitude != 0)
+		{
+			state = MovementState.Running;
+		}
+
 		return movement;
 	}
 
-	protected override void OnUpdate()
+	protected override void OnUpdate(float delta)
 	{
 		UpdateSelectedEntitiy();
-		UpdateActions();
 	}
 
 	protected void UpdateActions()
@@ -74,6 +106,8 @@ public class PlayerController : MobController
 		if (!Game.IsWorldInputAllowed)
 			return;
 
+		// We use GetButton instead of GetButtonDown because it will be far simplier
+		// to adjust to the new Unity's InputSystem this way.
 		if (Input.GetButton("Use"))
 		{
 			if (!usePressed && SelectedEntity is IInteractable interactable)
@@ -84,6 +118,9 @@ public class PlayerController : MobController
 		{
 			usePressed = false;
 		}
+
+		if (Input.GetButton("Jump"))
+			requestDodging = true;
 	}
 
 	public void SetSelectedOutline(bool selected)
@@ -92,7 +129,7 @@ public class PlayerController : MobController
 			outline.OutlineColor = selected ? selectedColor : deselectedColor;
 	}
 
-	void UpdateSelectedEntitiy()
+	public void UpdateSelectedEntitiy()
 	{
 		IInteractable newSelected = GetSelectedEntity();
 		if (newSelected != SelectedEntity)
@@ -118,8 +155,8 @@ public class PlayerController : MobController
 		Vector3 mobPos = Possessed.transform.position;
 		float minDist = selectionDistance;
 
-		Physics.OverlapSphereNonAlloc(mobPos, selectionDistance, colliderBuffers, interactableMask);
-		foreach (Collider collider in colliderBuffers)
+		Physics.OverlapSphereNonAlloc(mobPos, selectionDistance, colliderBuffer, interactableMask);
+		foreach (Collider collider in colliderBuffer)
 		{
 			if (!collider)
 				continue;

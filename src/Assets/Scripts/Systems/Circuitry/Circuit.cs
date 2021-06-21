@@ -11,15 +11,17 @@ namespace Circuitry
 	/// </summary>
 	public abstract class Circuit : MonoBehaviour
 	{
+		public bool Initialized { get; set; } = false;
+
 		/// <summary>
 		/// The name of the circuit.
 		/// </summary>
-		public readonly string label;
+		public string label;
 
 		/// <summary>
 		/// Description of the circuit shown in the constructor.
 		/// </summary>
-		public readonly string desc;
+		public string desc;
 
 		/// <summary>
 		/// The assembly this circuit is attached to.
@@ -27,14 +29,19 @@ namespace Circuitry
 		public Assembly assembly;
 
 		/// <summary>
+		/// The grid cells occupied by this circuit.
+		/// </summary>
+		public readonly Shape shape;
+
+		/// <summary>
 		/// List of circuit data inputs.
 		/// </summary>
-		private readonly List<DataInput<Data>> dataInputs = new List<DataInput<Data>>();
+		private readonly List<DataInput> dataInputs = new List<DataInput>();
 
 		/// <summary>
 		/// List of circuit data outputs.
 		/// </summary>
-		private readonly List<DataOutput<Data>> dataOutputs = new List<DataOutput<Data>>();
+		private readonly List<DataOutput> dataOutputs = new List<DataOutput>();
 
 		/// <summary>
 		/// List of circuit data inputs.
@@ -54,19 +61,26 @@ namespace Circuitry
 		/// <summary>
 		/// If the circuit is currently active (not affected by the Sleep method).
 		/// </summary>
-		public bool IsSleeping => (cooldown > 0f);
-		protected float cooldown = 0f;
+		public bool IsSleeping => (Cooldown > 0f);
+
+		/// <summary>
+		/// How much seconds left to the circuit's awakening.
+		/// </summary>
+		public float Cooldown { get; protected set; } = 0f;
 
 		/// <summary>
 		/// How much power is withdrawn from the assembly per single use.
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
 
-		public Circuit(string label, string desc)
-		{
-			this.label = label;
-			this.desc = desc;
+		/// <summary>
+		/// How much time should pass between two uses of this circuit.
+		/// </summary>
+		public virtual float CooldownPerUse => .1f;
 
+		public Circuit()
+		{
+			shape = Shape.Single;
 			PowerInput = new InputTerminal(this);
 		}
 
@@ -77,13 +91,34 @@ namespace Circuitry
 		/// <param name="time">Amount of seconds to sleep.</param>
 		public void Sleep(float time)
 		{
-			cooldown = time;
+			Cooldown = time;
+			UI.CircuitConstructor.EventHandler.Trigger(this);
 		}
+
+		private void Awake()
+		{
+			Initialize();
+		}
+
+		private bool Initialize()
+		{
+			if (Initialized)
+			{
+				Debug.LogWarning($"Multiple initialization attempts of {this}!");
+				return false;
+			}
+
+			Setup();
+
+			return Initialized = true;
+		}
+
+		public abstract void Setup();
 
 		private void FixedUpdate()
 		{
 			if (IsSleeping)
-				cooldown = Math.Max(cooldown - Time.fixedDeltaTime, 0f);
+				Cooldown = Math.Max(Cooldown - Time.fixedDeltaTime, 0f);
 		}
 
 		/// <summary>
@@ -111,12 +146,16 @@ namespace Circuitry
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the input.</param>
 		/// <returns>The added input.</returns>
-		public DataInput<T> AddDataInput<T>(string label)
+		public DataInput AddDataInput<T>(string label) where T : Data, new()
 		{
-			DataInput<T> pin = new DataInput<T>(this, label);
-			dataInputs.Add(pin as DataInput<Data>);
+			DataInput pin = new DataInput(this, label);
+			pin.Set(new T());
+
+			dataInputs.Add(pin);
 			return pin;
 		}
+
+		public DataInput AddDataInput(string label) => AddDataInput<Null>(label);
 
 		/// <summary>
 		/// Adds data output to the circuit.
@@ -124,12 +163,15 @@ namespace Circuitry
 		/// <typeparam name="T">Type of data. Must be derived from Circuitry.Data.</typeparam>
 		/// <param name="label">The name of the output.</param>
 		/// <returns>The added output.</returns>
-		public DataOutput<T> AddDataOutput<T>(string label)
+		public DataOutput AddDataOutput<T>(string label) where T : Data, new()
 		{
-			DataOutput<T> pin = new DataOutput<T>(this, label);
-			dataOutputs.Add(pin as DataOutput<Data>);
+			DataOutput pin = new DataOutput(this, label);
+			pin.Set(new T());
+
+			dataOutputs.Add(pin);
 			return pin;
 		}
+		public DataOutput AddDataOutput(string label) => AddDataOutput<Null>(label);
 
 		private PulseInput AddPulseInput(string label, CircuitAction action, PulseOutput pipeline = null)
 		{
@@ -169,5 +211,31 @@ namespace Circuitry
 		{
 			AddPulseInput(inputLabel, action, AddPulseOutput(outputLabel));
 		}
+
+		/// <summary>
+		/// Gets attached data input pins.
+		/// </summary>
+		/// <returns>Attached data input pins.</returns>
+		public IEnumerable<DataInput> GetDataInputs() => new List<DataInput>(dataInputs);
+
+		/// <summary>
+		/// Gets attached data output pins.
+		/// </summary>
+		/// <returns>Attached data output pins.</returns>
+		public IEnumerable<DataOutput> GetDataOutputs() => new List<DataOutput>(dataOutputs);
+
+		/// <summary>
+		/// Gets attached pulse input pins.
+		/// </summary>
+		/// <returns>Attached pulse input pins.</returns>
+		public IEnumerable<PulseInput> GetPulseInputs() => new List<PulseInput>(pulseInputs);
+
+		/// <summary>
+		/// Gets attached pulse output pins.
+		/// </summary>
+		/// <returns>Attached pulse output pins.</returns>
+		public IEnumerable<PulseOutput> GetPulseOutputs() => new List<PulseOutput>(pulseOutputs);
+
+		public override string ToString() => label;
 	}
 }

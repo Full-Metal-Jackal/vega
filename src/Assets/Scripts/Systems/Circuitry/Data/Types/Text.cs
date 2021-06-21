@@ -6,7 +6,7 @@ namespace Circuitry
 {
 	public class Text : Data
 	{
-		public new static readonly string typeName = "TEXT";
+		public override string TypeName => "TEXT";
 		public string Value { get; set; } = "";
 
 		public Text(string text)
@@ -19,5 +19,7 @@ namespace Circuitry
 
 		public static implicit operator Text(Number number) => number.ToString();
 		public static implicit operator Text(Bool boolean) => boolean;
+
+		public override string ToString() => $"\"{Value}\"";
 	}
 }

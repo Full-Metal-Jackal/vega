@@ -9,6 +9,7 @@ public class WallsDetectionManager : MonoBehaviour
 {
 	private Mob player;
 	private Camera cam;
+
 	private int wallsId;
 	private int roomsId;
 	private int detectionRange = 1000;
