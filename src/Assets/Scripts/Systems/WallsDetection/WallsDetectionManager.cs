@@ -95,8 +95,8 @@ public class WallsDetectionManager : MonoBehaviour
 			{
 				curentRoomDetection = detection.transform.parent;
 				walls = curentRoomDetection.Find("Walls");
+				ShowObjects();
 				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
-				Debug.Log(selectionRenderer.Length);
 				if (selectionRenderer != null)
 				{
 					for (int i = 0; i < selectionRenderer.Length; i++)
@@ -113,13 +113,14 @@ public class WallsDetectionManager : MonoBehaviour
 				for (int i = 0; i < selectionRenderer.Length; i++)
 				{
 					selectionRenderer[i].material = defaultMat;
-					curentRoomDetection = null;
 				}
-
+				HideObjects();
+				curentRoomDetection = null;
 				Debug.DrawRay(player.transform.position, direction, Color.red);
 				curentRoomDetection = detection.transform.parent;
 				walls = curentRoomDetection.Find("Walls");
 				selectionRenderer = walls.GetComponentsInChildren<Renderer>();
+				ShowObjects();
 				if (selectionRenderer != null)
 				{
 					for (int i = 0; i < selectionRenderer.Length; i++)
@@ -143,6 +144,33 @@ public class WallsDetectionManager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	void ShowObjects()
+	{
+		Transform obj = curentRoomDetection.Find("Furniture");
+		if (obj != null)
+		{
+			Renderer[] selectionRenderer = obj.GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < selectionRenderer.Length; i++)
+			{
+				selectionRenderer[i].enabled = true;
+			}
+		}
+	}
+
+	void HideObjects()
+	{
+		Transform obj = curentRoomDetection.Find("Furniture");
+		if (obj != null)
+		{
+			Renderer[] selectionRenderer = obj.GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < selectionRenderer.Length; i++)
+			{
+				selectionRenderer[i].enabled = false;
+			}
+		}
+		
 	}
 	void Update()
 	{
