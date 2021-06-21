@@ -8,7 +8,8 @@ namespace UI.CircuitConstructor
 {
 	public static class EventHandler
 	{
-		public static bool echoToConsole = true;
+		public static bool echoToConsole = false;
+
 		public static Dictionary<Pin, PinWidget> pinBounds = new Dictionary<Pin, PinWidget>();
 		public static Dictionary<Circuitry.Circuit, CircuitWidget> circuitBounds = new Dictionary<Circuitry.Circuit, CircuitWidget>();
 		public static Dictionary<Assembly, AssemblyWidget> assemblyBounds = new Dictionary<Assembly, AssemblyWidget>();
@@ -34,7 +35,7 @@ namespace UI.CircuitConstructor
 		public static void Bind(Assembly assembly, AssemblyWidget widget) => Bind(assembly, widget, assemblyBounds);
 		public static void Bind(AssemblyWidget widget) => Bind(widget.BoundAssembly, widget);
 
-		private static bool Trigger<CallerType, WidgetType>(CallerType caller, Dictionary<CallerType, WidgetType> dictionary) where WidgetType : ITriggerable<CallerType>
+		private static bool Trigger<CallerType, WidgetType>(CallerType caller, Dictionary<CallerType, WidgetType> dictionary, string eventLabel) where WidgetType : ITriggerable<CallerType>
 		{
 			if (!(Game.circuitConstructor && Game.circuitConstructor.IsOpened))
 				return false;
@@ -42,11 +43,11 @@ namespace UI.CircuitConstructor
 			if (!dictionary.ContainsKey(caller))
 				return false;
 
-			return dictionary[caller].Trigger(caller);
+			return dictionary[caller].Trigger(caller, eventLabel);
 		}
 
-		public static void Trigger(Pin pin) => Trigger(pin, pinBounds);
-		public static void Trigger(Circuitry.Circuit circuit) => Trigger(circuit, circuitBounds);
-		public static void Trigger(Assembly assembly) => Trigger(assembly, assemblyBounds);
+		public static void Trigger(Pin pin, string eventLabel = "") => Trigger(pin, pinBounds, eventLabel);
+		public static void Trigger(Circuitry.Circuit circuit, string eventLabel = "") => Trigger(circuit, circuitBounds, eventLabel);
+		public static void Trigger(Assembly assembly, string eventLabel = "") => Trigger(assembly, assemblyBounds, eventLabel);
 	}
 }

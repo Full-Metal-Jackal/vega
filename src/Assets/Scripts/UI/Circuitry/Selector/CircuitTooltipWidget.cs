@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.CircuitConstructor
 {
-	[RequireComponent(typeof(CircuitConnections))]
+	[RequireComponent(typeof(CircuitPorts))]
 	public class CircuitTooltipWidget : CircuitWidgetBase
 	{
 		[SerializeField]
@@ -19,11 +19,11 @@ namespace UI.CircuitConstructor
 		protected override RectTransform CircuitHolder => circuitHolder;
 
 		[SerializeField]
-		private CircuitConnections connections;
+		private CircuitPorts connections;
 
 		protected override bool Initialize()
 		{
-			connections = GetComponent<CircuitConnections>();
+			connections = GetComponent<CircuitPorts>();
 
 			return base.Initialize();
 		}

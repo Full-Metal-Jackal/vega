@@ -21,12 +21,20 @@ namespace UI.CircuitConstructor
 			return connected;
 		}
 
-		public override bool Trigger(Pin caller)
+		public override bool Trigger(Pin caller, string eventLabel)
 		{
-			if (!base.Trigger(caller))
+			if (!base.Trigger(caller, eventLabel))
 				return false;
 
-			UpdateValue();
+			switch (eventLabel)
+			{
+			case "valueChange":
+				UpdateValue();
+				break;
+			default:
+				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
+				return false;
+			}
 
 			return true;
 		}

@@ -20,15 +20,12 @@ namespace UI.CircuitConstructor
 
 		public void StartCooldownAnimation(float cooldown)
 		{
-			initialCooldown = cooldown;
-			currentCooldown = initialCooldown;
+			currentCooldown = initialCooldown = cooldown;
 			gameObject.SetActive(true);
-			Debug.Log($"{gameObject}: CD for {cooldown} secs began.");
 		}
 
 		private void Update()
 		{
-			Debug.Log($"CD for {currentCooldown} remains...");
 			currentCooldown -= Time.deltaTime;
 			if (currentCooldown <= 0)
 				gameObject.SetActive(false);

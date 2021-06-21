@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI
 {
 	[RequireComponent(typeof(CanvasRenderer))]
-	public class UIGraphics : Graphic
+	public class UIGraphics : MaskableGraphic
 	{
 		protected override void OnPopulateMesh(VertexHelper vh)
 		{

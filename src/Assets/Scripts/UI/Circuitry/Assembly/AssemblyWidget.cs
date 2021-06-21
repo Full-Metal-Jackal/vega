@@ -48,9 +48,16 @@ namespace UI.CircuitConstructor
 			return Initialized = true;
 		}
 
-		public bool Trigger(Assembly caller)
+		public bool Trigger(Assembly caller, string eventLabel)
 		{
-			return true;
+			switch (eventLabel)
+			{
+			default:
+				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
+				return false;
+			}
+
+			// return true;
 		}
 
 		public bool MoveCircuit(CircuitWidget circuitWidget, Vector2Int cell)

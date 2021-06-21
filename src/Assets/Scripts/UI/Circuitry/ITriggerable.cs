@@ -6,6 +6,6 @@ namespace UI.CircuitConstructor
 {
 	public interface ITriggerable<T>
 	{
-		public bool Trigger(T caller);
+		public bool Trigger(T caller, string eventLabel = "");
 	}
 }

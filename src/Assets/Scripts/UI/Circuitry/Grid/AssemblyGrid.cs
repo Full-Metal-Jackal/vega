@@ -77,6 +77,9 @@ namespace UI.CircuitConstructor
 
 		public void OnDrop(PointerEventData eventData)
 		{
+			if (eventData.button != PointerEventData.InputButton.Left)
+				return;
+
 			if (!eventData.pointerDrag.TryGetComponent(out DraggableCircuitWidget draggable))
 				return;
 

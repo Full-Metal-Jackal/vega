@@ -14,9 +14,18 @@ namespace UI.CircuitConstructor
 		// In future, we may want to change this value to implement the ability to drag circuits at specific point.
 		public Vector2 GripOffset => Circuit.OriginOffset;
 
-		public virtual void OnBeginDrag(PointerEventData eventData)
+		public void OnBeginDrag(PointerEventData eventData)
 		{
+			if (eventData.button != PointerEventData.InputButton.Left)
+				return;
+
 			CreateGhost();
+
+			PostBeginDrag(eventData);
+		}
+
+		public virtual void PostBeginDrag(PointerEventData eventData)
+		{
 		}
 
 		private void CreateGhost()
@@ -28,11 +37,23 @@ namespace UI.CircuitConstructor
 
 		public virtual void OnEndDrag(PointerEventData eventData)
 		{
+			if (eventData.button != PointerEventData.InputButton.Left)
+				return;
+
 			ghost.Suicide();
+
+			PostEndDrag(eventData);
+		}
+
+		public virtual void PostEndDrag(PointerEventData eventData)
+		{
 		}
 
 		public virtual void OnDrag(PointerEventData eventData)
 		{
+			if (eventData.button != PointerEventData.InputButton.Left)
+				return;
+
 			ghost.SetPosition(eventData.pointerCurrentRaycast.screenPosition);
 		}
 

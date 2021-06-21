@@ -13,7 +13,9 @@ namespace UI.CircuitConstructor
 		private GameObject trackLinePrefab;
 		[SerializeField]
 		private RectTransform tracksHolder;
+
 		protected TrackLineBuilder activeLine;
+		
 		protected HashSet<TrackLineBuilder> lines = new HashSet<TrackLineBuilder>();
 
 		[SerializeField]
@@ -71,6 +73,13 @@ namespace UI.CircuitConstructor
 			return trackLine;
 		}
 
-		public virtual bool Trigger(Circuitry.Pin caller) => true;
+		public void UpdateLines()
+		{
+			foreach (TrackLineBuilder line in lines)
+			{
+			}
+		}
+
+		public virtual bool Trigger(Circuitry.Pin caller, string eventLabel) => true;
 	}
 }

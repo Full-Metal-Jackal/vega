@@ -22,7 +22,7 @@ namespace Circuitry
 		{
 			Value = value;
 			UI.CircuitConstructor.EventHandler.Log($"{circuit}: {label} has been set to {value}");
-			UI.CircuitConstructor.EventHandler.Trigger(this);
+			UI.CircuitConstructor.EventHandler.Trigger(this, "valueChange");
 		}
 	}
 }

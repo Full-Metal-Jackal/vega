@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(CanvasGroup))]
-	[RequireComponent(typeof(CircuitConnections))]
+	[RequireComponent(typeof(CircuitPorts))]
 	public class CircuitWidget : DraggableCircuitWidget, ITriggerable<Circuitry.Circuit>
 	{
 		private CanvasGroup canvasGroup;
@@ -16,12 +16,12 @@ namespace UI.CircuitConstructor
 		private GameObject cooldownOverlayPrefab;
 		private CircuitCooldownOverlay cooldownOverlay;
 
-		private CircuitConnections connections;
+		private CircuitPorts connections;
 
 		protected override bool Initialize()
 		{
 			canvasGroup = GetComponent<CanvasGroup>();
-			connections = GetComponent<CircuitConnections>();
+			connections = GetComponent<CircuitPorts>();
 
 			return base.Initialize();
 		}
@@ -35,15 +35,13 @@ namespace UI.CircuitConstructor
 			EventHandler.Bind(this);
 		}
 
-		public override void OnBeginDrag(PointerEventData eventData)
+		public override void PostBeginDrag(PointerEventData eventData)
 		{
-			base.OnBeginDrag(eventData);
 			canvasGroup.blocksRaycasts = false;
 		}
 
-		public override void OnEndDrag(PointerEventData eventData)
+		public override void PostEndDrag(PointerEventData eventData)
 		{
-			base.OnEndDrag(eventData);
 			canvasGroup.blocksRaycasts = true;
 		}
 
@@ -55,18 +53,29 @@ namespace UI.CircuitConstructor
 				return;
 			}
 
-			Circuit.Icon.gameObject.AddComponent<Mask>();
 			GameObject cooldownOverlayObject = Instantiate(cooldownOverlayPrefab);
-			if (!cooldownOverlayPrefab.TryGetComponent(out cooldownOverlay))
+			if (!cooldownOverlayObject.TryGetComponent(out cooldownOverlay))
+			{
+				Destroy(cooldownOverlayObject);
 				throw new System.Exception($"{this} has invalid cooldown overlay prefab.");
-
+			}
+			
+			Circuit.Icon.gameObject.AddComponent<Mask>();
 			cooldownOverlayObject.transform.SetParent(Circuit.Icon.transform, false);
 		}
 
-		public bool Trigger(Circuitry.Circuit caller)
+		public bool Trigger(Circuitry.Circuit caller, string eventLabel)
 		{
-			if (caller.IsSleeping)
-				StartCooldownAnimation();
+			switch (eventLabel)
+			{
+			case "cooldown":
+				if (caller.IsSleeping)
+					StartCooldownAnimation();
+				break;
+			default:
+				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
+				return false;
+			}
 
 			return true;
 		}

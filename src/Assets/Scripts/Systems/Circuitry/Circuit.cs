@@ -72,13 +72,15 @@ namespace Circuitry
 
 		/// <summary>
 		/// How much power is withdrawn from the assembly per single use.
+		/// This value is shown in the circuit info tooltip, but may vary in the circuit implementation.
 		/// </summary>
 		public virtual float PowerConsumption => 10f;
 
 		/// <summary>
 		/// How much time should pass between two uses of this circuit.
+		/// This value is shown in the circuit info tooltip, but may vary in the circuit implementation.
 		/// </summary>
-		public virtual float CooldownPerUse => 10f;
+		public virtual float CooldownPerUse => .1f;
 
 		/// <summary>
 		/// Makes the circuit inactive for the set amount of time.
@@ -88,7 +90,7 @@ namespace Circuitry
 		public void Sleep(float time)
 		{
 			Cooldown = time;
-			UI.CircuitConstructor.EventHandler.Trigger(this);
+			UI.CircuitConstructor.EventHandler.Trigger(this, "cooldown");
 		}
 
 		private void Awake()
