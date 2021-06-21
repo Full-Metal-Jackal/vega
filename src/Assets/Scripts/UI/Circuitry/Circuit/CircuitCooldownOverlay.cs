@@ -9,8 +9,8 @@ namespace UI.CircuitConstructor
 	public class CircuitCooldownOverlay : MonoBehaviour
 	{
 		private RectTransform rectTransform;
-		private float cooldown = 0;
-		private float initialCooldown = 0;
+		private float currentCooldown = 0;
+		private float initialCooldown = float.PositiveInfinity;
 
 		private void Awake()
 		{
@@ -21,17 +21,19 @@ namespace UI.CircuitConstructor
 		public void StartCooldownAnimation(float cooldown)
 		{
 			initialCooldown = cooldown;
-			this.cooldown = initialCooldown;
+			currentCooldown = initialCooldown;
 			gameObject.SetActive(true);
+			Debug.Log($"{gameObject}: CD for {cooldown} secs began.");
 		}
 
 		private void Update()
 		{
-			cooldown -= Time.deltaTime;
-			if (cooldown <= 0)
+			Debug.Log($"CD for {currentCooldown} remains...");
+			currentCooldown -= Time.deltaTime;
+			if (currentCooldown <= 0)
 				gameObject.SetActive(false);
 
-			float fraction = cooldown / initialCooldown;
+			float fraction = currentCooldown / initialCooldown;
 			rectTransform.localScale = new Vector3(1f, fraction, 1f);
 		}
 	}

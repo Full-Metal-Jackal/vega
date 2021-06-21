@@ -70,12 +70,13 @@ namespace UI.CircuitConstructor
 			grid.BuildGrid(BoundCircuit.Shape);
 		}
 
-		private PinWidget AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)
+		private PinWidgetBase AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)
 		{
-			if (!(widgetPrefab && widgetPrefab.TryGetComponent(out PinWidget widget)))
+			GameObject widgetObject = Instantiate(widgetPrefab);
+
+			if (!(widgetObject && widgetObject.TryGetComponent(out PinWidgetBase widget)))
 				throw new System.Exception($"{this} received invalid pin prefab: {widgetPrefab}.");
 
-			GameObject widgetObject = Instantiate(widgetPrefab);
 			widgetObject.transform.SetParent(toParent);
 
 			widget.Setup(pin);
@@ -83,10 +84,10 @@ namespace UI.CircuitConstructor
 			return widget;
 		}
 
-		public PinWidget AddPin(GameObject widgetPrefab, DataInput dataInput) => AddPin(widgetPrefab, dataInputs, dataInput);
-		public PinWidget AddPin(GameObject widgetPrefab, DataOutput dataOutput) => AddPin(widgetPrefab, dataOutputs, dataOutput);
-		public PinWidget AddPin(GameObject widgetPrefab, PulseInput pulseInput) => AddPin(widgetPrefab, pulseInputs, pulseInput);
-		public PinWidget AddPin(GameObject widgetPrefab, PulseOutput pulseOutput) => AddPin(widgetPrefab, pulseOutputs, pulseOutput);
+		public PinWidgetBase AddPin(GameObject widgetPrefab, DataInput dataInput) => AddPin(widgetPrefab, dataInputs, dataInput);
+		public PinWidgetBase AddPin(GameObject widgetPrefab, DataOutput dataOutput) => AddPin(widgetPrefab, dataOutputs, dataOutput);
+		public PinWidgetBase AddPin(GameObject widgetPrefab, PulseInput pulseInput) => AddPin(widgetPrefab, pulseInputs, pulseInput);
+		public PinWidgetBase AddPin(GameObject widgetPrefab, PulseOutput pulseOutput) => AddPin(widgetPrefab, pulseOutputs, pulseOutput);
 
 		public override string ToString() => $"{BoundCircuit}'s visualization";
 	}

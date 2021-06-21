@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+namespace UI.CircuitConstructor
 {
+	public class TooltipPinWidget : PinWidgetBase
+	{
+	}
 }

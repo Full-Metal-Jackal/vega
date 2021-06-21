@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(CanvasGroup))]
+	[RequireComponent(typeof(CircuitConnections))]
 	public class CircuitWidget : DraggableCircuitWidget, ITriggerable<Circuitry.Circuit>
 	{
 		private CanvasGroup canvasGroup;
@@ -15,16 +16,23 @@ namespace UI.CircuitConstructor
 		private GameObject cooldownOverlayPrefab;
 		private CircuitCooldownOverlay cooldownOverlay;
 
+		private CircuitConnections connections;
+
 		protected override bool Initialize()
 		{
 			canvasGroup = GetComponent<CanvasGroup>();
+			connections = GetComponent<CircuitConnections>();
+
 			return base.Initialize();
 		}
 
 		public override void Setup(GameObject circuitPrefab)
 		{
 			base.Setup(circuitPrefab);
+
 			CreateCooldownOverlay();
+			connections.Setup(Circuit);
+			EventHandler.Bind(this);
 		}
 
 		public override void OnBeginDrag(PointerEventData eventData)

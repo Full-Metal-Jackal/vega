@@ -80,7 +80,6 @@ namespace UI.CircuitConstructor
 			if (!eventData.pointerDrag.TryGetComponent(out DraggableCircuitWidget draggable))
 				return;
 
-			Debug.Log($"Sieg!!");
 			Vector2Int cell = GetCell(eventData.position + draggable.GripOffset);
 			draggable.DropOnAssembly(assemblyWidget, cell);
 		}

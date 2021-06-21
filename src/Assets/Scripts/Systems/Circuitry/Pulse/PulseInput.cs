@@ -24,11 +24,11 @@ namespace Circuitry
 		{
 			if (circuit.IsSleeping)
 				return;
+			
+			base.Pulse();
 
 			if (action())
 				pipeline?.Pulse();
-			
-			base.Pulse();
 		}
 	}
 }

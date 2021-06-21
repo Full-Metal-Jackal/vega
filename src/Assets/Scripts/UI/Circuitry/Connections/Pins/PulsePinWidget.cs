@@ -15,16 +15,16 @@ namespace UI.CircuitConstructor
 			Pulse();
 		}
 
-		public void Pulse() => (pin as PulsePin)?.Pulse();
+		public void Pulse() => (BoundPin as PulsePin)?.Pulse();
 
 		public override bool TryConnect(Pin other)
 		{
 			bool connected = false;
 
-			if (pin is PulseInput input && other is PulseOutput output)
+			if (BoundPin is PulseInput input && other is PulseOutput output)
 				connected = output.Connect(input);
-			if (other is PulseInput && pin is PulseOutput)
-				connected = (pin as PulseOutput).Connect(other as PulseInput);
+			if (other is PulseInput && BoundPin is PulseOutput)
+				connected = (BoundPin as PulseOutput).Connect(other as PulseInput);
 
 			return connected;
 		}

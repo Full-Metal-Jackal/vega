@@ -13,10 +13,10 @@ namespace UI.CircuitConstructor
 		{
 			bool connected = false;
 
-			if (pin is DataInput input && other is DataOutput output)
+			if (BoundPin is DataInput input && other is DataOutput output)
 				connected = output.Connect(input);
-			else if (other is DataInput && pin is DataOutput)
-				connected = (pin as DataOutput).Connect(other as DataInput);
+			else if (other is DataInput && BoundPin is DataOutput)
+				connected = (BoundPin as DataOutput).Connect(other as DataInput);
 
 			return connected;
 		}
@@ -33,7 +33,7 @@ namespace UI.CircuitConstructor
 
 		public void UpdateValue()
 		{
-			value.text = $"{(pin as DataPin)?.Value}";
+			value.text = $"{(BoundPin as DataPin)?.Value}";
 		}
 
 		public override void Setup(Pin pin)

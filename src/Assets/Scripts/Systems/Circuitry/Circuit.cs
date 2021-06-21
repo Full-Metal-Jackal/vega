@@ -78,7 +78,7 @@ namespace Circuitry
 		/// <summary>
 		/// How much time should pass between two uses of this circuit.
 		/// </summary>
-		public virtual float CooldownPerUse => .1f;
+		public virtual float CooldownPerUse => 10f;
 
 		/// <summary>
 		/// Makes the circuit inactive for the set amount of time.

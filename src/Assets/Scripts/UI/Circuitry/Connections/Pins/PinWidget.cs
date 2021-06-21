@@ -7,47 +7,24 @@ using UnityEngine.EventSystems;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(RectTransform))]
-	public abstract class PinWidget : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, ITriggerable<Circuitry.Pin>
+	public abstract class PinWidget : PinWidgetBase, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, ITriggerable<Circuitry.Pin>
 	{
-		public Text label;
-		public Circuitry.Pin pin;
-		public GameObject trackLinePrefab;
-		public bool Initialized { get; protected set; } = false;
-
-		private Transform tracksHolder;
-		protected RectTransform pinButtonWidget;
-		protected RectTransform rectTransform;
-
-		protected HashSet<TrackLineBuilder> lines = new HashSet<TrackLineBuilder>();
+		[SerializeField]
+		private GameObject trackLinePrefab;
+		[SerializeField]
+		private RectTransform tracksHolder;
 		protected TrackLineBuilder activeLine;
+		protected HashSet<TrackLineBuilder> lines = new HashSet<TrackLineBuilder>();
 
-		private void Awake()
+		[SerializeField]
+		private RectTransform buttonRectTransform;
+		public RectTransform ButtonRectTransform => buttonRectTransform;
+
+		public override void Setup(Circuitry.Pin pin)
 		{
-			Initialize();
-		}
-
-		protected virtual bool Initialize()
-		{
-			if (Initialized)
-			{
-				Debug.LogWarning($"Multiple initialization attempts of {this}!");
-				return false;
-			}
-
-			rectTransform = GetComponent<RectTransform>();
-			tracksHolder = transform.Find("Tracks");
-
-			return Initialized = true;
-		}
-
-		public virtual void Setup(Circuitry.Pin pin)
-		{
-			this.pin = pin;
-			SetLabel(pin.label);
+			base.Setup(pin);
 			EventHandler.Bind(this);
 		}
-
-		public void SetLabel(string text) => label.text = text;
 
 		public virtual void OnClick()
 		{
@@ -55,7 +32,7 @@ namespace UI.CircuitConstructor
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			activeLine = CreateLine(rectTransform.position, eventData.position);
+			activeLine = CreateLine(RectTransform.position, eventData.position);
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
@@ -74,14 +51,14 @@ namespace UI.CircuitConstructor
 			if (!eventData.pointerDrag.TryGetComponent(out PinWidget pinWidget))
 				return;
 
-			if (TryConnect(pinWidget.pin))
+			if (TryConnect(pinWidget.BoundPin))
 			{
 				TrackLineBuilder conneciton = CreateLine(transform.position, pinWidget.transform.position);
 				lines.Add(conneciton);
 			}
 		}
 
-		public virtual bool TryConnect(global::Circuitry.Pin other) => false;
+		public virtual bool TryConnect(Circuitry.Pin other) => false;
 
 		public TrackLineBuilder CreateLine(Vector2 from, Vector2 to)
 		{

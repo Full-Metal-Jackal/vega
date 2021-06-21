@@ -28,7 +28,7 @@ namespace UI.CircuitConstructor
 		}
 
 		public static void Bind(Pin pin, PinWidget widget) => Bind(pin, widget, pinBounds);
-		public static void Bind(PinWidget widget) => Bind(widget.pin, widget);
+		public static void Bind(PinWidget widget) => Bind(widget.BoundPin, widget);
 		public static void Bind(Circuitry.Circuit circuit, CircuitWidget widget) => Bind(circuit, widget, circuitBounds);
 		public static void Bind(CircuitWidget widget) => Bind(widget.Circuit.BoundCircuit, widget);
 		public static void Bind(Assembly assembly, AssemblyWidget widget) => Bind(assembly, widget, assemblyBounds);
