@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Circuitry
 {
-	public class SumOfTwo : Circuit
+	public class Mod : Circuit
 	{
 		private DataInput inputA;
 		private DataInput inputB;
@@ -12,16 +12,16 @@ namespace Circuitry
 
 		public override void Setup()
 		{
-			Shape = Shape.Rect(1, 2);
+			Shape = Shape.Rect(2, 1);
 
-			inputA = AddDataInput<Number>("A");
-			inputB = AddDataInput<Number>("B");
+			inputA = AddDataInput<Number>("Dividend");
+			inputB = AddDataInput<Number>("Divisor");
 			output = AddDataOutput<Number>("Out");
 
-			AddPulsePipeline("Compute", Sum, "On computed");
+			AddPulsePipeline("Compute", CalculateMod, "On computed");
 		}
 
-		protected bool Sum()
+		protected bool CalculateMod()
 		{
 			if (!UseFullPower())
 				return false;
@@ -29,7 +29,7 @@ namespace Circuitry
 			if (!(inputA.Value is Number numberA && inputB.Value is Number numberB))
 				return false;
 
-			output.Push((Number)(numberA + numberB));
+			output.Push((Number)(numberA % numberB));
 			Sleep(CooldownPerUse);
 			return true;
 		}
