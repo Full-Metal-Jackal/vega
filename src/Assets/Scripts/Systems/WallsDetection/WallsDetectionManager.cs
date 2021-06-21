@@ -29,7 +29,7 @@ public class WallsDetectionManager : MonoBehaviour
 		roomsId = LayerMask.NameToLayer("RoomDetector");
 		layerMask1 = 1 << wallsId;
 		layerMask2 = 1 << roomsId;
-		player = Game.playerController.possessAtStart;
+		player = GameObject.Find("Player").GetComponentInChildren<PlayerController>().possessAtStart;
 		cam = Camera.main;
 	}
 
