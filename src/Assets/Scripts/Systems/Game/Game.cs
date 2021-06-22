@@ -24,6 +24,8 @@ public static class Game
 	/// </summary>
 	public static UI.CircuitConstructor.CircuitConstructor circuitConstructor;
 
+	public static UI.Hud hud;
+
 	// <TODO> Change to UiOnly as soon as we get the main menu.
 	public static InputState inputState = InputState.WorldOnly;
 
@@ -32,6 +34,8 @@ public static class Game
 	{
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
+
+		playerController.OnPossesed += () => hud.RegisterComponents();
 
 		Initialized = true;
 		Debug.Log("Game initialization complete.");

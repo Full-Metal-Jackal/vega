@@ -23,12 +23,12 @@ public abstract class MobController : MonoBehaviour
 		Initialize();
 	}
 
-	protected virtual bool Initialize()
+	protected virtual void Initialize()
 	{
 		if (Initialized)
 			throw new System.Exception($"Multiple initialization attempts of {this}.");
 
-		return Initialized = true;
+		Initialized = true;
 	}
 
 	private void Start()
