@@ -13,7 +13,7 @@ public static class Game
 	/// <summary>
 	/// The player controller singleton.
 	/// </summary>
-	public static PlayerController PlayerController => (PlayerController)PlayerController.Instance;
+	public static PlayerController PlayerController => PlayerController.Instance;
 
 	/// <summary>
 	/// The camera controller singleton.

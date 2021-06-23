@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class MobController : MonoSingleton<MobController>
+public abstract class MobController : MonoBehaviour
 {
 	/// <summary>
 	/// Tells the controller what mob should be possessed as the level starts.

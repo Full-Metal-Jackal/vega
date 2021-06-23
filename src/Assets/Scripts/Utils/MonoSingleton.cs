@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 	private static T inst;
-
 	public static T Instance
 	{
 		get
@@ -11,9 +11,10 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 			if (inst != null)
 				return inst;
 
-			inst = (T)FindObjectOfType(typeof(T));
+			Type type = typeof(T);
+			inst = (T)FindObjectOfType(type);
 			if (inst == null)
-				Debug.LogWarning($"В сцене нужен экземпляр {typeof(T)}, но он отсутствует.");
+				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
 
 			return inst;
 		}

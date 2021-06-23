@@ -1,10 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerController : MobController
 {
 	public delegate void PossesAction();
 
 	public event PossesAction OnPossesed;
+
+	/// Да простит меня Аллах
+	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
+	private static PlayerController inst;
+	public static PlayerController Instance
+	{
+		get
+		{
+			if (inst != null)
+				return inst;
+
+			Type type = typeof(PlayerController);
+			inst = (PlayerController)FindObjectOfType(type);
+			if (inst == null)
+				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
+
+			return inst;
+		}
+	}
 	
 	/// <summary>
 	/// The entity currently selected by the Possessed.
