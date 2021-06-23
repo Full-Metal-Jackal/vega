@@ -4,27 +4,21 @@ using UnityEngine.UI;
 namespace UI
 {
 	[RequireComponent(typeof(CanvasScaler))]
-	public class Hud : MonoSingleton<Hud>
+	public sealed class Hud : MonoSingleton<Hud>
 	{
-		[field: SerializeField]
-		public HealthBar HealthBar { get; private set; }
-
-		[field: SerializeField]
-		public StaminaBar StaminaBar { get; private set; }
-
-		[field: SerializeField]
-		public PlayerName PlayerName { get; private set; }
+		[SerializeField]
+		private GameObject playerStats, weaponSelector;
 
 		// Unused yet, added for future reference
 		private CanvasScaler canvasScaler;
 		
 		private bool componentsActive = false;
 
-		private void Awake() =>
+		private void Awake()
+		{
 			canvasScaler = GetComponent<CanvasScaler>();
-
-		private void Start() =>
-			canvasScaler.gameObject.SetActive(true);
+			ToggleComponents(false);
+		}
 
 		/// <summary>
 		///	Registers (activates) components which are inactive by default
@@ -32,13 +26,16 @@ namespace UI
 		/// </summary>
 		public void RegisterComponents()
 		{
-			if (componentsActive) {
-				return;
-			}
+			if (!componentsActive)
+				ToggleComponents(true);
+		}
 
-			HealthBar.gameObject.SetActive(true);
-			StaminaBar.gameObject.SetActive(true);
-			PlayerName.gameObject.SetActive(true);
+		private void ToggleComponents(bool toggle)
+		{
+			playerStats.SetActive(toggle);
+			weaponSelector.SetActive(toggle);
+
+			componentsActive = toggle;
 		}
 	}
 }

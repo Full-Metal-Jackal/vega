@@ -10,9 +10,6 @@ namespace UI
 		
 		private Mob player;
 
-		private void Awake() =>
-			gameObject.SetActive(false);
-
 		private void Start() =>
 			player = Game.PlayerController.Possessed;
 		

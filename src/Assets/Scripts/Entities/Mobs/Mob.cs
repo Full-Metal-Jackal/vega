@@ -8,7 +8,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	public float Health { get; protected set; }
 	
 	[field: SerializeField]
-	public float Stamina { get; protected set; }
+	public float Stamina { get; set; }
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
 
@@ -102,12 +102,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	public void TakeDamage(float damage)
 	{
 		Health -= damage;
-	}
-
-	/// NOTE: will prolly change this to a more unified method of taking and restoring stamina
-	public void DrainStamina(float stamina)
-	{
-		Stamina -= stamina;
 	}
 
 	/// <summary>
