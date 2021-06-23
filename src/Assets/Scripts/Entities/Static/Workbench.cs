@@ -4,8 +4,8 @@
 
 	public override bool OnUse(Mob mob)
 	{
-		if (Game.circuitConstructor.Initialized)
-			Game.circuitConstructor.Open();
+		if (Game.CircuitConstructor != null)
+			Game.CircuitConstructor.Open();
 		return true;
 	}
 }

@@ -1,8 +1,33 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MobController
 {
+	public delegate void PossesAction();
+
+	public event PossesAction OnPossesed;
+
+	/// Да простит меня Аллах
+	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
+	private static PlayerController inst;
+	public static PlayerController Instance
+	{
+		get
+		{
+			if (inst != null)
+				return inst;
+
+			Type type = typeof(PlayerController);
+			inst = (PlayerController)FindObjectOfType(type);
+			if (inst == null)
+				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
+
+			return inst;
+		}
+	}
+	
 	/// <summary>
 	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
@@ -37,23 +62,20 @@ public class PlayerController : MobController
 
 	private bool usePressed = false;
 
-	protected override bool Initialize()
-	{
+	private void Awake() =>
 		interactableMask = LayerMask.GetMask("Interactables");
-
-		if (Game.playerController)
-			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.playerController}");
-		Game.playerController = this;
-		
-		return Initialized = base.Initialize();
-	}
 
 	public override bool PossessMob(Mob mob)
 	{
-		bool result = base.PossessMob(mob);
-		if (result && Game.cameraController)
-			Game.cameraController.SetTrackedMob(mob);
-		return result;
+		if (!base.PossessMob(mob))
+			return false;
+		
+		if (Game.CameraController)
+			Game.CameraController.SetTrackedMob(mob);
+		
+		OnPossesed?.Invoke();
+
+		return true;
 	}
 	
 	protected override Vector3 GetMovement(out MovementState state)

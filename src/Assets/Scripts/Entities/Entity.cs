@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-	public string Name = "unnamed entity";
+	[field: SerializeField]
+	public virtual string Name { get; protected set; } = "unnamed entity";
+	
 	public bool Initialized { get; protected set; } = false;
 
 	protected Outline outerOutline;

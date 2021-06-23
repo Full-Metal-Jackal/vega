@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class MobController : MonoBehaviour
 {
@@ -11,25 +9,10 @@ public abstract class MobController : MonoBehaviour
 	public Mob possessAtStart;
 	public Mob Possessed { get; protected set; }
 
-	public bool Initialized { get; protected set; }
-
 	protected int Id { get; private set; }
 
 	private Vector3 direction;
 	private MovementState state = MovementState.Standing;
-
-	private void Awake()
-	{
-		Initialize();
-	}
-
-	protected virtual bool Initialize()
-	{
-		if (Initialized)
-			throw new System.Exception($"Multiple initialization attempts of {this}.");
-
-		return Initialized = true;
-	}
 
 	private void Start()
 	{
