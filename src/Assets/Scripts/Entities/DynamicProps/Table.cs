@@ -29,7 +29,7 @@ public class Table : Interaction
 
 	public void Flip(Vector3 direction)
 	{
-		Dynamic.SetFrozen(false);
+		Dynamic.Frozen = false;
 
 		Vector3 force = new Vector3(0, flipLiftingForce);
 		Dynamic.Body.AddForce(force, ForceMode.Impulse);
@@ -52,7 +52,7 @@ public class Table : Interaction
 			&& (Dynamic.Body.velocity.magnitude < flipVelocityTreshold)
 			)
 		{
-			Dynamic.SetFrozen(true);
+			Dynamic.Frozen = true;
 			flipped = false;
 		}
 	}
