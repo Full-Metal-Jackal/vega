@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-
-[CustomEditor (typeof (FieldOfView))]
+[CustomEditor(typeof(FieldOfView))]
 public class FieldOfViewEditor : Editor
 {
 	void OnSceneGUI()
@@ -16,5 +15,4 @@ public class FieldOfViewEditor : Editor
 		Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleA * fow.viewRadius);
 		Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleB * fow.viewRadius);
 	}
-
 }

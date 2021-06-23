@@ -96,10 +96,7 @@ public class FieldOfView : MonoBehaviour
 	ViewCastInfo ViewCast(float globalAngle)
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
-		RaycastHit hit;
-
-
-		if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+		if (Physics.Raycast(transform.position, dir, out RaycastHit hit, viewRadius, obstacleMask))
 		{
 			Debug.DrawLine(transform.position, hit.point, Color.white);
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);

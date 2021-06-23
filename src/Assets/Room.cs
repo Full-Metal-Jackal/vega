@@ -2,10 +2,9 @@
 
 public class Room : MonoBehaviour
 {
-	Transform walls;
-	Transform furniture;
-	Transform shade;
-
+	private Transform walls;
+	private Transform furniture;
+	private Transform shade;
 	[SerializeField]
 	private Material deafaultMat;
 	[SerializeField]
