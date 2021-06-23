@@ -1,10 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Mob : DynamicEntity, IDamageable, IPossessable
 {
+	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
+	[field: SerializeField]
 	public float Health { get; protected set; }
+	
+	[field: SerializeField]
+	public float Stamina { get; set; }
+	[field: SerializeField]
+	public virtual float MaxStamina { get; set; } = 100;
 
 	/// <summary>
 	/// The mob's running speed.
@@ -84,6 +90,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	{
 		Name = "unnamed mob";
 		Health = MaxHealth;
+		Stamina = MaxStamina;
 	}
 
 	protected override bool Initialize()
@@ -92,9 +99,9 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		return base.Initialize();
 	}
 
-	public void TakeDamage()
+	public void TakeDamage(float damage)
 	{
-		throw new NotImplementedException();
+		Health -= damage;
 	}
 
 	/// <summary>
@@ -109,7 +116,7 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 		Vector3 direction,
 		MovementState requestedState = MovementState.Running,
 		bool affectY = false
-		)
+	)
 	{
 		if (!CanMoveActively)
 			return;

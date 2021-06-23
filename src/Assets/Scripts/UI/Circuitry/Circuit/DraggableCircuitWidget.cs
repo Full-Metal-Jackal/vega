@@ -31,7 +31,7 @@ namespace UI.CircuitConstructor
 		private void CreateGhost()
 		{
 			ghost = Instantiate(circuitGhostPrefab).GetComponent<GhostCircuitWidget>();
-			ghost.RectTransform.SetParent(Game.circuitConstructor.transform, false);
+			ghost.RectTransform.SetParent(Game.CircuitConstructor.transform, false);
 			ghost.Setup(this, CircuitPrefab, GripOffset);
 		}
 
