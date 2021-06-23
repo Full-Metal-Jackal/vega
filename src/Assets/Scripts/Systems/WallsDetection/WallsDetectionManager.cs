@@ -7,50 +7,69 @@ using UnityEngine;
 
 public class WallsDetectionManager : MonoBehaviour
 {
-	private GameObject player;
+	private Mob player;
 	private Camera cam;
-	private GameObject walls; // <TODO> It is necessary that when loading the lvl,
-							  // the tags of all child objects of the "Walls" object are set to " Detectable"
-	// private int layerMask = 1 << 3; // <TODO> Understand why masks don't work
-	[SerializeField] private string detectableTag = "Detectable";
-	[SerializeField] private Material highlighMat;
-	[SerializeField] private Material defaultMat;
 
-	private Transform curentDetection;
-	void Awake()
+	private int wallsId;
+	private readonly int detectionRange = 1000;
+	public int layerMask;
+	[SerializeField] 
+	private Material highlighMat;
+	[SerializeField] 
+	private Material defaultMat;
+
+	private Transform curentWallDetection;
+	void Start()
 	{
-		player = GameObject.Find("Human");  //<TODO> Need another way to find player model
+		wallsId = LayerMask.NameToLayer("StopCamRaycast");
+		layerMask = 1 << wallsId;
+		player = GameObject.Find("Player").GetComponentInChildren<PlayerController>().possessAtStart;
 		cam = Camera.main;
+	}
+
+	void RayToWalls()
+	{
+		Renderer[] selectionRenderer;
+		if (Physics.Raycast(cam.transform.position, player.transform.position - cam.transform.position, out RaycastHit hit, detectionRange, layerMask))
+		{
+			if (curentWallDetection != null)
+			{
+				selectionRenderer = curentWallDetection.GetComponents<Renderer>();
+				for (int i = 0; i < selectionRenderer.Length; i++)
+				{
+					selectionRenderer[i].enabled = true;
+					curentWallDetection = null;
+				}
+			}
+			var detection = hit.transform;
+			Debug.DrawRay(cam.transform.position, player.transform.position - cam.transform.position, Color.red);
+			selectionRenderer = detection.GetComponents<Renderer>();
+			if (selectionRenderer != null)
+			{
+				for (int i = 0; i < selectionRenderer.Length; i++)
+				{
+					selectionRenderer[i].enabled = false;
+				}
+				curentWallDetection = detection;
+			}
+		}
+		else
+		{
+			Debug.DrawRay(cam.transform.position, player.transform.position - cam.transform.position, Color.green);
+			if (curentWallDetection != null)
+			{
+				selectionRenderer = curentWallDetection.GetComponents<Renderer>();
+				for (int i = 0; i < selectionRenderer.Length; i++)
+				{
+					selectionRenderer[i].enabled = true;
+					curentWallDetection = null;
+				}
+			}
+		}
 	}
 
 	void Update()
 	{
-		RaycastHit hit;
-		if (Physics.Raycast(cam.transform.position, (player.transform.position - cam.transform.position), out hit))
-		{
-			if (curentDetection != null)
-			{
-				Renderer[] selectionRenderer = curentDetection.GetComponentsInChildren<Renderer>();
-				for (int i = 0; i < selectionRenderer.Length; i++)
-				{
-					selectionRenderer[i].material = defaultMat;
-					curentDetection = null;
-				}
-			}
-			var detection = hit.transform;
-			if (detection.CompareTag(detectableTag))
-			{
-				var detectionGr = detection.parent;
-				Renderer[] selectionRenderer = detectionGr.GetComponentsInChildren<Renderer>();
-				if (selectionRenderer != null)
-				{
-					for (int i = 0; i < selectionRenderer.Length; i++)
-					{
-						selectionRenderer[i].material = highlighMat;
-					}
-					curentDetection = detectionGr;
-				}
-			}  
-		}
+		RayToWalls();
 	}
 }

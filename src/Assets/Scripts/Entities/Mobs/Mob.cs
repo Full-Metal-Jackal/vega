@@ -175,7 +175,6 @@ public class Mob : DynamicEntity, IDamageable, IPossessable
 	}
 
 	public bool Use(IInteractable interactable) => interactable.CanBeUsedBy(this) && interactable.OnUse(this);
-
 	public void OnDodgeRoll() 
 	{
 		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
