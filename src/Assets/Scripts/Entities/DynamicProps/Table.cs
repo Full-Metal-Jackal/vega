@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : DynamicProp, IInteractable
+[RequireComponent(typeof(DynamicProp))]
+public class Table : Interaction
 {
-	public bool Selectable { get; set; } = true;
-
 	protected const float flipTorque = 50f;
 	protected const float flipLiftingForce = 100f;
 	protected const float flipVelocityTreshold = 1e-4f;
@@ -14,38 +13,46 @@ public class Table : DynamicProp, IInteractable
 	protected float lastFlipTime;
 	protected bool flipped = false;
 
-	public bool OnUse(Mob mob)
+	public DynamicProp Dynamic { get; private set; }
+
+	protected override void Initialzie()
 	{
-		Flip(mob.transform.position - transform.position);
+		base.Initialzie();
+		Dynamic = Entity as DynamicProp;
+	}
+
+	public override bool OnUse(Mob mob)
+	{
+		Flip(mob.transform.position - Dynamic.Body.position);
 		return true;
 	}
 
 	public void Flip(Vector3 direction)
 	{
-		SetFrozen(false);
+		Dynamic.SetFrozen(false);
 
 		Vector3 force = new Vector3(0, flipLiftingForce);
-	    Body.AddForce(force, ForceMode.Impulse);
+		Dynamic.Body.AddForce(force, ForceMode.Impulse);
 
 		Vector3 torque = Quaternion.Euler(0, 270, 0) * direction;
 		torque.Scale(new Vector3(flipTorque, flipTorque, flipTorque));
-		Body.AddTorque(torque, ForceMode.Impulse);
+		Dynamic.Body.AddTorque(torque, ForceMode.Impulse);
 
 		lastFlipTime = Time.time;
 		flipped = true;
 	}
 
-	public bool CanBeUsedBy(Mob mob) => !flipped;
+	public override bool CanBeUsedBy(Mob mob) => !flipped;
 
 	protected override void Tick(float delta)
 	{
 		base.Tick(delta);
 		if (flipped
 			&& (Time.time > (lastFlipTime + flipMinimalCooldown))
-			&& (Body.velocity.magnitude < flipVelocityTreshold)
+			&& (Dynamic.Body.velocity.magnitude < flipVelocityTreshold)
 			)
 		{
-			SetFrozen(true);
+			Dynamic.SetFrozen(true);
 			flipped = false;
 		}
 	}

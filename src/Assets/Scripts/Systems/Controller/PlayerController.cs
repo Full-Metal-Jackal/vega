@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MobController
 {
 	/// <summary>
-	/// The entity currently selected by the Possessed.
+	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
-	public IInteractable SelectedEntity { get; protected set; }
+	public Interaction SelectedEntity { get; protected set; }
 	private readonly Collider[] colliderBuffer = new Collider[16];
 	private LayerMask interactableMask;
 
@@ -110,8 +108,8 @@ public class PlayerController : MobController
 		// to adjust to the new Unity's InputSystem this way.
 		if (Input.GetButton("Use"))
 		{
-			if (!usePressed && SelectedEntity is IInteractable interactable)
-				Possessed.Use(interactable);
+			if (!usePressed && SelectedEntity is Interaction interaction)
+				Possessed.Use(interaction);
 			usePressed = true;
 		}
 		else
@@ -125,13 +123,13 @@ public class PlayerController : MobController
 
 	public void SetSelectedOutline(bool selected)
 	{
-		if ((SelectedEntity is Entity entity) && entity.OuterOutline is Outline outline)
+		if ((SelectedEntity is Interaction interaction) && interaction.Entity.OuterOutline is Outline outline)
 			outline.OutlineColor = selected ? selectedColor : deselectedColor;
 	}
 
 	public void UpdateSelectedEntitiy()
 	{
-		IInteractable newSelected = GetSelectedEntity();
+		Interaction newSelected = GetSelectedEntity();
 		if (newSelected != SelectedEntity)
 		{
 			SetSelectedOutline(false);
@@ -147,10 +145,10 @@ public class PlayerController : MobController
 	/// Won't detect entities with colliders not assigned to the layer from interactableMask.
 	/// Will throw an exception if those colliders were applied to something other than entity child.
 	/// </summary>
-	/// <returns>The selected IInteractable entity.</returns>
-	protected virtual IInteractable GetSelectedEntity()
+	/// <returns>The selected entity's Interaction component.</returns>
+	protected virtual Interaction GetSelectedEntity()
 	{
-		IInteractable result = null;
+		Interaction result = null;
 
 		Vector3 mobPos = Possessed.transform.position;
 		float minDist = selectionDistance;
@@ -167,7 +165,7 @@ public class PlayerController : MobController
 				|| (distance >= minDist))
 				continue;
 
-			if (!(collider.GetComponentInParent<Entity>() is IInteractable interactable)
+			if (!(collider.GetComponentInParent<Interaction>() is Interaction interactable)
 				|| !interactable.Selectable
 				|| !interactable.CanBeUsedBy(Possessed))
 				continue;

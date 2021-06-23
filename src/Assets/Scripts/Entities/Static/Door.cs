@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : Interaction
 {
 	[field: SerializeField]
 	public float Radius { get; private set; } = 3f;
@@ -11,28 +11,27 @@ public class Door : MonoBehaviour, IInteractable
 	[field: SerializeField]
 	public bool Active { get; private set; } = false;
 
-	public Animator[] Animator;
-	public bool Selectable { get; set; } = true;
+	[SerializeField]
+	private Animator[] animators;
 
-	private void Awake() =>
-		Initialize();
+	protected override void Initialzie()
+	{
+		base.Initialzie();
+	}
 
-	protected virtual void Initialize() =>
-		Animator = GetComponentsInChildren<Animator>();
+	public override bool CanBeUsedBy(Mob mob) => !Active;
 
-	public bool CanBeUsedBy(Mob mob) => !Active;
-
-	public bool OnUse(Mob mob)
+	public override bool OnUse(Mob mob)
 	{
 		if (Opened)
 		{
-			Animator[0].SetBool("IsOpening", false);
-			Animator[1].SetBool("IsOpening", false);
+			animators[0].SetBool("IsOpening", false);
+			animators[1].SetBool("IsOpening", false);
 		}
 		else
 		{
-			Animator[0].SetBool("IsOpening", true);
-			Animator[1].SetBool("IsOpening", true);
+			animators[0].SetBool("IsOpening", true);
+			animators[1].SetBool("IsOpening", true);
 		}
 
 		Opened = !Opened;

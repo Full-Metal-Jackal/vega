@@ -1,10 +1,8 @@
-﻿public class Workbench : StaticEntity, IInteractable
+﻿public class Workbench : Interaction
 {
-	public bool Selectable { get; set; } = true;
+	public override bool CanBeUsedBy(Mob mob) => true;  // <TODO> implement player team check later.
 
-	public bool CanBeUsedBy(Mob mob) => true;  // <TODO> implement player team check later.
-
-	public bool OnUse(Mob mob)
+	public override bool OnUse(Mob mob)
 	{
 		if (Game.circuitConstructor.Initialized)
 			Game.circuitConstructor.Open();

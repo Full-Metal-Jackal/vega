@@ -14,7 +14,7 @@ public class DynamicProp : DynamicEntity
 		return true;
 	}
 
-	protected virtual void SetFrozen(bool freeze = true)
+	public virtual void SetFrozen(bool freeze = true)
 	{
 		if (freeze)
 		{
