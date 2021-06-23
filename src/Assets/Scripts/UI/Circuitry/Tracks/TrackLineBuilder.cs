@@ -133,7 +133,7 @@ namespace UI.CircuitConstructor
 		public Vector2 ScreenToPinLocal(PinWidget pin, Vector2 position)
 		{
 			position -= (Vector2)pin.ButtonRectTransform.position;
-			position /= Game.CircuitConstructor.ViewportScale;
+			position /= CircuitConstructor.Instance.ViewportScale;
 			return position;
 		}
 	}

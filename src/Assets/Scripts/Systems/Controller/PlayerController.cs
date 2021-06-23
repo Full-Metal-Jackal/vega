@@ -70,8 +70,8 @@ public class PlayerController : MobController
 		if (!base.PossessMob(mob))
 			return false;
 		
-		if (Game.CameraController)
-			Game.CameraController.SetTrackedMob(mob);
+		if (CameraController.Instance)
+			CameraController.Instance.SetTrackedMob(mob);
 		
 		OnPossesed?.Invoke();
 

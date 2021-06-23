@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UI
 {
@@ -10,7 +10,7 @@ namespace UI
 		private Mob player;
 
 		private void Start() =>
-			player = Game.PlayerController.Possessed;
+			player = PlayerController.Instance.Possessed;
 		
 		private void Update() =>
 			rectTransform.localScale = new Vector3(player.Stamina / player.MaxStamina, 1.0f, 1.0f);
