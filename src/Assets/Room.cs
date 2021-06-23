@@ -5,8 +5,9 @@ public class Room : MonoBehaviour
 	private Transform walls;
 	private Transform furniture;
 	private Transform shade;
+
 	[SerializeField]
-	private Material deafaultMat;
+	private Material defaultMat;
 	[SerializeField]
 	private Material transparentMat;
 
@@ -15,9 +16,9 @@ public class Room : MonoBehaviour
 		walls = transform.Find("Walls");
 		furniture = transform.Find("Furniture");
 		shade = transform.Find("ShadeRoomPlane");
-		if (deafaultMat == null)
+		if (defaultMat == null)
 		{
-			deafaultMat = walls.GetComponentInChildren<Renderer>().material; //May need to update it in the future
+			defaultMat = walls.GetComponentInChildren<Renderer>().material; //May need to update it in the future
 		}
 	}
 
@@ -103,7 +104,7 @@ public class Room : MonoBehaviour
 			Renderer[] selectionRenderer = walls.GetComponentsInChildren<Renderer>();
 			for (int i = 0; i < selectionRenderer.Length; i++)
 			{
-				selectionRenderer[i].material = deafaultMat;
+				selectionRenderer[i].material = defaultMat;
 			}
 		}
 	}
