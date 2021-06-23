@@ -5,20 +5,28 @@ using UnityEngine;
 public class RoomShade : MonoBehaviour
 {
 	public bool IsExplored;
-	[SerializeField] private Material exploredMat;
-	[SerializeField] private Material unexploredMat;
+	[SerializeField] 
+	private Material exploredMat;
+	[SerializeField] 
+	private Material unexploredMat;
 
 	private void Start()
 	{
-		Renderer selectionRenderer;
-		selectionRenderer = GetComponentInChildren<Renderer>();
+		Renderer[] selectionRenderer;
+		selectionRenderer = GetComponentsInChildren<Renderer>();
 		if (IsExplored)
 		{
-			selectionRenderer.material = exploredMat;
+			for (int i = 0; i < selectionRenderer.Length; i++)
+			{
+				selectionRenderer[i].material = exploredMat;
+			}
 		}
 		else
 		{
-			selectionRenderer.material = unexploredMat;
+			for (int i = 0; i < selectionRenderer.Length; i++)
+			{
+				selectionRenderer[i].material = unexploredMat;
+			}
 		}
 	}
 	public void changeState()
@@ -26,9 +34,12 @@ public class RoomShade : MonoBehaviour
 		if (!IsExplored)
 		{
 			IsExplored = true;
-			Renderer selectionRenderer;
-			selectionRenderer = GetComponentInChildren<Renderer>();
-			selectionRenderer.material = exploredMat;
+			Renderer[] selectionRenderer;
+			selectionRenderer = GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < selectionRenderer.Length; i++)
+			{
+				selectionRenderer[i].material = exploredMat;
+			}
 		}
 	}
 }

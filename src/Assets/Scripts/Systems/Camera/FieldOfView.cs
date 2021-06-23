@@ -24,12 +24,6 @@ public class FieldOfView : MonoBehaviour
 		StartCoroutine("FindTargetDelay", .2f);
 	}
 
-	void LateUpdate()
-	{
-		DrawFieldOfView();
-	}
-
-
 	IEnumerator FindTargetDelay(float delay)
 	{
 		while (true)

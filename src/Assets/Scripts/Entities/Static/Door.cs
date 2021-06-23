@@ -6,8 +6,6 @@ public class Door : StaticEntity, IInteractable
 	public bool opened = false;
 	public bool active = false;
 
-	private string tagName = "TempCollision"; //Changable if needed 
-
 	public Animator[] Anim;
 	public bool Selectable { get; set; } = true;
 
