@@ -14,7 +14,7 @@ namespace UI
 			gameObject.SetActive(false);
 
 		private void Start() =>
-			player = Game.playerController.Possessed;
+			player = Game.PlayerController.Possessed;
 		
 		private void Update() =>
 			text.text = player.Name;

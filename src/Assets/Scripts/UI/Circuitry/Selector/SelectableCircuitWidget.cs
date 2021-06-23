@@ -51,7 +51,7 @@ namespace UI.CircuitConstructor
 		public void CreateTooltip()
 		{
 			tooltipObject = Instantiate(tooltipPrefab);
-			tooltipObject.transform.SetParent(Game.circuitConstructor.transform);
+			tooltipObject.transform.SetParent(Game.CircuitConstructor.transform);
 			
 			CircuitTooltipWidget tooltip = tooltipObject.GetComponent<CircuitTooltipWidget>();
 			tooltip.Setup(CircuitPrefab);

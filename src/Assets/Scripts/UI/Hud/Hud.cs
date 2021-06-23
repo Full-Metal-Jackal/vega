@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
 	[RequireComponent(typeof(CanvasScaler))]
-	public class Hud : MonoBehaviour
+	public class Hud : MonoSingleton<Hud>
 	{
 		[field: SerializeField]
 		public HealthBar HealthBar { get; private set; }
@@ -21,20 +20,8 @@ namespace UI
 		
 		private bool componentsActive = false;
 
-		private void Awake()
-		{
+		private void Awake() =>
 			canvasScaler = GetComponent<CanvasScaler>();
-			
-			Initialize();
-		}
-
-		protected virtual void Initialize()
-		{
-			if (Game.hud)
-				throw new Exception($"Multiple instances of HUD detected: {this}, {Game.hud}");
-
-			Game.hud = this;
-		}
 
 		private void Start() =>
 			canvasScaler.gameObject.SetActive(true);

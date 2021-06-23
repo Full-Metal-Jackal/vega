@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using UnityEngine;
 
 public class PlayerController : MobController
@@ -8,6 +6,25 @@ public class PlayerController : MobController
 	public delegate void PossesAction();
 
 	public event PossesAction OnPossesed;
+
+	/// Да простит меня Аллах
+	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
+	private static PlayerController inst;
+	public static PlayerController Instance
+	{
+		get
+		{
+			if (inst != null)
+				return inst;
+
+			Type type = typeof(PlayerController);
+			inst = (PlayerController)FindObjectOfType(type);
+			if (inst == null)
+				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
+
+			return inst;
+		}
+	}
 	
 	/// <summary>
 	/// The entity currently selected by the Possessed.
@@ -43,25 +60,16 @@ public class PlayerController : MobController
 
 	private bool usePressed = false;
 
-	protected override void Initialize()
-	{
+	private void Awake() =>
 		interactableMask = LayerMask.GetMask("Interactables");
-
-		if (Game.playerController)
-			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.playerController}");
-		Game.playerController = this;
-		
-		base.Initialize();
-		Initialized = true;
-	}
 
 	public override bool PossessMob(Mob mob)
 	{
 		if (!base.PossessMob(mob))
 			return false;
 		
-		if (Game.cameraController)
-			Game.cameraController.SetTrackedMob(mob);
+		if (Game.CameraController)
+			Game.CameraController.SetTrackedMob(mob);
 		
 		OnPossesed?.Invoke();
 
