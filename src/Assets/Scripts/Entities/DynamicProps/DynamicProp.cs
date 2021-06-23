@@ -10,23 +10,27 @@ public class DynamicProp : DynamicEntity
 	{
 		if (!base.Initialize())
 			return false;
-		SetFrozen(startFrozen);
+		Frozen = startFrozen;
 		return true;
 	}
 
-	protected virtual void SetFrozen(bool freeze = true)
+	public virtual bool Frozen
 	{
-		if (freeze)
+		get => Body.constraints == RigidbodyConstraints.FreezeAll;
+		set
 		{
-			Body.velocity = Vector3.zero;
-			Body.angularVelocity = Vector3.zero;
-			Body.constraints = RigidbodyConstraints.FreezeAll;
-			Body.isKinematic = true;
-		}
-		else
-		{
-			Body.constraints = RigidbodyConstraints.None;
-			Body.isKinematic = false;
+			if (value)
+			{
+				Body.velocity = Vector3.zero;
+				Body.angularVelocity = Vector3.zero;
+				Body.constraints = RigidbodyConstraints.FreezeAll;
+				Body.isKinematic = true;
+			}
+			else
+			{
+				Body.constraints = RigidbodyConstraints.None;
+				Body.isKinematic = false;
+			}
 		}
 	}
 }

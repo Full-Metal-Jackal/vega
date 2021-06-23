@@ -22,11 +22,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7581912934239632062}
   - component: {fileID: 7909442504868135709}
-  - component: {fileID: 7909442504868135708}
   - component: {fileID: 7909442504868135711}
   - component: {fileID: 7909442504868135698}
   m_Layer: 0
-  m_Name: Mob.Basic
+  m_Name: Mob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +39,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7909442504868135696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.89, y: -1.87, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7658728989514225273}
@@ -63,21 +62,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7909442504868135708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7909442504868135696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d6d68be1c735d844b08e6c6ba01daa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Basic Mob
-  walkSpeedFactor: 0.5
-  sprintSpeedFactor: 1.5
 --- !u!136 &7909442504868135711
 CapsuleCollider:
   m_ObjectHideFlags: 0

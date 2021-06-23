@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9555dc953b5f88f4493be834cedbdb46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: unnamed entity
-  startFrozen: 1
 --- !u!1001 &6309626376232449008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21,6 +19,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4356801577686183279, guid: 4a295572c33c44f4ba48cf34e7392d70, type: 3}
+      propertyPath: Name
+      value: Test table
+      objectReference: {fileID: 0}
+    - target: {fileID: -4356801577686183279, guid: 4a295572c33c44f4ba48cf34e7392d70, type: 3}
+      propertyPath: startFrozen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4926367172344773808, guid: 4a295572c33c44f4ba48cf34e7392d70, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -117,8 +123,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1433509897798724458, guid: 83c8e289f190e6c4dba659b0208de79e, type: 3}
-    m_RemovedComponents:
-    - {fileID: -4356801577686183279, guid: 4a295572c33c44f4ba48cf34e7392d70, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a295572c33c44f4ba48cf34e7392d70, type: 3}
 --- !u!1 &695949608824715843 stripped
 GameObject:

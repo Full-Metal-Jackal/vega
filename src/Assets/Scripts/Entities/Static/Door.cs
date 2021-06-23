@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 
-public class Door : StaticEntity, IInteractable
+public class Door : Interaction
 {
-	public float radius = 3f;
-	public bool opened = false;
-	public bool active = false;
+	[field: SerializeField]
+	public float Radius { get; private set; } = 3f;
 
-	public Animator[] Anim;
-	public bool Selectable { get; set; } = true;
+	[field: SerializeField]
+	public bool Opened { get; private set; } = false;
 
-	protected override bool Initialize()
+	[field: SerializeField]
+	public bool Active { get; private set; } = false;
+
+	[SerializeField]
+	private Animator[] animators;
+
+	protected override void Initialzie()
 	{
-		Anim = GetComponentsInChildren<Animator>();
-		return base.Initialize();
+		base.Initialzie();
 	}
 
-	public bool CanBeUsedBy(Mob mob) => !active;
+	public override bool CanBeUsedBy(Mob mob) => !Active;
 
-	public bool OnUse(Mob mob)
+	public override bool OnUse(Mob mob)
 	{
-		if (opened)
+		if (Opened)
 		{
-			Anim[0].SetBool("IsOpening", false);
-			Anim[1].SetBool("IsOpening", false);
+			animators[0].SetBool("IsOpening", false);
+			animators[1].SetBool("IsOpening", false);
 		}
 		else
 		{
-			Anim[0].SetBool("IsOpening", true);
-			Anim[1].SetBool("IsOpening", true);
+			animators[0].SetBool("IsOpening", true);
+			animators[1].SetBool("IsOpening", true);
 		}
-		opened = !opened;
+
+		Opened = !Opened;
 		return true;
 	}
 }
