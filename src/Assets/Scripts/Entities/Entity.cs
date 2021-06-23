@@ -7,7 +7,7 @@ public abstract class Entity : MonoBehaviour
 	[field: SerializeField]
 	public virtual string Name { get; protected set; } = "unnamed entity";
 	
-	public bool Initialized { get; protected set; } = false;
+	public bool Initialized { get; private set; } = false;
 
 	protected Outline outerOutline;
 	public Outline OuterOutline
@@ -21,8 +21,7 @@ public abstract class Entity : MonoBehaviour
 
 	void Awake()
 	{
-		enabled = false;
-		if (Initialize())
+		if (enabled = Initialize())
 			Game.Entities.Add(this);
 	}
 
