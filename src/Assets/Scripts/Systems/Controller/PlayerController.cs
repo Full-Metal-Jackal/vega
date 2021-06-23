@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MobController
 {
@@ -43,25 +40,16 @@ public class PlayerController : MobController
 
 	private bool usePressed = false;
 
-	protected override void Initialize()
-	{
+	private void Awake() =>
 		interactableMask = LayerMask.GetMask("Interactables");
-
-		if (Game.playerController)
-			throw new System.Exception($"Multiple instances of camera controller detected: {this}, {Game.playerController}");
-		Game.playerController = this;
-		
-		base.Initialize();
-		Initialized = true;
-	}
 
 	public override bool PossessMob(Mob mob)
 	{
 		if (!base.PossessMob(mob))
 			return false;
 		
-		if (Game.cameraController)
-			Game.cameraController.SetTrackedMob(mob);
+		if (Game.CameraController)
+			Game.CameraController.SetTrackedMob(mob);
 		
 		OnPossesed?.Invoke();
 

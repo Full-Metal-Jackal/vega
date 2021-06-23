@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
-using Circuitry;
-
 namespace UI.CircuitConstructor
 {
-	public class CircuitConstructor : MonoBehaviour
+	public class CircuitConstructor : MonoSingleton<CircuitConstructor>
 	{
 		[field: SerializeField]
 		public ConstructorViewport Viewport { get; private set; }
@@ -13,8 +11,6 @@ namespace UI.CircuitConstructor
 		[field: SerializeField]
 		public AssemblyWidget AssemblyWidget { get; private set; }
 
-		public bool Initialized { get; private set; }
-
 		public bool IsOpened => gameObject.activeInHierarchy;
 
 		private void Awake()
@@ -22,16 +18,10 @@ namespace UI.CircuitConstructor
 			Initialize();
 		}
 
-		protected virtual bool Initialize()
+		protected virtual void Initialize()
 		{
-			if (Game.circuitConstructor)
-				throw new System.Exception($"Multiple instances of circuit constructor detected: {this}, {Game.circuitConstructor}");
-			Game.circuitConstructor = this;
-
 			if (!Viewport)
 				throw new System.Exception("No viewport assigned to the circuit constructor.");
-
-			return Initialized = true;
 		}
 
 		private void Start()

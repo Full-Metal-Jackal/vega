@@ -13,7 +13,7 @@ namespace UI
 			gameObject.SetActive(false);
 
 		private void Start() =>
-			player = Game.playerController.Possessed;
+			player = Game.PlayerController.Possessed;
 		
 		private void Update() =>
 			rectTransform.localScale = new Vector3(player.Stamina / player.MaxStamina, 1.0f, 1.0f);
