@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 using UI;
 using UI.CircuitConstructor;
 
@@ -10,24 +11,6 @@ public static class Game
 	/// </summary>
 	public readonly static List<Entity> Entities = new List<Entity>();
 
-	/// <summary>
-	/// The player controller singleton.
-	/// </summary>
-	public static PlayerController PlayerController => PlayerController.Instance;
-
-	/// <summary>
-	/// The camera controller singleton.
-	/// </summary>
-	public static CameraController CameraController => CameraController.Instance;
-	
-	// <TODO> May be we should move UI related stuff to another static class later?
-	/// <summary>
-	/// The circuit constructor UI singleton.
-	/// </summary>
-	public static CircuitConstructor CircuitConstructor => CircuitConstructor.Instance;
-
-	public static Hud Hud => Hud.Instance;
-
 	// <TODO> Change to UiOnly as soon as we get the main menu.
 	public static InputState inputState = InputState.WorldOnly;
 
@@ -37,7 +20,7 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		PlayerController.OnPossesed += () => Hud.RegisterComponents();
+		PlayerController.Instance.OnPossesed += () => Hud.Instance.RegisterComponents();
 
 		Initialized = true;
 		Debug.Log("Game initialization complete.");

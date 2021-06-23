@@ -54,7 +54,7 @@ namespace UI.CircuitConstructor
 
 		public Vector2Int GetCell(Vector2 position)
 		{
-			Vector2 scale = Game.CircuitConstructor.ViewportScale;
+			Vector2 scale = CircuitConstructor.Instance.ViewportScale;
 
 			position -= (Vector2)transform.position + (RectTransform.rect.min * scale);
 			position /= Layout.cellSize * scale;

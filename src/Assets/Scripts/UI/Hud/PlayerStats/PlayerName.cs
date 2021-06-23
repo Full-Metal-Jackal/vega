@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
@@ -11,7 +11,7 @@ namespace UI
 		private Mob player;
 
 		private void Start() =>
-			player = Game.PlayerController.Possessed;
+			player = PlayerController.Instance.Possessed;
 		
 		private void Update() =>
 			text.text = player.Name;

@@ -37,7 +37,7 @@ namespace UI.CircuitConstructor
 
 		private static bool Trigger<CallerType, WidgetType>(CallerType caller, Dictionary<CallerType, WidgetType> dictionary, string eventLabel) where WidgetType : ITriggerable<CallerType>
 		{
-			if (!(Game.CircuitConstructor && Game.CircuitConstructor.IsOpened))
+			if (!(CircuitConstructor.Instance && CircuitConstructor.Instance.IsOpened))
 				return false;
 
 			if (!dictionary.ContainsKey(caller))

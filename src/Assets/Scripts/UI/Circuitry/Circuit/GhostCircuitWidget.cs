@@ -21,8 +21,8 @@ namespace UI.CircuitConstructor
 			get
 			{
 				AssemblyGrid result = null;
-				if (Game.CircuitConstructor.AssemblyWidget)
-					result = Game.CircuitConstructor.AssemblyWidget.Grid;
+				if (CircuitConstructor.Instance.AssemblyWidget)
+					result = CircuitConstructor.Instance.AssemblyWidget.Grid;
 				return result;
 			}
 		}
@@ -36,7 +36,7 @@ namespace UI.CircuitConstructor
 
 		private void OnGUI()
 		{
-			RectTransform.localScale = Game.CircuitConstructor.ViewportScale;
+			RectTransform.localScale = CircuitConstructor.Instance.ViewportScale;
 		}
 
 		public void Suicide()
