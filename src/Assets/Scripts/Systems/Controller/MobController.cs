@@ -51,7 +51,11 @@ public abstract class MobController : MonoBehaviour
 		return Vector3.zero;
 	}
 
-	private void FixedUpdate() => Possessed.Move(Time.fixedDeltaTime, direction, state);
+	private void FixedUpdate()
+	{
+		if (Possessed)
+			Possessed.Move(Time.fixedDeltaTime, direction, state);
+	}
 
 	protected virtual void OnUpdate(float delta)
 	{

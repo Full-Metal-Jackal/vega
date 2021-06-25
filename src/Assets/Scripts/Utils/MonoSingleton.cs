@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -8,12 +8,12 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		get
 		{
-			if (inst != null)
+			if (inst)
 				return inst;
 
 			Type type = typeof(T);
 			inst = (T)FindObjectOfType(type);
-			if (inst == null)
+			if (!inst)
 				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
 
 			return inst;

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class DynamicProp : DynamicEntity
 {
-	public bool startFrozen = false;
+	[SerializeField]
+	private bool startFrozen = false;
 
 	protected override bool Initialize()
 	{
 		if (!base.Initialize())
 			return false;
+
 		Frozen = startFrozen;
+
 		return true;
 	}
 
@@ -23,13 +26,13 @@ public class DynamicProp : DynamicEntity
 			{
 				Body.velocity = Vector3.zero;
 				Body.angularVelocity = Vector3.zero;
-				Body.constraints = RigidbodyConstraints.FreezeAll;
 				Body.isKinematic = true;
+				Body.constraints = RigidbodyConstraints.FreezeAll;
 			}
 			else
 			{
-				Body.constraints = RigidbodyConstraints.None;
 				Body.isKinematic = false;
+				Body.constraints = RigidbodyConstraints.None;
 			}
 		}
 	}

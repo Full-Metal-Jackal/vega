@@ -7,14 +7,17 @@ public class DynamicEntity : Entity
 
 	protected override bool Initialize()
 	{
+		if (!base.Initialize())
+			return false;
+
 		Body = GetComponent<Rigidbody>();
-		return base.Initialize();
+
+		return true;
 	}
 
-	private void FixedUpdate()
-	{
+	private void FixedUpdate() =>
 		MovePhysics(Time.fixedDeltaTime);
-	}
+
 	/// <summary>
 	/// Handles the entity's movement.
 	/// </summary>
