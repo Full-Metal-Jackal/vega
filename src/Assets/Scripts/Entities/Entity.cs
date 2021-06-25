@@ -5,17 +5,17 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
 	[field: SerializeField]
-	public virtual string Name { get; protected set; } = "unnamed entity";
+	public virtual string Name { get; set; } = "unnamed entity";
 	
 	public bool Initialized { get; private set; } = false;
 
-	protected Outline outerOutline;
-	public Outline OuterOutline
+	protected Outline outline;
+	public Outline Outline
 	{
-		get => outerOutline;
+		get => outline;
 		private set
 		{
-			outerOutline = value;
+			outline = value;
 		}
 	}
 
@@ -39,18 +39,16 @@ public abstract class Entity : MonoBehaviour
 			return false;
 		}
 
-		TryGetComponent(out outerOutline);
+		TryGetComponent(out outline);
 
 		return Initialized = true;
 	}
 
-	public virtual bool Spawn(Vector3 pos)
-	{
-		if (!(Initialized || Initialize()))
-			return false;
+	public void Start() =>
+		Setup();
 
-		transform.position = pos;
-		return true;
+	public virtual void Setup()
+	{
 	}
 
 	protected virtual void Tick(float delta)

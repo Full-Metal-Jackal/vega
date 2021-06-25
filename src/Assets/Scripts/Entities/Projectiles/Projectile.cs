@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : DynamicEntity
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[field: SerializeField]
+	public float Damage { get; protected set; } = 10f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	[field: SerializeField]
+	public ProjecitleType Type { get; private set; } = ProjecitleType.Kinetic;
+
+	public virtual void OnHit()
+	{
+	}
 }

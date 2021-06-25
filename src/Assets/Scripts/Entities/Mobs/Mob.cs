@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+using Inventory;
 
 public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 {
@@ -14,6 +17,9 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 	
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
+
+	[field: SerializeField]
+	public MobInventory Inventory { get; private set; }
 
 	/// <summary>
 	/// The mob's running speed.
@@ -38,7 +44,7 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 			if (!Animator)
 				return;
 
-			string animatorVariable = "MovementState";
+			const string animatorVariable = "MovementState";
 			switch (movementState)
 			{
 			case MovementState.Standing:
@@ -62,17 +68,15 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 		}
 	}
 
-	public Mob()
-	{
-		Name = "unnamed mob";
-		Health = MaxHealth;
-		Stamina = MaxStamina;
-	}
-
 	protected override bool Initialize()
 	{
-		Animator = GetComponentInChildren<Animator>();
-		return base.Initialize();
+		if (!base.Initialize())
+			return false;
+
+		Health = MaxHealth;
+		Stamina = MaxStamina;
+
+		return true;
 	}
 
 	public void TakeDamage(float damage)
@@ -123,7 +127,7 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 	/// Makes the mob possessed by the provided controller.
 	/// </summary>
 	/// <param name="controller">The controller that should possess the mob.</param>
-	/// <returns></returns>
+	/// <returns>true if the mob has been possessed succesfully, false otherwise.</returns>
 	public bool SetPossessed(MobController controller)
 	{
 		if (Controller)
@@ -151,4 +155,6 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 			return true;
 		}
 	}
+
+	public virtual ItemSocket GunSocket => null;
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,18 +15,18 @@ public class PlayerController : MobController
 	{
 		get
 		{
-			if (inst != null)
+			if (inst)
 				return inst;
 
 			Type type = typeof(PlayerController);
 			inst = (PlayerController)FindObjectOfType(type);
-			if (inst == null)
+			if (!inst)
 				Debug.LogWarning($"В сцене нужен экземпляр {type}, но он отсутствует.");
 
 			return inst;
 		}
 	}
-	
+
 	/// <summary>
 	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
@@ -63,7 +62,7 @@ public class PlayerController : MobController
 	private bool usePressed = false;
 
 	private void Awake() =>
-		interactableMask = LayerMask.GetMask("Interactables");
+		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items" });
 
 	public override bool PossessMob(Mob mob)
 	{
@@ -145,7 +144,7 @@ public class PlayerController : MobController
 
 	public void SetSelectedOutline(bool selected)
 	{
-		if ((SelectedEntity is Interaction interaction) && interaction.Entity.OuterOutline is Outline outline)
+		if ((SelectedEntity is Interaction interaction) && interaction.Entity.Outline is Outline outline)
 			outline.OutlineColor = selected ? selectedColor : deselectedColor;
 	}
 

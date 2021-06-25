@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+
+using Inventory;
 
 public abstract class Humanoid : Mob
 {
@@ -26,6 +29,16 @@ public abstract class Humanoid : Mob
 	private Vector3 velocityBuffer = Vector3.zero;
 	private readonly float movementSmoothing = .01f;
 
+	// <TODO> Will do for now, may be unified or universalized later.
+	[SerializeField]
+	private ItemSocket leftHand;
+	[SerializeField]
+	private ItemSocket rightHand;
+	[SerializeField]
+	private ItemSocket back;
+	[SerializeField]
+	private ItemSocket belt;
+
 	public bool CanDodge
 	{
 		get
@@ -44,6 +57,13 @@ public abstract class Humanoid : Mob
 
 			return true;
 		}
+	}
+
+	public override void Setup()
+	{
+		base.Setup();
+
+		
 	}
 
 	public override void Move(
@@ -121,4 +141,6 @@ public abstract class Humanoid : Mob
 	{
 		MobMovementState = MovementState.Sprinting;
 	}
+
+	public override ItemSocket GunSocket => rightHand;
 }

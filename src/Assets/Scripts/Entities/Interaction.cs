@@ -3,18 +3,24 @@
 [RequireComponent(typeof(Entity))]
 public abstract class Interaction : MonoBehaviour
 {
+	public bool Initialized { get; private set; } = false;
+
 	public Entity Entity { get; private set; }
 
 	public bool Selectable { get; set; } = true;
 
 	private void Awake()
 	{
-		Initialzie();
+		Initialize();
 	}
 
-	protected virtual void Initialzie()
+	protected virtual void Initialize()
 	{
+		if (Initialized)
+			throw new System.Exception($"Multiple initialization attempts of {this}!");
+		
 		Entity = GetComponent<Entity>();
+		Initialized = true;
 	}
 
 	/// <summary>
