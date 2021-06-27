@@ -26,7 +26,7 @@ namespace Input
                     ""id"": ""033516c6-77bd-46a2-a59e-c4215815a47a"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Look"",
