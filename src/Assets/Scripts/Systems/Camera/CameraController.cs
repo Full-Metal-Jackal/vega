@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoSingleton<CameraController>
 {
@@ -25,7 +26,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 	private void Follow()
 	{
-		if (mob is null)
+		if (!mob)
 			return;
 
 		Vector3 mobPos = mob.Body.position;
@@ -60,7 +61,7 @@ public class CameraController : MonoSingleton<CameraController>
 	public static Vector3 GetWorldCursorPosition(float heightOffset = 0)
 	{
 		Plane plane = new Plane(Vector3.up, heightOffset);
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 		if (plane.Raycast(ray, out float distance))
 			return ray.GetPoint(distance);
 		return Vector3.zero;

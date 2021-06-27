@@ -22,6 +22,16 @@ public abstract class Humanoid : Mob
 	public float dodgeCooldown = 1f;
 
 	/// <summary>
+	/// How much stamina does a dodgeroll withdraw.
+	/// </summary>
+	public float dodgeStaminaCost = 25f;
+
+	/// <summary>
+	/// How much stamina does sprinting withdraw every frame.
+	/// </summary>
+	public float sprintStaminaCost = 15f;
+
+	/// <summary>
 	/// The multiplier of the mob's sprinting speed.
 	/// </summary>
 	public float sprintSpeedFactor = 1.5f;
@@ -46,7 +56,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			switch (MobMovementState)
+			switch (MovementState)
 			{
 			case MovementState.Standing:
 			case MovementState.Walking:
@@ -55,55 +65,92 @@ public abstract class Humanoid : Mob
 				break;
 			}
 
-			return true;
+			return Stamina > dodgeStaminaCost;
 		}
 	}
 
-	public override void Setup()
+	public bool CanSprint
 	{
-		base.Setup();
+		get
+		{
+			if (!CanMoveActively)
+				return false;
 
-		
+			switch (MovementState)
+			{
+			case MovementState.Standing:
+				return false;
+			default:
+				break;
+			}
+
+			return Stamina > sprintStaminaCost;
+		}
+	}
+
+	public override MovementType MovementType
+	{
+		get => base.MovementType;
+		set
+		{
+			if (value == MovementType.Sprinting && !CanSprint)
+				return;
+			base.MovementType = value;
+		}
+	}
+
+	public override void DashAction() => Dodge();
+
+	/// <summary>
+	/// Performs a dodge attempt.
+	/// </summary>
+	public void Dodge()
+	{
+		if (CanDodge)
+			MovementState = MovementState.Dodging;
 	}
 
 	public override void Move(
 		float delta,
 		Vector3 direction,
-		MovementState requestedState = MovementState.Running,
 		bool affectY = false
 	)
 	{
 		if (!CanMoveActively)
 			return;
 
-		if (direction.magnitude > 1f)
-			direction.Normalize();
-		else if (direction.magnitude <= movementHaltThreshold)
-			requestedState = MovementState.Standing;
-		activeDirection = direction;
-
 		float speed = moveSpeed;
 
-		switch (requestedState)
+		if (direction.magnitude <= movementHaltThreshold)
 		{
-		case MovementState.Walking:
-			speed *= walkSpeedFactor;
-			break;
-		case MovementState.Sprinting:
-			speed *= sprintSpeedFactor;
-			break;
-		case MovementState.Dodging:
-			if (CanDodge)
-			{
-				MobMovementState = requestedState;
-				return;
-			}
-			requestedState = MovementState.Running;
-			break;
-		default:
-			break;
+			MovementState = MovementState.Standing;
 		}
-		MobMovementState = requestedState;
+		else
+		{
+			if (direction.magnitude > 1f)
+				direction.Normalize();
+
+			switch (MovementType)
+			{
+			case MovementType.Walking:
+				speed *= walkSpeedFactor;
+				MovementState = MovementState.Walking;
+				break;
+			case MovementType.Sprinting:
+				if (!CanSprint)
+					goto default;
+
+				speed *= sprintSpeedFactor;
+				Stamina -= sprintStaminaCost * delta;
+				MovementState = MovementState.Sprinting;
+				break;
+			default:
+				MovementState = MovementState.Running;
+				break;
+			}
+		}
+
+		activeDirection = direction;
 
 		Vector3 targetVelocity = speed * direction * delta;
 		if (!affectY)
@@ -116,10 +163,8 @@ public abstract class Humanoid : Mob
 			movementSmoothing
 		);
 
-		Vector3 rotateTo = Body.velocity;
-		rotateTo.y = 0f;
-		if (turnsToMovementDirection && rotateTo.magnitude > movementHaltThreshold)
-			transform.rotation = Quaternion.LookRotation(rotateTo, Vector3.up);
+		if (turnsToMovementDirection)
+			TurnTo(Body.velocity);
 	}
 
 	public void OnDodgeRoll()
@@ -133,13 +178,15 @@ public abstract class Humanoid : Mob
 
 		Vector3 force = Quaternion.AngleAxis(-dodgeAngle, transform.right) * direction * dodgeSpeed;
 
+		Stamina -= dodgeStaminaCost;
+
 		Body.velocity = Vector3.zero;
 		Body.AddForce(force, ForceMode.Impulse);
 	}
 
 	public void OnDodgeRollEnd()
 	{
-		MobMovementState = MovementState.Sprinting;
+		MovementState = MovementState.Sprinting;
 	}
 
 	public override ItemSocket GunSocket => rightHand;

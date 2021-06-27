@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 using Circuitry;
 
@@ -69,7 +70,7 @@ namespace UI.CircuitConstructor
 
 			if (tooltipObject)
 			{
-				tooltipObject.transform.position = Input.mousePosition;
+				tooltipObject.transform.position = Mouse.current.position.ReadValue();
 				return;
 			}
 

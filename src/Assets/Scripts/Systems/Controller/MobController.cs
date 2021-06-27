@@ -11,10 +11,23 @@ public abstract class MobController : MonoBehaviour
 
 	protected int Id { get; private set; }
 
-	private Vector3 direction;
-	private MovementState state = MovementState.Standing;
+	protected Vector3 movement;
 
-	private void Start()
+	public bool Initialized { get; private set; }
+
+	private void Awake() => Initialize();
+
+	protected virtual void Initialize()
+	{
+		if (Initialized)
+			throw new System.Exception($"Multiple initialization attempts of {this}.");
+
+		Initialized = true;
+	}
+
+	private void Start() => Setup();
+
+	protected virtual void Setup()
 	{
 		if ((possessAtStart is Mob mob) || TryGetComponent(out mob))
 			PossessMob(mob);
@@ -27,9 +40,7 @@ public abstract class MobController : MonoBehaviour
 	/// <returns>true in case of successful possession, false otherwise.</returns>
 	public virtual bool PossessMob(Mob mob)
 	{
-		if (!(mob is IPossessable possessable))
-			return false;
-		possessable.SetPossessed(this);
+		mob.SetPossessed(this);
 		Possessed = mob;
 		Debug.Log($"Controller {Id} possessed {mob}.");
 		return true;
@@ -40,24 +51,19 @@ public abstract class MobController : MonoBehaviour
 		if (!Possessed)
 			return;
 
-		direction = GetMovement(out state);
-
 		OnUpdate(Time.deltaTime);
-	}
-
-	protected virtual Vector3 GetMovement(out MovementState state)
-	{
-		state = MovementState.Standing;
-		return Vector3.zero;
-	}
-
-	private void FixedUpdate()
-	{
-		if (Possessed)
-			Possessed.Move(Time.fixedDeltaTime, direction, state);
 	}
 
 	protected virtual void OnUpdate(float delta)
 	{
+		// direction = UpdateMovementInput();
+	}
+
+	protected virtual Vector3 UpdateMovementInput() => Vector3.zero;
+
+	private void FixedUpdate()
+	{
+		if (Possessed)
+			Possessed.Move(Time.fixedDeltaTime, movement);
 	}
 }

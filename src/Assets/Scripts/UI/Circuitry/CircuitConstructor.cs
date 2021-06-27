@@ -41,7 +41,7 @@ namespace UI.CircuitConstructor
 		{
 			Debug.Log("Opening the circuit constructor...");
 			gameObject.SetActive(true);
-			Game.inputState = InputState.UIOnly;
+			Game.InputState = InputState.UIOnly;
 		}
 
 		public void Open(AssemblyWidget assemblyWidget)
@@ -67,7 +67,7 @@ namespace UI.CircuitConstructor
 		{
 			Debug.Log("Closing the circuit constructor...");
 			gameObject.SetActive(false);
-			Game.inputState = InputState.WorldOnly;
+			Game.InputState = InputState.WorldOnly;
 		}
 
 		public void ShowCircuitInfo(Circuitry.Circuit circuit)

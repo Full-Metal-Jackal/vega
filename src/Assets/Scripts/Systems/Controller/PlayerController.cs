@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MobController
 {
@@ -27,6 +27,20 @@ public class PlayerController : MobController
 		}
 	}
 
+	private bool playerInputEnabled = true;
+	public bool PlayerInputEnabled
+	{
+		get => playerInputEnabled;
+		set
+		{
+			playerInputEnabled = value;
+			if (value)
+				input.Enable();
+			else
+				input.Disable();
+		}
+	}
+
 	/// <summary>
 	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
@@ -34,9 +48,7 @@ public class PlayerController : MobController
 	private readonly Collider[] colliderBuffer = new Collider[16];
 	private LayerMask interactableMask;
 
-	private bool requestDodging = false;
-	private bool isSprinting = false;
-	private bool isWalking = false;
+	private Input.InputActions input;
 
 	/// <summary>
 	/// The angular size of selection sector.
@@ -59,10 +71,29 @@ public class PlayerController : MobController
 	/// </summary>
 	public Color deselectedColor = Color.black;
 
-	private bool usePressed = false;
-
-	private void Awake() =>
+	protected override void Initialize()
+	{
+		base.Initialize();
+		
 		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items" });
+
+		input = new Input.InputActions();
+	}
+
+	protected override void Setup()
+	{
+		base.Setup();
+
+		input.World.Use.performed += ctx => OnUsePressed();
+		input.World.Dodge.performed += ctx => OnDodgePressed();
+
+		input.World.Sprint.performed += ctx => OnSprintInput(true);
+		input.World.Sprint.canceled += ctx => OnSprintInput(false);
+
+		input.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		input.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+	}
 
 	public override bool PossessMob(Mob mob)
 	{
@@ -76,70 +107,33 @@ public class PlayerController : MobController
 
 		return true;
 	}
-	
-	protected override Vector3 GetMovement(out MovementState state)
-	{
-		state = MovementState.Standing;
 
+	protected override Vector3 UpdateMovementInput()
+	{
 		if (!Game.IsWorldInputAllowed)
 			return Vector3.zero;
 
-		float x = Input.GetAxis("Horizontal");
-		float z = Input.GetAxis("Vertical");
-		Vector3 movement = new Vector3(x, 0, z);
-
-		// <TODO implement as soon as we switch to the new InputSystem.>
-		//isWalking = Input.GetKey("Walk");
-		//isSprinting = Input.GetKey("Sprint");
-
-		UpdateActions();
-		// The following checks should descend from those of critical importance to the less important ones.
-		if (requestDodging)
-		{
-			state = MovementState.Dodging;
-			requestDodging = false;
-		}
-		else if (isSprinting)
-		{
-			state = MovementState.Sprinting;
-		}
-		else if (isWalking)
-		{
-			state = MovementState.Walking;
-		}
-		else if (movement.magnitude != 0)
-		{
-			state = MovementState.Running;
-		}
+		Vector3 move = Vector3.zero;
+		Vector3 movement = new Vector3(move.x, 0, move.y);
 
 		return movement;
 	}
 
+	private void OnUsePressed()
+	{
+		if (SelectedEntity is Interaction interaction)
+			Possessed.Use(interaction);
+	}
+
+	private void OnDodgePressed() => Possessed.DashAction();
+	private void OnSprintInput(bool sprint) => Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
+
+	private void OnMoveInput(Vector2 inputMovement) =>
+		movement = new Vector3(inputMovement.x, 0, inputMovement.y);
+
 	protected override void OnUpdate(float delta)
 	{
 		UpdateSelectedEntitiy();
-	}
-
-	protected void UpdateActions()
-	{
-		if (!Game.IsWorldInputAllowed)
-			return;
-
-		// We use GetButton instead of GetButtonDown because it will be far simplier
-		// to adjust to the new Unity's InputSystem this way.
-		if (Input.GetButton("Use"))
-		{
-			if (!usePressed && SelectedEntity is Interaction interaction)
-				Possessed.Use(interaction);
-			usePressed = true;
-		}
-		else
-		{
-			usePressed = false;
-		}
-
-		if (Input.GetButton("Jump"))
-			requestDodging = true;
 	}
 
 	public void SetSelectedOutline(bool selected)
@@ -163,7 +157,7 @@ public class PlayerController : MobController
 	/// Gets the entity the possessed mob is currently selecting.
 	/// Selecting means that the entity is within sector with radius equal to selectionDistance and angle equal to double selectionScope.
 	/// 
-	/// Won't detect entities with colliders not assigned to the layer from interactableMask.
+	/// Won't detect entities with colliders not assigned to a layer from interactableMask.
 	/// Will throw an exception if those colliders were applied to something other than entity child.
 	/// </summary>
 	/// <returns>The selected entity's Interaction component.</returns>
