@@ -66,8 +66,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 			case MovementState.Dodging:
 				Animator.SetTrigger("DodgeRollTrigger");
 				break;
-			default:
-				break;
 			}
 		}
 	}
@@ -177,8 +175,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 			case MovementState.Dodging:
 			case MovementState.Unconscious:
 				return false;
-			default:
-				break;
 			}
 
 			return true;

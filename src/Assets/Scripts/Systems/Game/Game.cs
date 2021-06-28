@@ -27,8 +27,6 @@ public static class Game
 			case InputState.UIOnly:
 				PlayerController.Instance.PlayerInputEnabled = false;
 				break;
-			default:
-				break;
 			}
 		}
 	}

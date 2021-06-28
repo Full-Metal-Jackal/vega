@@ -61,8 +61,6 @@ public abstract class Humanoid : Mob
 			case MovementState.Standing:
 			case MovementState.Walking:
 				return false;
-			default:
-				break;
 			}
 
 			return Stamina > dodgeStaminaCost;
@@ -80,8 +78,6 @@ public abstract class Humanoid : Mob
 			{
 			case MovementState.Standing:
 				return false;
-			default:
-				break;
 			}
 
 			return Stamina > sprintStaminaCost;
