@@ -24,12 +24,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
-	public float moveSpeed = 250f;
+	[field: SerializeField]
+	public float MoveSpeed { get; private set; }  = 250f;
 
-	protected float movementHaltThreshold = .01f;
+	protected readonly float movementHaltThreshold = .01f;
 
-	protected bool turnsToMovementDirection = true;
-	protected float rotationThreshold = .01f;
+	[SerializeField]
+	protected readonly bool turnsToMovementDirection = true;
+	protected readonly float rotationThreshold = .01f;
+
 	protected Vector3 activeDirection = Vector3.zero;
 
 	public bool Alive { get; protected set; } = true;
@@ -127,7 +130,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		activeDirection = direction;
 
-		Vector3 targetVelocity = moveSpeed * direction * delta;
+		Vector3 targetVelocity = MoveSpeed * direction * delta;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 
