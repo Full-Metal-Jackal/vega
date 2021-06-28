@@ -3,7 +3,7 @@ using UnityEngine;
 
 using Inventory;
 
-public abstract class Mob : DynamicEntity, IDamageable, IPossessable
+public abstract class Mob : DynamicEntity, IDamageable
 {
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
@@ -24,21 +24,28 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
-	public float moveSpeed = 250f;
+	[field: SerializeField]
+	public float MoveSpeed { get; private set; }  = 250f;
 
-	protected float movementHaltThreshold = .01f;
-	protected bool turnsToMovementDirection = true;
+	protected readonly float movementHaltThreshold = .01f;
+
+	[SerializeField]
+	protected readonly bool turnsToMovementDirection = true;
+	protected readonly float rotationThreshold = .01f;
+
 	protected Vector3 activeDirection = Vector3.zero;
 
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
 
-	private MovementState movementState = MovementState.Standing;
-	public virtual MovementState MobMovementState
+	/// <summary>
+	/// The current state of the mob, represents mostly the animation that is being played right now.
+	/// </summary>
+	public virtual MovementState MovementState
 	{
 		get => movementState;
-		set
+		protected set
 		{
 			movementState = value;
 			if (!Animator)
@@ -62,11 +69,15 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 			case MovementState.Dodging:
 				Animator.SetTrigger("DodgeRollTrigger");
 				break;
-			default:
-				break;
 			}
 		}
 	}
+	private MovementState movementState = MovementState.Standing;
+
+	/// <summary>
+	/// The way this mob moves continuously: walking, running or sprinting.
+	/// </summary>
+	public virtual MovementType MovementType { get; set; } = MovementType.Running;
 
 	protected override bool Initialize()
 	{
@@ -85,42 +96,61 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 	}
 
 	/// <summary>
+	/// Attempts to make the mob dash, dodgeroll etc.
+	/// </summary>
+	public virtual void DashAction()
+	{
+	}
+
+	/// <summary>
 	/// Handles the mob's active movement.
 	/// </summary>
 	/// <param name="delta">Delta between two ticks.</param>
 	/// <param name="direction">Vector describing the movement of the mob with magnitude between 0 and 1.</param>
-	/// <param name="requestedState">The movement state that is trying to be enforced on the mob.</param>
 	/// <param name="affectY">If the request should influence the mob's vertical movement.</param>
 	public virtual void Move(
 		float delta,
 		Vector3 direction,
-		MovementState requestedState = MovementState.Running,
 		bool affectY = false
 	)
 	{
 		if (!CanMoveActively)
 			return;
 
-		if (direction.magnitude > 1f)
-			direction.Normalize();
-		else if (direction.magnitude <= movementHaltThreshold)
-			requestedState = MovementState.Standing;
+		if (direction.magnitude <= movementHaltThreshold)
+		{
+			MovementState = MovementState.Standing;
+		}
+		else
+		{
+			if (direction.magnitude > 1f)
+				direction.Normalize();
+			MovementState = MovementState.Running;
+		}
+
 		activeDirection = direction;
 
-		float speed = moveSpeed;
-
-		MobMovementState = requestedState;
-
-		Vector3 targetVelocity = speed * direction * delta;
+		Vector3 targetVelocity = MoveSpeed * direction * delta;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 
 		Body.velocity = targetVelocity;
 
-		Vector3 rotateTo = Body.velocity;
+		if (turnsToMovementDirection)
+			TurnTo(Body.velocity);
+	}
+
+	/// <summary>
+	/// Makes the mob's whole body face the specified direction.
+	/// </summary>
+	/// <param name="rotateTo">The direction to face.</param>
+	public virtual void TurnTo(Vector3 rotateTo)
+	{
 		rotateTo.y = 0f;
-		if (turnsToMovementDirection && rotateTo.magnitude > movementHaltThreshold)
-			transform.rotation = Quaternion.LookRotation(rotateTo, Vector3.up);
+		if (rotateTo.magnitude <= rotationThreshold)
+			return;
+
+		transform.rotation = Quaternion.LookRotation(rotateTo, Vector3.up);
 	}
 
 	/// <summary>
@@ -142,14 +172,12 @@ public abstract class Mob : DynamicEntity, IDamageable, IPossessable
 	{
 		get
 		{
-			switch (MobMovementState)
+			switch (MovementState)
 			{
 			case MovementState.Dead:
 			case MovementState.Dodging:
 			case MovementState.Unconscious:
 				return false;
-			default:
-				break;
 			}
 
 			return true;
