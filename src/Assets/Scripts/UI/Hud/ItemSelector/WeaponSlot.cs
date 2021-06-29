@@ -7,9 +7,6 @@ namespace UI
 	public class WeaponSlot : MonoBehaviour
 	{
 		[SerializeField]
-		private RectTransform slotContainer;
-
-		[SerializeField]
 		private Image background;
 
 		private Image icon;
@@ -26,8 +23,8 @@ namespace UI
 			enabled = false;
 			ammoCount.gameObject.SetActive(false);
 
-			Vector3 origPos = slotContainer.localPosition;
-			slotContainer.localPosition = new Vector3(origPos.x, offset, origPos.z); // initially offset the slot, showing its disabled state
+			Vector3 origPos = transform.localPosition;
+			transform.localPosition = new Vector3(origPos.x, offset, origPos.z); // initially offset the slot, showing its disabled state
 
 			PlayerController.Instance.Possessed.OnPickedUpItem += (item) =>
 			{
@@ -36,7 +33,7 @@ namespace UI
 					icon = gun.ItemData.PasteIcon(background.transform);
 					this.gun = gun;
 
-					slotContainer.localPosition = origPos;
+					transform.localPosition = origPos;
 
 					enabled = true;
 					ammoCount.gameObject.SetActive(true);
@@ -44,7 +41,7 @@ namespace UI
 			};
 		}
 
-		// <TODO> Rewire to an CSharp event.
+		// <TODO> Rewire to an CSharp event for the sake of optimization!!
 		private void Update()
 		{
 			if (!gun)
