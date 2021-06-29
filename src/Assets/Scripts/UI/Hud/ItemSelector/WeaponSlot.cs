@@ -9,8 +9,6 @@ namespace UI
 		[SerializeField]
 		private Image background;
 
-		private Image icon;
-
 		[SerializeField]
 		private Text ammoCount;
 
@@ -30,7 +28,7 @@ namespace UI
 			{
 				if (item is Gun gun)
 				{
-					icon = gun.ItemData.PasteIcon(background.transform);
+					gun.ItemData.PasteIcon(background.transform);
 					this.gun = gun;
 
 					transform.localPosition = origPos;
@@ -41,7 +39,7 @@ namespace UI
 			};
 		}
 
-		// <TODO> Rewire to an CSharp event for the sake of optimization!!
+		// <TODO> Rewire to a CSharp event for the sake of optimization!!
 		private void Update()
 		{
 			if (!gun)
