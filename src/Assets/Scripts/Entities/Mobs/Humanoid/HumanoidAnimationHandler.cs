@@ -7,15 +7,18 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected Transform leftHandIkTarget;
 	protected Transform rightHandIkTarget;
 
+	[SerializeField]
 	private float headIkWeight = .8f;
+	[SerializeField]
 	private float bodyIkWeight = .6f;
 
 	public bool lookAtIkEnabled;
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		// leftHandIkTarget = item.LeftHandHandle;
-		rightHandIkTarget = Mob.AimTransform;  // item.RightHandHandle;
+		// <TODO> There will be a more sophisticated determination of what hand is aiming and what is holding later.
+		leftHandIkTarget = item.Model.LeftHandHandle;
+		rightHandIkTarget = Mob.AimTransform;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)

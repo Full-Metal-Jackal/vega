@@ -88,60 +88,8 @@ public class Gun : Item
 		return projectile;
 	}
 
-	public void Drop()
-	{
-		if (!Slot)
-		{
-			Debug.LogWarning($"Multiple drop attempts of {this}!");
-			return;
-		}
-
-		// <TODO> Change to Game.itemsHolder or Game.Instance.ItemsHolder as soon as we get our Game singleton working.
-		transform.SetParent(GameObject.Find("Items").transform);
-	}
-
-	protected virtual void OnHolster()
-	{
-		// <TODO> Cease reloading.
-		Owner.GunSocket.Clear();
-		Owner.ActiveItem = null;
-	}
-
-	protected virtual void OnDraw()
-	{
-		if (!Owner)
-		{
-			Debug.LogWarning($"{this} is attempted to be drawn without owner, this should never happen.");
-			return;
-		}
-
-		if (!(Owner.GunSocket is ItemSocket socket))
-		{
-			Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
-			return;
-		}
-		
-		socket.Clear();
-		if (!(ItemData.PasteModel(socket.transform) is GunModelData gunModel))
-		{
-			Debug.LogWarning($"{this} has invalid model setup: no GunModelData detected.");
-			return;
-		}
-
-		const float skeletonScale = .01f;  // <TODO> Investigate the nature of this scaling later; maybe tweak import settings?
-		gunModel.transform.localScale = Vector3.one * skeletonScale;
-
-		Owner.ActiveItem = this;
-	}
-
 	protected virtual void OnNoAmmo()
 	{
 		// <TODO> Make a click sound here and may be start reloading.
-	}
-
-	public override void Use()
-	{
-		// <TODO> Holster mob's active gun, then draw this one.
-		OnDraw();
 	}
 }

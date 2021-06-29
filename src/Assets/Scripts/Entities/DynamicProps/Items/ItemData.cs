@@ -29,10 +29,6 @@ public class ItemData : MonoBehaviour
 	private GameObject icon;
 	public Image PasteIcon(Transform transform) =>
 		Paste(icon, transform).GetComponent<Image>();
-	//{
-	//	Image image = icon.GetComponentInChildren<Image>();
-	//	return Paste(image.gameObject, transform).GetComponent<Image>();
-	//}
 
 	[SerializeField]
 	private GameObject item;

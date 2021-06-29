@@ -13,4 +13,6 @@ public class ItemModelData : MonoBehaviour
 	/// </summary>
 	[field: SerializeField]
 	public Transform RightHandHandle { get; private set; }
+
+	public void Suicide() => Destroy(gameObject);
 }

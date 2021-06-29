@@ -38,7 +38,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 		set
 		{
 			AimTransform.position = value;
-			AimTransform.rotation = Quaternion.Euler(value - transform.position);
+
+			// <TODO> ItemSocket will do for now but may be changed later.
+			Vector3 direction = value - ItemSocket.transform.position;
+
+			AimTransform.rotation = Quaternion.AngleAxis(-90f, direction) * Quaternion.LookRotation(direction, Vector3.up);
 		}
 	}
 
@@ -124,8 +128,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	private Transform CreateAim()
 	{
-		Transform aim = new GameObject().transform;
-		aim.position = transform.position + transform.forward* 16f;
+		Transform aim = new GameObject("Aim").transform;
+		aim.position = transform.position + transform.forward * 16f;
 		aim.SetParent(transform);
 		return aim;
 	}
@@ -236,5 +240,5 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual ItemSocket GunSocket => null;
+	public virtual ItemSocket ItemSocket => null;
 }

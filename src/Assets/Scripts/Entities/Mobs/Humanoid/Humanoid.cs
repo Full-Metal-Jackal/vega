@@ -83,7 +83,6 @@ public abstract class Humanoid : Mob
 			{
 			case HoldType.SingleHandPistol:
 			case HoldType.SingleHandDevice:
-				isDevice = true;
 				animatorValue = 1;
 				break;
 			case HoldType.TwoHandsPistol:
@@ -98,7 +97,6 @@ public abstract class Humanoid : Mob
 				break;
 			}
 			Animator.SetInteger(animatorVariable, animatorValue);
-			Debug.Log($"{holdState}: {animatorValue}, {isDevice}");
 		}
 	}
 
@@ -148,10 +146,7 @@ public abstract class Humanoid : Mob
 	public override Item ActiveItem
 	{
 		get => base.ActiveItem;
-		set
-		{
-			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
-		}
+		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
 	}
 
 	public override void Move(
@@ -244,5 +239,5 @@ public abstract class Humanoid : Mob
 		MovementState = MobState.Sprinting;
 	}
 
-	public override ItemSocket GunSocket => rightHand;
+	public override ItemSocket ItemSocket => rightHand;
 }
