@@ -21,14 +21,5 @@ namespace Inventory
 				item.transform.localRotation = Quaternion.identity;
 			}
 		}
-
-		/// <summary>
-		/// Destroys everything attached to the socket.
-		/// </summary>
-		public void Clear()
-		{
-			foreach (Transform child in transform)
-				Destroy(child.gameObject);
-		}
 	}
 }

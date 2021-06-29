@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Inventory;
+using UnityEngine;
 
-public class Gun : Inventory.Item
+public class Gun : Item
 {
 	public int ClipSize { get; protected set; } = 8;
 
@@ -87,45 +88,8 @@ public class Gun : Inventory.Item
 		return projectile;
 	}
 
-	public void Drop()
-	{
-		if (!Slot)
-		{
-			Debug.LogWarning($"Multiple drop attempts of {this}!");
-			return;
-		}
-
-		// <TODO> Change to Game.itemsHolder or Game.Instance.ItemsHolder as soon as we get our Game singleton working.
-		transform.SetParent(GameObject.Find("Items").transform);
-	}
-
-	protected virtual void OnHolstered()
-	{
-		// <TODO> Cease reloading.
-		Owner.GunSocket.Clear();
-	}
-
-	protected virtual void OnDraw()
-	{
-		if (!Owner)
-		{
-			Debug.LogWarning($"{this} is attempted to be drawn without owner, this should never happen.");
-			return;
-		}
-
-		GameObject model = ItemData.PasteModel(Owner.GunSocket.transform);
-		const float skeletonScale = .01f;  // <TODO> Investigate the nature of this scaling later; maybe tweak import settings?
-		model.transform.localScale = Vector3.one * skeletonScale;
-	}
-
 	protected virtual void OnNoAmmo()
 	{
 		// <TODO> Make a click sound here and may be start reloading.
-	}
-
-	public override void Use()
-	{
-		// <TODO> Holster mob's active gun, then draw this one.
-		OnDraw();
 	}
 }

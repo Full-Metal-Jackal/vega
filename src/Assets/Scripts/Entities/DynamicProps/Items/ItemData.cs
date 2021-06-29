@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+using Inventory;
 
 /// <summary>
 /// This scripts serves as a shortcut for item prefabs, allowing to quickly instantiate its model, collisions, UI Icon or the item itself.
@@ -12,21 +15,25 @@ using UnityEngine;
 /// </summary>
 public class ItemData : MonoBehaviour
 {
-	[field: SerializeField]
-	private GameObject Model { get; set; }
-	public GameObject PasteModel(Transform transform) => Paste(Model, transform);
+	[SerializeField]
+	private GameObject model;
+	public ItemModelData PasteModel(Transform transform) =>
+		Paste(model, transform).GetComponent<ItemModelData>();
 
-	[field: SerializeField]
-	private GameObject Collisions { get; set; }
-	public GameObject PasteCollisions(Transform transform) => Paste(Collisions, transform);
+	[SerializeField]
+	private GameObject collisions;
+	public Transform PasteCollisions(Transform transform) =>
+		Paste(collisions, transform).transform;
 
-	[field: SerializeField]
-	public GameObject Icon { get; private set; }
-	public GameObject PasteIcon(Transform transform) => Paste(Icon, transform);
+	[SerializeField]
+	private GameObject icon;
+	public Image PasteIcon(Transform transform) =>
+		Paste(icon, transform).GetComponent<Image>();
 
-	[field: SerializeField]
-	private GameObject Item { get; set; }
-	public GameObject PasteItem(Transform transform) => Paste(Item, transform);
+	[SerializeField]
+	private GameObject item;
+	public Item PasteItem(Transform transform) =>
+		Paste(item, transform).GetComponent<Item>();
 
 	private GameObject Paste(GameObject gameObject, Transform transform)
 	{

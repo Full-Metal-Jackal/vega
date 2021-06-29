@@ -13,12 +13,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual float MaxHealth { get; set; } = 100;
 	[field: SerializeField]
 	public float Health { get; protected set; }
-	
+
 	[field: SerializeField]
 	public float Stamina { get; set; }
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
-	
+
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
@@ -29,7 +29,22 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// The mob's running speed.
 	/// </summary>
 	[field: SerializeField]
-	public float MoveSpeed { get; private set; }  = 250f;
+	public float MoveSpeed { get; private set; } = 250f;
+
+	public Transform AimTransform { get; private set; }
+	public Vector3 AimPos
+	{
+		get => AimTransform.position;
+		set
+		{
+			AimTransform.position = value;
+
+			// <TODO> ItemSocket will do for now but may be changed later.
+			Vector3 direction = value - ItemSocket.transform.position;
+
+			AimTransform.rotation = Quaternion.AngleAxis(-90f, direction) * Quaternion.LookRotation(direction, Vector3.up);
+		}
+	}
 
 	protected readonly float movementHaltThreshold = .01f;
 
@@ -43,10 +58,24 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
+	public delegate void ActiveItemAction(Item item);
+	public event ActiveItemAction OnItemChange;
+	public virtual Item ActiveItem
+	{
+		get => activeItem;
+		set
+		{
+			activeItem = value;
+
+			OnItemChange?.Invoke(activeItem);
+		}
+	}
+	private Item activeItem;
+
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
-	public virtual MovementState MovementState
+	public virtual MobState MovementState
 	{
 		get => movementState;
 		protected set
@@ -58,25 +87,25 @@ public abstract class Mob : DynamicEntity, IDamageable
 			const string animatorVariable = "MovementState";
 			switch (movementState)
 			{
-			case MovementState.Standing:
+			case MobState.Standing:
 				Animator.SetInteger(animatorVariable, 0);
 				break;
-			case MovementState.Walking:
+			case MobState.Walking:
 				Animator.SetInteger(animatorVariable, 1);
 				break;
-			case MovementState.Running:
+			case MobState.Running:
 				Animator.SetInteger(animatorVariable, 2);
 				break;
-			case MovementState.Sprinting:
+			case MobState.Sprinting:
 				Animator.SetInteger(animatorVariable, 3);
 				break;
-			case MovementState.Dodging:
+			case MobState.Dodging:
 				Animator.SetTrigger("DodgeRollTrigger");
 				break;
 			}
 		}
 	}
-	private MovementState movementState = MovementState.Standing;
+	private MobState movementState = MobState.Standing;
 
 	/// <summary>
 	/// The way this mob moves continuously: walking, running or sprinting.
@@ -91,7 +120,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
+		// Since aim position is marked by an empty object and is moved constantly, it is simplier to create it from code. 
+		AimTransform = CreateAim();
+
 		return true;
+	}
+
+	private Transform CreateAim()
+	{
+		Transform aim = new GameObject("Aim").transform;
+		aim.position = transform.position + transform.forward * 16f;
+		aim.SetParent(transform);
+		return aim;
 	}
 
 	public void TakeDamage(float damage)
@@ -123,13 +163,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MovementState.Standing;
+			MovementState = MobState.Standing;
 		}
 		else
 		{
 			if (direction.magnitude > 1f)
 				direction.Normalize();
-			MovementState = MovementState.Running;
+			MovementState = MobState.Running;
 		}
 
 		activeDirection = direction;
@@ -190,9 +230,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		{
 			switch (MovementState)
 			{
-			case MovementState.Dead:
-			case MovementState.Dodging:
-			case MovementState.Unconscious:
+			case MobState.Dead:
+			case MobState.Dodging:
+			case MobState.Unconscious:
 				return false;
 			}
 
@@ -200,5 +240,5 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual ItemSocket GunSocket => null;
+	public virtual ItemSocket ItemSocket => null;
 }

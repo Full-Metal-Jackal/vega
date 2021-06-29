@@ -56,7 +56,6 @@ public abstract class MobController : MonoBehaviour
 
 	protected virtual void OnUpdate(float delta)
 	{
-		// direction = UpdateMovementInput();
 	}
 
 	protected virtual Vector3 UpdateMovementInput() => Vector3.zero;
