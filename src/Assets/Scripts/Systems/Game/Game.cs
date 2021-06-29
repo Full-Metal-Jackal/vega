@@ -40,7 +40,8 @@ public static class Game
 		// Update the input state at start.
 		InputState = inputState;
 
-		PlayerController.Instance.OnPossesed += () => Hud.Instance.RegisterComponents();
+		PlayerController.Instance.OnPossesed += mob => Hud.Instance.RegisterComponents();
+		PlayerController.Instance.OnPossesed += mob => CameraController.Instance.SetTrackedMob(mob);
 
 		Initialized = true;
 		Debug.Log("Game initialization complete.");

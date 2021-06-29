@@ -13,12 +13,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual float MaxHealth { get; set; } = 100;
 	[field: SerializeField]
 	public float Health { get; protected set; }
-	
+
 	[field: SerializeField]
 	public float Stamina { get; set; }
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
-	
+
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
@@ -29,7 +29,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// The mob's running speed.
 	/// </summary>
 	[field: SerializeField]
-	public float MoveSpeed { get; private set; }  = 250f;
+	public float MoveSpeed { get; private set; } = 250f;
+
+	public Transform AimTransform { get; private set; }
+	public Vector3 AimPos
+	{
+		get => AimTransform.position;
+		set
+		{
+			AimTransform.position = value;
+			AimTransform.rotation = Quaternion.Euler(value - transform.position);
+		}
+	}
 
 	protected readonly float movementHaltThreshold = .01f;
 
@@ -105,7 +116,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
+		// Since aim position is marked by an empty object and is moved constantly, it is simplier to create it from code. 
+		AimTransform = CreateAim();
+
 		return true;
+	}
+
+	private Transform CreateAim()
+	{
+		Transform aim = new GameObject().transform;
+		aim.position = transform.position + transform.forward* 16f;
+		aim.SetParent(transform);
+		return aim;
 	}
 
 	public void TakeDamage(float damage)

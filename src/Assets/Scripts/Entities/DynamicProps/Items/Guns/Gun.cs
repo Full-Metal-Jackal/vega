@@ -122,10 +122,14 @@ public class Gun : Item
 		}
 		
 		socket.Clear();
-		GameObject model = ItemData.PasteModel(socket.transform);
+		if (!(ItemData.PasteModel(socket.transform) is GunModelData gunModel))
+		{
+			Debug.LogWarning($"{this} has invalid model setup: no GunModelData detected.");
+			return;
+		}
 
 		const float skeletonScale = .01f;  // <TODO> Investigate the nature of this scaling later; maybe tweak import settings?
-		model.transform.localScale = Vector3.one * skeletonScale;
+		gunModel.transform.localScale = Vector3.one * skeletonScale;
 
 		Owner.ActiveItem = this;
 	}

@@ -36,7 +36,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 		if (cursorFactor > .0f && Game.IsWorldInputAllowed)
 		{
-			Vector3 cursorPos = GetWorldCursorPosition();
+			Vector3 cursorPos = GetWorldCursorPos();
 			cursorShift = (cursorPos - mobPos) * cursorFactor;
 		}
 		Vector3 targetPos = mobPos + cursorShift;
@@ -58,7 +58,7 @@ public class CameraController : MonoSingleton<CameraController>
 	/// </summary>
 	/// <param name="heightOffset">Vertical offset of the plane the cursor is projected onto.</param>
 	/// <returns>Cursor position in the world or Vector3.zero in case of error.</returns>
-	public static Vector3 GetWorldCursorPosition(float heightOffset = 0)
+	public static Vector3 GetWorldCursorPos(float heightOffset = 0)
 	{
 		Plane plane = new Plane(Vector3.up, heightOffset);
 		Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());

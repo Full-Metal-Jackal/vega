@@ -4,9 +4,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MobController
 {
-	public delegate void PossesAction();
+	public delegate void PossesAction(Mob mob);
 
 	public event PossesAction OnPossesed;
+
+	public float aimMovementSmoothing = .04f;
+	private Vector3 currentAimPosVelocity = Vector3.zero;
 
 	/// Да простит меня Аллах
 	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
@@ -100,10 +103,7 @@ public class PlayerController : MobController
 		if (!base.PossessMob(mob))
 			return false;
 		
-		if (CameraController.Instance)
-			CameraController.Instance.SetTrackedMob(mob);
-		
-		OnPossesed?.Invoke();
+		OnPossesed?.Invoke(mob);
 
 		return true;
 	}
@@ -134,6 +134,23 @@ public class PlayerController : MobController
 	protected override void OnUpdate(float delta)
 	{
 		UpdateSelectedEntitiy();
+		UpdateAimPos();
+	}
+
+	public void UpdateAimPos()
+	{
+		// <TODO> Check if this constant works well enough; otherwise, make it depend on the mob's height/distance to cursor.
+		const float aimHeight = 1.5f;
+
+		Vector3 aimPos = CameraController.GetWorldCursorPos();
+		aimPos.y += aimHeight;
+
+		Possessed.AimPos = Vector3.SmoothDamp(
+			Possessed.AimPos,
+			aimPos,
+			ref currentAimPosVelocity,
+			aimMovementSmoothing
+		);
 	}
 
 	public void SetSelectedOutline(bool selected)

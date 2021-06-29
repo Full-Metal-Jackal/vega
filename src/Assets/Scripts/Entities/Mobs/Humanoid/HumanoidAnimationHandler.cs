@@ -4,15 +4,18 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 {
 	private Humanoid humanoid;
 
-	protected Transform leftHandHandle;
-	protected Transform rightHandHandle;
+	protected Transform leftHandIkTarget;
+	protected Transform rightHandIkTarget;
+
+	private float headIkWeight = .8f;
+	private float bodyIkWeight = .6f;
 
 	public bool lookAtIkEnabled;
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		leftHandHandle = item.LeftHandHandle;
-		rightHandHandle = item.RightHandHandle;
+		// leftHandIkTarget = item.LeftHandHandle;
+		rightHandIkTarget = Mob.AimTransform;  // item.RightHandHandle;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)
@@ -46,16 +49,22 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	private void OnAnimatorIK()
 	{
-		Animator.SetLookAtWeight(lookAtIkEnabled ? 1 : 0); // This method can only be called from this callback for some reason.
 		if (lookAtIkEnabled)
-			Animator.SetLookAtPosition(CameraController.GetWorldCursorPosition());
+		{
+			Animator.SetLookAtWeight(1, bodyIkWeight, headIkWeight);
+			Animator.SetLookAtPosition(Mob.AimPos);
+		}
+		else
+		{
+			Animator.SetLookAtWeight(0);
+		}
 
-		SetIkWeights(AvatarIKGoal.LeftHand, leftHandHandle ? 1 : 0);
-		if (leftHandHandle)
-			SetIkTransform(AvatarIKGoal.LeftHand, leftHandHandle);
+		SetIkWeights(AvatarIKGoal.LeftHand, leftHandIkTarget ? 1 : 0);
+		if (leftHandIkTarget)
+			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
 
-		SetIkWeights(AvatarIKGoal.RightHand, rightHandHandle ? 1 : 0);
-		if (rightHandHandle)
-			SetIkTransform(AvatarIKGoal.RightHand, rightHandHandle);
+		SetIkWeights(AvatarIKGoal.RightHand, rightHandIkTarget ? 1 : 0);
+		if (rightHandIkTarget)
+			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
 	}
 }
