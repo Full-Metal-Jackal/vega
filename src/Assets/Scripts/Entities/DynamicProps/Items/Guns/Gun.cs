@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Inventory;
+using UnityEngine;
 
-public class Gun : Inventory.Item
+public class Gun : Item
 {
 	public int ClipSize { get; protected set; } = 8;
 
@@ -99,10 +100,11 @@ public class Gun : Inventory.Item
 		transform.SetParent(GameObject.Find("Items").transform);
 	}
 
-	protected virtual void OnHolstered()
+	protected virtual void OnHolster()
 	{
 		// <TODO> Cease reloading.
 		Owner.GunSocket.Clear();
+		Owner.ActiveItem = null;
 	}
 
 	protected virtual void OnDraw()
@@ -113,9 +115,19 @@ public class Gun : Inventory.Item
 			return;
 		}
 
-		GameObject model = ItemData.PasteModel(Owner.GunSocket.transform);
+		if (!(Owner.GunSocket is ItemSocket socket))
+		{
+			Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
+			return;
+		}
+		
+		socket.Clear();
+		GameObject model = ItemData.PasteModel(socket.transform);
+
 		const float skeletonScale = .01f;  // <TODO> Investigate the nature of this scaling later; maybe tweak import settings?
 		model.transform.localScale = Vector3.one * skeletonScale;
+
+		Owner.ActiveItem = this;
 	}
 
 	protected virtual void OnNoAmmo()

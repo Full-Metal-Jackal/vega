@@ -6,7 +6,8 @@ namespace Inventory
 {
 	public class MobInventory : MonoBehaviour
 	{
-		[field: SerializeField]
+		public bool Initialized { get; private set; } = false;
+
 		public Mob Owner { get; private set; }
 
 		[field: SerializeField]
@@ -21,6 +22,21 @@ namespace Inventory
 					return result;
 
 			return null;
+		}
+
+		private void Awake()
+		{
+			Initialize();
+		}
+
+		protected virtual void Initialize()
+		{
+			if (Initialized)
+				throw new System.Exception($"Multiple initialization attempts of {this}!");
+
+			Owner = transform.parent.GetComponent<Mob>();
+
+			Initialized = true;
 		}
 	}
 }

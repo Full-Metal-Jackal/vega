@@ -30,6 +30,24 @@ namespace Inventory
 		}
 
 		/// <summary>
+		/// The target of the owner's left hand's IK.
+		/// </summary>
+		[field: SerializeField]
+		public Transform LeftHandHandle { get; private set; }
+
+		/// <summary>
+		/// The target of the owner's right hand's IK.
+		/// </summary>
+		[field: SerializeField]
+		public Transform RightHandHandle { get; private set; }
+
+		/// <summary>
+		/// How this item should be held in hands. If it shouldn't appear in hands at all, leave it as None.
+		/// </summary>
+		[field: SerializeField]
+		public HoldType HoldType { get; protected set; } = HoldType.None;
+
+		/// <summary>
 		/// Shortcut for item slot's owner.
 		/// </summary>
 		public Mob Owner => (Slot && Slot.Inventory) ? Slot.Inventory.Owner : null;

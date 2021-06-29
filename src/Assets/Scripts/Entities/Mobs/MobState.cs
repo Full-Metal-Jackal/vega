@@ -1,4 +1,4 @@
-﻿public enum MovementState
+﻿public enum MobState
 {
 	Dead,
 	Dodging,

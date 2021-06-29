@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 using Inventory;
 
@@ -54,6 +53,55 @@ public abstract class Humanoid : Mob
 	[SerializeField]
 	private ItemSocket belt;
 
+	private HoldType holdState = HoldType.None;
+	/// <summary>
+	/// Represents the aiming animation that is being played right now.
+	/// </summary>
+	public virtual HoldType HoldState
+	{
+		get => holdState;
+		protected set
+		{
+			holdState = value;
+			if (!Animator)
+				return;
+
+			const string animatorIsDevice = "HoldingDevice";
+			bool isDevice = false;
+			switch (holdState)
+			{
+			case HoldType.SingleHandDevice:
+			case HoldType.TwoHandsDevice:
+			case HoldType.Cyberdeck:
+				break;
+			}
+			Animator.SetBool(animatorIsDevice, isDevice);
+
+			const string animatorVariable = "HoldType";
+			int animatorValue = 0;
+			switch (holdState)
+			{
+			case HoldType.SingleHandPistol:
+			case HoldType.SingleHandDevice:
+				isDevice = true;
+				animatorValue = 1;
+				break;
+			case HoldType.TwoHandsPistol:
+			case HoldType.TwoHandsDevice:
+				animatorValue = 2;
+				break;
+			case HoldType.AssaultRifle:
+				animatorValue = 3;
+				break;
+			case HoldType.Shotgun:
+				animatorValue = 4;
+				break;
+			}
+			Animator.SetInteger(animatorVariable, animatorValue);
+			Debug.Log($"{holdState}: {animatorValue}, {isDevice}");
+		}
+	}
+
 	public bool CanDodge
 	{
 		get
@@ -63,8 +111,8 @@ public abstract class Humanoid : Mob
 
 			switch (MovementState)
 			{
-			case MovementState.Standing:
-			case MovementState.Walking:
+			case MobState.Standing:
+			case MobState.Walking:
 				return false;
 			}
 
@@ -79,7 +127,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			if (MovementState == MovementState.Standing)
+			if (MovementState == MobState.Standing)
 				return false;
 
 			return Stamina > SprintStaminaCost;
@@ -97,15 +145,13 @@ public abstract class Humanoid : Mob
 		}
 	}
 
-	public override void DashAction() => Dodge();
-
-	/// <summary>
-	/// Performs a dodge attempt.
-	/// </summary>
-	public void Dodge()
+	public override Item ActiveItem
 	{
-		if (CanDodge)
-			MovementState = MovementState.Dodging;
+		get => base.ActiveItem;
+		set
+		{
+			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+		}
 	}
 
 	public override void Move(
@@ -121,7 +167,7 @@ public abstract class Humanoid : Mob
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MovementState.Standing;
+			MovementState = MobState.Standing;
 		}
 		else
 		{
@@ -132,7 +178,7 @@ public abstract class Humanoid : Mob
 			{
 			case MovementType.Walking:
 				speed *= WalkSpeedFactor;
-				MovementState = MovementState.Walking;
+				MovementState = MobState.Walking;
 				break;
 			case MovementType.Sprinting:
 				if (!CanSprint)
@@ -140,10 +186,10 @@ public abstract class Humanoid : Mob
 
 				speed *= SprintSpeedFactor;
 				Stamina -= SprintStaminaCost * delta;
-				MovementState = MovementState.Sprinting;
+				MovementState = MobState.Sprinting;
 				break;
 			default:
-				MovementState = MovementState.Running;
+				MovementState = MobState.Running;
 				break;
 			}
 		}
@@ -165,6 +211,17 @@ public abstract class Humanoid : Mob
 			TurnTo(Body.velocity);
 	}
 
+	public override void DashAction() => Dodge();
+
+	/// <summary>
+	/// Performs a dodge attempt.
+	/// </summary>
+	public void Dodge()
+	{
+		if (CanDodge)
+			MovementState = MobState.Dodging;
+	}
+
 	public void OnDodgeRoll()
 	{
 		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
@@ -184,7 +241,7 @@ public abstract class Humanoid : Mob
 
 	public void OnDodgeRollEnd()
 	{
-		MovementState = MovementState.Sprinting;
+		MovementState = MobState.Sprinting;
 	}
 
 	public override ItemSocket GunSocket => rightHand;

@@ -39,10 +39,24 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
+	public delegate void ActiveItemAction(Item item);
+	public event ActiveItemAction OnItemChange;
+	public virtual Item ActiveItem
+	{
+		get => activeItem;
+		set
+		{
+			activeItem = value;
+
+			OnItemChange?.Invoke(activeItem);
+		}
+	}
+	private Item activeItem;
+
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
-	public virtual MovementState MovementState
+	public virtual MobState MovementState
 	{
 		get => movementState;
 		protected set
@@ -54,25 +68,25 @@ public abstract class Mob : DynamicEntity, IDamageable
 			const string animatorVariable = "MovementState";
 			switch (movementState)
 			{
-			case MovementState.Standing:
+			case MobState.Standing:
 				Animator.SetInteger(animatorVariable, 0);
 				break;
-			case MovementState.Walking:
+			case MobState.Walking:
 				Animator.SetInteger(animatorVariable, 1);
 				break;
-			case MovementState.Running:
+			case MobState.Running:
 				Animator.SetInteger(animatorVariable, 2);
 				break;
-			case MovementState.Sprinting:
+			case MobState.Sprinting:
 				Animator.SetInteger(animatorVariable, 3);
 				break;
-			case MovementState.Dodging:
+			case MobState.Dodging:
 				Animator.SetTrigger("DodgeRollTrigger");
 				break;
 			}
 		}
 	}
-	private MovementState movementState = MovementState.Standing;
+	private MobState movementState = MobState.Standing;
 
 	/// <summary>
 	/// The way this mob moves continuously: walking, running or sprinting.
@@ -119,13 +133,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MovementState.Standing;
+			MovementState = MobState.Standing;
 		}
 		else
 		{
 			if (direction.magnitude > 1f)
 				direction.Normalize();
-			MovementState = MovementState.Running;
+			MovementState = MobState.Running;
 		}
 
 		activeDirection = direction;
@@ -174,9 +188,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		{
 			switch (MovementState)
 			{
-			case MovementState.Dead:
-			case MovementState.Dodging:
-			case MovementState.Unconscious:
+			case MobState.Dead:
+			case MobState.Dodging:
+			case MobState.Unconscious:
 				return false;
 			}
 
