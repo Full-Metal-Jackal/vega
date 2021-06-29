@@ -21,7 +21,7 @@ public class ItemData : MonoBehaviour
 	public GameObject PasteCollisions(Transform transform) => Paste(Collisions, transform);
 
 	[field: SerializeField]
-	private GameObject Icon { get; set; }
+	public GameObject Icon { get; private set; }
 	public GameObject PasteIcon(Transform transform) => Paste(Icon, transform);
 
 	[field: SerializeField]

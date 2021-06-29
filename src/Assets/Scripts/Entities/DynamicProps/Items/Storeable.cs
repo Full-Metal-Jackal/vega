@@ -52,30 +52,17 @@ public class Storeable<ItemType> : Interaction where ItemType : Item
 	// <TODO> there are two methods until we decide whether to separate the item and the visualization parts. 
 	public override bool OnUse(Mob mob)
 	{
-		if (OnPickUp(mob))
-		{
-			Suicide();
-			Debug.Log($"{mob} has picked up {this}.");
-			return true;
-		}
-		else
-		{
+		if (!OnPickUp(mob))
 			return false;
-		}
+		
+		Suicide();
+		Debug.Log($"{mob} has picked up {this}.");
+		
+		return true;
 	}
 
 	protected void Suicide() =>
 		Destroy(gameObject);
 
-	protected virtual bool OnPickUp(Mob mob)
-	{
-		ItemSlot<ItemType> slot = mob.Inventory.GetFreeItemSlot<ItemType>();
-		
-		if (!slot)
-			return false;
-
-		slot.Item = Item;
-
-		return true;
-	}
+	protected virtual bool OnPickUp(Mob mob) => mob.PickUpItem(Item);
 }
