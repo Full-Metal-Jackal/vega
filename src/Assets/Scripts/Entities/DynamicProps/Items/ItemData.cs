@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Inventory;
 
@@ -16,19 +17,27 @@ public class ItemData : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject model;
-	public ItemModelData PasteModel(Transform transform) => Paste(model, transform).GetComponent<ItemModelData>();
+	public ItemModelData PasteModel(Transform transform) =>
+		Paste(model, transform).GetComponent<ItemModelData>();
 
 	[SerializeField]
 	private GameObject collisions;
-	public Transform PasteCollisions(Transform transform) => Paste(collisions, transform).transform;
+	public Transform PasteCollisions(Transform transform) =>
+		Paste(collisions, transform).transform;
 
 	[SerializeField]
 	private GameObject icon;
-	public UnityEngine.UI.Image PasteIcon(Transform transform) => Paste(icon, transform).GetComponentInChildren<UnityEngine.UI.Image>();
+	public Image PasteIcon(Transform transform) =>
+		Paste(icon, transform).GetComponent<Image>();
+	//{
+	//	Image image = icon.GetComponentInChildren<Image>();
+	//	return Paste(image.gameObject, transform).GetComponent<Image>();
+	//}
 
 	[SerializeField]
 	private GameObject item;
-	public Item PasteItem(Transform transform) => Paste(item, transform).GetComponent<Item>();
+	public Item PasteItem(Transform transform) =>
+		Paste(item, transform).GetComponent<Item>();
 
 	private GameObject Paste(GameObject gameObject, Transform transform)
 	{

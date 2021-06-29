@@ -41,15 +41,13 @@ MonoBehaviour:
   <ItemData>k__BackingField: {fileID: 4741963963955890903}
   <Name>k__BackingField: Sample Gun
   <Desc>k__BackingField: Really shouldn't be used in the game in any way
-  <LeftHandHandle>k__BackingField: {fileID: 8046261811754669877}
-  <RightHandHandle>k__BackingField: {fileID: 8553285252812960698}
   <HoldType>k__BackingField: 4
   <Barrel>k__BackingField: {fileID: 4582020215959673546}
   <ProjectilePrefab>k__BackingField: {fileID: 3217085903318650447, guid: 45e4ad286fec2c74a9191375da69f0ed, type: 3}
   <ProjectileSpeed>k__BackingField: 1200
   <Damage>k__BackingField: 10
   <Mass>k__BackingField: 2
---- !u!114 &5112129832053563449
+--- !u!114 &2378388274308027160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,9 +56,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 277205521914092698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c7f13d95157284b964cd7283010999, type: 3}
+  m_Script: {fileID: 11500000, guid: 456eb38583e9fed4da496af9b6b5e355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <LeftHandHandle>k__BackingField: {fileID: 8046261811754669877}
+  <RightHandHandle>k__BackingField: {fileID: 8553285252812960698}
+  <Barrel>k__BackingField: {fileID: 4582020215959673546}
 --- !u!1 &4240156270898853657
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,10 +159,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 857563384859827940, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: m_Name
+      value: Icon
+      objectReference: {fileID: 0}
     - target: {fileID: 952485170785783145, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
       propertyPath: m_Name
       value: GunItemData Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1305000215961585880, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 23cd8b9c015e1e841b2f50ca680fd79b, type: 3}
     - target: {fileID: 2333250823551792457, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -226,6 +235,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 381782492156407099}
+    - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 7286878795156251722}
+    - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: model
+      value: 
+      objectReference: {fileID: 277205521914092698}
+    - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: collisions
+      value: 
+      objectReference: {fileID: 5630354613133369047}
     - target: {fileID: 5902942618047475746, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.058
@@ -242,7 +267,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -1151560015944977396, guid: 2b155698abfa2f74884e7fc1772abcbd, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4633594019800221140, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
 --- !u!114 &4741963963955890903 stripped
 MonoBehaviour:
@@ -255,6 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59859a53540b24ab729486af443206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &381782492156407099 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1005522289305683151, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+  m_PrefabInstance: {fileID: 628261041582615028}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5630354613133369047 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5087662017107752739, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
