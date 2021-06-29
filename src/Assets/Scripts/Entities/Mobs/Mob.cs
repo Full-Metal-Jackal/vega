@@ -5,6 +5,10 @@ using Inventory;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
+	public delegate void PickUpItemAction(Item item);
+
+	public event PickUpItemAction OnPickedUpItem;
+
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
 	[field: SerializeField]
@@ -177,6 +181,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 		if (Controller)
 			return false;
 		Controller = controller;
+		return true;
+	}
+
+	public virtual bool PickUpItem<T>(T item) where T : Item
+	{
+		ItemSlot<T> slot = Inventory.GetFreeItemSlot<T>();
+		if (!slot)
+			return false;
+
+		slot.Item = item;
+		OnPickedUpItem?.Invoke(item);
+
 		return true;
 	}
 
