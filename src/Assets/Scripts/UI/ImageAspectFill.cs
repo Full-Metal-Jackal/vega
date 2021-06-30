@@ -33,20 +33,14 @@ public class ImageAspectFill : MonoBehaviour
 
 		float frameAspect = lastBounds.width / lastBounds.height;
 		float imageAspect = lastTexture.width / lastTexture.height;
+		float w = frameAspect / imageAspect;
+		float h = imageAspect / frameAspect;
 
 		if (frameAspect == imageAspect)
-		{
 			img.uvRect = new Rect(0f, 0f, 1f, 1f);
-		}
-		else if (frameAspect < imageAspect)
-		{
-			float w = frameAspect / imageAspect;
+		else if (w < 1f)
 			img.uvRect = new Rect(0.5f - w * 0.5f, 0f, w, 1);
-		}
 		else
-		{
-			float h = imageAspect / frameAspect;
 			img.uvRect = new Rect(0f, 0.5f - h * 0.5f, 1f, h);
-		}
 	}
 }
