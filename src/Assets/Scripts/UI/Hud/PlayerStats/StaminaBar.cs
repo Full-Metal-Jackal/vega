@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UI
 {
@@ -12,7 +13,10 @@ namespace UI
 		private void Start() =>
 			player = PlayerController.Instance.Possessed;
 		
-		private void Update() =>
-			rectTransform.localScale = new Vector3(player.Stamina / player.MaxStamina, 1.0f, 1.0f);
+		private void Update()
+		{
+			float staminaRatio = Math.Min(player.Stamina / player.MaxStamina, 1f);
+			rectTransform.localPosition = new Vector3(-rectTransform.rect.width * (1 - staminaRatio), 0f, 0f);
+		}
 	}
 }

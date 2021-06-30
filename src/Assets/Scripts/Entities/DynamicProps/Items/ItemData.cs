@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 using Inventory;
@@ -17,28 +15,31 @@ public class ItemData : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject model;
-	public ItemModelData PasteModel(Transform transform) =>
-		Paste(model, transform).GetComponent<ItemModelData>();
+	public ItemModelData PasteModel(Transform transform, int? siblingIdx = null) =>
+		Paste(model, transform, siblingIdx).GetComponent<ItemModelData>();
 
 	[SerializeField]
 	private GameObject collisions;
-	public Transform PasteCollisions(Transform transform) =>
-		Paste(collisions, transform).transform;
+	public Transform PasteCollisions(Transform transform, int? siblingIdx = null) =>
+		Paste(collisions, transform, siblingIdx).transform;
 
 	[SerializeField]
 	private GameObject icon;
-	public Image PasteIcon(Transform transform) =>
-		Paste(icon, transform).GetComponent<Image>();
+	public Image PasteIcon(Transform transform, int? siblingIdx = null) =>
+		Paste(icon, transform, siblingIdx).GetComponent<Image>();
 
 	[SerializeField]
 	private GameObject item;
-	public Item PasteItem(Transform transform) =>
-		Paste(item, transform).GetComponent<Item>();
+	public Item PasteItem(Transform transform, int? siblingIdx = null) =>
+		Paste(item, transform, siblingIdx).GetComponent<Item>();
 
-	private GameObject Paste(GameObject gameObject, Transform transform)
+	private GameObject Paste(GameObject gameObject, Transform transform, int? siblingIdx)
 	{
 		gameObject = Instantiate(gameObject);
 		gameObject.transform.SetParent(transform, false);
+		if (siblingIdx != null)
+			gameObject.transform.SetSiblingIndex((int)siblingIdx);
+
 		return gameObject;
 	}
 }

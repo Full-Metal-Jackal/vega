@@ -28,7 +28,7 @@ namespace UI
 			{
 				if (item is Gun gun)
 				{
-					gun.ItemData.PasteIcon(background.transform);
+					gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
 					this.gun = gun;
 
 					transform.localPosition = origPos;
