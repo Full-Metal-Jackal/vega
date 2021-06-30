@@ -8,10 +8,7 @@ public class MobAnimationHandler : MonoBehaviour
 	protected Mob Mob { get; private set; }
 	protected Animator Animator { get; private set; }
 
-	private void Awake()
-	{
-		Initialize();
-	}
+	private void Awake() => Initialize();
 
 	protected virtual void Initialize()
 	{
@@ -19,10 +16,7 @@ public class MobAnimationHandler : MonoBehaviour
 		Animator = GetComponent<Animator>();
 	}
 
-	private void Start()
-	{
-		Setup();
-	}
+	private void Start() => Setup();
 
 	protected virtual void Setup()
 	{

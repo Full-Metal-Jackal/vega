@@ -31,20 +31,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	public Transform AimTransform { get; private set; }
+	private Transform aim;
 	public Vector3 AimPos
 	{
-		get => AimTransform.position;
-		set
-		{
-			AimTransform.position = value;
-
-			// <TODO> ItemSocket will do for now but may be changed later.
-			Vector3 direction = value - ItemSocket.transform.position;
-
-			AimTransform.rotation = Quaternion.AngleAxis(-90f, direction) * Quaternion.LookRotation(direction, Vector3.up);
-		}
+		get => aim.position;
+		set => aim.position = value;
 	}
+
+	public Vector3 AimDir => AimPos - transform.position;
+	public float AimDistance => Vector3.Distance(AimPos, transform.position);
+	public Quaternion AimRot => Quaternion.AngleAxis(-90f, AimDir) * Quaternion.LookRotation(AimDir, Vector3.up);
 
 	protected readonly float movementHaltThreshold = .01f;
 
@@ -121,7 +117,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Stamina = MaxStamina;
 
 		// Since aim position is marked by an empty object and is moved constantly, it is simplier to create it from code. 
-		AimTransform = CreateAim();
+		aim = CreateAim();
 
 		return true;
 	}

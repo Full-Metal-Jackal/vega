@@ -7,18 +7,31 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected Transform leftHandIkTarget;
 	protected Transform rightHandIkTarget;
 
+	public bool LookAtIkEnabled { get; set; }
+	[SerializeField]
+	private float lookAtIkSmoothing = .1f;
 	[SerializeField]
 	private float headIkWeight = .8f;
 	[SerializeField]
 	private float bodyIkWeight = .6f;
+	private Vector3 lookAtPosVelocity = Vector3.zero;
+	private Vector3 lookAtPos = Vector3.zero;
 
-	public bool lookAtIkEnabled;
+	/// <summary>
+	/// The minimum distance from the mob to its AimPos for IK to work.
+	/// </summary>
+	[SerializeField]
+	private float lookAtIkThreshold = 1.8f;
+	private readonly float thresholdSmoothingDistance = 5f;
+
+	public Vector3 SmoothLookAtPos() =>
+		lookAtPos = Vector3.SmoothDamp(lookAtPos, Mob.AimPos, ref lookAtPosVelocity, lookAtIkSmoothing);
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
 		// <TODO> There will be a more sophisticated determination of what hand is aiming and what is holding later.
 		leftHandIkTarget = item.Model.LeftHandHandle;
-		rightHandIkTarget = Mob.AimTransform;
+		// rightHandIkTarget = Mob.aim;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)
@@ -43,7 +56,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected override void Setup()
 	{
 		base.Setup();
-		lookAtIkEnabled = true;
+		LookAtIkEnabled = true;
 	}
 
 	public void OnDodgeRollBegin() => humanoid.OnDodgeRoll();
@@ -52,10 +65,15 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	private void OnAnimatorIK()
 	{
-		if (lookAtIkEnabled)
+		if (LookAtIkEnabled)
 		{
-			Animator.SetLookAtWeight(1, bodyIkWeight, headIkWeight);
-			Animator.SetLookAtPosition(Mob.AimPos);
+		float lookAtDistance = Vector3.Distance(lookAtPos, Mob.transform.position);
+			Animator.SetLookAtWeight(
+				Mathf.Clamp01((lookAtDistance - lookAtIkThreshold)/thresholdSmoothingDistance),
+				bodyIkWeight,
+				headIkWeight
+			);
+			Animator.SetLookAtPosition(SmoothLookAtPos());
 		}
 		else
 		{

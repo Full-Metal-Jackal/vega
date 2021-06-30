@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8ffe209a1586a4ebd061bf6e7d280b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookAtIkEnabled: 0
+  lookAtIkSmoothing: 0.1
+  headIkWeight: 0.8
+  bodyIkWeight: 0.6
+  ikThreshold: 1.8
 --- !u!1001 &3705715284674706986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,7 +158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7909442504868135696, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
       propertyPath: m_Name
-      value: Mob.Humanoid Variant
+      value: Mob.Humanoid
       objectReference: {fileID: 0}
     - target: {fileID: 8829035523832210343, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
       propertyPath: <Slots>k__BackingField.Array.size
