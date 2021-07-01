@@ -30,6 +30,33 @@ ModelImporter:
   - first:
       74: 5052651118843757658
     second: HumanoidSkeleton|stand_alert.human
+  - first:
+      74: 5657616362084370192
+    second: HumanoidSkeleton|run_strafe_right
+  - first:
+      74: -5729319159272866013
+    second: HumanoidSkeleton|run_strafe_left
+  - first:
+      74: -4721808054161317805
+    second: HumanoidSkeleton|run
+  - first:
+      74: 7349468822593953138
+    second: HumanoidSkeleton|run_backwards
+  - first:
+      74: -2194405321778540428
+    second: HumanoidSkeleton|sprint
+  - first:
+      74: 175408023502890546
+    second: HumanoidSkeleton|stand_still
+  - first:
+      74: -1704556183429562628
+    second: HumanoidSkeleton|walk.male
+  - first:
+      74: -5827304291801526724
+    second: HumanoidSkeleton|dodge_roll
+  - first:
+      74: 945727899315417553
+    second: HumanoidSkeleton|stand_alert
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -301,11 +328,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|run_generic.male
-      takeName: HumanoidSkeleton|run_generic.male
+      name: HumanoidSkeleton|run_backwards
+      takeName: HumanoidSkeleton|run_backwards
       internalID: 0
       firstFrame: 0
-      lastFrame: 16
+      lastFrame: 13
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -330,11 +357,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|run_slow.male
-      takeName: HumanoidSkeleton|run_slow.male
+      name: HumanoidSkeleton|sprint
+      takeName: HumanoidSkeleton|sprint
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -359,37 +386,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|sprint_generic.male
-      takeName: HumanoidSkeleton|sprint_generic.male
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 14
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: HumanoidSkeleton|stand_still.human
-      takeName: HumanoidSkeleton|stand_still.human
+      name: HumanoidSkeleton|stand_still
+      takeName: HumanoidSkeleton|stand_still
       internalID: 0
       firstFrame: 0
       lastFrame: 80
@@ -417,11 +415,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|walk_generic.male
-      takeName: HumanoidSkeleton|walk_generic.male
+      name: HumanoidSkeleton|walk.male
+      takeName: HumanoidSkeleton|walk.male
       internalID: 0
       firstFrame: 0
-      lastFrame: 28
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -446,8 +444,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|dodge_roll.human
-      takeName: HumanoidSkeleton|dodge_roll.human
+      name: HumanoidSkeleton|dodge_roll
+      takeName: HumanoidSkeleton|dodge_roll
       internalID: 0
       firstFrame: 0
       lastFrame: 18
@@ -489,11 +487,98 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: HumanoidSkeleton|stand_alert.human
-      takeName: HumanoidSkeleton|stand_alert.human
+      name: HumanoidSkeleton|stand_alert
+      takeName: HumanoidSkeleton|stand_alert
       internalID: 0
       firstFrame: 0
       lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: HumanoidSkeleton|run_strafe_right
+      takeName: HumanoidSkeleton|run_strafe
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0.33
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: HumanoidSkeleton|run_strafe_left
+      takeName: HumanoidSkeleton|run_strafe
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: HumanoidSkeleton|run
+      takeName: HumanoidSkeleton|run
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

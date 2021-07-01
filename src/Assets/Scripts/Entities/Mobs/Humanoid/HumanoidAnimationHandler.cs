@@ -4,34 +4,51 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 {
 	private Humanoid humanoid;
 
-	protected Transform leftHandIkTarget;
-	protected Transform rightHandIkTarget;
+	private Transform rightShoulder;
 
 	public bool LookAtIkEnabled { get; set; }
 	[SerializeField]
 	private float lookAtIkSmoothing = .1f;
 	[SerializeField]
-	private float headIkWeight = .8f;
+	private float headIkWeight = 1f;
 	[SerializeField]
-	private float bodyIkWeight = .6f;
+	private float bodyIkWeight = .75f;
 	private Vector3 lookAtPosVelocity = Vector3.zero;
-	private Vector3 lookAtPos = Vector3.zero;
+	private Vector3 lookAtPos;
 
 	/// <summary>
 	/// The minimum distance from the mob to its AimPos for IK to work.
 	/// </summary>
 	[SerializeField]
-	private float lookAtIkThreshold = 1.8f;
-	private readonly float thresholdSmoothingDistance = 5f;
+	private float ikMinDistance = 1.8f;
+	private readonly float ikBlendingDistance = 2f;
 
-	public Vector3 SmoothLookAtPos() =>
-		lookAtPos = Vector3.SmoothDamp(lookAtPos, Mob.AimPos, ref lookAtPosVelocity, lookAtIkSmoothing);
+	private Transform leftHandIkTarget;
+	private Transform rightHandIkTarget;
+	
+	// Right now, only right hand is supported as the aiming hand, which is sufficient for our current goals.
+	private bool aimingHand = false;
+
+	public void UpdateLookAtPos() => lookAtPos = Vector3.SmoothDamp(
+			lookAtPos,
+			Mob.AimPos,
+			ref lookAtPosVelocity,
+			lookAtIkSmoothing
+		);
+
+	public Quaternion AimingHandRotation
+	{
+		get
+		{
+			Vector3 dir = lookAtPos - rightShoulder.position;
+			return Quaternion.AngleAxis(-90f, dir) * Quaternion.LookRotation(dir, Vector3.up);
+		}
+	}
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		// <TODO> There will be a more sophisticated determination of what hand is aiming and what is holding later.
-		leftHandIkTarget = item.Model.LeftHandHandle;
-		// rightHandIkTarget = Mob.aim;
+		leftHandIkTarget = item.Model.LeftHandGrip;
+		rightHandIkTarget = item.Model.RightHandGrip;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)
@@ -40,17 +57,23 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		Animator.SetIKRotationWeight(goal, weight);
 	}
 
-	private void SetIkTransform(AvatarIKGoal goal, Transform transform)
+	private void SetIkTransform(AvatarIKGoal goal, Transform transform) =>
+		SetIkTransform(goal, transform.position, transform.rotation);
+
+	private void SetIkTransform(AvatarIKGoal goal, Vector3 position, Quaternion rotation)
 	{
-		Animator.SetIKPosition(goal, transform.position);
-		Animator.SetIKRotation(goal, transform.rotation);
+		Animator.SetIKPosition(goal, position);
+		Animator.SetIKRotation(goal, rotation);
 	}
 
 	protected override void Initialize()
 	{
 		base.Initialize();
+
 		humanoid = transform.parent.GetComponent<Humanoid>();
 		humanoid.OnItemChange += item => SetupHandsIkForItem(item);
+
+		rightShoulder = Animator.GetBoneTransform(HumanBodyBones.RightShoulder);
 	}
 
 	protected override void Setup()
@@ -65,15 +88,14 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	private void OnAnimatorIK()
 	{
+		UpdateLookAtPos();
+
 		if (LookAtIkEnabled)
 		{
-		float lookAtDistance = Vector3.Distance(lookAtPos, Mob.transform.position);
-			Animator.SetLookAtWeight(
-				Mathf.Clamp01((lookAtDistance - lookAtIkThreshold)/thresholdSmoothingDistance),
-				bodyIkWeight,
-				headIkWeight
-			);
-			Animator.SetLookAtPosition(SmoothLookAtPos());
+			float lookAtDistance = Vector3.Distance(lookAtPos, Mob.transform.position);
+			float weight = Mathf.Clamp01((lookAtDistance - ikMinDistance) / ikBlendingDistance);
+			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
+			Animator.SetLookAtPosition(lookAtPos);
 		}
 		else
 		{
@@ -84,6 +106,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		if (leftHandIkTarget)
 			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
 
+		if (aimingHand)
 		SetIkWeights(AvatarIKGoal.RightHand, rightHandIkTarget ? 1 : 0);
 		if (rightHandIkTarget)
 			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);

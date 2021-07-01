@@ -76,7 +76,7 @@ namespace Inventory
 				return;
 			}
 
-			if (!(Owner.ItemSocket is ItemSocket socket))
+			if (!(Owner.ItemSocket is Transform socket))
 			{
 				Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
 				return;

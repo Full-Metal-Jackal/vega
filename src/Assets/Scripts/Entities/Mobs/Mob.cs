@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Inventory;
 
@@ -22,7 +21,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
-	[field: SerializeField]
 	public MobInventory Inventory { get; private set; }
 
 	/// <summary>
@@ -31,21 +29,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	private Transform aim;
-	public Vector3 AimPos
-	{
-		get => aim.position;
-		set => aim.position = value;
-	}
+	public virtual Vector3 AimPos { get; set; }
 
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => Vector3.Distance(AimPos, transform.position);
-	public Quaternion AimRot => Quaternion.AngleAxis(-90f, AimDir) * Quaternion.LookRotation(AimDir, Vector3.up);
 
 	protected readonly float movementHaltThreshold = .01f;
 
 	[SerializeField]
-	protected readonly bool turnsToMovementDirection = true;
+	private readonly bool turnsToMovementDirection = true;
 	protected readonly float rotationThreshold = .01f;
 
 	protected Vector3 activeDirection = Vector3.zero;
@@ -71,7 +63,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
-	public virtual MobState MovementState
+	public virtual MobState State
 	{
 		get => movementState;
 		protected set
@@ -116,18 +108,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
-		// Since aim position is marked by an empty object and is moved constantly, it is simplier to create it from code. 
-		aim = CreateAim();
+		Inventory = GetComponentInChildren<Inventory.MobInventory>();
 
 		return true;
-	}
-
-	private Transform CreateAim()
-	{
-		Transform aim = new GameObject("Aim").transform;
-		aim.position = transform.position + transform.forward * 16f;
-		aim.SetParent(transform);
-		return aim;
 	}
 
 	public void TakeDamage(float damage)
@@ -159,13 +142,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MobState.Standing;
+			State = MobState.Standing;
 		}
 		else
 		{
 			if (direction.magnitude > 1f)
 				direction.Normalize();
-			MovementState = MobState.Running;
+			State = MobState.Running;
 		}
 
 		activeDirection = direction;
@@ -224,7 +207,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		get
 		{
-			switch (MovementState)
+			switch (State)
 			{
 			case MobState.Dead:
 			case MobState.Dodging:
@@ -236,5 +219,5 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual ItemSocket ItemSocket => null;
+	public virtual Transform ItemSocket => transform;
 }

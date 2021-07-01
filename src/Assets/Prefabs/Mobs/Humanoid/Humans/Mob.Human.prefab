@@ -19,11 +19,13 @@ MonoBehaviour:
   <MaxStamina>k__BackingField: 100
   <Animator>k__BackingField: {fileID: 1618262357948111153}
   <Inventory>k__BackingField: {fileID: 5790320328470591125}
-  moveSpeed: 250
-  walkSpeedFactor: 0.5
-  dodgeSpeed: 600
-  dodgeCooldown: 1
-  sprintSpeedFactor: 1.5
+  <MoveSpeed>k__BackingField: 250
+  <WalkSpeedFactor>k__BackingField: 0.5
+  <DodgeCooldown>k__BackingField: 1
+  <DodgeStaminaCost>k__BackingField: 25
+  <SprintStaminaCost>k__BackingField: 15
+  <SprintSpeedFactor>k__BackingField: 1.5
+  <Head>k__BackingField: {fileID: 0}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
   back: {fileID: 0}
@@ -87,6 +89,10 @@ PrefabInstance:
       propertyPath: <Owner>k__BackingField
       value: 
       objectReference: {fileID: 2584591846866440297}
+    - target: {fileID: 8266176949140227112, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: headIkWeight
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
 --- !u!1 &5125004719389808162 stripped

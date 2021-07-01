@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Inventory;
+using System;
 
 public abstract class Humanoid : Mob
 {
@@ -43,15 +44,37 @@ public abstract class Humanoid : Mob
 	private Vector3 velocityBuffer = Vector3.zero;
 	private readonly float movementSmoothing = .01f;
 
-	// <TODO> Will do for now, may be unified or universalized later.
 	[SerializeField]
-	private ItemSocket leftHand;
-	[SerializeField]
-	private ItemSocket rightHand;
-	[SerializeField]
-	private ItemSocket back;
-	[SerializeField]
-	private ItemSocket belt;
+	private Transform rightHandSocket;
+
+	public override Vector3 AimPos
+	{
+		get => base.AimPos;
+		set
+		{
+			base.AimPos = value;
+			
+			Vector3 horAimDir = AimDir;
+			horAimDir.y = 0;
+
+			TurnTo(horAimDir);
+			UpdateMovementAnimation();
+		}
+	}
+
+	protected virtual void UpdateMovementAnimation()
+	{
+		Vector3 horAimDir = transform.forward;
+		horAimDir.y = 0;
+
+		Vector3 relativeMovDir = Quaternion.AngleAxis(
+			Vector3.SignedAngle(horAimDir, activeDirection, Vector3.up),
+			Vector3.up
+		) * Vector3.forward;
+
+		Animator.SetFloat("MovementSide", relativeMovDir.x);
+		Animator.SetFloat("MovementForward", relativeMovDir.z);
+	}
 
 	private HoldType holdState = HoldType.None;
 	/// <summary>
@@ -66,7 +89,6 @@ public abstract class Humanoid : Mob
 			if (!Animator)
 				return;
 
-			const string animatorIsDevice = "HoldingDevice";
 			bool isDevice = false;
 			switch (holdState)
 			{
@@ -75,9 +97,8 @@ public abstract class Humanoid : Mob
 			case HoldType.Cyberdeck:
 				break;
 			}
-			Animator.SetBool(animatorIsDevice, isDevice);
+			Animator.SetBool("IsHoldingDevice", isDevice);
 
-			const string animatorVariable = "HoldType";
 			int animatorValue = 0;
 			switch (holdState)
 			{
@@ -96,7 +117,7 @@ public abstract class Humanoid : Mob
 				animatorValue = 4;
 				break;
 			}
-			Animator.SetInteger(animatorVariable, animatorValue);
+			Animator.SetInteger("HoldType", animatorValue);
 		}
 	}
 
@@ -107,7 +128,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			switch (MovementState)
+			switch (State) 
 			{
 			case MobState.Standing:
 			case MobState.Walking:
@@ -125,7 +146,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			if (MovementState == MobState.Standing)
+			if (State == MobState.Standing)
 				return false;
 
 			return Stamina > SprintStaminaCost;
@@ -149,6 +170,14 @@ public abstract class Humanoid : Mob
 		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
 	}
 
+	protected override bool Initialize()
+	{
+		if (!base.Initialize())
+			return false;
+
+		return true;
+	}
+
 	public override void Move(
 		float delta,
 		Vector3 direction,
@@ -162,7 +191,7 @@ public abstract class Humanoid : Mob
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MobState.Standing;
+			State = MobState.Standing;
 		}
 		else
 		{
@@ -173,7 +202,7 @@ public abstract class Humanoid : Mob
 			{
 			case MovementType.Walking:
 				speed *= WalkSpeedFactor;
-				MovementState = MobState.Walking;
+				State = MobState.Walking;
 				break;
 			case MovementType.Sprinting:
 				if (!CanSprint)
@@ -181,15 +210,16 @@ public abstract class Humanoid : Mob
 
 				speed *= SprintSpeedFactor;
 				Stamina -= SprintStaminaCost * delta;
-				MovementState = MobState.Sprinting;
+				State = MobState.Sprinting;
 				break;
 			default:
-				MovementState = MobState.Running;
+				State = MobState.Running;
 				break;
 			}
 		}
 
 		activeDirection = direction;
+		UpdateMovementAnimation();
 
 		Vector3 targetVelocity = speed * direction * delta;
 		if (!affectY)
@@ -201,9 +231,6 @@ public abstract class Humanoid : Mob
 			ref velocityBuffer,
 			movementSmoothing
 		);
-
-		if (turnsToMovementDirection)
-			TurnTo(Body.velocity);
 	}
 
 	public override void DashAction() => Dodge();
@@ -214,7 +241,7 @@ public abstract class Humanoid : Mob
 	public void Dodge()
 	{
 		if (CanDodge)
-			MovementState = MobState.Dodging;
+			State = MobState.Dodging;
 	}
 
 	public void OnDodgeRoll()
@@ -223,8 +250,7 @@ public abstract class Humanoid : Mob
 		direction.y = 0f;
 		direction.Normalize();
 
-		if (turnsToMovementDirection)
-			transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+		TurnTo(direction);
 
 		Vector3 force = Quaternion.AngleAxis(-dodgeAngle, transform.right) * direction * DodgeSpeed;
 
@@ -236,8 +262,8 @@ public abstract class Humanoid : Mob
 
 	public void OnDodgeRollEnd()
 	{
-		MovementState = MobState.Sprinting;
+		State = MobState.Sprinting;
 	}
 
-	public override ItemSocket ItemSocket => rightHand;
+	public override Transform ItemSocket => rightHandSocket;
 }

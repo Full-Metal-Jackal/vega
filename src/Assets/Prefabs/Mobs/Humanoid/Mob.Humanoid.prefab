@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8266176949140227112
+--- !u!114 &1949214130184221174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8ffe209a1586a4ebd061bf6e7d280b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtIkEnabled: 0
   lookAtIkSmoothing: 0.1
-  headIkWeight: 0.8
-  bodyIkWeight: 0.6
-  ikThreshold: 1.8
+  headIkWeight: 1
+  bodyIkWeight: 0.8
+  ikMinDistance: 1.8
 --- !u!1001 &3705715284674706986
 PrefabInstance:
   m_ObjectHideFlags: 0
