@@ -83,7 +83,6 @@ public abstract class Humanoid : Mob
 				TurnTo(horAimDir);
 				Vector3 aimDir = SmoothedAimPos - ItemSocket.position;
 				ItemSocket.right = aimDir;
-				//ItemSocket.rotation = Quaternion.Euler(0f, -90f, 0f) * Quaternion.LookRotation(aimDir, Vector3.up);
 			}
 			else
 			{

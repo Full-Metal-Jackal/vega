@@ -6,8 +6,6 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 {
 	private Humanoid humanoid;
 
-	private Transform rightShoulder;
-
 	public bool LookAtIkEnabled { get; set; } = true;
 	[SerializeField]
 	private float headIkWeight = 1f;
@@ -59,8 +57,6 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 		humanoid = transform.parent.GetComponent<Humanoid>();
 		humanoid.OnItemChange += item => SetupHandsIkForItem(item);
-
-		rightShoulder = Animator.GetBoneTransform(HumanBodyBones.RightShoulder);
 	}
 
 	public void OnDodgeRollBegin()
