@@ -1,54 +1,41 @@
 ﻿using UnityEngine;
 
+using static Utils;
+
 public class HumanoidAnimationHandler : MobAnimationHandler
 {
 	private Humanoid humanoid;
 
 	private Transform rightShoulder;
 
-	public bool LookAtIkEnabled { get; set; }
-	[SerializeField]
-	private float lookAtIkSmoothing = .1f;
+	public bool LookAtIkEnabled { get; set; } = true;
 	[SerializeField]
 	private float headIkWeight = 1f;
 	[SerializeField]
 	private float bodyIkWeight = .75f;
-	private Vector3 lookAtPosVelocity = Vector3.zero;
-	private Vector3 lookAtPos;
-
 	/// <summary>
-	/// The minimum distance from the mob to its AimPos for IK to work.
+	/// The value the "look at" IK weight is multiplied by when the mob is not aiming.
 	/// </summary>
 	[SerializeField]
-	private float ikMinDistance = 1.8f;
+	private float lookAtIkNonAimingFactor = .8f;
+	/// <summary>
+	/// How far from MinAimDistance IK should start to blend.
+	/// </summary>
+	[SerializeField]
 	private readonly float ikBlendingDistance = 2f;
+
+	private float ikTransition = 1f;
+	private float ikTransitionGoal = 1f;
+	private float ikTransitionTime = .1f;
 
 	private Transform leftHandIkTarget;
 	private Transform rightHandIkTarget;
-	
-	// Right now, only right hand is supported as the aiming hand, which is sufficient for our current goals.
-	private bool aimingHand = false;
-
-	public void UpdateLookAtPos() => lookAtPos = Vector3.SmoothDamp(
-			lookAtPos,
-			Mob.AimPos,
-			ref lookAtPosVelocity,
-			lookAtIkSmoothing
-		);
-
-	public Quaternion AimingHandRotation
-	{
-		get
-		{
-			Vector3 dir = lookAtPos - rightShoulder.position;
-			return Quaternion.AngleAxis(-90f, dir) * Quaternion.LookRotation(dir, Vector3.up);
-		}
-	}
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
 		leftHandIkTarget = item.Model.LeftHandGrip;
-		rightHandIkTarget = item.Model.RightHandGrip;
+		// It's unclear for now what do we have to do with the right hand.
+		// rightHandIkTarget = item.Model.RightHandGrip;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)
@@ -76,39 +63,79 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		rightShoulder = Animator.GetBoneTransform(HumanBodyBones.RightShoulder);
 	}
 
-	protected override void Setup()
+	public void OnDodgeRollBegin()
 	{
-		base.Setup();
-		LookAtIkEnabled = true;
+		humanoid.OnDodgeRoll();
+		TransitIkWeightTo(0f, .1f);
 	}
 
-	public void OnDodgeRollBegin() => humanoid.OnDodgeRoll();
-
-	public void OnDodgeRollEnd() => humanoid.OnDodgeRollEnd();
+	public void OnDodgeRollEnd()
+	{
+		humanoid.OnDodgeRollEnd();
+		TransitIkWeightTo(1f, .1f);
+	}
 
 	private void OnAnimatorIK()
 	{
-		UpdateLookAtPos();
-
 		if (LookAtIkEnabled)
 		{
-			float lookAtDistance = Vector3.Distance(lookAtPos, Mob.transform.position);
-			float weight = Mathf.Clamp01((lookAtDistance - ikMinDistance) / ikBlendingDistance);
+			float lookAtDistance = HorizontalDistance(humanoid.SmoothedAimPos, Mob.transform.position);
+			float weight = ikTransition;
+			if (!humanoid.IsAiming)
+			{
+				weight *= Mathf.Clamp01((lookAtDistance - humanoid.MinAimDistance) / ikBlendingDistance);
+				weight *= lookAtIkNonAimingFactor;
+			}
 			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
-			Animator.SetLookAtPosition(lookAtPos);
+			Animator.SetLookAtPosition(humanoid.SmoothedAimPos);
 		}
 		else
 		{
 			Animator.SetLookAtWeight(0);
 		}
 
-		SetIkWeights(AvatarIKGoal.LeftHand, leftHandIkTarget ? 1 : 0);
 		if (leftHandIkTarget)
+		{
+			SetIkWeights(AvatarIKGoal.LeftHand, 1f);
 			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
+		}
+		else
+		{
+			SetIkWeights(AvatarIKGoal.LeftHand, 0f);
+		}
 
-		if (aimingHand)
-		SetIkWeights(AvatarIKGoal.RightHand, rightHandIkTarget ? 1 : 0);
 		if (rightHandIkTarget)
+		{
+			SetIkWeights(AvatarIKGoal.RightHand, 1f);
 			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
+		}
+		else
+		{
+			SetIkWeights(AvatarIKGoal.RightHand, 0f);
+		}
+	}
+
+	/// <summary>
+	/// Smoothly shifts the "look at" IK weight to another value.
+	/// </summary>
+	/// <param name="targetWeight">The weight the "look at" IK will assume at the end of transitionTime.</param>
+	/// <param name="transitionTime">The time of the transition.</param>
+	protected void TransitIkWeightTo(float targetWeight, float transitionTime)
+	{
+		ikTransitionGoal = targetWeight;
+		ikTransitionTime = transitionTime;
+	}
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if (ikTransitionGoal == ikTransition)
+			return;
+
+		if (ikTransitionGoal > ikTransition)
+			ikTransition = Mathf.Min(ikTransition += Time.deltaTime / ikTransitionTime, ikTransitionGoal);
+		else
+			ikTransition = Mathf.Max(ikTransition -= Time.deltaTime / ikTransitionTime, ikTransitionGoal);
 	}
 }

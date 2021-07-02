@@ -18,17 +18,14 @@ MonoBehaviour:
   <Stamina>k__BackingField: 200
   <MaxStamina>k__BackingField: 200
   <Animator>k__BackingField: {fileID: 2795941060204793722}
-  <Inventory>k__BackingField: {fileID: 6981508749307142366}
   <MoveSpeed>k__BackingField: 200
   <WalkSpeedFactor>k__BackingField: 0.5
   <DodgeCooldown>k__BackingField: 2
   <DodgeStaminaCost>k__BackingField: 50
   <SprintStaminaCost>k__BackingField: 15
   <SprintSpeedFactor>k__BackingField: 1.5
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
-  back: {fileID: 0}
-  belt: {fileID: 0}
+  rightHandSocket: {fileID: 0}
+  <MinAimDistance>k__BackingField: 2
 --- !u!1001 &6316399873171731602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,14 +97,3 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 8171062085197151208, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
   m_PrefabInstance: {fileID: 6316399873171731602}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6981508749307142366 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3984297054901032012, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
-  m_PrefabInstance: {fileID: 6316399873171731602}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e2e092fcf87bf14393cf7ba35b889d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

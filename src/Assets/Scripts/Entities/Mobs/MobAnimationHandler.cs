@@ -21,4 +21,10 @@ public class MobAnimationHandler : MonoBehaviour
 	protected virtual void Setup()
 	{
 	}
+
+	private void Update() => OnUpdate();
+
+	protected virtual void OnUpdate()
+	{
+	}
 }

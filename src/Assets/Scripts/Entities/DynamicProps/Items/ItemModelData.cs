@@ -14,5 +14,11 @@ public class ItemModelData : MonoBehaviour
 	[field: SerializeField]
 	public Transform RightHandGrip { get; private set; }
 
+	/// <summary>
+	/// The parenting origin that should match human's rig socket.
+	/// </summary>
+	[field: SerializeField]
+	public Transform Origin { get; private set; }
+
 	public void Suicide() => Destroy(gameObject);
 }

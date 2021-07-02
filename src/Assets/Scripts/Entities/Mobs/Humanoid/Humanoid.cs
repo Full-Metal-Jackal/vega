@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 using Inventory;
-using System;
 
 public abstract class Humanoid : Mob
 {
+	public delegate void GunPutDownAction(bool isgunPutDown);
+
 	/// <summary>
 	/// The multiplier of the mob's walking speed.
 	/// </summary>
@@ -46,6 +47,7 @@ public abstract class Humanoid : Mob
 
 	[SerializeField]
 	private Transform rightHandSocket;
+	public override Transform ItemSocket => rightHandSocket;
 
 	public override Vector3 AimPos
 	{
@@ -53,28 +55,73 @@ public abstract class Humanoid : Mob
 		set
 		{
 			base.AimPos = value;
-			
-			Vector3 horAimDir = AimDir;
-			horAimDir.y = 0;
-
-			TurnTo(horAimDir);
 			UpdateMovementAnimation();
 		}
 	}
 
+	[SerializeField]
+	private float aimPosSmoothing = .1f;
+	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
+	public Vector3 SmoothedAimPos { get; protected set; }
+	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
+			SmoothedAimPos,
+			AimPos,
+			ref aimPosSmoothingVelocity,
+			aimPosSmoothing
+		);
+
 	protected virtual void UpdateMovementAnimation()
 	{
-		Vector3 horAimDir = transform.forward;
+		Vector3 horAimDir = SmoothedAimPos - transform.position;
 		horAimDir.y = 0;
+		horAimDir.Normalize();
 
-		Vector3 relativeMovDir = Quaternion.AngleAxis(
-			Vector3.SignedAngle(horAimDir, activeDirection, Vector3.up),
-			Vector3.up
-		) * Vector3.forward;
+		if (HasAimableItem)
+		{
+			if (IsAiming &= AimDistance >= MinAimDistance)
+			{
+				TurnTo(horAimDir);
+				Vector3 aimDir = SmoothedAimPos - ItemSocket.position;
+				ItemSocket.right = aimDir;
+				//ItemSocket.rotation = Quaternion.Euler(0f, -90f, 0f) * Quaternion.LookRotation(aimDir, Vector3.up);
+			}
+			else
+			{
+				IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+			}
 
-		Animator.SetFloat("MovementSide", relativeMovDir.x);
-		Animator.SetFloat("MovementForward", relativeMovDir.z);
+			Vector3 horDir = transform.forward;
+			horDir.y = 0;
+
+			Vector3 relativeMovDir = Quaternion.AngleAxis(
+				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+				Vector3.up
+			) * Vector3.forward;
+
+			Animator.SetFloat("MovementSide", relativeMovDir.x);
+			Animator.SetFloat("MovementForward", relativeMovDir.z);
+		}
+		else
+		{
+			TurnTo(activeDirection);
+		}
 	}
+
+	private bool isAiming = false;
+	public bool IsAiming
+	{
+		get => isAiming;
+		protected set => Animator.SetBool("IsAiming", isAiming = value);
+	}
+
+	/// <summary>
+	/// The minimum AimDistance required to aim.
+	/// </summary>
+	public virtual float MinAimDistance => 1f;
+	/// <summary>
+	/// Additive distance for MinAimDistance to start aiming.
+	/// </summary>
+	public virtual float AimEnableDistance => 1f;
 
 	private HoldType holdState = HoldType.None;
 	/// <summary>
@@ -89,25 +136,13 @@ public abstract class Humanoid : Mob
 			if (!Animator)
 				return;
 
-			bool isDevice = false;
-			switch (holdState)
-			{
-			case HoldType.SingleHandDevice:
-			case HoldType.TwoHandsDevice:
-			case HoldType.Cyberdeck:
-				break;
-			}
-			Animator.SetBool("IsHoldingDevice", isDevice);
-
 			int animatorValue = 0;
 			switch (holdState)
 			{
 			case HoldType.SingleHandPistol:
-			case HoldType.SingleHandDevice:
 				animatorValue = 1;
 				break;
 			case HoldType.TwoHandsPistol:
-			case HoldType.TwoHandsDevice:
 				animatorValue = 2;
 				break;
 			case HoldType.AssaultRifle:
@@ -116,6 +151,7 @@ public abstract class Humanoid : Mob
 			case HoldType.Shotgun:
 				animatorValue = 4;
 				break;
+
 			}
 			Animator.SetInteger("HoldType", animatorValue);
 		}
@@ -169,20 +205,9 @@ public abstract class Humanoid : Mob
 		get => base.ActiveItem;
 		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
 	}
+	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
 
-	protected override bool Initialize()
-	{
-		if (!base.Initialize())
-			return false;
-
-		return true;
-	}
-
-	public override void Move(
-		float delta,
-		Vector3 direction,
-		bool affectY = false
-	)
+	public override void Move(float delta, Vector3 direction, bool affectY = false)
 	{
 		if (!CanMoveActively)
 			return;
@@ -233,12 +258,12 @@ public abstract class Humanoid : Mob
 		);
 	}
 
-	public override void DashAction() => Dodge();
+	public override void DashAction() => DodgeRoll();
 
 	/// <summary>
-	/// Performs a dodge attempt.
+	/// Performs a dodge roll attempt.
 	/// </summary>
-	public void Dodge()
+	public void DodgeRoll()
 	{
 		if (CanDodge)
 			State = MobState.Dodging;
@@ -260,10 +285,12 @@ public abstract class Humanoid : Mob
 		Body.AddForce(force, ForceMode.Impulse);
 	}
 
-	public void OnDodgeRollEnd()
-	{
+	public void OnDodgeRollEnd() =>
 		State = MobState.Sprinting;
-	}
 
-	public override Transform ItemSocket => rightHandSocket;
+	protected override void Tick(float delta)
+	{
+		base.Tick(delta);
+		UpdateSmoothedAimPos();
+	}
 }

@@ -26,6 +26,8 @@ public class Gun : Item
 	
 	public virtual bool CanFire => !IsReloading;
 
+	public override bool IsAimable => true;
+
 	protected override void Initialize()
 	{
 		base.Initialize();

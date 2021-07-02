@@ -2,11 +2,15 @@
 
 using Inventory;
 
+using static Utils;
+
 public abstract class Mob : DynamicEntity, IDamageable
 {
 	public delegate void PickUpItemAction(Item item);
-
 	public event PickUpItemAction OnPickedUpItem;
+
+	public delegate void ActiveItemAction(Item item);
+	public event ActiveItemAction OnItemChange;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
@@ -32,7 +36,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual Vector3 AimPos { get; set; }
 
 	public Vector3 AimDir => AimPos - transform.position;
-	public float AimDistance => Vector3.Distance(AimPos, transform.position);
+	public float AimDistance => HorizontalDistance(transform.position, AimPos);
+
 
 	protected readonly float movementHaltThreshold = .01f;
 
@@ -46,8 +51,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
-	public delegate void ActiveItemAction(Item item);
-	public event ActiveItemAction OnItemChange;
 	public virtual Item ActiveItem
 	{
 		get => activeItem;
