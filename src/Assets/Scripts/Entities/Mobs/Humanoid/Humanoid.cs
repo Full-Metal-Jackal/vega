@@ -49,18 +49,8 @@ public abstract class Humanoid : Mob
 	private Transform rightHandSocket;
 	public override Transform ItemSocket => rightHandSocket;
 
-	public override Vector3 AimPos
-	{
-		get => base.AimPos;
-		set
-		{
-			base.AimPos = value;
-			UpdateMovementAnimation();
-		}
-	}
-
 	[SerializeField]
-	private float aimPosSmoothing = .1f;
+	private float aimPosSmoothing = .2f;
 	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
 	public Vector3 SmoothedAimPos { get; protected set; }
 	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
@@ -69,42 +59,6 @@ public abstract class Humanoid : Mob
 			ref aimPosSmoothingVelocity,
 			aimPosSmoothing
 		);
-
-	protected virtual void UpdateMovementAnimation()
-	{
-		Vector3 horAimDir = SmoothedAimPos - transform.position;
-		horAimDir.y = 0;
-		horAimDir.Normalize();
-
-		if (HasAimableItem)
-		{
-			if (IsAiming &= AimDistance >= MinAimDistance)
-			{
-				TurnTo(horAimDir);
-				Vector3 aimDir = SmoothedAimPos - ItemSocket.position;
-				ItemSocket.right = aimDir;
-			}
-			else
-			{
-				IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
-			}
-
-			Vector3 horDir = transform.forward;
-			horDir.y = 0;
-
-			Vector3 relativeMovDir = Quaternion.AngleAxis(
-				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
-				Vector3.up
-			) * Vector3.forward;
-
-			Animator.SetFloat("MovementSide", relativeMovDir.x);
-			Animator.SetFloat("MovementForward", relativeMovDir.z);
-		}
-		else
-		{
-			TurnTo(activeDirection);
-		}
-	}
 
 	private bool isAiming = false;
 	public bool IsAiming
@@ -243,7 +197,15 @@ public abstract class Humanoid : Mob
 		}
 
 		activeDirection = direction;
-		UpdateMovementAnimation();
+		if (HasAimableItem)
+		{
+			UpdateLegsAnimation();
+			UpdateAiming(delta);
+		}
+		else
+		{
+			TurnTo(delta, direction);
+		}
 
 		Vector3 targetVelocity = speed * direction * delta;
 		if (!affectY)
@@ -255,6 +217,35 @@ public abstract class Humanoid : Mob
 			ref velocityBuffer,
 			movementSmoothing
 		);
+	}
+
+	/// <summary>
+	/// Tells the legs whether they should run normally, strafe or run backwards.
+	/// </summary>
+	protected virtual void UpdateLegsAnimation()
+	{
+		Vector3 horDir = transform.forward;
+		horDir.y = 0;
+
+		Vector3 relativeMovDir = Quaternion.AngleAxis(
+			Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+			Vector3.up
+		) * Vector3.forward;
+
+		Animator.SetFloat("MovementSide", relativeMovDir.x);
+		Animator.SetFloat("MovementForward", relativeMovDir.z);
+	}
+
+	/// <summary>
+	/// Updates the mob's aiming status and rotation.
+	/// </summary>
+	/// <param name="delta"></param>
+	protected virtual void UpdateAiming(float delta)
+	{
+		if (IsAiming &= AimDistance >= MinAimDistance)
+			TurnTo(delta, SmoothedAimPos - transform.position);
+		else
+			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
 	}
 
 	public override void DashAction() => DodgeRoll();
@@ -274,7 +265,7 @@ public abstract class Humanoid : Mob
 		direction.y = 0f;
 		direction.Normalize();
 
-		TurnTo(direction);
+		SnapTurnTo(direction);
 
 		Vector3 force = Quaternion.AngleAxis(-dodgeAngle, transform.right) * direction * DodgeSpeed;
 
@@ -290,6 +281,7 @@ public abstract class Humanoid : Mob
 	protected override void Tick(float delta)
 	{
 		base.Tick(delta);
+
 		UpdateSmoothedAimPos();
 	}
 }

@@ -20,19 +20,18 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	/// How far from MinAimDistance IK should start to blend.
 	/// </summary>
 	[SerializeField]
-	private readonly float ikBlendingDistance = 2f;
+	private float ikBlendingDistance = 2f;
 
 	private float ikTransition = 1f;
 	private float ikTransitionGoal = 1f;
 	private float ikTransitionTime = .1f;
 
-	private Transform leftHandIkTarget;
-	private Transform rightHandIkTarget;
+	protected Transform leftHandIkTarget;
+	protected Transform rightHandIkTarget;
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		leftHandIkTarget = item.Model.LeftHandGrip;
-		// It's unclear for now what do we have to do with the right hand.
+		// leftHandIkTarget = item.Model.LeftHandGrip;
 		// rightHandIkTarget = item.Model.RightHandGrip;
 	}
 

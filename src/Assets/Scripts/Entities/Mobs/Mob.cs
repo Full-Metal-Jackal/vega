@@ -47,6 +47,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected Vector3 activeDirection = Vector3.zero;
 
+	[field: SerializeField]
+	protected float MaxTurningSpeed { get; private set; } = 1f;
+
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
@@ -131,7 +134,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <summary>
 	/// Handles the mob's active movement.
 	/// </summary>
-	/// <param name="delta">Delta between two ticks.</param>
+	/// <param name="delta">Delta between two frames.</param>
 	/// <param name="direction">Vector describing the movement of the mob with magnitude between 0 and 1.</param>
 	/// <param name="affectY">If the request should influence the mob's vertical movement.</param>
 	public virtual void Move(
@@ -163,20 +166,45 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Body.velocity = targetVelocity;
 
 		if (turnsToMovementDirection)
-			TurnTo(Body.velocity);
+			TurnTo(delta, Body.velocity);
 	}
 
 	/// <summary>
-	/// Makes the mob's whole body face the specified direction.
+	/// Instantly rotates the mob's whole body to face the specified direction.
 	/// </summary>
 	/// <param name="rotateTo">The direction to face.</param>
-	public virtual void TurnTo(Vector3 rotateTo)
+	public virtual void SnapTurnTo(Vector3 rotateTo)
 	{
 		rotateTo.y = 0f;
 		if (rotateTo.magnitude <= rotationThreshold)
 			return;
 
 		transform.rotation = Quaternion.LookRotation(rotateTo, Vector3.up);
+	}
+
+	/// <summary>
+	/// continuosly rotates the mob's whole body to face the specified direction.
+	/// Should be continuosly called within Update or FixedUpdate calls to work properly.
+	/// </summary>
+	/// <param name="delta">Delta between two frames.</param>
+	/// <param name="rotateTo">The direction to face.</param>
+	public virtual void TurnTo(float delta, Vector3 rotateTo)
+	{
+		rotateTo.y = 0f;
+		if (rotateTo.magnitude <= rotationThreshold)
+			return;
+
+		// <TODO> Check out how current speed limitation works.
+		// If it doesn't do well, multiply the turning speed by the difference between current and target angles.
+		transform.rotation = Quaternion.LookRotation(
+			Vector3.RotateTowards(
+				transform.forward,
+				rotateTo.normalized,
+				MaxTurningSpeed * delta,
+				0
+			),
+			Vector3.up
+		);
 	}
 
 	/// <summary>

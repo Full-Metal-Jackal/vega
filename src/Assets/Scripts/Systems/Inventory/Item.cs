@@ -94,12 +94,11 @@ namespace Inventory
 			}
 
 			Model = model;
-			// This shit exist just because it wants to. Don't mess with it.
-			const float skeletonScale = .01f;
+			const float skeletonScale = .01f;  // This shit exists just because it wants to. Don't mess with it.
 			Model.transform.localScale = Vector3.one * skeletonScale;
 			if (Model.Origin)
 			{
-				Model.transform.localPosition -= Model.Origin.localPosition * skeletonScale;
+				Model.transform.localPosition += Model.Origin.localPosition * skeletonScale;
 				Model.transform.localRotation *= Model.Origin.localRotation;
 			}
 

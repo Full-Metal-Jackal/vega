@@ -19,13 +19,14 @@ MonoBehaviour:
   <MaxStamina>k__BackingField: 100
   <Animator>k__BackingField: {fileID: 1618262357948111153}
   <MoveSpeed>k__BackingField: 250
+  <MaxTurningSpeed>k__BackingField: 5
   <WalkSpeedFactor>k__BackingField: 0.5
   <DodgeCooldown>k__BackingField: 1
   <DodgeStaminaCost>k__BackingField: 25
   <SprintStaminaCost>k__BackingField: 15
   <SprintSpeedFactor>k__BackingField: 1.5
   rightHandSocket: {fileID: 0}
-  <MinAimDistance>k__BackingField: 2
+  aimPosSmoothing: 0.2
 --- !u!1001 &7426515666677834457
 PrefabInstance:
   m_ObjectHideFlags: 0

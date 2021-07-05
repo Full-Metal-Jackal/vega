@@ -15,7 +15,7 @@ public class ItemModelData : MonoBehaviour
 	public Transform RightHandGrip { get; private set; }
 
 	/// <summary>
-	/// The parenting origin that should match human's rig socket.
+	/// The parenting origin that should match trigger.
 	/// </summary>
 	[field: SerializeField]
 	public Transform Origin { get; private set; }
