@@ -48,7 +48,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected Vector3 activeDirection = Vector3.zero;
 
 	[field: SerializeField]
-	protected float MaxTurningSpeed { get; private set; } = 1f;
+	protected float MaxTurningSpeed { get; private set; } = 10f;
 
 	public bool Alive { get; protected set; } = true;
 
@@ -194,13 +194,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 		if (rotateTo.magnitude <= rotationThreshold)
 			return;
 
-		// <TODO> Check out how current speed limitation works.
-		// If it doesn't do well, multiply the turning speed by the difference between current and target angles.
+		const float maxAngle = 180f;
+		float differenceFactor = Mathf.Lerp(.5f, 1.5f,
+			Vector3.Angle(transform.forward, rotateTo) / maxAngle
+			);
 		transform.rotation = Quaternion.LookRotation(
 			Vector3.RotateTowards(
 				transform.forward,
 				rotateTo.normalized,
-				MaxTurningSpeed * delta,
+				differenceFactor * MaxTurningSpeed * delta,
 				0
 			),
 			Vector3.up

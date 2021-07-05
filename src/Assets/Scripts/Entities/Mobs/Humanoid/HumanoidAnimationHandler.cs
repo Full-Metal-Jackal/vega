@@ -31,8 +31,8 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		// leftHandIkTarget = item.Model.LeftHandGrip;
-		// rightHandIkTarget = item.Model.RightHandGrip;
+		leftHandIkTarget = item.Model.LeftHandGrip;
+		rightHandIkTarget = item.Model.RightHandGrip;
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)
@@ -61,12 +61,16 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	public void OnDodgeRollBegin()
 	{
 		humanoid.OnDodgeRoll();
+
+		AdditionalLayersEnabled = false;
 		TransitIkWeightTo(0f, .1f);
 	}
 
 	public void OnDodgeRollEnd()
 	{
 		humanoid.OnDodgeRollEnd();
+
+		AdditionalLayersEnabled = true;
 		TransitIkWeightTo(1f, .1f);
 	}
 
@@ -91,7 +95,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 		if (leftHandIkTarget)
 		{
-			SetIkWeights(AvatarIKGoal.LeftHand, 1f);
+			SetIkWeights(AvatarIKGoal.LeftHand, ikTransition);
 			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
 		}
 		else
@@ -101,7 +105,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 		if (rightHandIkTarget)
 		{
-			SetIkWeights(AvatarIKGoal.RightHand, 1f);
+			SetIkWeights(AvatarIKGoal.RightHand, ikTransition);
 			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
 		}
 		else
@@ -132,5 +136,14 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 			ikTransition = Mathf.Min(ikTransition += Time.deltaTime / ikTransitionTime, ikTransitionGoal);
 		else
 			ikTransition = Mathf.Max(ikTransition -= Time.deltaTime / ikTransitionTime, ikTransitionGoal);
+	}
+
+	protected bool AdditionalLayersEnabled
+	{
+		set
+		{
+			for (int i = 1; i < Animator.layerCount; i++)
+				Animator.SetLayerWeight(i, value ? 1f : 0f);
+		}
 	}
 }
