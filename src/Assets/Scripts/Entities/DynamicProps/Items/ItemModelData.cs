@@ -6,13 +6,19 @@ public class ItemModelData : MonoBehaviour
 	/// The target of the owner's left hand's IK.
 	/// </summary>
 	[field: SerializeField]
-	public Transform LeftHandHandle { get; private set; }
+	public Transform LeftHandGrip { get; private set; }
 
 	/// <summary>
 	/// The target of the owner's right hand's IK.
 	/// </summary>
 	[field: SerializeField]
-	public Transform RightHandHandle { get; private set; }
+	public Transform RightHandGrip { get; private set; }
+
+	/// <summary>
+	/// The parenting origin that should match trigger.
+	/// </summary>
+	[field: SerializeField]
+	public Transform Origin { get; private set; }
 
 	public void Suicide() => Destroy(gameObject);
 }

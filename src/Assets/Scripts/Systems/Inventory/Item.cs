@@ -17,7 +17,7 @@ namespace Inventory
 
 		[field: SerializeField]
 		public string Desc { get; private set; }
-		
+
 		/// <summary>
 		/// The model that currently represents this item in the mob's hands.
 		/// Should be deleted when the item is not in hands.
@@ -45,6 +45,11 @@ namespace Inventory
 		/// Shortcut for item slot's owner.
 		/// </summary>
 		public Mob Owner => (Slot && Slot.Inventory) ? Slot.Inventory.Owner : null;
+
+		/// <summary>
+		/// If the owner of this item should aim it at the cursor.
+		/// </summary>
+		public virtual bool IsAimable => false;
 
 		private void Awake()
 		{
@@ -76,7 +81,7 @@ namespace Inventory
 				return;
 			}
 
-			if (!(Owner.ItemSocket is ItemSocket socket))
+			if (!(Owner.ItemSocket is Transform socket))
 			{
 				Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
 				return;
@@ -89,8 +94,13 @@ namespace Inventory
 			}
 
 			Model = model;
-			const float skeletonScale = .01f;  // <TODO> Investigate the nature of this scaling later; maybe tweak import settings?
+			const float skeletonScale = .01f;  // This shit exists just because it wants to. Don't mess with it.
 			Model.transform.localScale = Vector3.one * skeletonScale;
+			if (Model.Origin)
+			{
+				Model.transform.localPosition += Model.Origin.localPosition * skeletonScale;
+				Model.transform.localRotation *= Model.Origin.localRotation;
+			}
 
 			Owner.ActiveItem = this;
 		}

@@ -4,6 +4,8 @@ using Inventory;
 
 public abstract class Humanoid : Mob
 {
+	public delegate void GunPutDownAction(bool isgunPutDown);
+
 	/// <summary>
 	/// The multiplier of the mob's walking speed.
 	/// </summary>
@@ -43,15 +45,36 @@ public abstract class Humanoid : Mob
 	private Vector3 velocityBuffer = Vector3.zero;
 	private readonly float movementSmoothing = .01f;
 
-	// <TODO> Will do for now, may be unified or universalized later.
 	[SerializeField]
-	private ItemSocket leftHand;
+	private Transform rightHandSocket;
+	public override Transform ItemSocket => rightHandSocket;
+
 	[SerializeField]
-	private ItemSocket rightHand;
-	[SerializeField]
-	private ItemSocket back;
-	[SerializeField]
-	private ItemSocket belt;
+	private float aimPosSmoothing = .2f;
+	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
+	public Vector3 SmoothedAimPos { get; protected set; }
+	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
+			SmoothedAimPos,
+			AimPos,
+			ref aimPosSmoothingVelocity,
+			aimPosSmoothing
+		);
+
+	private bool isAiming = false;
+	public bool IsAiming
+	{
+		get => isAiming;
+		protected set => Animator.SetBool("IsAiming", isAiming = value);
+	}
+
+	/// <summary>
+	/// The minimum AimDistance required to aim.
+	/// </summary>
+	public virtual float MinAimDistance => 1f;
+	/// <summary>
+	/// Additive distance for MinAimDistance to start aiming.
+	/// </summary>
+	public virtual float AimEnableDistance => 1f;
 
 	private HoldType holdState = HoldType.None;
 	/// <summary>
@@ -66,27 +89,13 @@ public abstract class Humanoid : Mob
 			if (!Animator)
 				return;
 
-			const string animatorIsDevice = "HoldingDevice";
-			bool isDevice = false;
-			switch (holdState)
-			{
-			case HoldType.SingleHandDevice:
-			case HoldType.TwoHandsDevice:
-			case HoldType.Cyberdeck:
-				break;
-			}
-			Animator.SetBool(animatorIsDevice, isDevice);
-
-			const string animatorVariable = "HoldType";
 			int animatorValue = 0;
 			switch (holdState)
 			{
 			case HoldType.SingleHandPistol:
-			case HoldType.SingleHandDevice:
 				animatorValue = 1;
 				break;
 			case HoldType.TwoHandsPistol:
-			case HoldType.TwoHandsDevice:
 				animatorValue = 2;
 				break;
 			case HoldType.AssaultRifle:
@@ -95,8 +104,9 @@ public abstract class Humanoid : Mob
 			case HoldType.Shotgun:
 				animatorValue = 4;
 				break;
+
 			}
-			Animator.SetInteger(animatorVariable, animatorValue);
+			Animator.SetInteger("HoldType", animatorValue);
 		}
 	}
 
@@ -107,7 +117,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			switch (MovementState)
+			switch (State) 
 			{
 			case MobState.Standing:
 			case MobState.Walking:
@@ -125,7 +135,7 @@ public abstract class Humanoid : Mob
 			if (!CanMoveActively)
 				return false;
 
-			if (MovementState == MobState.Standing)
+			if (State == MobState.Standing)
 				return false;
 
 			return Stamina > SprintStaminaCost;
@@ -148,12 +158,9 @@ public abstract class Humanoid : Mob
 		get => base.ActiveItem;
 		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
 	}
+	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
 
-	public override void Move(
-		float delta,
-		Vector3 direction,
-		bool affectY = false
-	)
+	public override void Move(float delta, Vector3 direction, bool affectY = false)
 	{
 		if (!CanMoveActively)
 			return;
@@ -162,7 +169,7 @@ public abstract class Humanoid : Mob
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MobState.Standing;
+			State = MobState.Standing;
 		}
 		else
 		{
@@ -173,7 +180,7 @@ public abstract class Humanoid : Mob
 			{
 			case MovementType.Walking:
 				speed *= WalkSpeedFactor;
-				MovementState = MobState.Walking;
+				State = MobState.Walking;
 				break;
 			case MovementType.Sprinting:
 				if (!CanSprint)
@@ -181,15 +188,24 @@ public abstract class Humanoid : Mob
 
 				speed *= SprintSpeedFactor;
 				Stamina -= SprintStaminaCost * delta;
-				MovementState = MobState.Sprinting;
+				State = MobState.Sprinting;
 				break;
 			default:
-				MovementState = MobState.Running;
+				State = MobState.Running;
 				break;
 			}
 		}
 
 		activeDirection = direction;
+		if (HasAimableItem)
+		{
+			UpdateLegsAnimation();
+			UpdateAiming(delta);
+		}
+		else
+		{
+			TurnTo(delta, direction);
+		}
 
 		Vector3 targetVelocity = speed * direction * delta;
 		if (!affectY)
@@ -201,20 +217,46 @@ public abstract class Humanoid : Mob
 			ref velocityBuffer,
 			movementSmoothing
 		);
-
-		if (turnsToMovementDirection)
-			TurnTo(Body.velocity);
 	}
 
-	public override void DashAction() => Dodge();
+	/// <summary>
+	/// Tells the legs whether they should run normally, strafe or run backwards.
+	/// </summary>
+	protected virtual void UpdateLegsAnimation()
+	{
+		Vector3 horDir = transform.forward;
+		horDir.y = 0;
+
+		Vector3 relativeMovDir = Quaternion.AngleAxis(
+			Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+			Vector3.up
+		) * Vector3.forward;
+
+		Animator.SetFloat("MovementSide", relativeMovDir.x);
+		Animator.SetFloat("MovementForward", relativeMovDir.z);
+	}
 
 	/// <summary>
-	/// Performs a dodge attempt.
+	/// Updates the mob's aiming status and rotation.
 	/// </summary>
-	public void Dodge()
+	/// <param name="delta"></param>
+	protected virtual void UpdateAiming(float delta)
+	{
+		if (IsAiming &= AimDistance >= MinAimDistance)
+			TurnTo(delta, SmoothedAimPos - transform.position);
+		else
+			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+	}
+
+	public override void DashAction() => DodgeRoll();
+
+	/// <summary>
+	/// Performs a dodge roll attempt.
+	/// </summary>
+	public void DodgeRoll()
 	{
 		if (CanDodge)
-			MovementState = MobState.Dodging;
+			State = MobState.Dodging;
 	}
 
 	public void OnDodgeRoll()
@@ -223,8 +265,7 @@ public abstract class Humanoid : Mob
 		direction.y = 0f;
 		direction.Normalize();
 
-		if (turnsToMovementDirection)
-			transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+		SnapTurnTo(direction);
 
 		Vector3 force = Quaternion.AngleAxis(-dodgeAngle, transform.right) * direction * DodgeSpeed;
 
@@ -234,10 +275,13 @@ public abstract class Humanoid : Mob
 		Body.AddForce(force, ForceMode.Impulse);
 	}
 
-	public void OnDodgeRollEnd()
-	{
-		MovementState = MobState.Sprinting;
-	}
+	public void OnDodgeRollEnd() =>
+		State = MobState.Sprinting;
 
-	public override ItemSocket ItemSocket => rightHand;
+	protected override void Tick(float delta)
+	{
+		base.Tick(delta);
+
+		UpdateSmoothedAimPos();
+	}
 }

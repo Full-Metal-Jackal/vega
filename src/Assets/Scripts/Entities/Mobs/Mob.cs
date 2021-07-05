@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Inventory;
+
+using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
 	public delegate void PickUpItemAction(Item item);
-
 	public event PickUpItemAction OnPickedUpItem;
+
+	public delegate void ActiveItemAction(Item item);
+	public event ActiveItemAction OnItemChange;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
@@ -22,7 +25,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
-	[field: SerializeField]
 	public MobInventory Inventory { get; private set; }
 
 	/// <summary>
@@ -31,35 +33,27 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	public Transform AimTransform { get; private set; }
-	public Vector3 AimPos
-	{
-		get => AimTransform.position;
-		set
-		{
-			AimTransform.position = value;
+	public virtual Vector3 AimPos { get; set; }
 
-			// <TODO> ItemSocket will do for now but may be changed later.
-			Vector3 direction = value - ItemSocket.transform.position;
+	public Vector3 AimDir => AimPos - transform.position;
+	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
-			AimTransform.rotation = Quaternion.AngleAxis(-90f, direction) * Quaternion.LookRotation(direction, Vector3.up);
-		}
-	}
 
 	protected readonly float movementHaltThreshold = .01f;
 
 	[SerializeField]
-	protected readonly bool turnsToMovementDirection = true;
+	private readonly bool turnsToMovementDirection = true;
 	protected readonly float rotationThreshold = .01f;
 
 	protected Vector3 activeDirection = Vector3.zero;
+
+	[field: SerializeField]
+	protected float MaxTurningSpeed { get; private set; } = 10f;
 
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
 
-	public delegate void ActiveItemAction(Item item);
-	public event ActiveItemAction OnItemChange;
 	public virtual Item ActiveItem
 	{
 		get => activeItem;
@@ -75,7 +69,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
-	public virtual MobState MovementState
+	public virtual MobState State
 	{
 		get => movementState;
 		protected set
@@ -120,18 +114,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
-		// Since aim position is marked by an empty object and is moved constantly, it is simplier to create it from code. 
-		AimTransform = CreateAim();
+		Inventory = GetComponentInChildren<Inventory.MobInventory>();
 
 		return true;
-	}
-
-	private Transform CreateAim()
-	{
-		Transform aim = new GameObject("Aim").transform;
-		aim.position = transform.position + transform.forward * 16f;
-		aim.SetParent(transform);
-		return aim;
 	}
 
 	public void TakeDamage(float damage)
@@ -149,7 +134,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <summary>
 	/// Handles the mob's active movement.
 	/// </summary>
-	/// <param name="delta">Delta between two ticks.</param>
+	/// <param name="delta">Delta between two frames.</param>
 	/// <param name="direction">Vector describing the movement of the mob with magnitude between 0 and 1.</param>
 	/// <param name="affectY">If the request should influence the mob's vertical movement.</param>
 	public virtual void Move(
@@ -163,13 +148,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		if (direction.magnitude <= movementHaltThreshold)
 		{
-			MovementState = MobState.Standing;
+			State = MobState.Standing;
 		}
 		else
 		{
 			if (direction.magnitude > 1f)
 				direction.Normalize();
-			MovementState = MobState.Running;
+			State = MobState.Running;
 		}
 
 		activeDirection = direction;
@@ -181,20 +166,47 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Body.velocity = targetVelocity;
 
 		if (turnsToMovementDirection)
-			TurnTo(Body.velocity);
+			TurnTo(delta, Body.velocity);
 	}
 
 	/// <summary>
-	/// Makes the mob's whole body face the specified direction.
+	/// Instantly rotates the mob's whole body to face the specified direction.
 	/// </summary>
 	/// <param name="rotateTo">The direction to face.</param>
-	public virtual void TurnTo(Vector3 rotateTo)
+	public virtual void SnapTurnTo(Vector3 rotateTo)
 	{
 		rotateTo.y = 0f;
 		if (rotateTo.magnitude <= rotationThreshold)
 			return;
 
 		transform.rotation = Quaternion.LookRotation(rotateTo, Vector3.up);
+	}
+
+	/// <summary>
+	/// continuosly rotates the mob's whole body to face the specified direction.
+	/// Should be continuosly called within Update or FixedUpdate calls to work properly.
+	/// </summary>
+	/// <param name="delta">Delta between two frames.</param>
+	/// <param name="rotateTo">The direction to face.</param>
+	public virtual void TurnTo(float delta, Vector3 rotateTo)
+	{
+		rotateTo.y = 0f;
+		if (rotateTo.magnitude <= rotationThreshold)
+			return;
+
+		const float maxAngle = 180f;
+		float differenceFactor = Mathf.Lerp(.5f, 1.5f,
+			Vector3.Angle(transform.forward, rotateTo) / maxAngle
+			);
+		transform.rotation = Quaternion.LookRotation(
+			Vector3.RotateTowards(
+				transform.forward,
+				rotateTo.normalized,
+				differenceFactor * MaxTurningSpeed * delta,
+				0
+			),
+			Vector3.up
+		);
 	}
 
 	/// <summary>
@@ -228,7 +240,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		get
 		{
-			switch (MovementState)
+			switch (State)
 			{
 			case MobState.Dead:
 			case MobState.Dodging:
@@ -240,5 +252,5 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual ItemSocket ItemSocket => null;
+	public virtual Transform ItemSocket => transform;
 }

@@ -8,9 +8,6 @@ public class PlayerController : MobController
 
 	public event PossesAction OnPossesed;
 
-	public float aimMovementSmoothing = .04f;
-	private Vector3 currentAimPosVelocity = Vector3.zero;
-
 	/// Да простит меня Аллах
 	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
 	private static PlayerController inst;
@@ -145,12 +142,7 @@ public class PlayerController : MobController
 		Vector3 aimPos = CameraController.GetWorldCursorPos();
 		aimPos.y += aimHeight;
 
-		Possessed.AimPos = Vector3.SmoothDamp(
-			Possessed.AimPos,
-			aimPos,
-			ref currentAimPosVelocity,
-			aimMovementSmoothing
-		);
+		Possessed.AimPos = aimPos;
 	}
 
 	public void SetSelectedOutline(bool selected)
