@@ -93,6 +93,8 @@ public class PlayerController : MobController
 		input.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 		input.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+
+		input.World.Fire.performed += ctx => OnFirePressed();
 	}
 
 	public override bool PossessMob(Mob mob)
@@ -120,6 +122,11 @@ public class PlayerController : MobController
 	{
 		if (SelectedEntity is Interaction interaction)
 			Possessed.Use(interaction);
+	}
+
+	public void OnFirePressed()
+	{
+		Possessed.Fire();
 	}
 
 	private void OnDodgePressed() => Possessed.DashAction();

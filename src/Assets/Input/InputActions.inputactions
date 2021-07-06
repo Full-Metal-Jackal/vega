@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "90786f67-48d7-4b43-b012-5bf0ea1f2ef1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Use",
                     "type": "Button",
                     "id": "cfee7b1f-51e4-475b-9322-a1ed290fa501",
@@ -362,6 +370,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "SecondaryWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d557177a-5a3c-4e66-9bf8-e9f8c80ed06a",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

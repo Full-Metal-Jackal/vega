@@ -27,6 +27,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobInventory Inventory { get; private set; }
 
+	public virtual Transform ItemSocket => transform;
+
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
@@ -252,5 +254,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual Transform ItemSocket => transform;
+	public virtual void Fire()
+	{
+		if (ActiveItem)
+			ActiveItem.Fire(AimPos);
+	}
 }
