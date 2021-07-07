@@ -56,6 +56,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
+	public virtual bool CanFire => true;
+
 	public virtual Item ActiveItem
 	{
 		get => activeItem;
@@ -121,8 +123,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public void TakeDamage(float damage)
+	public virtual void TakeDamage(Entity inflictor, float damage)
 	{
+		Debug.Log($"{this} took {damage} damage from {inflictor}.");
 		Health -= damage;
 	}
 
@@ -256,7 +259,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual void Fire()
 	{
-		if (ActiveItem)
-			ActiveItem.Fire(AimPos);
+		if (ActiveItem && CanFire)
+			ActiveItem.TryFire(AimPos);
 	}
 }

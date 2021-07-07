@@ -5,14 +5,17 @@ public class Gun : Item
 {
 	public int ClipSize { get; protected set; } = 8;
 
-	[field: SerializeField]
-	public Transform Barrel { get; private set; }
+	public Transform Barrel { get; protected set; }
+	public GunSfxData SoundEffects { get; protected set; }
 
 	[field: SerializeField]
 	public GameObject ProjectilePrefab { get; private set; }
 
 	[field: SerializeField]
-	public float ProjectileSpeed { get; private set; } = 1200f;
+	public float ProjectileSpeed { get; private set; } = 50f;
+
+	[field: SerializeField]
+	public float Spread { get; private set; } = 0f;
 
 	[field: SerializeField]
 	public float Damage { get; private set; } = 10f;
@@ -24,7 +27,7 @@ public class Gun : Item
 
 	public bool IsReloading { get; protected set; } = false;
 	
-	public virtual bool CanFire => !IsReloading;
+	public override bool CanFire => !IsReloading;
 
 	public override bool IsAimable => true;
 
@@ -32,6 +35,23 @@ public class Gun : Item
 	{
 		base.Initialize();
 		AmmoCount = ClipSize;
+	}
+
+	protected override void Equip()
+	{
+		base.Equip();
+
+		if (!(SoundEffects = (GunSfxData)ItemData.PasteSfx(Model.transform)))
+			Debug.LogError($"{this} has no GunSfxData assigned.");
+
+		if (!(Model is GunModelData gunModel) || !gunModel.Barrel)
+		{
+			Debug.LogWarning($"{this} has invalid GunModelData: couldn't locate Barrel transform.");
+			Barrel = Model.transform;
+			return;
+		}
+
+		Barrel = gunModel.Barrel;
 	}
 
 	public void OnReloadBegin() =>
@@ -46,32 +66,33 @@ public class Gun : Item
 	public virtual void Reload() =>
 		AmmoCount = ClipSize;
 
-	public virtual void Fire() =>
-		Fire(Barrel.forward);
-
-	public virtual void FireAt(Vector3 position) =>
-		Fire(position - Barrel.position);
-
-	public virtual void Fire(Vector3 direction)
+	protected override void Fire(Vector3 target)
 	{
-		if (!PreFire(direction))
+		Vector3 direction = (target - Barrel.position).normalized;
+
+		if (!PreFire(ref direction))
 			return;
 
 		Projectile projectile = CreateProjectile();
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
-		projectile.Body.AddForce(Barrel.forward * ProjectileSpeed, ForceMode.Impulse);
+		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
 
 		PostFire(direction, projectile);
 	}
 
-	public virtual bool PreFire(Vector3 direction)
+	public virtual bool PreFire(ref Vector3 direction)
 	{
 		if (AmmoCount <= 0)
 		{
 			OnNoAmmo();
 			return false;
 		}
+
+		direction = Quaternion.AngleAxis(
+			Random.Range(-Spread, Spread),
+			Barrel.up
+		) * direction;
 
 		AmmoCount--;
 
@@ -80,6 +101,7 @@ public class Gun : Item
 
 	public virtual void PostFire(Vector3 direction, Projectile projectile)
 	{
+		SoundEffects.Play(SoundEffects.Fire);
 	}
 
 	public virtual Projectile CreateProjectile()
@@ -92,6 +114,7 @@ public class Gun : Item
 
 	protected virtual void OnNoAmmo()
 	{
-		// <TODO> Make a click sound here and may be start reloading.
+		SoundEffects.Play(SoundEffects.DryFire);
+		// <TODO> May be start reloading here?
 	}
 }

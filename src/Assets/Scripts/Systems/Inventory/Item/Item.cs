@@ -36,6 +36,11 @@ namespace Inventory
 		}
 
 		/// <summary>
+		/// If this item can be fired right now.
+		/// </summary>
+		public virtual bool CanFire => true;
+
+		/// <summary>
 		/// How this item should be held in hands. If it shouldn't appear in hands at all, leave it as None.
 		/// </summary>
 		[field: SerializeField]
@@ -65,9 +70,26 @@ namespace Inventory
 		}
 
 		/// <summary>
-		/// Called when the item is being used in slot, e.g. when the player tries to draw a weapon or deploy a drone.
+		/// Called when the player tries to use an item, e.g. firing a gun.
 		/// </summary>
-		public virtual void Use()
+		/// <param name="target">The target position. Might be unused.</param>
+		/// <returns>true if the item has been fired successfully, false otherwise.</returns>
+		public virtual bool TryFire(Vector3 target)
+		{
+			if (!CanFire)
+				return false;
+			Fire(target);
+			return true;
+		}
+
+		protected virtual void Fire(Vector3 target)
+		{
+		}
+
+		/// <summary>
+		/// Called when the item's slot is selected, e.g. when the player tries to draw a weapon or deploy a drone.
+		/// </summary>
+		public virtual void Select()
 		{
 			// <TODO> Dequip mob's active item, then draw this one.
 			Equip();
@@ -101,6 +123,13 @@ namespace Inventory
 				Model.transform.localPosition += Model.Origin.localPosition * skeletonScale;
 				Model.transform.localRotation *= Model.Origin.localRotation;
 			}
+
+			if (ItemData.Cursor)
+				Cursor.SetCursor(
+					ItemData.Cursor,
+					new Vector2(ItemData.Cursor.width / 2, ItemData.Cursor.height / 2),
+					CursorMode.Auto
+				);
 
 			Owner.ActiveItem = this;
 		}

@@ -43,7 +43,7 @@ namespace Inventory
 				item.Slot = this;
 
 				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
-				item.Use();
+				item.Select();
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace Inventory
 
 		public override void OnActivated()
 		{
-			item.Use();
+			item.Select();
 		}
 	}
 }
