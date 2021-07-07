@@ -45,7 +45,7 @@ public class Projectile : DynamicEntity
 		Suicide();
 		if (other.transform.TryGetComponent(out Entity entity)
 			&& entity is IDamageable damageable)
-			damageable.TakeDamage(this, Damage);
+			damageable.TakeDamage(Source, Damage);
 	}
 
 	private void Update() => OnUpdate();

@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class ItemSfxData : MonoBehaviour
+namespace Inventory
 {
-	[field: SerializeField]
-	public AudioClip Equip { get; private set; }
+	[RequireComponent(typeof(AudioSource))]
+	public class ItemSfxData : MonoBehaviour
+	{
+		[field: SerializeField]
+		public AudioClip Equip { get; private set; }
 
-	[field: SerializeField]
-	public AudioClip Fire { get; private set; }
+		[field: SerializeField]
+		public AudioClip Fire { get; private set; }
 
-	private AudioSource audioSource;
+		private AudioSource audioSource;
 
-	private void Awake() =>
-		audioSource = GetComponent<AudioSource>();
+		private void Awake() =>
+			audioSource = GetComponent<AudioSource>();
 
-	public void Play(AudioClip clip) =>
-		audioSource.PlayOneShot(clip);
+		public void Play(AudioClip clip) =>
+			audioSource.PlayOneShot(clip);
+	}
 }

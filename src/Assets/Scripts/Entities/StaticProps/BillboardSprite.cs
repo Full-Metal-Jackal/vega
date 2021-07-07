@@ -2,16 +2,12 @@
 
 public class BillboardSprite : MonoBehaviour
 {
-	/// <summary>
-	/// Such things as bullets need to face the camera before the first frame.
-	/// </summary>
+	// Sprites of dynamically spawned entities need to face the camera even before the first frame
+	// since their incorrent rotation is quite noticable at the moment of their creation.
 	private void Start() => FaceCam();
 
 	private void LateUpdate() => FaceCam();
 
-	private void FaceCam()
-	{
-		if (Camera.current)
-			transform.forward = Camera.current.transform.forward;
-	}
+	private void FaceCam() =>
+		transform.forward = CameraController.Instance.transform.forward;
 }
