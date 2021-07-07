@@ -25,17 +25,26 @@ public class Projectile : DynamicEntity
 		}
 	}
 
+	/// <summary>
+	/// Who (or what) shot Kennedy.
+	/// </summary>
+	public Entity Source { get; protected set; }
+
 	[field: SerializeField]
 	public ProjecitleType Type { get; private set; } = ProjecitleType.Kinetic;
 
-	private void OnTriggerEnter(Collider other) => OnHit(other);
+	public void Setup(Entity source)
+	{
+		Source = source;
+	}
 
-	public virtual void OnHit(Collider other)
+	private void OnCollisionEnter(Collision collision) => OnHit(collision.gameObject);
+
+	public virtual void OnHit(GameObject other)
 	{
 		Suicide();
-		if (other.transform.parent.TryGetComponent(out Entity entity)
-			&& entity is IDamageable damageable
-		)
+		if (other.transform.TryGetComponent(out Entity entity)
+			&& entity is IDamageable damageable)
 			damageable.TakeDamage(this, Damage);
 	}
 

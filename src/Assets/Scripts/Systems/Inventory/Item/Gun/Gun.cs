@@ -109,6 +109,7 @@ public class Gun : Item
 		if (!Instantiate(ProjectilePrefab).TryGetComponent(out Projectile projectile))
 			throw new System.Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
 
+		projectile.Setup(Owner);
 		return projectile;
 	}
 
