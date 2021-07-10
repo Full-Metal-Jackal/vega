@@ -27,6 +27,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobInventory Inventory { get; private set; }
 
+	public virtual Transform ItemSocket => transform;
+
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
@@ -53,6 +55,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
+
+	public virtual bool CanFire => true;
 
 	public virtual Item ActiveItem
 	{
@@ -119,8 +123,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public void TakeDamage(float damage)
+	public virtual void TakeDamage(Entity inflictor, float damage)
 	{
+		Debug.Log($"{this} took {damage} damage from {inflictor}.");
 		Health -= damage;
 	}
 
@@ -252,5 +257,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual Transform ItemSocket => transform;
+	public virtual void Fire()
+	{
+		if (ActiveItem && CanFire)
+			ActiveItem.Fire(AimPos);
+	}
 }

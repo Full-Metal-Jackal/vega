@@ -1,5 +1,7 @@
 ﻿public enum ProjecitleType
 {
+	Energetic,
 	Kinetic,
-	Energetic
+	Light,
+	Plasma
 }
