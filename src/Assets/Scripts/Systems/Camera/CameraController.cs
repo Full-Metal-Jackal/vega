@@ -19,10 +19,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 	public void SetTrackedMob(Mob mob) => this.mob = mob;
 
-	private void Update()
-	{
-		Follow();
-	}
+	private void LateUpdate() => Follow();
 
 	private void Follow()
 	{

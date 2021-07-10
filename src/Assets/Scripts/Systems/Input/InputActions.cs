@@ -45,6 +45,14 @@ namespace Input
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""90786f67-48d7-4b43-b012-5bf0ea1f2ef1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""cfee7b1f-51e4-475b-9322-a1ed290fa501"",
@@ -377,6 +385,17 @@ namespace Input
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""SecondaryWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d557177a-5a3c-4e66-9bf8-e9f8c80ed06a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1463,6 +1482,7 @@ namespace Input
             m_World_Move = m_World.FindAction("Move", throwIfNotFound: true);
             m_World_Look = m_World.FindAction("Look", throwIfNotFound: true);
             m_World_Fire = m_World.FindAction("Fire", throwIfNotFound: true);
+            m_World_Reload = m_World.FindAction("Reload", throwIfNotFound: true);
             m_World_Use = m_World.FindAction("Use", throwIfNotFound: true);
             m_World_Dodge = m_World.FindAction("Dodge", throwIfNotFound: true);
             m_World_Sprint = m_World.FindAction("Sprint", throwIfNotFound: true);
@@ -1545,6 +1565,7 @@ namespace Input
         private readonly InputAction m_World_Move;
         private readonly InputAction m_World_Look;
         private readonly InputAction m_World_Fire;
+        private readonly InputAction m_World_Reload;
         private readonly InputAction m_World_Use;
         private readonly InputAction m_World_Dodge;
         private readonly InputAction m_World_Sprint;
@@ -1558,6 +1579,7 @@ namespace Input
             public InputAction @Move => m_Wrapper.m_World_Move;
             public InputAction @Look => m_Wrapper.m_World_Look;
             public InputAction @Fire => m_Wrapper.m_World_Fire;
+            public InputAction @Reload => m_Wrapper.m_World_Reload;
             public InputAction @Use => m_Wrapper.m_World_Use;
             public InputAction @Dodge => m_Wrapper.m_World_Dodge;
             public InputAction @Sprint => m_Wrapper.m_World_Sprint;
@@ -1582,6 +1604,9 @@ namespace Input
                     @Fire.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnFire;
                     @Fire.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnFire;
                     @Fire.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnFire;
+                    @Reload.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnReload;
+                    @Reload.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnReload;
+                    @Reload.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnReload;
                     @Use.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnUse;
                     @Use.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnUse;
                     @Use.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnUse;
@@ -1613,6 +1638,9 @@ namespace Input
                     @Fire.started += instance.OnFire;
                     @Fire.performed += instance.OnFire;
                     @Fire.canceled += instance.OnFire;
+                    @Reload.started += instance.OnReload;
+                    @Reload.performed += instance.OnReload;
+                    @Reload.canceled += instance.OnReload;
                     @Use.started += instance.OnUse;
                     @Use.performed += instance.OnUse;
                     @Use.canceled += instance.OnUse;
@@ -1895,6 +1923,7 @@ namespace Input
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
+            void OnReload(InputAction.CallbackContext context);
             void OnUse(InputAction.CallbackContext context);
             void OnDodge(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
