@@ -19,6 +19,8 @@ public class CameraController : MonoSingleton<CameraController>
 
 	public void SetTrackedMob(Mob mob) => this.mob = mob;
 
+	// Since the camera is not rotating in game, it would be better
+	// to calculate this rotation only once instead of recalculating it every time it's needed.
 	public Quaternion VerticalRotation { get; private set; }
 
 	private void Start() =>
