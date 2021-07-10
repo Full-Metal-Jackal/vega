@@ -74,16 +74,11 @@ namespace Inventory
 		/// </summary>
 		/// <param name="target">The target position. Might be unused.</param>
 		/// <returns>true if the item has been fired successfully, false otherwise.</returns>
-		public virtual bool TryFire(Vector3 target)
+		public virtual bool Fire(Vector3 target)
 		{
 			if (!CanFire)
 				return false;
-			Fire(target);
 			return true;
-		}
-
-		protected virtual void Fire(Vector3 target)
-		{
 		}
 
 		/// <summary>

@@ -66,12 +66,15 @@ public class Gun : Item
 	public virtual void Reload() =>
 		AmmoCount = ClipSize;
 
-	protected override void Fire(Vector3 target)
+	public override bool Fire(Vector3 target)
 	{
+		if (!base.Fire(target))
+			return false;
+
 		Vector3 direction = (target - Barrel.position).normalized;
 
 		if (!PreFire(ref direction))
-			return;
+			return false;
 
 		Projectile projectile = CreateProjectile();
 		projectile.transform.position = Barrel.position;
@@ -79,6 +82,8 @@ public class Gun : Item
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
 
 		PostFire(direction, projectile);
+
+		return true;
 	}
 
 	public virtual bool PreFire(ref Vector3 direction)

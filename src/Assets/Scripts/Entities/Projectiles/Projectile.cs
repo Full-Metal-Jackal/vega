@@ -2,28 +2,7 @@
 
 public class Projectile : DynamicEntity
 {
-	[field: SerializeField]
-	public float Damage { get; set; } = 10f;
-
-	/// <summary>
-	/// How many seconds this projectile lives until being cleaned up.
-	/// Provide 0 to disable automatic cleanup.
-	/// </summary>
-	[SerializeField]
-	private float lifespan = 5f;
-
-	/// <summary>
-	/// How much time left till this projectile dies.
-	/// </summary>
-	public float LifeSpan
-	{
-		get => lifespan;
-		protected set
-		{
-			if ((lifespan = value) <= 0)
-				Suicide();
-		}
-	}
+	public float damage = 10f;
 
 	/// <summary>
 	/// Who (or what) shot Kennedy.
@@ -45,14 +24,7 @@ public class Projectile : DynamicEntity
 		Suicide();
 		if (other.transform.TryGetComponent(out Entity entity)
 			&& entity is IDamageable damageable)
-			damageable.TakeDamage(Source, Damage);
-	}
-
-	private void Update() => OnUpdate();
-	public virtual void OnUpdate()
-	{
-		if (LifeSpan > 0)
-			LifeSpan -= Time.deltaTime;
+			damageable.TakeDamage(Source, damage);
 	}
 
 	public void Suicide() => Destroy(gameObject);
