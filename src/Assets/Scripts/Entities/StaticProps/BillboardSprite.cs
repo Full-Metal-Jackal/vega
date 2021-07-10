@@ -9,5 +9,5 @@ public class BillboardSprite : MonoBehaviour
 	private void LateUpdate() => FaceCam();
 
 	private void FaceCam() =>
-		transform.forward = CameraController.Instance.transform.forward;
+		transform.forward = Camera.main.transform.forward;
 }
