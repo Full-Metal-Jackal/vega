@@ -61,11 +61,16 @@ public abstract class Humanoid : Mob
 		);
 
 	private bool isAiming = false;
+	/// <summary>
+	/// Is the mob should currently aim, used for animation.
+	/// </summary>
 	public bool IsAiming
 	{
 		get => isAiming;
 		protected set => Animator.SetBool("IsAiming", isAiming = value);
 	}
+
+	public override bool CanFire => base.CanFire && IsAiming;
 
 	/// <summary>
 	/// The minimum AimDistance required to aim.

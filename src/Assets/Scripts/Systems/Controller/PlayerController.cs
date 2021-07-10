@@ -93,6 +93,8 @@ public class PlayerController : MobController
 		input.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 		input.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+
+		input.World.Fire.performed += ctx => OnFirePressed();
 	}
 
 	public override bool PossessMob(Mob mob)
@@ -122,8 +124,12 @@ public class PlayerController : MobController
 			Possessed.Use(interaction);
 	}
 
+	public void OnFirePressed() => Possessed.Fire();
+
 	private void OnDodgePressed() => Possessed.DashAction();
-	private void OnSprintInput(bool sprint) => Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
+
+	private void OnSprintInput(bool sprint) =>
+		Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
 
 	private void OnMoveInput(Vector2 inputMovement) =>
 		movement = CameraController.Instance.VerticalRotation * new Vector3(inputMovement.x, 0, inputMovement.y);
