@@ -260,6 +260,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual void Fire()
 	{
 		if (ActiveItem && CanFire)
-			ActiveItem.TryFire(AimPos);
+			ActiveItem.Fire(AimPos);
 	}
 }
