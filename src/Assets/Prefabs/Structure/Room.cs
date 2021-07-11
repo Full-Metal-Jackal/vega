@@ -5,9 +5,8 @@ public class Room : MonoBehaviour
 	private Transform walls;
 	private Transform furniture;
 	private Transform shade;
+	private Material[] defaultMat;
 
-	[SerializeField]
-	private Material[][] defaultMat;
 	[SerializeField]
 	private Material transparentMat;
 
@@ -16,23 +15,19 @@ public class Room : MonoBehaviour
 		walls = transform.Find("Walls");
 		furniture = transform.Find("Furniture");
 		shade = transform.Find("ShadeRoomPlane");
-		Transform[] prefabs = walls.GetComponentsInChildren<Transform>();
 		if (defaultMat == null)
 		{
-			defaultMat = new Material[prefabs.Length][];
-			for (int i = 0; i < prefabs.Length; i++) //May need to update it in the future
+			Renderer[] Renderer = walls.GetComponentsInChildren<Renderer>();
+			defaultMat = new Material[Renderer.Length];
+			for (int i = 0; i < Renderer.Length; i++)
 			{
-				Renderer[] localRenderer = prefabs[i].GetComponentsInChildren<Renderer>();
-				defaultMat[i] = new Material[2];
-				defaultMat[i][0] = localRenderer[0].material; 
-				defaultMat[i][1] = localRenderer[1].material;
+				defaultMat[i] = Renderer[i].material;
 			}
 		}
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		print(defaultMat[0]);
 		ShowFurniture();
 		HideShadow();
 		HideWalls();
@@ -98,12 +93,10 @@ public class Room : MonoBehaviour
 	{
 		if (walls != null)
 		{
-			Transform[] prefabs = walls.GetComponentsInChildren<Transform>();
-			for (int i = 0; i < prefabs.Length; i++)
+			Renderer[] Renderer = walls.GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < Renderer.Length; i++)
 			{
-				Renderer[] localRenderer = prefabs[i].GetComponentsInChildren<Renderer>();
-				localRenderer[0].material = transparentMat;
-				localRenderer[1].material = transparentMat;
+				Renderer[i].material = transparentMat;
 			}
 		}
 	}
@@ -112,12 +105,10 @@ public class Room : MonoBehaviour
 	{
 		if (walls != null)
 		{
-			Transform[] prefabs = walls.GetComponentsInChildren<Transform>();
-			for (int i = 0; i < prefabs.Length; i++)
+			Renderer[] Renderer = walls.GetComponentsInChildren<Renderer>();
+			for (int i = 0; i < Renderer.Length; i++)
 			{
-				Renderer[] localRenderer = prefabs[i].GetComponentsInChildren<Renderer>();
-				localRenderer[0].material = defaultMat[i][0];
-				localRenderer[1].material = defaultMat[i][1];
+				Renderer[i].material = defaultMat[i];
 			}
 		}
 	}
