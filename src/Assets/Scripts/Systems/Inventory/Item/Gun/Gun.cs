@@ -29,6 +29,8 @@ public class Gun : Item
 	
 	public override bool CanFire => !IsReloading;
 
+	public override bool CanReload => AmmoCount < ClipSize;
+
 	public override bool IsAimable => true;
 
 	protected override void Initialize()
@@ -63,8 +65,14 @@ public class Gun : Item
 		IsReloading = false;
 	}
 
-	public virtual void Reload() =>
+	public override bool Reload()
+	{
+		if (!CanReload)
+			return false;
+
 		AmmoCount = ClipSize;
+		return true;
+	}
 
 	public override bool Fire(Vector3 target)
 	{
