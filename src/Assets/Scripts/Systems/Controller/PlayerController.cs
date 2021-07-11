@@ -95,6 +95,7 @@ public class PlayerController : MobController
 		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 
 		input.World.Fire.performed += ctx => OnFirePressed();
+		input.World.Reload.performed += ctx => OnReloadPressed();
 	}
 
 	public override bool PossessMob(Mob mob)
@@ -125,6 +126,8 @@ public class PlayerController : MobController
 	}
 
 	public void OnFirePressed() => Possessed.Fire();
+
+	public void OnReloadPressed() => Possessed.Reload();
 
 	private void OnDodgePressed() => Possessed.DashAction();
 

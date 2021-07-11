@@ -70,7 +70,23 @@ public abstract class Humanoid : Mob
 		protected set => Animator.SetBool("IsAiming", isAiming = value);
 	}
 
+	private bool isReloading = false;
+	/// <summary>
+	/// Is the mob is currently reloading, used for animation.
+	/// </summary>
+	public bool IsReloading
+	{
+		get => isReloading;
+		protected set
+		{
+			if (isReloading = value)
+				Animator.SetTrigger("ReloadTrigger");
+		}
+	}
+
 	public override bool CanFire => base.CanFire && IsAiming;
+
+	public override bool CanReload => base.CanReload && !IsReloading;
 
 	/// <summary>
 	/// The minimum AimDistance required to aim.
@@ -288,5 +304,14 @@ public abstract class Humanoid : Mob
 		base.Tick(delta);
 
 		UpdateSmoothedAimPos();
+	}
+
+	public override void Reload() =>
+		IsReloading = ActiveItem && ActiveItem.CanReload && CanReload;
+
+	public void OnReloadEnd()
+	{
+		ActiveItem.Reload();
+		IsReloading = false;
 	}
 }

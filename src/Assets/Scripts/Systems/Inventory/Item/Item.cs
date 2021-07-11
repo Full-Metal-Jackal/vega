@@ -41,6 +41,11 @@ namespace Inventory
 		public virtual bool CanFire => true;
 
 		/// <summary>
+		/// If this item can be reloaded right now.
+		/// </summary>
+		public virtual bool CanReload => false;
+
+		/// <summary>
 		/// How this item should be held in hands. If it shouldn't appear in hands at all, leave it as None.
 		/// </summary>
 		[field: SerializeField]
@@ -82,7 +87,17 @@ namespace Inventory
 		}
 
 		/// <summary>
-		/// Called when the item's slot is selected, e.g. when the player tries to draw a weapon or deploy a drone.
+		/// Called when a mob tries to reaload the item. Used mostly by guns.
+		/// <returns>true if the item has been fired successfully, false otherwise.</returns>
+		public virtual bool Reload()
+		{
+			if (!CanReload)
+				return false;
+			return true;
+		}
+
+		/// <summary>
+		/// Called when the item's slot is selected, e.g. when a mob tries to draw a weapon or deploy a drone.
 		/// </summary>
 		public virtual void Select()
 		{
