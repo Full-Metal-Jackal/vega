@@ -27,17 +27,17 @@ public class PlayerController : MobController
 		}
 	}
 
-	private bool playerInputEnabled = true;
-	public bool PlayerInputEnabled
+	private bool worldInputEnabled = true;
+	public bool WorldInputEnabled
 	{
-		get => playerInputEnabled;
+		get => worldInputEnabled;
 		set
 		{
-			playerInputEnabled = value;
+			worldInputEnabled = value;
 			if (value)
-				input.Enable();
+				input.World.Enable();
 			else
-				input.Disable();
+				input.World.Disable();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PlayerController : MobController
 	{
 		base.Initialize();
 		
-		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items" });
+		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items", "Mobs" });
 
 		input = new Input.InputActions();
 	}
@@ -107,9 +107,6 @@ public class PlayerController : MobController
 
 	protected override Vector3 UpdateMovementInput()
 	{
-		if (!Game.IsWorldInputAllowed)
-			return Vector3.zero;
-
 		Vector3 move = Vector3.zero;
 		Vector3 movement = new Vector3(move.x, 0, move.y);
 

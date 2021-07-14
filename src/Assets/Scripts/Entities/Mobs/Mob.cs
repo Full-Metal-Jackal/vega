@@ -33,7 +33,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	public virtual Vector3 AimPos { get; set; }
+	private Vector3 aimPos;
+	public virtual Vector3 AimPos
+	{
+		get => aimPos;
+		set
+		{
+			if (!Game.Paused)  // Thus the mobs won't look around during pause.
+				aimPos = value;
+		}
+	}
 
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);

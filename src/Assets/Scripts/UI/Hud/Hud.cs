@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
@@ -11,7 +11,7 @@ namespace UI
 
 		// Unused yet, added for future reference
 		private CanvasScaler canvasScaler;
-		
+
 		private bool componentsActive = false;
 
 		private void Awake()
@@ -37,5 +37,7 @@ namespace UI
 
 			componentsActive = toggle;
 		}
+
+		public void Toggle(bool toggle) => gameObject.SetActive(toggle);
 	}
 }

@@ -34,7 +34,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 		Vector3 cursorShift = Vector3.zero;
 
-		if (cursorFactor > .0f && Game.IsWorldInputAllowed)
+		if (cursorFactor > .0f && !Game.Paused)
 		{
 			Vector3 cursorPos = GetWorldCursorPos();
 			cursorShift = (cursorPos - mobPos) * cursorFactor;

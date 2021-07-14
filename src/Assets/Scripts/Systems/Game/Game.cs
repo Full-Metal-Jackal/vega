@@ -9,23 +9,23 @@ public static class Game
 	/// <summary>
 	/// The collection of all entites currently represented in the game.
 	/// </summary>
-	public readonly static List<Entity> Entities = new List<Entity>();
+	public readonly static HashSet<Entity> Entities = new HashSet<Entity>();
 
-	// <TODO> Change to UiOnly as soon as we get the main menu.
-	private static InputState inputState = InputState.WorldOnly;
-	public static InputState InputState
+	// <TODO> Change to Paused as soon as we get the main menu.
+	private static GameState state = GameState.Normal;
+	public static GameState State
 	{
-		get => inputState;
+		get => state;
 		set
 		{
-			inputState = value;
-			switch (inputState)
+			state = value;
+			switch (state)
 			{
-			case InputState.WorldOnly:
-				PlayerController.Instance.PlayerInputEnabled = true;
+			case GameState.Normal:
+				PlayerController.Instance.WorldInputEnabled = true;
 				break;
-			case InputState.UIOnly:
-				PlayerController.Instance.PlayerInputEnabled = false;
+			case GameState.Paused:
+				PlayerController.Instance.WorldInputEnabled = false;
 				break;
 			}
 		}
@@ -38,7 +38,7 @@ public static class Game
 			throw new System.Exception("Multiple Game initialization attempts.");
 
 		// Update the input state at start.
-		InputState = inputState;
+		State = state;
 
 		PlayerController.Instance.OnPossesed += mob =>
 		{
@@ -50,5 +50,6 @@ public static class Game
 		Debug.Log("Game initialization complete.");
 	}
 
-	public static bool IsWorldInputAllowed => inputState == InputState.WorldOnly;
+	// Just a shortcut for quick comparison.
+	public static bool Paused => state == GameState.Paused;
 }
