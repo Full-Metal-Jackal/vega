@@ -22,10 +22,12 @@ public static class Game
 			switch (state)
 			{
 			case GameState.Normal:
-				PlayerController.Instance.WorldInputEnabled = true;
+				Input.PlayerInput.WorldInputEnabled = true;
+				Input.PlayerInput.UiInputEnabled = false;
 				break;
 			case GameState.Paused:
-				PlayerController.Instance.WorldInputEnabled = false;
+				Input.PlayerInput.WorldInputEnabled = false;
+				Input.PlayerInput.UiInputEnabled = true;
 				break;
 			}
 		}

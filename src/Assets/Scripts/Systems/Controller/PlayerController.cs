@@ -27,20 +27,6 @@ public class PlayerController : MobController
 		}
 	}
 
-	private bool worldInputEnabled = true;
-	public bool WorldInputEnabled
-	{
-		get => worldInputEnabled;
-		set
-		{
-			worldInputEnabled = value;
-			if (value)
-				input.World.Enable();
-			else
-				input.World.Disable();
-		}
-	}
-
 	/// <summary>
 	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
@@ -48,7 +34,7 @@ public class PlayerController : MobController
 	private readonly Collider[] colliderBuffer = new Collider[16];
 	private LayerMask interactableMask;
 
-	private Input.InputActions input;
+	public Input.InputActions Actions => Input.PlayerInput.Actions;
 
 	/// <summary>
 	/// The angular size of selection sector.
@@ -76,23 +62,21 @@ public class PlayerController : MobController
 		base.Initialize();
 		
 		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items", "Mobs" });
-
-		input = new Input.InputActions();
 	}
 
 	protected override void Setup()
 	{
 		base.Setup();
 
-		input.World.Use.performed += ctx => OnUsePressed();
-		input.World.Dodge.performed += ctx => OnDodgePressed();
+		Actions.World.Use.performed += ctx => OnUsePressed();
+		Actions.World.Dodge.performed += ctx => OnDodgePressed();
 
-		input.World.Sprint.performed += ctx => OnSprintInput(true);
-		input.World.Sprint.canceled += ctx => OnSprintInput(false);
+		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
+		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
 
-		input.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		input.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 	}
 
 	public override bool PossessMob(Mob mob)

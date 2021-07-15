@@ -18,7 +18,7 @@ public class MobDialogue : Interaction
 			return false;
 
 		Debug.Log($"{mob} started dialogue with {Mob}");
-		ConversationManager.Instance.StartConversation(Conversation);
+		DialogueWindow.Instance.Open(Conversation);
 		return true;
 	}
 }
