@@ -70,6 +70,8 @@ public class PlayerController : MobController
 
 		Actions.World.Use.performed += ctx => OnUsePressed();
 		Actions.World.Dodge.performed += ctx => OnDodgePressed();
+		Actions.World.Fire.performed += ctx => OnFirePressed();
+		Actions.World.Reload.performed += ctx => OnReloadPressed();
 
 		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
 		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
