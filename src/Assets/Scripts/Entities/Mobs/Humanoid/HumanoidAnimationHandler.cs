@@ -62,6 +62,11 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	{
 		humanoid.OnDodgeRoll();
 
+		// We set a separate trigger to cease animations like reloading, because otherwise
+		// the player could press dodge and then press reload before the dodge itself took place,
+		// thus reloading while dodging.
+		Animator.SetTrigger("StopAdditionalAnimations");
+		
 		AdditionalLayersEnabled = false;
 		TransitIkWeightTo(0f, .1f);
 	}
@@ -71,6 +76,17 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		humanoid.OnDodgeRollEnd();
 
 		AdditionalLayersEnabled = true;
+		TransitIkWeightTo(1f, .1f);
+	}
+
+	public void OnReloadBegin()
+	{
+		TransitIkWeightTo(0f, .1f);
+	}
+
+	public void OnReloadEnd()
+	{
+		humanoid.OnReloadEnd();
 		TransitIkWeightTo(1f, .1f);
 	}
 

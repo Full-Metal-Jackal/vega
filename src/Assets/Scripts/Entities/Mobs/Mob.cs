@@ -65,7 +65,25 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
-	public virtual bool CanFire => true;
+
+	public virtual bool CanUseItems
+	{
+		get
+		{
+			// Resembles CanMoveActively pretty much right now but may differ from it later.
+			switch (State)
+			{
+			case MobState.Dead:
+			case MobState.Dodging:
+			case MobState.Unconscious:
+				return false;
+			}
+
+			return true;
+		}
+	}
+	public virtual bool CanFire => CanUseItems;
+	public virtual bool CanReload => CanUseItems;
 
 	public virtual Item ActiveItem
 	{
@@ -84,15 +102,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// </summary>
 	public virtual MobState State
 	{
-		get => movementState;
+		get => state;
 		protected set
 		{
-			movementState = value;
+			state = value;
 			if (!Animator)
 				return;
 
 			const string animatorVariable = "MovementState";
-			switch (movementState)
+			switch (state)
 			{
 			case MobState.Standing:
 				Animator.SetInteger(animatorVariable, 0);
@@ -112,7 +130,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 			}
 		}
 	}
-	private MobState movementState = MobState.Standing;
+	private MobState state = MobState.Standing;
 
 	/// <summary>
 	/// The way this mob moves continuously: walking, running or sprinting.
@@ -270,5 +288,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		if (ActiveItem && CanFire)
 			ActiveItem.Fire(AimPos);
+	}
+
+	public virtual void Reload()
+	{
+		if (ActiveItem && CanReload)
+			ActiveItem.Reload();
 	}
 }

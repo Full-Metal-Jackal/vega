@@ -12,7 +12,7 @@ public class Door : Interaction
 	public bool Active { get; private set; } = false;
 
 	[SerializeField]
-	private Animator[] animators;
+	private Animator animator;
 
 	protected override void Initialize()
 	{
@@ -25,13 +25,12 @@ public class Door : Interaction
 	{
 		if (Opened)
 		{
-			animators[0].SetBool("IsOpening", false);
-			animators[1].SetBool("IsOpening", false);
+			animator.SetBool("IsOpening", false);
+
 		}
 		else
 		{
-			animators[0].SetBool("IsOpening", true);
-			animators[1].SetBool("IsOpening", true);
+			animator.SetBool("IsOpening", true);
 		}
 
 		Opened = !Opened;

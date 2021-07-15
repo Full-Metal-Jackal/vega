@@ -105,6 +105,8 @@ public class PlayerController : MobController
 
 	public void OnFirePressed() => Possessed.Fire();
 
+	public void OnReloadPressed() => Possessed.Reload();
+
 	private void OnDodgePressed() => Possessed.DashAction();
 
 	private void OnSprintInput(bool sprint) =>
