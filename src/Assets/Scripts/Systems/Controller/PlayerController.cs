@@ -103,11 +103,15 @@ public class PlayerController : MobController
 			Possessed.Use(interaction);
 	}
 
+	public void OnFirePressed() => Possessed.Fire();
+
 	private void OnDodgePressed() => Possessed.DashAction();
-	private void OnSprintInput(bool sprint) => Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
+
+	private void OnSprintInput(bool sprint) =>
+		Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
 
 	private void OnMoveInput(Vector2 inputMovement) =>
-		movement = new Vector3(inputMovement.x, 0, inputMovement.y);
+		movement = CameraController.Instance.VerticalRotation * new Vector3(inputMovement.x, 0, inputMovement.y);
 
 	protected override void OnUpdate(float delta)
 	{
