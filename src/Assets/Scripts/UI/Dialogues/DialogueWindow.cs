@@ -94,17 +94,25 @@ namespace UI.Dialogue
 
 		private void OnClickAnywhere()
 		{
-			Debug.Log($"Click was pressed.");
+			if (!isActiveAndEnabled)
+				return;
+
 			if (typewriting)
 				FinishSpeech();
 		}
 
-		private void OnCycle(bool backwards = false) =>
+		private void OnCycle(bool backwards = false)
+		{
+			if (!isActiveAndEnabled)
+				return;
+
 			OptionIndex += backwards ? -1 : 1;
+		}
 
 		private void OnSubmitPressed()
 		{
-			Debug.Log($"Submit was pressed.");
+			if (!isActiveAndEnabled)
+				return;
 
 			if (typewriting)
 				FinishSpeech();
@@ -128,7 +136,6 @@ namespace UI.Dialogue
 			typewriteNext = Time.time + typewritingDelay;
 		}
 
-		// Will be used for skipping typewriting animation later.
 		private void FinishSpeech()
 		{
 			typewriting = false;
