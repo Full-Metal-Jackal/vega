@@ -19,7 +19,7 @@ public abstract class Entity : MonoBehaviour
 		}
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		if (enabled = Initialize())
 			Game.Entities.Add(this);
