@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 
-public class PickableGun : Storeable<Gun>
+public class PickableGun : Pickable<Gun>
 {
 }

@@ -6,7 +6,7 @@ using Inventory;
 /// Represents items that can be picked up and stored in a slot.
 /// </summary>
 [RequireComponent(typeof(DynamicEntity))]
-public class Storeable<ItemType> : Interaction where ItemType : Item
+public class Pickable<ItemType> : Interaction where ItemType : Item
 {
 	// The itemData loaded at start in case this item should be spawned at the game start and create its own item.
 	[field: SerializeField]

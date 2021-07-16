@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Gun : Item
 {
-	public int ClipSize { get; protected set; } = 8;
-
 	public Transform Barrel { get; protected set; }
 	public GunSfxData SoundEffects { get; protected set; }
 
@@ -22,6 +20,9 @@ public class Gun : Item
 
 	[field: SerializeField]
 	public float Mass { get; private set; } = 2f;
+
+	[field: SerializeField]
+	public int ClipSize { get; protected set; } = 8;
 
 	public int AmmoCount { get; protected set; }
 
@@ -43,7 +44,7 @@ public class Gun : Item
 	{
 		base.Equip();
 
-		if (!(SoundEffects = (GunSfxData)ItemData.PasteSfx(Model.transform)))
+		if (!(SoundEffects = ItemData.PasteSfx(Model.transform) as GunSfxData))
 			Debug.LogError($"{this} has no GunSfxData assigned.");
 
 		if (!(Model is GunModelData gunModel) || !gunModel.Barrel)

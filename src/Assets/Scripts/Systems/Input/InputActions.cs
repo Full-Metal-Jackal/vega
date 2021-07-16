@@ -99,6 +99,14 @@ namespace Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""490bb422-59d1-4890-825e-bb83c9fb7975"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -396,6 +404,17 @@ namespace Input
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be93263b-cd7e-4b0a-a5f4-541aeac11db1"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1489,6 +1508,7 @@ namespace Input
             m_World_Walk = m_World.FindAction("Walk", throwIfNotFound: true);
             m_World_PrimaryWeapon = m_World.FindAction("PrimaryWeapon", throwIfNotFound: true);
             m_World_SecondaryWeapon = m_World.FindAction("SecondaryWeapon", throwIfNotFound: true);
+            m_World_Drop = m_World.FindAction("Drop", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1572,6 +1592,7 @@ namespace Input
         private readonly InputAction m_World_Walk;
         private readonly InputAction m_World_PrimaryWeapon;
         private readonly InputAction m_World_SecondaryWeapon;
+        private readonly InputAction m_World_Drop;
         public struct WorldActions
         {
             private @InputActions m_Wrapper;
@@ -1586,6 +1607,7 @@ namespace Input
             public InputAction @Walk => m_Wrapper.m_World_Walk;
             public InputAction @PrimaryWeapon => m_Wrapper.m_World_PrimaryWeapon;
             public InputAction @SecondaryWeapon => m_Wrapper.m_World_SecondaryWeapon;
+            public InputAction @Drop => m_Wrapper.m_World_Drop;
             public InputActionMap Get() { return m_Wrapper.m_World; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1625,6 +1647,9 @@ namespace Input
                     @SecondaryWeapon.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnSecondaryWeapon;
                     @SecondaryWeapon.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnSecondaryWeapon;
                     @SecondaryWeapon.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnSecondaryWeapon;
+                    @Drop.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
+                    @Drop.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
+                    @Drop.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
                 }
                 m_Wrapper.m_WorldActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1659,6 +1684,9 @@ namespace Input
                     @SecondaryWeapon.started += instance.OnSecondaryWeapon;
                     @SecondaryWeapon.performed += instance.OnSecondaryWeapon;
                     @SecondaryWeapon.canceled += instance.OnSecondaryWeapon;
+                    @Drop.started += instance.OnDrop;
+                    @Drop.performed += instance.OnDrop;
+                    @Drop.canceled += instance.OnDrop;
                 }
             }
         }
@@ -1930,6 +1958,7 @@ namespace Input
             void OnWalk(InputAction.CallbackContext context);
             void OnPrimaryWeapon(InputAction.CallbackContext context);
             void OnSecondaryWeapon(InputAction.CallbackContext context);
+            void OnDrop(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
