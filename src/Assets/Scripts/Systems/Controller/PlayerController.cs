@@ -131,10 +131,7 @@ public class PlayerController : MobController
 		// <TODO> Check if this constant works well enough; otherwise, make it depend on the mob's height/distance to cursor.
 		const float aimHeight = 1.5f;
 
-		Vector3 aimPos = CameraController.GetWorldCursorPos();
-		aimPos.y += aimHeight;
-
-		Possessed.AimPos = aimPos;
+		Possessed.AimPos = CameraController.GetWorldCursorPos(-aimHeight);
 	}
 
 	public void SetSelectedOutline(bool selected)
