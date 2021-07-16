@@ -57,15 +57,6 @@ namespace UI.Dialogue
 			}
 		}
 		private int optionIndex = 0;
-		public void SetOptionIndex(int index)
-		{
-			if (optionButtons.Count <= 0)
-				return;
-
-			// heehoo pajeet math
-			optionIndex = (optionButtons.Count + (index % optionButtons.Count)) % optionButtons.Count;
-			SelectedOption = optionButtons[optionIndex];
-		}
 
 		private void Awake()
 		{
@@ -94,8 +85,15 @@ namespace UI.Dialogue
 
 		private void OnCycle(InputAction.CallbackContext ctx)
 		{
-			bool backwards = ctx.ReadValue<Vector2>().y > 0;
-			SetOptionIndex(optionIndex + (backwards ? -1 : 1));
+			if (ctx.ReadValue<Vector2>().y == 0)
+				return;
+
+			if (ctx.ReadValue<Vector2>().y < 0)
+				optionIndex = ++optionIndex % optionButtons.Count;
+			else if (--optionIndex < 0)
+				optionIndex = optionButtons.Count - 1;
+
+			SelectedOption = optionButtons[optionIndex];
 		}
 
 		private void OnSubmitPressed(InputAction.CallbackContext ctx)
@@ -281,7 +279,6 @@ namespace UI.Dialogue
 				if (!any)
 					return;
 				ToggleOptions(true);
-				SetOptionIndex(0);
 			}
 			else if (!currentSpeech.AutomaticallyAdvance || currentSpeech.AutoAdvanceShouldDisplayOption
 				&& currentSpeech.ConnectionType == Connection.eConnectionType.Speech)
