@@ -1,7 +1,7 @@
 ﻿using Inventory;
 using UnityEngine;
 
-public class Gun : Item
+public class Gun : Item<Gun>
 {
 	public Transform Barrel { get; protected set; }
 	public GunSfxData SoundEffects { get; protected set; }

@@ -72,6 +72,7 @@ public class PlayerController : MobController
 		Actions.World.Dodge.performed += ctx => OnDodgePressed();
 		Actions.World.Fire.performed += ctx => OnFirePressed();
 		Actions.World.Reload.performed += ctx => OnReloadPressed();
+		Actions.World.Drop.performed += ctx => OnDropPressed();
 
 		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
 		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
@@ -110,6 +111,8 @@ public class PlayerController : MobController
 	public void OnReloadPressed() => Possessed.Reload();
 
 	private void OnDodgePressed() => Possessed.DashAction();
+
+	private void OnDropPressed() => Possessed.DropItem();
 
 	private void OnSprintInput(bool sprint) =>
 		Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
@@ -173,7 +176,7 @@ public class PlayerController : MobController
 				continue;
 
 			Vector3 entityPos = collider.ClosestPoint(mobPos);
-			float distance = Vector3.Distance(mobPos, entityPos);
+			float distance = Utils.HorizontalDistance(mobPos, entityPos);
 			if ((Vector3.Angle((entityPos - mobPos), Possessed.transform.forward) > selectionScope)
 				|| (distance >= minDist))
 				continue;

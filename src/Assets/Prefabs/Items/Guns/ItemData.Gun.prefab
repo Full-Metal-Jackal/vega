@@ -79,6 +79,7 @@ MonoBehaviour:
   <Spread>k__BackingField: 0
   <Damage>k__BackingField: 10
   <Mass>k__BackingField: 2
+  <ClipSize>k__BackingField: 8
 --- !u!114 &2378388274308027160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +319,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
+      propertyPath: pickablePrefab
+      value: 
+      objectReference: {fileID: 5347913072436610055, guid: b9648a6896f45214d83bc8c85c5d1b5c, type: 3}
     - target: {fileID: 5293663669030544163, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
       propertyPath: <Cursor>k__BackingField
       value: 

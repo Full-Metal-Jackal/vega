@@ -31,8 +31,15 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		leftHandIkTarget = item.Model.LeftHandGrip;
-		rightHandIkTarget = item.Model.RightHandGrip;
+		if (item && item.Model)
+		{
+			leftHandIkTarget = item.Model.LeftHandGrip;
+			rightHandIkTarget = item.Model.RightHandGrip;
+		}
+		else
+		{
+			leftHandIkTarget = rightHandIkTarget = null;
+		}
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)

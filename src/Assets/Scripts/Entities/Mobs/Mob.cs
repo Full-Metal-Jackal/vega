@@ -84,6 +84,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	}
 	public virtual bool CanFire => CanUseItems;
 	public virtual bool CanReload => CanUseItems;
+	public virtual bool CanDropItems => CanUseItems;
 
 	public virtual Item ActiveItem
 	{
@@ -254,9 +255,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual bool PickUpItem<T>(T item) where T : Item
+	public virtual bool PickUpItem<ItemType>(ItemType item) where ItemType : Item
 	{
-		ItemSlot<T> slot = Inventory.GetFreeItemSlot<T>();
+		ItemSlot<ItemType> slot = Inventory.GetFreeItemSlot<ItemType>();
 		if (!slot)
 			return false;
 
@@ -294,5 +295,24 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		if (ActiveItem && CanReload)
 			ActiveItem.Reload();
+	}
+
+	public virtual void DropItem() => DropItem(ActiveItem);
+
+	public virtual void DropItem(Item item)
+	{
+		if (!CanDropItems)
+			return;
+
+		if (item.Owner != this)
+			return;
+
+		if (item == ActiveItem)
+		{
+			ActiveItem.Model.Suicide();
+			ActiveItem = null;
+		}
+
+		item.Drop();
 	}
 }
