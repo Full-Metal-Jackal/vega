@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DialogueEditor;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace UI.Dialogue
 {
@@ -34,7 +35,7 @@ namespace UI.Dialogue
 		/// <summary>
 		/// How much seconds passes between two letters' appearance.
 		/// </summary>
-		private float typewritingDelay = .05f;  // <TODO> most probably will be contained inside the character's portrait info.
+		private float charTypingDelay = .05f;  // <TODO> most probably will be contained inside the character's portrait info.
 		/// <summary>
 		/// The "voice" of the speaker.
 		/// </summary>
@@ -56,17 +57,14 @@ namespace UI.Dialogue
 			}
 		}
 		private int optionIndex = 0;
-		private int OptionIndex
+		public void SetOptionIndex(int index)
 		{
-			get => optionIndex;
-			set
-			{
-				if (optionButtons.Count <= 0)
-					return;
+			if (optionButtons.Count <= 0)
+				return;
 
-				optionIndex = (optionButtons.Count + value) % optionButtons.Count;  // heehoo pajeet math
-				SelectedOption = optionButtons[optionIndex];
-			}
+			// heehoo pajeet math
+			optionIndex = (optionButtons.Count + (index % optionButtons.Count)) % optionButtons.Count;
+			SelectedOption = optionButtons[optionIndex];
 		}
 
 		private void Awake()
@@ -80,10 +78,6 @@ namespace UI.Dialogue
 		{
 			gameObject.SetActive(false);
 			continueButton.OnClick += (buttonNode) => SetupSpeech(buttonNode as SpeechNode);
-
-			Input.PlayerInput.Actions.UI.Click.performed += ctx => OnClickAnywhere();
-			Input.PlayerInput.Actions.UI.Submit.performed += ctx => OnSubmitPressed();
-			Input.PlayerInput.Actions.UI.Navigate.performed += ctx => OnCycle(ctx.ReadValue<Vector2>().y > 0);
 		}
 
 		private void Update()
@@ -92,28 +86,20 @@ namespace UI.Dialogue
 				Typewrite();
 		}
 
-		private void OnClickAnywhere()
+		private void OnClickAnywhere(InputAction.CallbackContext ctx)
 		{
-			if (!isActiveAndEnabled)
-				return;
-
 			if (typewriting)
 				FinishSpeech();
 		}
 
-		private void OnCycle(bool backwards = false)
+		private void OnCycle(InputAction.CallbackContext ctx)
 		{
-			if (!isActiveAndEnabled)
-				return;
-
-			OptionIndex += backwards ? -1 : 1;
+			bool backwards = ctx.ReadValue<Vector2>().y > 0;
+			SetOptionIndex(optionIndex + (backwards ? -1 : 1));
 		}
 
-		private void OnSubmitPressed()
+		private void OnSubmitPressed(InputAction.CallbackContext ctx)
 		{
-			if (!isActiveAndEnabled)
-				return;
-
 			if (typewriting)
 				FinishSpeech();
 			else if (SelectedOption)
@@ -133,7 +119,7 @@ namespace UI.Dialogue
 			if (typewritingSound)
 				audioSource.PlayOneShot(typewritingSound);
 
-			typewriteNext = Time.time + typewritingDelay;
+			typewriteNext = Time.time + charTypingDelay;
 		}
 
 		private void FinishSpeech()
@@ -151,6 +137,10 @@ namespace UI.Dialogue
 			Hud.Instance.Toggle(false);
 
 			conversation = npcConversation.Deserialize();
+
+			Input.PlayerInput.Actions.UI.Click.performed += OnClickAnywhere;
+			Input.PlayerInput.Actions.UI.Submit.performed += OnSubmitPressed;
+			Input.PlayerInput.Actions.UI.Navigate.performed += OnCycle;
 
 			SetupSpeech(currentSpeech = conversation.Root);
 		}
@@ -291,7 +281,7 @@ namespace UI.Dialogue
 				if (!any)
 					return;
 				ToggleOptions(true);
-				OptionIndex = 0;
+				SetOptionIndex(0);
 			}
 			else if (!currentSpeech.AutomaticallyAdvance || currentSpeech.AutoAdvanceShouldDisplayOption
 				&& currentSpeech.ConnectionType == Connection.eConnectionType.Speech)
@@ -319,7 +309,7 @@ namespace UI.Dialogue
 			OptionButton button = Instantiate(optionPrefab, optionsHolder);
 			button.Setup(node);
 			button.OnClick += (buttonNode) => OptionSelected(buttonNode as OptionNode);
-			
+
 			optionButtons.Add(button);
 
 			return button;
@@ -330,7 +320,6 @@ namespace UI.Dialogue
 			continueButton.UpdateNode(node);
 			continueButton.Toggle(true);
 		}
-
 
 		private void OptionSelected(OptionNode option)
 		{
@@ -395,6 +384,10 @@ namespace UI.Dialogue
 			gameObject.SetActive(false);
 			Game.State = GameState.Normal;
 			Hud.Instance.Toggle(true);
+
+			Input.PlayerInput.Actions.UI.Click.performed -= OnClickAnywhere;
+			Input.PlayerInput.Actions.UI.Submit.performed -= OnSubmitPressed;
+			Input.PlayerInput.Actions.UI.Navigate.performed -= OnCycle;
 
 			ClearOptions();
 		}
