@@ -93,8 +93,11 @@ namespace UI.Dialogue
 			else if (--optionIndex < 0)
 				optionIndex = optionButtons.Count - 1;
 
-			SelectedOption = optionButtons[optionIndex];
+			SelectOption(optionIndex);
 		}
+
+		public void SelectOption(int index) =>
+			SelectedOption = index < optionButtons.Count && index >= 0 ? optionButtons[index] : null;
 
 		private void OnSubmitPressed(InputAction.CallbackContext ctx)
 		{
@@ -278,7 +281,9 @@ namespace UI.Dialogue
 
 				if (!any)
 					return;
+
 				ToggleOptions(true);
+				SelectOption(0);
 			}
 			else if (!currentSpeech.AutomaticallyAdvance || currentSpeech.AutoAdvanceShouldDisplayOption
 				&& currentSpeech.ConnectionType == Connection.eConnectionType.Speech)
