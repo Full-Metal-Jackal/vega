@@ -88,7 +88,9 @@ namespace UI.Dialogue
 			if (ctx.ReadValue<Vector2>().y == 0)
 				return;
 
-			if (ctx.ReadValue<Vector2>().y < 0)
+			if (optionButtons.Count == 0)
+				optionIndex = 0;
+			else if (ctx.ReadValue<Vector2>().y < 0)
 				optionIndex = ++optionIndex % optionButtons.Count;
 			else if (--optionIndex < 0)
 				optionIndex = optionButtons.Count - 1;
