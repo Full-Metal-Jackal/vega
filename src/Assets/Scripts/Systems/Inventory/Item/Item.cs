@@ -149,12 +149,13 @@ namespace Inventory
 			Owner.ActiveItem = null;
 		}
 
-		public abstract bool Drop();
+		public bool Drop() => Drop(Vector3.zero);
+		public abstract bool Drop(Vector3 force);
 	}
 
 	public abstract class Item<ItemType> : Item where ItemType : Item
 	{
-		public override bool Drop()
+		public override bool Drop(Vector3 force)
 		{
 			if (!Slot)
 			{
@@ -167,7 +168,7 @@ namespace Inventory
 			Pickable<ItemType> dropped = ItemData.PastePickable<ItemType>(position, rotation);
 
 			dropped.Setup(this as ItemType);
-			Slot = null;
+			Slot.Empty();
 
 			return true;
 		}
