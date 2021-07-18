@@ -170,9 +170,8 @@ namespace Inventory
 
 			Unequip();
 
-			Vector3 position = Model ? Model.transform.position : Owner.transform.position;
-			Quaternion rotation = Model ? Model.transform.rotation : Owner.transform.rotation;
-			Pickable<ItemType> dropped = ItemData.PastePickable<ItemType>(position, rotation);
+			Transform orientation = Model ? Model.transform : Owner.transform;
+			Pickable<ItemType> dropped = ItemData.PastePickable<ItemType>(orientation.position, orientation.rotation);
 
 			dropped.Setup(this as ItemType);
 			dropped.Dynamic.Body.AddForce(force, ForceMode.Impulse);
