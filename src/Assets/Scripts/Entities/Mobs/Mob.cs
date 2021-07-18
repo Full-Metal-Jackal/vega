@@ -26,6 +26,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected Animator Animator { get; private set; }
 
 	public MobInventory Inventory { get; private set; }
+	public float ItemDropSpeed { get; private set; } = 2f;
 
 	public virtual Transform ItemSocket => transform;
 
@@ -267,7 +268,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual bool Use(Interaction interaction) => interaction.CanBeUsedBy(this) && interaction.OnUse(this);
+	public virtual bool Use(Interaction interaction) => interaction && interaction.CanBeUsedBy(this) && interaction.OnUse(this);
 
 	public bool CanMoveActively
 	{
@@ -301,18 +302,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual void DropItem(Item item)
 	{
+		if (item is null)
+			return;
+
 		if (!CanDropItems)
 			return;
 
 		if (item.Owner != this)
 			return;
 
-		if (item == ActiveItem)
-		{
-			ActiveItem.Model.Suicide();
-			ActiveItem = null;
-		}
-
-		item.Drop();
+		item.Drop(transform.forward * ItemDropSpeed);
 	}
 }

@@ -145,7 +145,12 @@ namespace Inventory
 
 		protected virtual void Unequip()
 		{
-			Model.Suicide();
+			if (Owner.ActiveItem != this)
+				return;
+
+			if (Model)
+				Model.Suicide();
+
 			Owner.ActiveItem = null;
 		}
 
@@ -159,16 +164,20 @@ namespace Inventory
 		{
 			if (!Slot)
 			{
-				Debug.LogWarning($"Multiple drop attempts of {this}!");
+				Debug.LogWarning($"{Owner}: multiple drop attempts of {this}!");
 				return false;
 			}
+
+			Unequip();
 
 			Vector3 position = Model ? Model.transform.position : Owner.transform.position;
 			Quaternion rotation = Model ? Model.transform.rotation : Owner.transform.rotation;
 			Pickable<ItemType> dropped = ItemData.PastePickable<ItemType>(position, rotation);
 
 			dropped.Setup(this as ItemType);
-			Slot.Empty();
+			dropped.Dynamic.Body.AddForce(force, ForceMode.Impulse);
+
+			Slot.Clear();
 
 			return true;
 		}

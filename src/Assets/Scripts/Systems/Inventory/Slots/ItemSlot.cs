@@ -31,7 +31,7 @@ namespace Inventory
 		/// </summary>
 		public abstract void OnActivated();
 
-		public abstract void Empty();
+		public abstract void Clear();
 	}
 
 	public abstract class ItemSlot<ItemType> : ItemSlot where ItemType : Item
@@ -42,7 +42,9 @@ namespace Inventory
 			get => item;
 			set
 			{
-				item = value;
+				if (!(item = value))
+					return;
+
 				item.Slot = this;
 
 				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
@@ -57,7 +59,7 @@ namespace Inventory
 			item.Select();
 		}
 
-		public override void Empty()
+		public override void Clear()
 		{
 			Item.Slot = null;
 			Item = null;
