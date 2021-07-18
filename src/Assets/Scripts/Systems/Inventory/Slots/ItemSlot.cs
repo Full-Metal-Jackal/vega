@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Inventory
 {
@@ -29,6 +30,8 @@ namespace Inventory
 		/// Called when the player pushes the slot's button to activate the stored item.
 		/// </summary>
 		public abstract void OnActivated();
+
+		public abstract void Clear();
 	}
 
 	public abstract class ItemSlot<ItemType> : ItemSlot where ItemType : Item
@@ -39,7 +42,9 @@ namespace Inventory
 			get => item;
 			set
 			{
-				item = value;
+				if (!(item = value))
+					return;
+
 				item.Slot = this;
 
 				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
@@ -52,6 +57,12 @@ namespace Inventory
 		public override void OnActivated()
 		{
 			item.Select();
+		}
+
+		public override void Clear()
+		{
+			Item.Slot = null;
+			Item = null;
 		}
 	}
 }

@@ -6,7 +6,7 @@ using Inventory;
 /// Represents items that can be picked up and stored in a slot.
 /// </summary>
 [RequireComponent(typeof(DynamicEntity))]
-public class Storeable<ItemType> : Interaction where ItemType : Item
+public abstract class Pickable<ItemType> : Interaction where ItemType : Item
 {
 	// The itemData loaded at start in case this item should be spawned at the game start and create its own item.
 	[field: SerializeField]
@@ -22,10 +22,7 @@ public class Storeable<ItemType> : Interaction where ItemType : Item
 		Dynamic = GetComponent<DynamicEntity>();
 	}
 
-	private void Start()
-	{
-		Setup();
-	}
+	private void Start() => Setup();
 
 	protected virtual void Setup()
 	{
@@ -41,7 +38,7 @@ public class Storeable<ItemType> : Interaction where ItemType : Item
 		Setup(item);
 	}
 
-	protected virtual void Setup(ItemType item)
+	public virtual void Setup(ItemType item)
 	{
 		item.ItemData.PasteModel(transform);
 		item.ItemData.PasteCollisions(transform);
@@ -53,7 +50,7 @@ public class Storeable<ItemType> : Interaction where ItemType : Item
 	{
 		if (!OnPickUp(mob))
 			return false;
-		
+
 		Suicide();
 		
 		return true;

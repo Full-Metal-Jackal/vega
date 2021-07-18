@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
+	public bool Initialized { get; private set; } = false;
+
 	[field: SerializeField]
 	public virtual string Name { get; set; } = "unnamed entity";
-	
-	public bool Initialized { get; private set; } = false;
 
 	protected Outline outline;
 	public Outline Outline
@@ -18,6 +18,11 @@ public abstract class Entity : MonoBehaviour
 			outline = value;
 		}
 	}
+
+	/// <summary>
+	/// If this entity should be transfered between levels.
+	/// </summary>
+	public bool Persistent { get; protected set; }
 
 	private void Awake()
 	{

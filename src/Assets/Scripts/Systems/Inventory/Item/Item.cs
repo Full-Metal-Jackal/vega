@@ -2,9 +2,6 @@
 
 namespace Inventory
 {
-	/// <summary>
-	/// Represents everything that can be stored in a mob's item slot: guns, drones, devices, may be grenades?
-	/// </summary>
 	public abstract class Item : MonoBehaviour
 	{
 		public bool Initialized { get; private set; } = false;
@@ -30,7 +27,9 @@ namespace Inventory
 			get => slot;
 			set
 			{
-				slot = value;
+				if (!(slot = value))
+					return;
+
 				transform.SetParent(slot.transform);
 			}
 		}
@@ -146,19 +145,40 @@ namespace Inventory
 
 		protected virtual void Unequip()
 		{
-			Model.Suicide();
+			if (Owner.ActiveItem != this)
+				return;
+
+			if (Model)
+				Model.Suicide();
+
 			Owner.ActiveItem = null;
 		}
 
-		public void Drop()
+		public bool Drop() => Drop(Vector3.zero);
+		public abstract bool Drop(Vector3 force);
+	}
+
+	public abstract class Item<ItemType> : Item where ItemType : Item
+	{
+		public override bool Drop(Vector3 force)
 		{
 			if (!Slot)
 			{
-				Debug.LogWarning($"Multiple drop attempts of {this}!");
-				return;
+				Debug.LogWarning($"{Owner}: multiple drop attempts of {this}!");
+				return false;
 			}
 
-			// <TODO> Spawn an item prefab at the mob's position and call its Setup with this item.
+			Unequip();
+
+			Transform orientation = Model ? Model.transform : Owner.transform;
+			Pickable<ItemType> dropped = ItemData.PastePickable<ItemType>(orientation.position, orientation.rotation);
+
+			dropped.Setup(this as ItemType);
+			dropped.Dynamic.Body.AddForce(force, ForceMode.Impulse);
+
+			Slot.Clear();
+
+			return true;
 		}
 	}
 }

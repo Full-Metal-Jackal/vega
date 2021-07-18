@@ -7,12 +7,29 @@ namespace Inventory
 	/// This scripts serves as a shortcut for item prefabs, allowing to quickly instantiate its model, collisions, UI Icon or the item itself.
 	/// 
 	/// Should be placed inside the ItemData prefab.
-	/// Must not be used outside of the aforementioned prefab.
+	/// Must not be used outside of the aforementioned prefab in any way.
 	/// 
 	/// I fucking hate unity.
 	/// </summary>
 	public class ItemData : MonoBehaviour
 	{
+		[SerializeField]
+		private GameObject pickablePrefab;
+
+		public Pickable<ItemType> PastePickable<ItemType>(Vector3 position, Quaternion rotation) where ItemType : Item
+		{
+			Pickable<ItemType> pickable = Paste(
+				pickablePrefab,
+				Containers.Instance.Items,
+				null
+			).GetComponent<Pickable<ItemType>>();
+
+			pickable.transform.position = position;
+			pickable.transform.rotation = rotation;
+
+			return pickable;
+		}
+
 		[SerializeField]
 		private GameObject model;
 		public ItemModelData PasteModel(Transform transform, int? siblingIdx = null) =>

@@ -52,6 +52,15 @@ public static class Game
 		Debug.Log("Game initialization complete.");
 	}
 
+	/// <summary>
+	/// Clears all the references contained in this object.
+	/// Has to be used on level transitions.
+	/// </summary>
+	private static void Cleanup()
+	{
+		Entities.RemoveWhere((Entity entity) => !entity.Persistent);
+	}
+
 	// Just a shortcut for quick comparison.
 	public static bool Paused => state == GameState.Paused;
 }
