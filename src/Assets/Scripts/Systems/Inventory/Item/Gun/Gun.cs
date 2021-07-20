@@ -24,11 +24,19 @@ public class Gun : Item<Gun>
 	[field: SerializeField]
 	public int ClipSize { get; protected set; } = 8;
 
+	/// <summary>
+	/// Fire rate in shots per minute
+	/// </summary>
+	[field: SerializeField]
+	public float FireRate { get; protected set; } = 120;
+
+	private float fireDelay = 0;
+
 	public int AmmoCount { get; protected set; }
 
 	public bool IsReloading { get; protected set; } = false;
 	
-	public override bool CanFire => !IsReloading;
+	public override bool CanFire => !IsReloading && fireDelay <= 0;
 
 	public override bool CanReload => AmmoCount < ClipSize;
 
@@ -116,6 +124,8 @@ public class Gun : Item<Gun>
 	public virtual void PostFire(Vector3 direction, Projectile projectile)
 	{
 		SoundEffects.Play(SoundEffects.Fire);
+
+		fireDelay = 60 / FireRate;
 	}
 
 	public virtual Projectile CreateProjectile()
@@ -131,5 +141,13 @@ public class Gun : Item<Gun>
 	{
 		SoundEffects.Play(SoundEffects.DryFire);
 		// <TODO> May be start reloading here?
+	}
+
+	private void Update() => Tick();
+
+	protected virtual void Tick()
+	{
+		if (fireDelay > 0)
+			fireDelay -= Time.deltaTime;
 	}
 }

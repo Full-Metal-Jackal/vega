@@ -8,6 +8,6 @@ public class BillboardSprite : MonoBehaviour
 
 	private void LateUpdate() => FaceCam();
 
-	private void FaceCam() =>
+	protected virtual void FaceCam() =>
 		transform.forward = Camera.main.transform.forward;
 }
