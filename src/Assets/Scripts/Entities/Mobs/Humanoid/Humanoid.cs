@@ -177,7 +177,12 @@ public abstract class Humanoid : Mob
 	public override Item ActiveItem
 	{
 		get => base.ActiveItem;
-		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+		set
+		{
+			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+			if (!HasAimableItem)
+				ResetLegsAnimation();
+		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
 
@@ -255,6 +260,14 @@ public abstract class Humanoid : Mob
 
 		Animator.SetFloat("MovementSide", relativeMovDir.x);
 		Animator.SetFloat("MovementForward", relativeMovDir.z);
+		Debug.Log("Update" + relativeMovDir);
+	}
+
+	protected virtual void ResetLegsAnimation()
+	{
+		Debug.Log("Reset");
+		Animator.SetFloat("MovementSide", 0f);
+		Animator.SetFloat("MovementForward", 1f);
 	}
 
 	/// <summary>
