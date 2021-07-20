@@ -84,9 +84,11 @@ public abstract class Humanoid : Mob
 		}
 	}
 
-	public override bool CanFire => base.CanFire && IsAiming && !IsReloading;
+	public override bool CanFire => base.CanFire && IsAiming;
 
-	public override bool CanReload => base.CanReload && !IsReloading;
+	public override bool CanReload => base.CanReload;
+
+	public override bool CanUseItems => base.CanUseItems && !IsReloading;
 
 	/// <summary>
 	/// The minimum AimDistance required to aim.
