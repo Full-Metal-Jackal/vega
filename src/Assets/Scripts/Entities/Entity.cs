@@ -19,6 +19,8 @@ public abstract class Entity : MonoBehaviour
 		}
 	}
 
+	public IEnumerable<Collider> Colliders => GetComponentsInChildren<Collider>();
+
 	/// <summary>
 	/// If this entity should be transfered between levels.
 	/// </summary>

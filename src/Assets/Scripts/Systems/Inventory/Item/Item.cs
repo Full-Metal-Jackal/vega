@@ -151,6 +151,9 @@ namespace Inventory
 			if (Model)
 				Model.Suicide();
 
+			if (ItemData.Cursor)
+				Cursor.SetCursor(Game.defaultCursor, Vector2.zero, CursorMode.Auto);
+
 			Owner.ActiveItem = null;
 		}
 

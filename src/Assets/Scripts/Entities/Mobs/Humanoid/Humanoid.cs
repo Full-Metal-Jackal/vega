@@ -72,7 +72,7 @@ public abstract class Humanoid : Mob
 
 	private bool isReloading = false;
 	/// <summary>
-	/// Is the mob is currently reloading, used for animation.
+	/// Is the mob is currently reloading.
 	/// </summary>
 	public bool IsReloading
 	{
@@ -86,7 +86,9 @@ public abstract class Humanoid : Mob
 
 	public override bool CanFire => base.CanFire && IsAiming;
 
-	public override bool CanReload => base.CanReload && !IsReloading;
+	public override bool CanReload => base.CanReload;
+
+	public override bool CanUseItems => base.CanUseItems && !IsReloading;
 
 	/// <summary>
 	/// The minimum AimDistance required to aim.
@@ -177,7 +179,12 @@ public abstract class Humanoid : Mob
 	public override Item ActiveItem
 	{
 		get => base.ActiveItem;
-		set => HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+		set
+		{
+			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+			if (!HasAimableItem)
+				ResetLegsAnimation();
+		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
 
@@ -255,6 +262,12 @@ public abstract class Humanoid : Mob
 
 		Animator.SetFloat("MovementSide", relativeMovDir.x);
 		Animator.SetFloat("MovementForward", relativeMovDir.z);
+	}
+
+	protected virtual void ResetLegsAnimation()
+	{
+		Animator.SetFloat("MovementSide", 0f);
+		Animator.SetFloat("MovementForward", 1f);
 	}
 
 	/// <summary>

@@ -44,7 +44,7 @@ public class PlayerController : MobController
 	/// <summary>
 	/// The radius of the selection sector.
 	/// </summary>
-	public float selectionDistance = 2f;
+	public float selectionDistance = 1.25f;
 
 	/// <summary>
 	/// The color of the outline of selected entities.

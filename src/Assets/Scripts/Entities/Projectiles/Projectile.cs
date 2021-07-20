@@ -14,6 +14,10 @@ public class Projectile : DynamicEntity
 
 	public void Setup(Entity source)
 	{
+		foreach (Collider sourceCollider in source.Colliders)
+			foreach (Collider collider in Colliders)
+				Physics.IgnoreCollision(collider, sourceCollider);
+
 		Source = source;
 	}
 

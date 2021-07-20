@@ -311,6 +311,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 		if (item.Owner != this)
 			return;
 
-		item.Drop(transform.forward * ItemDropSpeed);
+		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
 	}
 }

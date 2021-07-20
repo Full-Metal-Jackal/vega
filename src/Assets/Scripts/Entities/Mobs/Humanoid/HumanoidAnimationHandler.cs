@@ -15,7 +15,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	/// The value the "look at" IK weight is multiplied by when the mob is not aiming.
 	/// </summary>
 	[SerializeField]
-	private float lookAtIkNonAimingFactor = .8f;
+	private float lookAtIkNonAimingFactor = .5f;
 	/// <summary>
 	/// How far from MinAimDistance IK should start to blend.
 	/// </summary>
