@@ -11,6 +11,8 @@ public static class Game
 	/// </summary>
 	public readonly static HashSet<Entity> Entities = new HashSet<Entity>();
 
+	public readonly static Texture2D defaultCursor = null;
+
 	// <TODO> Change to Paused as soon as we get the main menu.
 	private static GameState state = GameState.Normal;
 	public static GameState State
