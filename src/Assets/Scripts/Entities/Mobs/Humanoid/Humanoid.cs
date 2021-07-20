@@ -72,7 +72,7 @@ public abstract class Humanoid : Mob
 
 	private bool isReloading = false;
 	/// <summary>
-	/// Is the mob is currently reloading, used for animation.
+	/// Is the mob is currently reloading.
 	/// </summary>
 	public bool IsReloading
 	{
@@ -84,7 +84,7 @@ public abstract class Humanoid : Mob
 		}
 	}
 
-	public override bool CanFire => base.CanFire && IsAiming;
+	public override bool CanFire => base.CanFire && IsAiming && !IsReloading;
 
 	public override bool CanReload => base.CanReload && !IsReloading;
 
