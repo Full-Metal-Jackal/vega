@@ -260,12 +260,10 @@ public abstract class Humanoid : Mob
 
 		Animator.SetFloat("MovementSide", relativeMovDir.x);
 		Animator.SetFloat("MovementForward", relativeMovDir.z);
-		Debug.Log("Update" + relativeMovDir);
 	}
 
 	protected virtual void ResetLegsAnimation()
 	{
-		Debug.Log("Reset");
 		Animator.SetFloat("MovementSide", 0f);
 		Animator.SetFloat("MovementForward", 1f);
 	}
