@@ -9,7 +9,7 @@ public class RotatingBillboard : BillboardSprite
 	{
 		transform.forward = Camera.main.transform.forward;
 
-		float angle = Vector3.SignedAngle(referenceOrientation.forward, Vector3.forward, Vector3.up);
+		float angle = Vector3.SignedAngle(referenceOrientation.forward, Camera.main.transform.up, Vector3.up);
 
 		Debug.Log($"angle: {angle}");
 
