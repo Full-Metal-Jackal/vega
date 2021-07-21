@@ -30,13 +30,18 @@ public class Gun : Item<Gun>
 	[field: SerializeField]
 	public float FireRate { get; protected set; } = 120;
 
-	private float fireDelay = 0;
+	/// <summary>
+	/// Shortcut to convert shots per minute to delay between shots.
+	/// </summary>
+	public float FireDelay => 60 / FireRate;
+
+	private float currentFireDelay = 0;
 
 	public int AmmoCount { get; protected set; }
 
 	public bool IsReloading { get; protected set; } = false;
 	
-	public override bool CanFire => !IsReloading && fireDelay <= 0;
+	public override bool CanFire => !IsReloading && currentFireDelay <= 0;
 
 	public override bool CanReload => AmmoCount < ClipSize;
 
@@ -125,7 +130,7 @@ public class Gun : Item<Gun>
 	{
 		SoundEffects.Play(SoundEffects.Fire);
 
-		fireDelay = 60 / FireRate;
+		currentFireDelay = FireDelay;
 	}
 
 	public virtual Projectile CreateProjectile()
@@ -147,7 +152,7 @@ public class Gun : Item<Gun>
 
 	protected virtual void Tick()
 	{
-		if (fireDelay > 0)
-			fireDelay -= Time.deltaTime;
+		if (currentFireDelay > 0)
+			currentFireDelay -= Time.deltaTime;
 	}
 }
