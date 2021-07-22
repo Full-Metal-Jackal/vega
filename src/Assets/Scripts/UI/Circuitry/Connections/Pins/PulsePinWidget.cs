@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Circuitry;
 using UnityEngine;
-
-using Circuitry;
 
 namespace UI.CircuitConstructor
 {
-	public class PulsePinWidget : PinWidget
+	public class PulsePinWidget : PinWidget<PulsePin>
 	{
 		public override void OnClick()
 		{
@@ -15,16 +12,16 @@ namespace UI.CircuitConstructor
 			Pulse();
 		}
 
-		public void Pulse() => (BoundPin as PulsePin)?.Pulse();
+		public void Pulse() => Pin.Pulse();
 
 		public override bool TryConnect(Pin other)
 		{
 			bool connected = false;
 
-			if (BoundPin is PulseInput input && other is PulseOutput output)
+			if (Pin is PulseInput input && other is PulseOutput output)
 				connected = output.Connect(input);
-			if (other is PulseInput && BoundPin is PulseOutput)
-				connected = (BoundPin as PulseOutput).Connect(other as PulseInput);
+			if (other is PulseInput && Pin is PulseOutput)
+				connected = (Pin as PulseOutput).Connect(other as PulseInput);
 
 			return connected;
 		}

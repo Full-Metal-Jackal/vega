@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8577567832952243831}
+  - component: {fileID: 8577567832952243784}
+  - component: {fileID: 1031890999024838363}
   - component: {fileID: 1091018746513272393}
   - component: {fileID: 8577567832952243788}
   - component: {fileID: 8577567832952243787}
   - component: {fileID: 8577567832952243786}
-  - component: {fileID: 8577567832952243784}
-  - component: {fileID: 1031890999024838363}
   m_Layer: 5
   m_Name: CircuitTooltipWidget
   m_TagString: Untagged
@@ -44,6 +44,39 @@ RectTransform:
   m_AnchoredPosition: {x: 8, y: -8}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &8577567832952243784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577567832952243830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b1b9c57b545f5489f415988e53bd82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startCircuitPrefab: {fileID: 0}
+  <CircuitHolder>k__BackingField: {fileID: 8577567833670916339}
+  label: {fileID: 8577567834277506397}
+  desc: {fileID: 8577567834116860627}
+  ports: {fileID: 0}
+--- !u!114 &1031890999024838363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577567832952243830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55b15c233f47fb4497bee08a7a7d1ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataInputPrefab: {fileID: 5610147215696409330, guid: efe66891972e95c409d658101dbbab2c, type: 3}
+  dataOutputPrefab: {fileID: 3119056785912906320, guid: fc8622426bde6d84f8e03bae243b9daf, type: 3}
+  pulseInputPrefab: {fileID: 5119070546000004660, guid: 99caa236ae5575b498dbb087f0a55b54, type: 3}
+  pulseOutputPrefab: {fileID: 8206787070208643321, guid: 5a787f571d312d347b9b645fba193765, type: 3}
 --- !u!225 &1091018746513272393
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -120,39 +153,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8577567832952243784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8577567832952243830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33b1b9c57b545f5489f415988e53bd82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startCircuitPrefab: {fileID: 0}
-  <CircuitHolder>k__BackingField: {fileID: 8577567833670916339}
-  label: {fileID: 8577567834277506397}
-  desc: {fileID: 8577567834116860627}
-  ports: {fileID: 0}
---- !u!114 &1031890999024838363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8577567832952243830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d55b15c233f47fb4497bee08a7a7d1ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dataInputPrefab: {fileID: 7213780574040196942, guid: efe66891972e95c409d658101dbbab2c, type: 3}
-  dataOutputPrefab: {fileID: 184187447911970796, guid: fc8622426bde6d84f8e03bae243b9daf, type: 3}
-  pulseInputPrefab: {fileID: 7984274758474822536, guid: 99caa236ae5575b498dbb087f0a55b54, type: 3}
-  pulseOutputPrefab: {fileID: 6350952089789834565, guid: 5a787f571d312d347b9b645fba193765, type: 3}
 --- !u!1 &8577567833670916338
 GameObject:
   m_ObjectHideFlags: 0

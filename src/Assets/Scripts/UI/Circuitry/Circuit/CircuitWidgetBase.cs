@@ -15,7 +15,7 @@ namespace UI.CircuitConstructor
 
 		public RectTransform RectTransform { get; private set; }
 
-		public Circuit Circuit { get; private set; }
+		public CircuitContainer Circuit { get; private set; }
 
 		[field: SerializeField]
 		public virtual RectTransform CircuitHolder { get; private set; }
@@ -54,7 +54,7 @@ namespace UI.CircuitConstructor
 			CircuitPrefab = circuitPrefab;
 
 			GameObject circuitObject = Instantiate(circuitPrefab);
-			if (!circuitObject.TryGetComponent(out Circuit circuit))
+			if (!circuitObject.TryGetComponent(out CircuitContainer circuit))
 				throw new System.Exception($"Attempted to create invalid visualization for {this}");
 			
 			circuitObject.transform.SetParent(CircuitHolder, false);
@@ -62,6 +62,6 @@ namespace UI.CircuitConstructor
 			Circuit = circuit;
 		}
 
-		public override string ToString() => $"{Circuit.BoundCircuit}'s widget";
+		public override string ToString() => $"{Circuit.Circuit}'s widget";
 	}
 }

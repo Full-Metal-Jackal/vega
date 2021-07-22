@@ -39,7 +39,7 @@ namespace Circuitry
 		{
 			if (!destinations.Add(input))
 				return false;
-			UI.CircuitConstructor.EventHandler.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
+			Logging.Log($"{this} of {circuit} has been connected to {input} of {input.circuit}");
 			return true;
 		}
 	}

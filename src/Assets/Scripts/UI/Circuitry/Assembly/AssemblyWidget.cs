@@ -8,9 +8,9 @@ using UnityEngine.UI;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(Assembly))]
-	public class AssemblyWidget : MonoBehaviour, ITriggerable<Assembly>
+	public class AssemblyWidget : MonoBehaviour
 	{
-		public Assembly BoundAssembly { get; private set; }
+		public Assembly Assembly { get; private set; }
 		public bool Initialized { get; protected set; } = false;
 
 		public float minZoom = .6f;
@@ -29,7 +29,7 @@ namespace UI.CircuitConstructor
 
 		private void Start()
 		{
-			Grid.BuildGrid(BoundAssembly.grid);
+			Grid.BuildGrid(Assembly.grid);
 		}
 
 		protected virtual bool Initialize()
@@ -40,28 +40,14 @@ namespace UI.CircuitConstructor
 				return false;
 			}
 
-			BoundAssembly = GetComponent<Assembly>();
-
-			EventHandler.Bind(this);
+			Assembly = GetComponent<Assembly>();
 
 			return Initialized = true;
 		}
 
-		public bool Trigger(Assembly caller, string eventLabel)
-		{
-			switch (eventLabel)
-			{
-			default:
-				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
-				return false;
-			}
-
-			// return true;
-		}
-
 		public bool MoveCircuit(CircuitWidget circuitWidget, Vector2Int cell)
 		{
-			if (!BoundAssembly.MoveCircuit(circuitWidget.Circuit.BoundCircuit, cell))
+			if (!Assembly.MoveCircuit(circuitWidget.Circuit.Circuit, cell))
 				return false;
 
 			PlaceCircuitOnGrid(circuitWidget, cell);
@@ -71,7 +57,7 @@ namespace UI.CircuitConstructor
 
 		public bool AddCircuit(CircuitWidget circuitWidget, Vector2Int cell)
 		{
-			if (!BoundAssembly.AddCircuit(circuitWidget.Circuit.BoundCircuit, cell))
+			if (!Assembly.AddCircuit(circuitWidget.Circuit.Circuit, cell))
 				return false;
 
 			PlaceCircuitOnGrid(circuitWidget, cell);

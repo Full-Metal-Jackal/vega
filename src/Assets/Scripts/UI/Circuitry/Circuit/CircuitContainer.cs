@@ -9,7 +9,7 @@ using System;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(RectTransform))]
-	public class Circuit : MonoBehaviour
+	public class CircuitContainer : MonoBehaviour
 	{
 		public bool Initialized { get; protected set; } = false;
 
@@ -31,13 +31,13 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private RectTransform pulseOutputs;
 
-		public Vector2 OriginOffset => -(Grid.Layout.cellSize * (BoundCircuit.Shape.GetSize() - Vector2Int.one) * new Vector2Int(1, -1) * .5f) * RectTransform.localScale;
+		public Vector2 OriginOffset => -(Grid.Layout.cellSize * (Circuit.Shape.GetSize() - Vector2Int.one) * new Vector2Int(1, -1) * .5f) * RectTransform.localScale;
 		
 		[ObsoleteAttribute("This getter is actually more reliable, but won't work until the grid is setup. May be merged with the previous one later.")]
 		public Vector2 OriginOffsetByGrid => -(Grid.Layout.cellSize * .5f + Grid.RectTransform.rect.min) * RectTransform.localScale;
 
 		public RectTransform RectTransform { get; private set; }
-		public Circuitry.Circuit BoundCircuit { get; private set; }
+		public Circuit Circuit { get; private set; }
 
 		private void Awake()
 		{
@@ -52,7 +52,7 @@ namespace UI.CircuitConstructor
 				return false;
 			}
 
-			BoundCircuit = GetComponent<Circuitry.Circuit>();
+			Circuit = GetComponent<Circuitry.Circuit>();
 			RectTransform = GetComponent<RectTransform>();
 
 			return Initialized = true;
@@ -65,28 +65,25 @@ namespace UI.CircuitConstructor
 
 		public virtual void Setup()
 		{
-			Grid.BuildGrid(BoundCircuit.Shape);
+			Grid.BuildGrid(Circuit.Shape);
 		}
 
-		private PinWidgetBase AddPin(GameObject widgetPrefab, Transform toParent, Pin pin)
+		private PinWidget AddPin(PinWidget widgetPrefab, Transform toParent, Pin pin)
 		{
-			GameObject widgetObject = Instantiate(widgetPrefab);
+			if (!(Instantiate(widgetPrefab) is PinWidget widget))
+				throw new Exception($"Invalid pin widget prefab provided to {this} for {pin}: {widgetPrefab}.");
 
-			if (!(widgetObject && widgetObject.TryGetComponent(out PinWidgetBase widget)))
-				throw new System.Exception($"{this} received invalid pin prefab: {widgetPrefab}.");
-
-			widgetObject.transform.SetParent(toParent);
-
+			widget.transform.SetParent(toParent);
 			widget.Setup(pin);
 
 			return widget;
 		}
 
-		public PinWidgetBase AddPin(GameObject widgetPrefab, DataInput dataInput) => AddPin(widgetPrefab, dataInputs, dataInput);
-		public PinWidgetBase AddPin(GameObject widgetPrefab, DataOutput dataOutput) => AddPin(widgetPrefab, dataOutputs, dataOutput);
-		public PinWidgetBase AddPin(GameObject widgetPrefab, PulseInput pulseInput) => AddPin(widgetPrefab, pulseInputs, pulseInput);
-		public PinWidgetBase AddPin(GameObject widgetPrefab, PulseOutput pulseOutput) => AddPin(widgetPrefab, pulseOutputs, pulseOutput);
+		public PinWidget AddPin(PinWidget widgetPrefab, DataInput dataInput) => AddPin(widgetPrefab, dataInputs, dataInput);
+		public PinWidget AddPin(PinWidget widgetPrefab, DataOutput dataOutput) => AddPin(widgetPrefab, dataOutputs, dataOutput);
+		public PinWidget AddPin(PinWidget widgetPrefab, PulseInput pulseInput) => AddPin(widgetPrefab, pulseInputs, pulseInput);
+		public PinWidget AddPin(PinWidget widgetPrefab, PulseOutput pulseOutput) => AddPin(widgetPrefab, pulseOutputs, pulseOutput);
 
-		public override string ToString() => $"{BoundCircuit}'s visualization";
+		public override string ToString() => $"{Circuit}'s visualization";
 	}
 }
