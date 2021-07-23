@@ -44,7 +44,9 @@ namespace UI.CircuitConstructor
 		protected virtual CellWidget CreateCell(Vector2Int cell)
 		{
 			GameObject cellObject = Instantiate(cellPrefab);
+
 			cellObject.transform.SetParent(Layout.transform, false);
+
 			return cellObject.GetComponent<CellWidget>();
 		}
 

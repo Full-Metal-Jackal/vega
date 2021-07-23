@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.CircuitConstructor
@@ -9,8 +7,8 @@ namespace UI.CircuitConstructor
 	{
 		public bool Initialized { get; protected set; } = false;
 
-		private RectTransform content;
-		public RectTransform Content => content;
+		[field: SerializeField]
+		public RectTransform Content { get; private set; }
 
 		public float minZoom = .6f, maxZoom = 3f;
 		public float zoomSensivity = .1f;
@@ -22,7 +20,7 @@ namespace UI.CircuitConstructor
 			set
 			{
 				zoom = Mathf.Clamp(value, minZoom, maxZoom);
-				content.localScale = new Vector2(zoom, zoom);
+				Content.localScale = new Vector2(zoom, zoom);
 			}
 		}
 
@@ -39,7 +37,7 @@ namespace UI.CircuitConstructor
 				return false;
 			}
 
-			content = transform.Find("Content").GetComponent<RectTransform>();
+			Zoom = 1f;
 
 			return Initialized = true;
 		}

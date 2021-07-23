@@ -14,8 +14,6 @@ namespace UI.CircuitConstructor
 		public GameObject CircuitWidgetPrefab { get; protected set; }
 		public DraggableCircuitWidget Source { get; protected set; }
 
-		private Vector2 gripOffset;
-
 		public AssemblyGrid AssemblyGrid
 		{
 			get
@@ -27,29 +25,31 @@ namespace UI.CircuitConstructor
 			}
 		}
 
-		public void Setup(DraggableCircuitWidget source, GameObject circuitPrefab, Vector2 offset)
+		public void Setup(DraggableCircuitWidget source, GameObject circuitPrefab)
 		{
 			Source = source;
-			gripOffset = offset;
 			Setup(circuitPrefab);
 		}
 
 		private void OnGUI()
 		{
-			RectTransform.localScale = CircuitConstructor.Instance.ViewportScale;
+			RectTransform.localScale = CircuitConstructor.Instance.AssemblyWidget.Grid.transform.parent.localScale
+				* CircuitConstructor.Instance.Viewport.Zoom;
 		}
 
 		public void Suicide()
 		{
 			Destroy(gameObject);
-			AssemblyGrid.OnGhostDestroyed(this);
+			if (AssemblyGrid)
+				AssemblyGrid.OnGhostDestroyed(this);
 		}
 
 		public void SetPosition(Vector2 position)
 		{
 			RectTransform.position = position;
-			position += gripOffset;
-			AssemblyGrid.OnGhostHover(this, position);
+			position += Source.GripOffset;
+			if (AssemblyGrid)
+				AssemblyGrid.OnGhostHover(this, position);
 		}
 	}
 }

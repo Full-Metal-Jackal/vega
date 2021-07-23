@@ -4,6 +4,12 @@ namespace Circuitry
 {
 	public static class Logging
 	{
-		public static void Log(string text) => Debug.Log($"<color=green>{text}</color>");
+		public static bool echoToConsole = false;
+
+		public static void Log(string text)
+		{
+			if (echoToConsole)
+				Debug.Log($"<color=lime>{text}</color>");
+		}
 	}
 }

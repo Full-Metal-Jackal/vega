@@ -68,9 +68,9 @@ namespace UI.CircuitConstructor
 		{
 			circuitWidget.RectTransform.SetParent(cirucitHolder, false);
 
-			// <TODO> Ivestigate why y-coordinate has to be inverted.
 			Vector2 positionOnGrid = Grid.GetCellWidget(cell).GetComponent<RectTransform>().anchoredPosition;
-			positionOnGrid += (Grid.RectTransform.rect.min * new Vector2Int(1, -1)) - circuitWidget.Circuit.OriginOffset;
+			positionOnGrid += Grid.RectTransform.rect.min * new Vector2Int(1, -1);
+			positionOnGrid -= circuitWidget.Circuit.OriginOffset * CircuitConstructor.Instance.AssemblyWidget.Grid.transform.localScale;
 
 			circuitWidget.RectTransform.anchoredPosition = positionOnGrid;
 		}
