@@ -9,32 +9,32 @@ namespace UI.CircuitConstructor
 	public class CircuitPorts : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject dataInputPrefab;
+		private PinWidget dataInputPrefab;
 
 		[SerializeField]
-		private GameObject dataOutputPrefab;
+		private PinWidget dataOutputPrefab;
 
 		[SerializeField]
-		private GameObject pulseInputPrefab;
+		private PinWidget pulseInputPrefab;
 
 		[SerializeField]
-		private GameObject pulseOutputPrefab;
+		private PinWidget pulseOutputPrefab;
 
-		protected readonly HashSet<PinWidgetBase> pins = new HashSet<PinWidgetBase>();
+		protected readonly HashSet<PinWidget> pins = new HashSet<PinWidget>();
 
-		public void Setup(Circuit circuit)
+		public void Setup(CircuitContainer circuit)
 		{
 			// кайкоц краирсирсый окдок прияптнонго аетпаиатаа!!
-			foreach (DataInput input in circuit.BoundCircuit.GetDataInputs())
+			foreach (DataInput input in circuit.Circuit.GetDataInputs())
 				pins.Add(circuit.AddPin(dataInputPrefab, input));
-			foreach (DataOutput output in circuit.BoundCircuit.GetDataOutputs())
+			foreach (DataOutput output in circuit.Circuit.GetDataOutputs())
 				pins.Add(circuit.AddPin(dataOutputPrefab, output));
-			foreach (PulseInput input in circuit.BoundCircuit.GetPulseInputs())
+			foreach (PulseInput input in circuit.Circuit.GetPulseInputs())
 				pins.Add(circuit.AddPin(pulseInputPrefab, input));
-			foreach (PulseOutput output in circuit.BoundCircuit.GetPulseOutputs())
+			foreach (PulseOutput output in circuit.Circuit.GetPulseOutputs())
 				pins.Add(circuit.AddPin(pulseOutputPrefab, output));
 		}
 
-		public IEnumerable<PinWidgetBase> Pins => new HashSet<PinWidgetBase>(pins);
+		public IEnumerable<PinWidget> Pins => new HashSet<PinWidget>(pins);
 	}
 }

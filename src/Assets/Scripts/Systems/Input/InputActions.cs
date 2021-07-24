@@ -462,7 +462,7 @@ namespace Input
                     ""id"": ""e27a08ef-965a-40fa-b3f0-bf03a17874c5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""ScrollWheel"",

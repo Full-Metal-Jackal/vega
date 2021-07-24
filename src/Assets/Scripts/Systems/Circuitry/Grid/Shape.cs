@@ -19,40 +19,41 @@ namespace Circuitry
 				Height = value.y;
 			}
 		}
-
 		/// <summary>
 		/// A vector composed of minimal x and y coordinates in the shape.
 		/// </summary>
 		public Vector2Int Origin { get; private set; }
+		public Vector2 Center => Origin + ((Vector2)Size * .5f);
 
 		public Shape(IEnumerable<Vector2Int> cells)
 		{
 			this.cells = new HashSet<Vector2Int>(cells);
+			Origin = Vector2Int.zero;
 			Width = 0;
 			Height = 0;
-			Origin = Vector2Int.zero;
-			Origin = GetOrigin();
-			Size = GetSize();
+
+			Origin = RecalculateOrigin();
+			Size = RecalculateSize();
 		}
 
 		public void AddCell(Vector2Int cell)
 		{
 			Origin = Vector2Int.Min(Origin, cell);
-			Size = Vector2Int.Max(Size, cell);
+			Size = Vector2Int.Max(Size, cell + Vector2Int.one);
 			cells.Add(cell);
 		}
 
 		public void AddCell(int x, int y) => AddCell(new Vector2Int(x, y));
 
-		public Vector2Int GetSize()
+		public Vector2Int RecalculateSize()
 		{
 			Vector2Int size = new Vector2Int(int.MinValue, int.MinValue);
 			foreach (Vector2Int cell in cells)
-				size = Vector2Int.Max(size, cell);
-			return size - GetOrigin() + Vector2Int.one;
+				size = Vector2Int.Max(size, cell + Vector2Int.one);
+			return size - RecalculateOrigin();
 		}
 
-		public Vector2Int GetOrigin()
+		public Vector2Int RecalculateOrigin()
 		{
 			Vector2Int origin = new Vector2Int(int.MaxValue, int.MaxValue);
 			foreach (Vector2Int cell in cells)
@@ -65,17 +66,12 @@ namespace Circuitry
 			throw new System.NotImplementedException();
 		}
 
-		public Shape Center()
-		{
-			throw new System.NotImplementedException();
-		}
-
 		/// <summary>
 		/// Shifts the shape so that its origin is zero.
 		/// </summary>
 		public void Normalize()
 		{
-			Vector2Int origin = GetOrigin();
+			Vector2Int origin = RecalculateOrigin();
 
 			if (origin == Vector2Int.zero)
 				return;
@@ -104,8 +100,8 @@ namespace Circuitry
 
 		public void AddRect(int width, int height, Vector2Int position)
 		{
-			for (int x = 0; x < width; x++)
-				for (int y = 0; y < height; y++)
+			for (int y = 0; y < height; y++)
+				for (int x = 0; x < width; x++)
 					AddCell(new Vector2Int(x, y) + position);
 		}
 		public void AddRect(int width, int height) => AddRect(width, height, Vector2Int.zero);

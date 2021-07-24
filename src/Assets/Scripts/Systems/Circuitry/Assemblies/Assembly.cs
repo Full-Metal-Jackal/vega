@@ -70,7 +70,7 @@ namespace Circuitry
 				return false;
 
 			circuits.Add(circuit);
-			UI.CircuitConstructor.EventHandler.Log($"{this}: {circuit} has been placed at {cell}");
+			Logging.Log($"{this}: {circuit} has been placed at {cell}");
 			return true;
 		}
 
@@ -79,7 +79,7 @@ namespace Circuitry
 			if (!grid.MoveCircuit(circuit, cell))
 				return false;
 
-			UI.CircuitConstructor.EventHandler.Log($"{this}: {circuit} has been moved to {cell}");
+			Logging.Log($"{this}: {circuit} has been moved to {cell}");
 			return true;
 		}
 	}

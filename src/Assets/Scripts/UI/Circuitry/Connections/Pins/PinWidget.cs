@@ -7,24 +7,65 @@ using UnityEngine.EventSystems;
 namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(RectTransform))]
-	public abstract class PinWidget : PinWidgetBase, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler, ITriggerable<Circuitry.Pin>
+	public abstract class PinWidget : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject trackLinePrefab;
-		[SerializeField]
-		private RectTransform tracksHolder;
+		public bool Initialized { get; protected set; } = false;
 
-		protected TrackLineBuilder activeTrack;
-		
-		protected readonly HashSet<TrackLineBuilder> tracks = new HashSet<TrackLineBuilder>();
+		public RectTransform RectTransform { get; private set; }
+
+		[field: SerializeField]
+		public Text Label { get; private set; }
 
 		[field: SerializeField]
 		public RectTransform ButtonRectTransform { get; private set; }
 
-		public override void Setup(Circuitry.Pin pin)
+		public readonly HashSet<TrackLineBuilder> tracks = new HashSet<TrackLineBuilder>();
+
+		[field: SerializeField]
+		protected TrackLineBuilder TrackLinePrefab { get; private set; }
+
+		[field: SerializeField]
+		protected RectTransform TracksHolder { get; private set; }
+
+		protected TrackLineBuilder activeTrack;
+
+		private void Awake() => Initialize();
+
+		protected virtual bool Initialize()
 		{
-			base.Setup(pin);
-			EventHandler.Bind(this);
+			if (Initialized)
+			{
+				Debug.LogWarning($"Multiple initialization attempts of {this}!");
+				return false;
+			}
+
+			RectTransform = GetComponent<RectTransform>();
+
+			return Initialized = true;
+		}
+
+		public void SetLabel(string text) => Label.text = text;
+
+		public void UpdateLines()
+		{
+			foreach (TrackLineBuilder track in tracks)
+				track.UpdateLine();
+		}
+
+		public virtual void Setup(Circuitry.Pin pin)
+		{
+		}
+	}
+
+	public abstract class PinWidget<PinType> : PinWidget, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler where PinType : Circuitry.Pin
+	{
+		public PinType Pin { get; protected set; }
+
+		public override void Setup(Circuitry.Pin pin) => Setup(pin as PinType);  // Блять.
+		public virtual void Setup(PinType pin)
+		{
+			Pin = pin;
+			SetLabel(pin.label);
 		}
 
 		public virtual void OnClick()
@@ -49,10 +90,10 @@ namespace UI.CircuitConstructor
 
 		public void OnDrop(PointerEventData eventData)
 		{
-			if (!eventData.pointerDrag.TryGetComponent(out PinWidget pinWidget))
+			if (!eventData.pointerDrag.TryGetComponent(out PinWidget<PinType> pinWidget))
 				return;
 
-			if (TryConnect(pinWidget.BoundPin))
+			if (TryConnect(pinWidget.Pin))
 			{
 				TrackLineBuilder conneciton = CreateTrackBuilder();
 				conneciton.CreateLine(this, pinWidget);
@@ -63,14 +104,6 @@ namespace UI.CircuitConstructor
 
 		public virtual bool TryConnect(Circuitry.Pin other) => false;
 
-		private TrackLineBuilder CreateTrackBuilder()
-		{
-			GameObject trackLineObject = Instantiate(trackLinePrefab);
-			trackLineObject.transform.SetParent(tracksHolder, false);
-
-			return trackLineObject.GetComponent<TrackLineBuilder>();
-		}
-
 		public TrackLineBuilder CreateLine(Vector2 from, Vector2 to)
 		{
 			TrackLineBuilder trackLine = CreateTrackBuilder();
@@ -78,12 +111,12 @@ namespace UI.CircuitConstructor
 			return trackLine;
 		}
 
-		public void UpdateLines()
+		private TrackLineBuilder CreateTrackBuilder()
 		{
-			foreach (TrackLineBuilder track in tracks)
-				track.UpdateLine();
-		}
+			TrackLineBuilder trackLine = Instantiate(TrackLinePrefab);
+			trackLine.transform.SetParent(TracksHolder, false);
 
-		public virtual bool Trigger(Circuitry.Pin caller, string eventLabel) => true;
+			return trackLine;
+		}
 	}
 }
