@@ -32,54 +32,6 @@ Transform:
   m_Father: {fileID: 9142087813067965169}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &710546105
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5630354613133369047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.28896216, y: 0.06113267, z: 0.04485756}
-  m_Center: {x: 0.13328744, y: 0.07509339, z: 0}
---- !u!65 &710546106
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5630354613133369047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.06793061, y: 0.12339008, z: 0.051955223}
-  m_Center: {x: -0.039222434, y: 0.0058034956, z: 0}
---- !u!114 &3681568618977676251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7286878795156251722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5548d20503a770d4fbd3d5373361bdef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ItemData>k__BackingField: {fileID: 4741963963955890903}
-  <Name>k__BackingField: Sample Gun
-  <Desc>k__BackingField: Really shouldn't be used in the game in any way
-  <HoldType>k__BackingField: 4
-  <ProjectilePrefab>k__BackingField: {fileID: 5354400930134132395, guid: 6c418f519208dc647a58d09bca276aab, type: 3}
-  <ProjectileSpeed>k__BackingField: 15
-  <Spread>k__BackingField: 0
-  <Damage>k__BackingField: 10
-  <Mass>k__BackingField: 2
-  <ClipSize>k__BackingField: 8
 --- !u!114 &2378388274308027160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,22 +48,6 @@ MonoBehaviour:
   <RightHandGrip>k__BackingField: {fileID: 8553285252812960698}
   <Origin>k__BackingField: {fileID: 4910278900094392416}
   <Barrel>k__BackingField: {fileID: 4582020215959673546}
---- !u!114 &6012576056461486503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5792820996208389505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0be5efca020155b44aa13a886094af51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Equip>k__BackingField: {fileID: 0}
-  <Fire>k__BackingField: {fileID: 8300000, guid: d8889d2434900184fa5965d9035eb8e0, type: 3}
-  <DryFire>k__BackingField: {fileID: 8300000, guid: 2331adbc3c3d4844aa9e2dd7155a7d59, type: 3}
-  <Reload>k__BackingField: {fileID: 0}
 --- !u!1 &2567968897195352035
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +108,48 @@ Transform:
   m_Father: {fileID: 9142087813067965169}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &710546105
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5630354613133369047}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.28896216, y: 0.06113267, z: 0.04485756}
+  m_Center: {x: 0.13328744, y: 0.07509339, z: 0}
+--- !u!65 &710546106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5630354613133369047}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06793061, y: 0.12339008, z: 0.051955223}
+  m_Center: {x: -0.039222434, y: 0.0058034956, z: 0}
+--- !u!114 &6012576056461486503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792820996208389505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be5efca020155b44aa13a886094af51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Equip>k__BackingField: {fileID: 0}
+  <Fire>k__BackingField: {fileID: 8300000, guid: d8889d2434900184fa5965d9035eb8e0, type: 3}
+  <DryFire>k__BackingField: {fileID: 8300000, guid: 2331adbc3c3d4844aa9e2dd7155a7d59, type: 3}
+  <Reload>k__BackingField: {fileID: 0}
 --- !u!1 &6147671615549065551
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +180,28 @@ Transform:
   m_Father: {fileID: 8882712243672704440}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 4.425, y: 75.526, z: 106.64}
+--- !u!114 &3681568618977676251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7286878795156251722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5548d20503a770d4fbd3d5373361bdef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ItemData>k__BackingField: {fileID: 4741963963955890903}
+  <Name>k__BackingField: Sample Gun
+  <Desc>k__BackingField: Really shouldn't be used in the game in any way
+  <HoldType>k__BackingField: 4
+  <ProjectilePrefab>k__BackingField: {fileID: 5354400930134132395, guid: 6c418f519208dc647a58d09bca276aab, type: 3}
+  <ProjectileSpeed>k__BackingField: 15
+  <Spread>k__BackingField: 0
+  <Damage>k__BackingField: 10
+  <Mass>k__BackingField: 2
+  <ClipSize>k__BackingField: 8
 --- !u!1 &7926023864407951245
 GameObject:
   m_ObjectHideFlags: 0
