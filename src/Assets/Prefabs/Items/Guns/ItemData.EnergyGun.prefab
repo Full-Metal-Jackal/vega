@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3518826077657757268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295431688728847730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb2a799ab75b7f43acaba084873456c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ItemData>k__BackingField: {fileID: 3824869931692952559}
+  <Name>k__BackingField: Sample Energy Gun
+  <Desc>k__BackingField: Really shouldn't be used in the game in any way
+  <HoldType>k__BackingField: 0
+  <ProjectilePrefab>k__BackingField: {fileID: 0}
+  <ProjectileSpeed>k__BackingField: 10
+  <Spread>k__BackingField: 5
+  <Damage>k__BackingField: 10
+  <Mass>k__BackingField: 2
+  <ClipSize>k__BackingField: 24
+--- !u!1001 &8420180897296990520
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400785327741740189, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_Name
+      value: ItemData.EnergyGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943479857202240701, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3681568618977676251, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+--- !u!114 &3824869931692952559 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4741963963955890903, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+  m_PrefabInstance: {fileID: 8420180897296990520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59859a53540b24ab729486af443206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1295431688728847730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7286878795156251722, guid: e6ef3da7a6dc11a43b2b2387dbcef02e, type: 3}
+  m_PrefabInstance: {fileID: 8420180897296990520}
+  m_PrefabAsset: {fileID: 0}
