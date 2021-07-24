@@ -77,12 +77,6 @@ namespace UI.Dialogue
 				Typewrite();
 		}
 
-		private void OnClickAnywhere(InputAction.CallbackContext ctx)
-		{
-			if (typewriting)
-				FinishSpeech();
-		}
-
 		private void OnCycle(InputAction.CallbackContext ctx)
 		{
 			if (ctx.ReadValue<Vector2>().y == 0)
@@ -141,7 +135,7 @@ namespace UI.Dialogue
 
 			conversation = npcConversation.Deserialize();
 
-			Input.PlayerInput.Actions.UI.Click.performed += OnClickAnywhere;
+			Input.PlayerInput.Actions.UI.Click.performed += OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Submit.performed += OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Navigate.performed += OnCycle;
 
@@ -389,7 +383,7 @@ namespace UI.Dialogue
 			Game.State = GameState.Normal;
 			Hud.Instance.Toggle(true);
 
-			Input.PlayerInput.Actions.UI.Click.performed -= OnClickAnywhere;
+			Input.PlayerInput.Actions.UI.Click.performed -= OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Submit.performed -= OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Navigate.performed -= OnCycle;
 
