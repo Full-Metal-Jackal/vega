@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameBootstraper : MonoBehaviour
 {
-	private void Awake()
-	{
-		Game.Initialize();
-	}
+	private void Awake() => Game.Initialize();
+	private void Start() => Game.Start();
 }

@@ -1,4 +1,6 @@
-﻿namespace Input
+﻿using UnityEngine;
+
+namespace Input
 {
 	public class PlayerInput : MonoSingleton<PlayerInput>
 	{

@@ -41,9 +41,6 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		// Update the input state at start.
-		State = state;
-
 		PlayerController.Instance.OnPossesed += mob =>
 		{
 			Hud.Instance.RegisterComponents();
@@ -51,7 +48,17 @@ public static class Game
 		};
 
 		Initialized = true;
-		Debug.Log("Game initialization complete.");
+	}
+
+	public static void Start()
+	{
+		if (!Initialized)
+			throw new System.Exception("Attempted to start uninitialized Game instance.");
+
+		// Update the input state at start.
+		State = state;
+
+		Debug.Log("The Game has been started.");
 	}
 
 	/// <summary>
