@@ -24,20 +24,26 @@ public class Room : MonoBehaviour
 				defaultMat[i] = Renderer[i].material;
 			}
 		}
+
+		HideFurniture();
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		ShowFurniture();
-		HideShadow();
-		HideWalls();
+		if (other.transform.parent.TryGetComponent(out Mob mob) && mob == PlayerController.Instance.Possessed)
+		{
+			ShowFurniture();
+			HideWalls();
+		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		HideFurniture();
-		ShowShadow();
-		ShowWalls();
+		if (other.transform.parent.TryGetComponent(out Mob mob) && mob == PlayerController.Instance.Possessed)
+		{
+			HideFurniture();
+			ShowWalls();
+		}  
 	}
 
 	void ShowFurniture()
