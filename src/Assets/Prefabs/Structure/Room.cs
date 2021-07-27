@@ -30,21 +30,24 @@ public class Room : MonoBehaviour
 		{
 			selectionRenderer[i].enabled = false;
 		}
-
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		ShowFurniture();
-		HideShadow();
-		HideWalls();
+		if (other.transform.parent.CompareTag("Player"))
+		{
+			ShowFurniture();
+			HideWalls();
+		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		HideFurniture();
-		ShowShadow();
-		ShowWalls();
+		if (other.transform.parent.CompareTag("Player"))
+		{
+			HideFurniture();
+			ShowWalls();
+		}  
 	}
 
 	void ShowFurniture()
