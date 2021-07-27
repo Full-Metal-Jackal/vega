@@ -42,7 +42,6 @@ public abstract class MobController : MonoBehaviour
 	{
 		mob.SetPossessed(this);
 		Possessed = mob;
-		Possessed.tag = "Player";
 		Debug.Log($"Controller {Id} possessed {mob}.");
 		return true;
 	}

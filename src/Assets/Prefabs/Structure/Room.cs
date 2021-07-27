@@ -30,7 +30,7 @@ public class Room : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.parent.CompareTag("Player"))
+		if (other.transform.parent.TryGetComponent(out Mob _) == PlayerController.Instance.Possessed)
 		{
 			ShowFurniture();
 			HideWalls();
@@ -39,7 +39,7 @@ public class Room : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.transform.parent.CompareTag("Player"))
+		if (other.transform.parent.TryGetComponent(out Mob _) == PlayerController.Instance.Possessed)
 		{
 			HideFurniture();
 			ShowWalls();
