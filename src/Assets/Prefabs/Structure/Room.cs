@@ -24,6 +24,13 @@ public class Room : MonoBehaviour
 				defaultMat[i] = Renderer[i].material;
 			}
 		}
+
+		Renderer[] selectionRenderer = furniture.GetComponentsInChildren<Renderer>();
+		for (int i = 0; i < selectionRenderer.Length; i++)
+		{
+			selectionRenderer[i].enabled = false;
+		}
+
 	}
 
 	private void OnTriggerEnter(Collider other)
