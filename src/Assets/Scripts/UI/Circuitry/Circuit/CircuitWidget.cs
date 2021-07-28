@@ -8,7 +8,7 @@ namespace UI.CircuitConstructor
 {
 	[RequireComponent(typeof(CanvasGroup))]
 	[RequireComponent(typeof(CircuitPorts))]
-	public class CircuitWidget : DraggableCircuitWidget, ITriggerable<Circuitry.Circuit>
+	public class CircuitWidget : DraggableCircuitWidget
 	{
 		private CanvasGroup canvasGroup;
 
@@ -32,7 +32,7 @@ namespace UI.CircuitConstructor
 
 			CreateCooldownOverlay();
 			Ports.Setup(Circuit);
-			EventHandler.Bind(this);
+			Circuit.Circuit.OnCooldownStarted += cooldownOverlay.StartCooldownAnimation;
 		}
 
 		public override void PostBeginDrag(PointerEventData eventData)
@@ -62,27 +62,6 @@ namespace UI.CircuitConstructor
 			
 			Circuit.Icon.gameObject.AddComponent<Mask>();
 			cooldownOverlayObject.transform.SetParent(Circuit.Icon.transform, false);
-		}
-
-		public bool Trigger(Circuitry.Circuit caller, string eventLabel)
-		{
-			switch (eventLabel)
-			{
-			case "cooldown":
-				if (caller.IsSleeping)
-					StartCooldownAnimation();
-				break;
-			default:
-				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
-				return false;
-			}
-
-			return true;
-		}
-
-		public void StartCooldownAnimation()
-		{
-			cooldownOverlay.StartCooldownAnimation(Circuit.BoundCircuit.CooldownPerUse);
 		}
 
 		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)

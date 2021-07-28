@@ -26,6 +26,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected Animator Animator { get; private set; }
 
 	public MobInventory Inventory { get; private set; }
+	public float ItemDropSpeed { get; private set; } = 2f;
 
 	public virtual Transform ItemSocket => transform;
 
@@ -35,7 +36,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	public virtual Vector3 AimPos { get; set; }
+	private Vector3 aimPos;
+	public virtual Vector3 AimPos
+	{
+		get => aimPos;
+		set
+		{
+			if (!Game.Paused)  // Thus the mobs won't look around during pause.
+				aimPos = value;
+		}
+	}
 
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);
@@ -75,6 +85,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	}
 	public virtual bool CanFire => CanUseItems;
 	public virtual bool CanReload => CanUseItems;
+	public virtual bool CanDropItems => CanUseItems;
 
 	public virtual Item ActiveItem
 	{
@@ -245,9 +256,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual bool PickUpItem<T>(T item) where T : Item
+	public virtual bool PickUpItem<ItemType>(ItemType item) where ItemType : Item
 	{
-		ItemSlot<T> slot = Inventory.GetFreeItemSlot<T>();
+		ItemSlot<ItemType> slot = Inventory.GetFreeItemSlot<ItemType>();
 		if (!slot)
 			return false;
 
@@ -257,7 +268,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual bool Use(Interaction interaction) => interaction.CanBeUsedBy(this) && interaction.OnUse(this);
+	public virtual bool Use(Interaction interaction) => interaction && interaction.CanBeUsedBy(this) && interaction.OnUse(this);
 
 	public bool CanMoveActively
 	{
@@ -285,5 +296,21 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		if (ActiveItem && CanReload)
 			ActiveItem.Reload();
+	}
+
+	public virtual void DropItem() => DropItem(ActiveItem);
+
+	public virtual void DropItem(Item item)
+	{
+		if (item is null)
+			return;
+
+		if (!CanDropItems)
+			return;
+
+		if (item.Owner != this)
+			return;
+
+		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
 	}
 }

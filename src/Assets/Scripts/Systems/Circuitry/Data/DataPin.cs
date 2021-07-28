@@ -7,6 +7,9 @@ namespace Circuitry
 	/// </summary>
 	public abstract class DataPin : Pin
 	{
+		public delegate void ValueAction(Data value);
+		public event ValueAction OnValueChanged;
+
 		public Data Value { get; private set; }
 
 		protected DataPin(Circuit circuit, string label) : base(circuit, label)
@@ -21,8 +24,8 @@ namespace Circuitry
 		public void Set(Data value)
 		{
 			Value = value;
-			UI.CircuitConstructor.EventHandler.Log($"{circuit}: {label} has been set to {value}");
-			UI.CircuitConstructor.EventHandler.Trigger(this, "valueChange");
+			Logging.Log($"{circuit}: {label} has been set to {value}");
+			OnValueChanged?.Invoke(value);
 		}
 	}
 }

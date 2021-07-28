@@ -6,10 +6,11 @@ namespace UI.CircuitConstructor
 	{
 		[field: SerializeField]
 		public ConstructorViewport Viewport { get; private set; }
-		public Vector2 ViewportScale => Viewport.Content.localScale;
 
 		[field: SerializeField]
 		public AssemblyWidget AssemblyWidget { get; private set; }
+
+		public Vector3 GridScale => AssemblyWidget.Grid.transform.lossyScale;
 
 		public bool IsOpened => gameObject.activeInHierarchy;
 
@@ -31,9 +32,6 @@ namespace UI.CircuitConstructor
 
 		public void Setup()
 		{
-			// <TODO> Remove this as soon as we implement OpenAssembly.
-			Viewport.Zoom = .7f;
-
 			gameObject.SetActive(false);
 		}
 
@@ -41,16 +39,13 @@ namespace UI.CircuitConstructor
 		{
 			Debug.Log("Opening the circuit constructor...");
 			gameObject.SetActive(true);
-			Game.InputState = InputState.UIOnly;
+			Game.State = GameState.Paused;
 		}
 
 		public void Open(AssemblyWidget assemblyWidget)
 		{
 			Open();
-
-			throw new System.NotImplementedException();
-
-			// OpenAssembly(assemblyWidget);
+			OpenAssembly(assemblyWidget);
 		}
 
 		public void OpenAssembly(AssemblyWidget assemblyWidget)
@@ -59,15 +54,13 @@ namespace UI.CircuitConstructor
 
 			Viewport.minZoom = assemblyWidget.minZoom;
 			Viewport.Zoom = assemblyWidget.preferedZoom;
-
-			throw new System.NotImplementedException();
 		}
 
 		public void Close()
 		{
 			Debug.Log("Closing the circuit constructor...");
 			gameObject.SetActive(false);
-			Game.InputState = InputState.WorldOnly;
+			Game.State = GameState.Normal;
 		}
 
 		public void ShowCircuitInfo(Circuitry.Circuit circuit)

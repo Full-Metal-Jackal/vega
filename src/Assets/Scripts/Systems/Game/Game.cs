@@ -9,23 +9,27 @@ public static class Game
 	/// <summary>
 	/// The collection of all entites currently represented in the game.
 	/// </summary>
-	public readonly static List<Entity> Entities = new List<Entity>();
+	public readonly static HashSet<Entity> Entities = new HashSet<Entity>();
 
-	// <TODO> Change to UiOnly as soon as we get the main menu.
-	private static InputState inputState = InputState.WorldOnly;
-	public static InputState InputState
+	public readonly static Texture2D defaultCursor = null;
+
+	// <TODO> Change to Paused as soon as we get the main menu.
+	private static GameState state = GameState.Normal;
+	public static GameState State
 	{
-		get => inputState;
+		get => state;
 		set
 		{
-			inputState = value;
-			switch (inputState)
+			state = value;
+			switch (state)
 			{
-			case InputState.WorldOnly:
-				PlayerController.Instance.PlayerInputEnabled = true;
+			case GameState.Normal:
+				Input.PlayerInput.WorldInputEnabled = true;
+				Input.PlayerInput.UiInputEnabled = false;
 				break;
-			case InputState.UIOnly:
-				PlayerController.Instance.PlayerInputEnabled = false;
+			case GameState.Paused:
+				Input.PlayerInput.WorldInputEnabled = false;
+				Input.PlayerInput.UiInputEnabled = true;
 				break;
 			}
 		}
@@ -37,9 +41,6 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		// Update the input state at start.
-		InputState = inputState;
-
 		PlayerController.Instance.OnPossesed += mob =>
 		{
 			Hud.Instance.RegisterComponents();
@@ -47,8 +48,28 @@ public static class Game
 		};
 
 		Initialized = true;
-		Debug.Log("Game initialization complete.");
 	}
 
-	public static bool IsWorldInputAllowed => inputState == InputState.WorldOnly;
+	public static void Start()
+	{
+		if (!Initialized)
+			throw new System.Exception("Attempted to start uninitialized Game instance.");
+
+		// Update the input state at start.
+		State = state;
+
+		Debug.Log("The Game has been started.");
+	}
+
+	/// <summary>
+	/// Clears all the references contained in this object.
+	/// Has to be used on level transitions.
+	/// </summary>
+	private static void Cleanup()
+	{
+		Entities.RemoveWhere((Entity entity) => !entity.Persistent);
+	}
+
+	// Just a shortcut for quick comparison.
+	public static bool Paused => state == GameState.Paused;
 }

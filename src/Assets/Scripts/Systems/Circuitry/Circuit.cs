@@ -23,6 +23,9 @@ namespace Circuitry
 
 		public Category category;
 
+		public delegate void CooldownAction(float time);
+		public event CooldownAction OnCooldownStarted;
+
 		/// <summary>
 		/// The assembly this circuit is attached to.
 		/// </summary>
@@ -88,7 +91,7 @@ namespace Circuitry
 		public void Sleep(float time)
 		{
 			Cooldown = time;
-			UI.CircuitConstructor.EventHandler.Trigger(this, "cooldown");
+			OnCooldownStarted?.Invoke(time);
 		}
 
 		private void Awake()

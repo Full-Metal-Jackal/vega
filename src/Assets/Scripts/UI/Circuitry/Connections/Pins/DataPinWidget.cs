@@ -5,7 +5,7 @@ using Circuitry;
 
 namespace UI.CircuitConstructor
 {
-	public class DataPinWidget : PinWidget
+	public class DataPinWidget : PinWidget<DataPin>
 	{
 		[field: SerializeField]
 		public UnityEngine.UI.Text Value { get; private set; }
@@ -14,41 +14,25 @@ namespace UI.CircuitConstructor
 		{
 			bool connected = false;
 
-			if (BoundPin is DataInput input && other is DataOutput output)
+			if (Pin is DataInput input && other is DataOutput output)
 				connected = output.Connect(input);
-			else if (other is DataInput && BoundPin is DataOutput)
-				connected = (BoundPin as DataOutput).Connect(other as DataInput);
+			else if (other is DataInput && Pin is DataOutput)
+				connected = (Pin as DataOutput).Connect(other as DataInput);
 
 			return connected;
 		}
 
-		public override bool Trigger(Pin caller, string eventLabel)
+		public void UpdateValue(Data value)
 		{
-			if (!base.Trigger(caller, eventLabel))
-				return false;
-
-			switch (eventLabel)
-			{
-			case "valueChange":
-				UpdateValue();
-				break;
-			default:
-				Debug.LogWarning($"{this} encountered unsupported event: {eventLabel}");
-				return false;
-			}
-
-			return true;
+			Value.text = $"{value}";
 		}
 
-		public void UpdateValue()
-		{
-			Value.text = $"{(BoundPin as DataPin)?.Value}";
-		}
-
-		public override void Setup(Pin pin)
+		public override void Setup(DataPin pin)
 		{
 			base.Setup(pin);
-			UpdateValue();
+
+			pin.OnValueChanged += UpdateValue;
+			UpdateValue(pin.Value);
 		}
 	}
 }

@@ -15,7 +15,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	/// The value the "look at" IK weight is multiplied by when the mob is not aiming.
 	/// </summary>
 	[SerializeField]
-	private float lookAtIkNonAimingFactor = .8f;
+	private float lookAtIkNonAimingFactor = .5f;
 	/// <summary>
 	/// How far from MinAimDistance IK should start to blend.
 	/// </summary>
@@ -31,8 +31,15 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		leftHandIkTarget = item.Model.LeftHandGrip;
-		rightHandIkTarget = item.Model.RightHandGrip;
+		if (item && item.Model)
+		{
+			leftHandIkTarget = item.Model.LeftHandGrip;
+			rightHandIkTarget = item.Model.RightHandGrip;
+		}
+		else
+		{
+			leftHandIkTarget = rightHandIkTarget = null;
+		}
 	}
 
 	private void SetIkWeights(AvatarIKGoal goal, float weight)

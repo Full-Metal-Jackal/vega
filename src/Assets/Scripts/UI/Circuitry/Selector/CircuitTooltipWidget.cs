@@ -28,8 +28,8 @@ namespace UI.CircuitConstructor
 		{
 			base.Setup(circuitPrefab);
 
-			label.text = Circuit.BoundCircuit.Label;
-			desc.text = Circuit.BoundCircuit.Desc;
+			label.text = Circuit.Circuit.Label;
+			desc.text = Circuit.Circuit.Desc;
 			ports.Setup(Circuit);
 		}
 	}

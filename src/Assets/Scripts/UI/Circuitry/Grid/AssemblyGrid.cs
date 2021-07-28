@@ -28,13 +28,13 @@ namespace UI.CircuitConstructor
 			if (Selected == gridCell)
 				return;
 
-			Shape shape = ghost.Source.Circuit.BoundCircuit.Shape;
+			Shape shape = ghost.Source.Circuit.Circuit.Shape;
 			DeselectPrevious(shape);
 
 			Selected = gridCell;
 
-			IEnumerable<Circuitry.Circuit> toIgnore = new HashSet<Circuitry.Circuit> { ghost.Source.Circuit.BoundCircuit };
-			bool error = !assemblyWidget.BoundAssembly.grid.DoesFit(shape, gridCell, toIgnore);
+			IEnumerable<Circuitry.Circuit> toIgnore = new HashSet<Circuitry.Circuit> { ghost.Source.Circuit.Circuit };
+			bool error = !assemblyWidget.Assembly.grid.DoesFit(shape, gridCell, toIgnore);
 
 			foreach (Vector2Int cell in shape.Cells)
 				if (GetCellWidget(Selected + cell) is CellWidget widget)
@@ -49,20 +49,19 @@ namespace UI.CircuitConstructor
 
 		public void OnGhostDestroyed(GhostCircuitWidget ghost)
 		{
-			DeselectPrevious(ghost.Source.Circuit.BoundCircuit.Shape);
+			DeselectPrevious(ghost.Source.Circuit.Circuit.Shape);
 		}
 
 		public Vector2Int GetCell(Vector2 position)
 		{
-			Vector2 scale = CircuitConstructor.Instance.ViewportScale;
-
-			position -= (Vector2)transform.position + (RectTransform.rect.min * scale);
-			position /= Layout.cellSize * scale;
+			position -= (Vector2)transform.position + (RectTransform.rect.min * transform.lossyScale);
+			position /= Layout.cellSize * transform.lossyScale;
 
 			Vector2Int cell = new Vector2Int(
 				Mathf.FloorToInt(position.x),
 				(shape.Height - 1) - Mathf.FloorToInt(position.y)
-				);
+			);
+
 			return cell;
 		}
 
@@ -82,7 +81,6 @@ namespace UI.CircuitConstructor
 
 			if (!eventData.pointerDrag.TryGetComponent(out DraggableCircuitWidget draggable))
 				return;
-
 			Vector2Int cell = GetCell(eventData.position + draggable.GripOffset);
 			draggable.DropOnAssembly(assemblyWidget, cell);
 		}

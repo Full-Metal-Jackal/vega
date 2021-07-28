@@ -27,20 +27,6 @@ public class PlayerController : MobController
 		}
 	}
 
-	private bool playerInputEnabled = true;
-	public bool PlayerInputEnabled
-	{
-		get => playerInputEnabled;
-		set
-		{
-			playerInputEnabled = value;
-			if (value)
-				input.Enable();
-			else
-				input.Disable();
-		}
-	}
-
 	/// <summary>
 	/// The interactable entity currently selected by the Possessed.
 	/// </summary>
@@ -48,7 +34,7 @@ public class PlayerController : MobController
 	private readonly Collider[] colliderBuffer = new Collider[16];
 	private LayerMask interactableMask;
 
-	private Input.InputActions input;
+	public Input.InputActions Actions => Input.PlayerInput.Actions;
 
 	/// <summary>
 	/// The angular size of selection sector.
@@ -58,7 +44,7 @@ public class PlayerController : MobController
 	/// <summary>
 	/// The radius of the selection sector.
 	/// </summary>
-	public float selectionDistance = 2f;
+	public float selectionDistance = 1.25f;
 
 	/// <summary>
 	/// The color of the outline of selected entities.
@@ -75,27 +61,25 @@ public class PlayerController : MobController
 	{
 		base.Initialize();
 		
-		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items" });
-
-		input = new Input.InputActions();
+		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items", "Mobs" });
 	}
 
 	protected override void Setup()
 	{
 		base.Setup();
 
-		input.World.Use.performed += ctx => OnUsePressed();
-		input.World.Dodge.performed += ctx => OnDodgePressed();
+		Actions.World.Use.performed += ctx => OnUsePressed();
+		Actions.World.Dodge.performed += ctx => OnDodgePressed();
+		Actions.World.Fire.performed += ctx => OnFirePressed();
+		Actions.World.Reload.performed += ctx => OnReloadPressed();
+		Actions.World.Drop.performed += ctx => OnDropPressed();
 
-		input.World.Sprint.performed += ctx => OnSprintInput(true);
-		input.World.Sprint.canceled += ctx => OnSprintInput(false);
+		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
+		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
 
-		input.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		input.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		input.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-
-		input.World.Fire.performed += ctx => OnFirePressed();
-		input.World.Reload.performed += ctx => OnReloadPressed();
+		Actions.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 	}
 
 	public override bool PossessMob(Mob mob)
@@ -110,9 +94,6 @@ public class PlayerController : MobController
 
 	protected override Vector3 UpdateMovementInput()
 	{
-		if (!Game.IsWorldInputAllowed)
-			return Vector3.zero;
-
 		Vector3 move = Vector3.zero;
 		Vector3 movement = new Vector3(move.x, 0, move.y);
 
@@ -131,6 +112,8 @@ public class PlayerController : MobController
 
 	private void OnDodgePressed() => Possessed.DashAction();
 
+	private void OnDropPressed() => Possessed.DropItem();
+
 	private void OnSprintInput(bool sprint) =>
 		Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
 
@@ -148,10 +131,7 @@ public class PlayerController : MobController
 		// <TODO> Check if this constant works well enough; otherwise, make it depend on the mob's height/distance to cursor.
 		const float aimHeight = 1.5f;
 
-		Vector3 aimPos = CameraController.GetWorldCursorPos();
-		aimPos.y += aimHeight;
-
-		Possessed.AimPos = aimPos;
+		Possessed.AimPos = CameraController.GetWorldCursorPos(-aimHeight);
 	}
 
 	public void SetSelectedOutline(bool selected)
@@ -193,7 +173,7 @@ public class PlayerController : MobController
 				continue;
 
 			Vector3 entityPos = collider.ClosestPoint(mobPos);
-			float distance = Vector3.Distance(mobPos, entityPos);
+			float distance = Utils.HorizontalDistance(mobPos, entityPos);
 			if ((Vector3.Angle((entityPos - mobPos), Possessed.transform.forward) > selectionScope)
 				|| (distance >= minDist))
 				continue;
