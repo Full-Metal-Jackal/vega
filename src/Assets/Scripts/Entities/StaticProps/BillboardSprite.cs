@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class BillboardSprite : MonoBehaviour
 {
 	// Sprites of dynamically spawned entities need to face the camera even before the first frame
