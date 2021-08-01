@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Scenario;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CameraController : MonoSingleton<CameraController>
@@ -7,21 +9,36 @@ public class CameraController : MonoSingleton<CameraController>
 
 	/// <summary>
 	/// How much the camera position is influenced by the cursor.
+	/// 1 is default weight.
 	/// </summary>
-	public float cursorFactor = .33f;
+	[SerializeField]
+	private float cursorWeight = .33f;
 
 	/// <summary>
 	/// Smoothing applied to the camera movement.
 	/// </summary>
-	public float movementSmoothing = .04f;
-	public float positionTolerance = .02f;
+	[SerializeField]
+	private float movementSmoothing = .04f;
+
+	[SerializeField]
+	private float positionTolerance = .02f;
+	
 	private Vector3 currentVelocity = Vector3.zero;
 
-	public void SetTrackedMob(Mob mob) => this.mob = mob;
+	public void SetTrackedMob(Mob mob)
+	{
+		if (this.mob)
+			RemovePOI(this.mob);
+
+		this.mob = mob;
+		AddPOI(mob.transform);
+	}
 
 	// Since the camera is not rotating in game, it would be better
 	// to calculate this rotation only once instead of recalculating it every time it's needed.
 	public Quaternion VerticalRotation { get; private set; }
+
+	private readonly Dictionary<Transform, float> points = new Dictionary<Transform, float>();
 
 	private void Start() =>
 		RecalculateRotation();
@@ -38,30 +55,75 @@ public class CameraController : MonoSingleton<CameraController>
 
 	private void Update() =>
 		Follow();
+
 	private void Follow()
 	{
-		if (!mob)
-			return;
+		int totalPoints = points.Count;
 
-		Vector3 mobPos = mob.Body.position;
-		mobPos.y = 0;
-
-		Vector3 cursorShift = Vector3.zero;
-
-		if (cursorFactor > .0f && !Game.Paused)
+		bool cursorActive = cursorWeight > .0f && !Game.Paused;
+		Vector3 cursorPos = Vector3.zero;
+		if (cursorActive)
 		{
-			Vector3 cursorPos = GetWorldCursorPos();
-			cursorShift = (cursorPos - mobPos) * cursorFactor;
+			totalPoints++;
+			cursorPos = GetWorldCursorPos();
 		}
-		Vector3 targetPos = mobPos + cursorShift;
 
-		Vector3 currentPos = transform.position;
-		if (Vector3.Distance(currentPos, targetPos) < positionTolerance)
+		Vector3 center = cursorPos;
+		foreach (Transform pointTransform in points.Keys)
+			center += pointTransform.position;
+		center /= totalPoints;
+
+		Vector3 shift = (cursorPos - center) * cursorWeight;
+		foreach (KeyValuePair<Transform, float> poi in points)
+			shift += (poi.Key.position - center) * poi.Value;
+		shift /= totalPoints;
+
+		Vector3 target = center + shift;
+
+		if (Vector3.Distance(target, transform.position) < positionTolerance)
 			return;
 
 		transform.position = Vector3.SmoothDamp(
 			transform.position,
-			targetPos,
+			target,
+			ref currentVelocity,
+			movementSmoothing
+		);
+	}
+
+	private void OlFollow()
+	{
+		int totalPoints = points.Count;
+
+		bool cursorActive = cursorWeight > .0f && !Game.Paused;
+		Vector3 cursorPos = Vector3.zero;
+		if (cursorActive)
+		{
+			totalPoints++;
+			cursorPos = GetWorldCursorPos();
+		}
+
+		Vector3 center = cursorPos;
+		foreach (Transform pointTransform in points.Keys)
+			center += pointTransform.position;
+		center /= totalPoints;
+
+		Vector3 shift = (cursorPos - center) * cursorWeight;
+		foreach (KeyValuePair<Transform, float> poi in points)
+			shift += (poi.Key.position - center) * poi.Value;
+		shift /= totalPoints;
+
+		Vector3 target = center + shift;
+
+		if (Vector3.Distance(target, transform.position) < positionTolerance)
+		{
+			transform.position = target;
+			return;
+		}
+
+		transform.position = Vector3.SmoothDamp(
+			transform.position,
+			target,
 			ref currentVelocity,
 			movementSmoothing
 		);
@@ -80,4 +142,10 @@ public class CameraController : MonoSingleton<CameraController>
 			return ray.GetPoint(distance);
 		return Vector3.zero;
 	}
+
+
+	public void AddPOI(MonoBehaviour poi, float weight = 1f) => points.Add(poi.transform, weight);
+	public void AddPOI(Transform poi, float weight = 1f) => points.Add(poi, weight);
+	public bool RemovePOI(MonoBehaviour poi) => points.Remove(poi.transform);
+	public bool RemovePOI(Transform poi) => points.Remove(poi);
 }
