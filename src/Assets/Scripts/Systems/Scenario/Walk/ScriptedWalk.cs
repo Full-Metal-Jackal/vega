@@ -33,12 +33,10 @@ namespace Scenario
 
 		public void CreatePath()
 		{
-			List<Vector3> nodes = new List<Vector3>();
-			foreach (Transform node in pathNodes)
-				nodes.Add(node.position);
+			Vector3[] nodePositions = pathNodes.Select(node => node.position).ToArray();
 
 			path.Clear();
-			foreach (Vector3 pos in Utils.SmoothLine(nodes.ToArray(), pathSmoothing))
+			foreach (Vector3 pos in Utils.SmoothLine(nodePositions, pathSmoothing))
 				path.Enqueue(pos);
 		}
 
