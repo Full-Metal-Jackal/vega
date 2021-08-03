@@ -30,22 +30,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual Transform ItemSocket => transform;
 
+	public bool IsPlayer => PlayerController.Instance.Possessed == this;
+
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
 	[field: SerializeField]
 	public float MoveSpeed { get; private set; } = 250f;
 
-	private Vector3 aimPos;
-	public virtual Vector3 AimPos
-	{
-		get => aimPos;
-		set
-		{
-			if (!Game.Paused)  // Thus the mobs won't look around during pause.
-				aimPos = value;
-		}
-	}
+	public virtual Vector3 AimPos { get; set; }
 
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);
@@ -169,7 +162,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// Handles the mob's active movement.
 	/// </summary>
 	/// <param name="delta">Delta between two frames.</param>
-	/// <param name="direction">Vector describing the movement of the mob with magnitude between 0 and 1.</param>
+	/// <param name="direction">Vector describing the movement direction of the mob.
+	/// Pass vector with near zero magnitude to make the mob stand.</param>
 	/// <param name="affectY">If the request should influence the mob's vertical movement.</param>
 	public virtual void Move(
 		float delta,
