@@ -59,7 +59,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 
-
 	public virtual bool CanUseItems
 	{
 		get
