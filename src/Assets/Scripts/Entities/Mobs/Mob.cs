@@ -307,4 +307,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
 	}
+
+	public void CanHideWalls(bool state)
+	{
+		if (state)
+		{
+			tag = "CanHideWalls";
+		}
+		else
+		{
+			tag = "Untagged";
+		}
+	}
 }

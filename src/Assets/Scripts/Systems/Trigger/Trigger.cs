@@ -12,6 +12,12 @@ namespace TriggerSystem
 	{
 		public TriggerAction OnTriggered;
 
+		public TriggerAction onFinish;
+
 		public virtual void Activate() => OnTriggered?.Invoke();
+
+		//public virtual void Deactivate() => onFinish?.Invoke();
 	}
+
+	
 }
