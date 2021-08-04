@@ -82,8 +82,6 @@ namespace Scenario
 			mob.Move(Time.deltaTime, Vector3.zero);
 			activated = false;
 
-			print("End Point");
-
 			base.Finish();
 		}
 	}
