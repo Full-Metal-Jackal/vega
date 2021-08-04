@@ -38568,7 +38568,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1475526454}
         m_TargetAssemblyTypeName: Mob, Assembly-CSharp
-        m_MethodName: CanHideWalls
+        m_MethodName: set_CanHideWalls
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38578,9 +38578,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  onFinish:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!43 &1530073929
 Mesh:
   m_ObjectHideFlags: 0
@@ -50132,7 +50129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1475526454}
         m_TargetAssemblyTypeName: Mob, Assembly-CSharp
-        m_MethodName: CanHideWalls
+        m_MethodName: set_CanHideWalls
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

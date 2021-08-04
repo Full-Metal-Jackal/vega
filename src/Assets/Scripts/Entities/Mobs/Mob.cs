@@ -32,6 +32,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public bool IsPlayer => PlayerController.Instance.Possessed == this;
 
+	[field: SerializeField]
+	public bool CanHideWalls { get; set; } = false;
+
 	/// <summary>
 	/// The mob's running speed.
 	/// </summary>
@@ -280,6 +283,17 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
+	/*
+	public bool CanHideWalls
+	{
+		protected set
+		{
+			canHideWalls = value;
+		}
+
+		get => canHideWalls;
+	}
+	*/
 	public virtual void Fire()
 	{
 		if (ActiveItem && CanFire)
@@ -306,17 +320,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 			return;
 
 		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
-	}
+	}	
 
-	public void CanHideWalls(bool state)
-	{
-		if (state)
-		{
-			tag = "CanHideWalls";
-		}
-		else
-		{
-			tag = "Untagged";
-		}
-	}
+
 }
