@@ -279,17 +279,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	/*
-	public bool CanHideWalls
-	{
-		protected set
-		{
-			canHideWalls = value;
-		}
-
-		get => canHideWalls;
-	}
-	*/
 	public virtual void Fire()
 	{
 		if (ActiveItem && CanFire)
