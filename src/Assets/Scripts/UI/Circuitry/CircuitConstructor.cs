@@ -39,7 +39,7 @@ namespace UI.CircuitConstructor
 		{
 			Debug.Log("Opening the circuit constructor...");
 			gameObject.SetActive(true);
-			Game.State = GameState.Paused;
+			Game.Paused = true;
 		}
 
 		public void Open(AssemblyWidget assemblyWidget)
@@ -60,7 +60,7 @@ namespace UI.CircuitConstructor
 		{
 			Debug.Log("Closing the circuit constructor...");
 			gameObject.SetActive(false);
-			Game.State = GameState.Normal;
+			Game.Paused = false;
 		}
 
 		public void ShowCircuitInfo(Circuitry.Circuit circuit)

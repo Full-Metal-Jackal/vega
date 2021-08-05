@@ -34,5 +34,11 @@ namespace Input
 		{
 			Actions = new InputActions();
 		}
+
+		public void UpdateInput()
+		{
+			WorldInputEnabled = !(Game.Paused || Game.PlayingScene);
+			UiInputEnabled = Game.Paused;
+		}
 	}
 }
