@@ -9,6 +9,9 @@ public abstract class Entity : MonoBehaviour
 	[field: SerializeField]
 	public virtual string Name { get; set; } = "unnamed entity";
 
+	[field: SerializeField]
+	public bool CanHideWalls { get; set; } = false;
+
 	protected Outline outline;
 	public Outline Outline
 	{

@@ -86,7 +86,9 @@ public class PlayerController : MobController
 	{
 		if (!base.PossessMob(mob))
 			return false;
-		
+
+		mob.CanHideWalls = true;
+
 		OnPossesed?.Invoke(mob);
 
 		return true;
