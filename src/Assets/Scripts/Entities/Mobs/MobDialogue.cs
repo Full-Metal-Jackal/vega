@@ -14,7 +14,7 @@ public class MobDialogue : Interaction
 
 	public override bool OnUse(Mob mob)
 	{
-		if (mob != PlayerController.Instance.Possessed)
+		if (!mob.IsPlayer)
 			return false;
 
 		Debug.Log($"{mob} started dialogue with {Mob}");

@@ -42,9 +42,6 @@ public abstract class Humanoid : Mob
 	[field: SerializeField]
 	public float SprintSpeedFactor { get; private set; } = 1.5f;
 
-	private Vector3 velocityBuffer = Vector3.zero;
-	private readonly float movementSmoothing = .01f;
-
 	[SerializeField]
 	private Transform rightHandSocket;
 	public override Transform ItemSocket => rightHandSocket;
@@ -239,12 +236,7 @@ public abstract class Humanoid : Mob
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 
-		Body.velocity = Vector3.SmoothDamp(
-			Body.velocity,
-			targetVelocity,
-			ref velocityBuffer,
-			movementSmoothing
-		);
+		Body.velocity = targetVelocity;
 	}
 
 	/// <summary>
