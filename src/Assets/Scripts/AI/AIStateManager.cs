@@ -2,28 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateManager : MonoBehaviour
+namespace AI
 {
-
-	public AIState currentState;
-	private void Update()
+	public class AIStateManager : MonoBehaviour
 	{
-		
-	}
 
-	private void RunStateMachine()
-	{
-		AIState nextState = currentState?.RunCurrentState();
-
-		if (nextState != null)
+		public AIState currentState;
+		private void Update()
 		{
-			//Switch to the next State
-			SwitchState(nextState);
+
+		}
+
+		private void RunStateMachine()
+		{
+			AIState nextState = currentState?.RunCurrentState();
+
+			if (nextState != null)
+			{
+				//Switch to the next State
+				SwitchState(nextState);
+			}
+		}
+
+		private void SwitchState(AIState nextState)
+		{
+			currentState = nextState;
 		}
 	}
 
-	private void SwitchState(AIState nextState)
-	{
-		currentState = nextState;
-	}
 }

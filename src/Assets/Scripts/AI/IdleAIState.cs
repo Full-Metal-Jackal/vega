@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleAIState : AIState
+namespace AI
 {
-	public ChaseAIState chaseState;
-	public bool CanSeePlayer { get; set;}
-
-	public override AIState RunCurrentState()
+	public class IdleAIState : AIState
 	{
-		if (CanSeePlayer)
+		public ChaseAIState chaseState;
+
+		[field: SerializeField]
+		public bool CanSeePlayer { get; set; }
+
+		public override AIState RunCurrentState()
 		{
-			return chaseState;
-		}
-		else
-		{
-			return this;
+			if (CanSeePlayer)
+			{
+				return chaseState;
+			}
+			else
+			{
+				return this;
+			}
 		}
 	}
 }
+

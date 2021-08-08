@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackAIState : AIState
+
+namespace AI
 {
-	public override AIState RunCurrentState()
+	public class AttackAIState : AIState
 	{
-		Debug.Log("Attacked ");
-		return this;
+		public override AIState RunCurrentState()
+		{
+			Debug.Log("Attacked ");
+			return this;
+		}
 	}
+
 }

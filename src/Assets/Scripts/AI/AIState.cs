@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AIState : MonoBehaviour
+
+namespace AI
 {
-	public abstract AIState RunCurrentState();
+	public abstract class AIState : MonoBehaviour
+	{
+		public abstract AIState RunCurrentState();
+	}
 }
+

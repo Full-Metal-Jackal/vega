@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseAIState : AIState
+namespace AI
 {
-	public AttackAIState attackState;
-	public bool IsInAttackRange { get; set; }
-
-	public override AIState RunCurrentState()
+	public class ChaseAIState : AIState
 	{
-		if (IsInAttackRange)
+		public AttackAIState attackState;
+
+		[field: SerializeField]
+		public bool IsInAttackRange { get; set; }
+
+		public override AIState RunCurrentState()
 		{
-			return attackState;
-		}
-		else
-		{
-			return this;
+			if (IsInAttackRange)
+			{
+				return attackState;
+			}
+			else
+			{
+				return this;
+			}
 		}
 	}
 }
+
