@@ -15,14 +15,62 @@ public class CameraController : MonoSingleton<CameraController>
 	private bool followingCursor = true;
 
 	/// <summary>
-	/// Smoothing applied to the camera movement.
+	/// Smoothing applied to the camera movement in game.
 	/// </summary>
 	[SerializeField]
-	private float movementSmoothing = .04f;
+	private float inGameSmoothing = .04f;
+	/// <summary>
+	/// Smoothing applied to the camera movement during scenes.
+	/// </summary>
+	[SerializeField]
+	private float sceneSmoothing = .5f;
+	/// <summary>
+	/// Current smoothing.
+	/// </summary>
+	private float followSmoothing = .1f;
+
+	private bool inScene = false;
+	public bool InScene
+	{
+		get => inScene;
+		set
+		{
+			inScene = value;
+			followSmoothing = inScene ? sceneSmoothing : inGameSmoothing;
+		}
+	}
 
 	[SerializeField]
 	private float positionTolerance = .02f;
-	
+
+	[SerializeField]
+	private float defaultDistance = 20f;
+	[SerializeField]
+	private float defaultFOV = 30f;
+
+	/// <summary>
+	/// The camera assigned to this controller.
+	/// </summary>
+	public Camera Camera => Camera.main;
+
+	public float FOV
+	{
+		get => Camera.fieldOfView;
+		set => Camera.fieldOfView = value;
+	}
+
+	public float Distance
+	{
+		get => Vector3.Distance(Camera.transform.position, transform.position);
+		set
+		{
+			if (value <= 0)
+				throw new System.Exception("Camera distance should be greater than zero!");
+
+			Camera.transform.position = transform.position + (Camera.transform.position - transform.position).normalized * value;
+		}
+	}
+
 	private Vector3 currentVelocity = Vector3.zero;
 
 	public void SetTrackedMob(Mob mob)
@@ -41,12 +89,17 @@ public class CameraController : MonoSingleton<CameraController>
 
 	private readonly Dictionary<Transform, float> points = new Dictionary<Transform, float>();
 
-	private void Start() =>
+	private void Start()
+	{
 		RecalculateRotation();
+
+		FOV = defaultFOV;
+		Distance = defaultDistance;
+	}
 
 	private void RecalculateRotation()
 	{
-		Vector3 horForward = Camera.main.transform.forward;
+		Vector3 horForward = Camera.transform.forward;
 		horForward.y = 0;
 		VerticalRotation = Quaternion.AngleAxis(
 			Vector3.SignedAngle(Vector3.forward, horForward, Vector3.up),
@@ -88,7 +141,7 @@ public class CameraController : MonoSingleton<CameraController>
 			transform.position,
 			target,
 			ref currentVelocity,
-			movementSmoothing
+			followSmoothing
 		);
 	}
 
@@ -100,7 +153,7 @@ public class CameraController : MonoSingleton<CameraController>
 	public static Vector3 GetWorldCursorPos(float heightOffset = 0)
 	{
 		Plane plane = new Plane(Vector3.up, heightOffset);
-		Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+		Ray ray = Instance.Camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 		if (plane.Raycast(ray, out float distance))
 			return ray.GetPoint(distance);
 		return Vector3.zero;
@@ -115,7 +168,9 @@ public class CameraController : MonoSingleton<CameraController>
 	}
 	public void ResetPOI() => SetTrackedMob(mob);
 
-	public void AddPOI(GameObject poi, float weight = 1f) => AddPOI(poi.transform, weight);
+	// There are separate methods because unity won't serialize 2 arguments by default.
+	public void AddPOI(GameObject poi) => AddPOI(poi.transform, 1f);
+	public void AddPOI(GameObject poi, float weight) => AddPOI(poi.transform, weight);
 	public void AddPOI(Transform poi, float weight = 1f) => points.Add(poi, weight);
 
 	public bool RemovePOI(GameObject poi) => RemovePOI(poi.transform);
