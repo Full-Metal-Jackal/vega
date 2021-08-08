@@ -28,6 +28,9 @@ namespace UI
 
 		private void OnDestroy()
 		{
+			if (!PlayerController.Instance.Possessed)
+				return;
+
 			PlayerController.Instance.Possessed.OnPickedUpItem -= PickedUpItemHandler;
 			PlayerController.Instance.Possessed.OnDroppedItem -= DroppedItemHandler;
 		}
