@@ -28,6 +28,10 @@ namespace UI
 
 		private void OnDestroy()
 		{
+			// <TODO> This thing launches when the game is closed. It's not supposed to.
+			if (!(PlayerController.Instance && PlayerController.Instance.Possessed))
+				return;
+
 			PlayerController.Instance.Possessed.OnPickedUpItem -= PickedUpItemHandler;
 			PlayerController.Instance.Possessed.OnDroppedItem -= DroppedItemHandler;
 		}
