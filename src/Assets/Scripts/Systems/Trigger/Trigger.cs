@@ -12,6 +12,6 @@ namespace TriggerSystem
 	{
 		public TriggerAction OnTriggered;
 
-		public virtual void Activate() => OnTriggered?.Invoke();
+		protected virtual void Activate() => OnTriggered?.Invoke();
 	}
 }
