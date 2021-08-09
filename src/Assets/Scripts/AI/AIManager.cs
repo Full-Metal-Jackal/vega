@@ -137,10 +137,7 @@ namespace AI
 				currentAttack = null;
 			}
 		}
-
-	
 		#endregion
-
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
