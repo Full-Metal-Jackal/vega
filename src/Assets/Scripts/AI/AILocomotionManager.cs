@@ -40,7 +40,6 @@ namespace AI
 			for (int i = 0; i < colliders.Length; i++)
 			{
 				Mob character = colliders[i].transform.parent.GetComponent<Mob>();
-
 				if (character != null)
 				{
 					/* TODO
