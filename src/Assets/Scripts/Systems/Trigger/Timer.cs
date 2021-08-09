@@ -28,8 +28,6 @@ namespace TriggerSystem
 			if (!countdownActivated)
 				return;
 
-			Debug.Log(currentTime);
-
 			if ((currentTime -= Time.deltaTime) > 0f)
 				return;
 
