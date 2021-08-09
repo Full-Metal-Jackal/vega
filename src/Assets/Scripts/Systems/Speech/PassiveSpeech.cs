@@ -44,7 +44,7 @@ namespace Speech
 			text.enabled = true;
 		}
 
-		private const float secondsPerCharacter = .2f;
+		private const float secondsPerCharacter = .1f;
 		public float GetSpeechTime(string line) => line.Length * secondsPerCharacter;
 	}
 }
