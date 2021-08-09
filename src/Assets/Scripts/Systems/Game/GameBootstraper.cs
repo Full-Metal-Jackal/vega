@@ -6,4 +6,12 @@ public class GameBootstraper : MonoBehaviour
 {
 	private void Awake() => Game.Initialize();
 	private void Start() => Game.Start();
+
+	/// <summary>
+	/// Since Unity cannot handle properties, there's a setter for this one.
+	/// Must not be used anywhere in code.
+	/// </summary>
+	/// <param name="isPlaying">New state of PlayingScene.</param>
+	public void SetPlayingScene(bool isPlaying) =>
+		Game.PlayingScene = isPlaying;
 }

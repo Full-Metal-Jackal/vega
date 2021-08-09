@@ -130,7 +130,7 @@ namespace UI.Dialogue
 		{
 			Debug.Log("Opening the dialogue window...");
 			gameObject.SetActive(true);
-			Game.State = GameState.Paused;
+			Game.Paused = true;
 			Hud.Instance.Toggle(false);
 
 			conversation = npcConversation.Deserialize();
@@ -380,7 +380,7 @@ namespace UI.Dialogue
 		{
 			Debug.Log("Closing the dialogue window...");
 			gameObject.SetActive(false);
-			Game.State = GameState.Normal;
+			Game.Paused = false;
 			Hud.Instance.Toggle(true);
 
 			Input.PlayerInput.Actions.UI.Click.performed -= OnSubmitPressed;

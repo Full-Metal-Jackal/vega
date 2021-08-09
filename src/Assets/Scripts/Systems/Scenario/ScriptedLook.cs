@@ -12,6 +12,9 @@ namespace Scenario
 		private Vector3 lookAtTarget;
 
 		[SerializeField]
+		private float lookAtTolerance = .5f;
+
+		[SerializeField]
 		private float lookSmoothing = .1f;
 		private Vector3 lookVelocity;
 
@@ -37,7 +40,6 @@ namespace Scenario
 			);
 			mob.TurnTo(Time.fixedDeltaTime, mob.AimDir);
 
-			const float lookAtTolerance = .1f;
 			if (Vector3.Distance(mob.AimPos, lookAtTarget) < lookAtTolerance)
 			{
 				Finish();

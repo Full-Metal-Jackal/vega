@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Inventory;
 
 namespace UI
 {
@@ -14,38 +14,56 @@ namespace UI
 
 		private Gun gun;
 
+		private Image icon;
+
 		private const float offset = 48;
 
 		private void Start()
 		{
-			enabled = false;
-			ammoCount.gameObject.SetActive(false);
+			SetSlotState(false); // initially offset the slot, showing its disabled state
 
-			Vector3 origPos = transform.localPosition;
-			transform.localPosition = new Vector3(origPos.x, offset, origPos.z); // initially offset the slot, showing its disabled state
-
-			PlayerController.Instance.Possessed.OnPickedUpItem += (item) =>
-			{
-				if (item is Gun gun)
-				{
-					gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
-					this.gun = gun;
-
-					transform.localPosition = origPos;
-
-					enabled = true;
-					ammoCount.gameObject.SetActive(true);
-				}
-			};
+			PlayerController.Instance.Possessed.OnPickedUpItem += PickedUpItemHandler;
+			PlayerController.Instance.Possessed.OnDroppedItem += DroppedItemHandler;
 		}
 
-		// <TODO> Rewire to a CSharp event for the sake of optimization!!
-		private void Update()
+		private void OnDestroy()
 		{
-			if (!gun)
+			// <TODO> This thing launches when the game is closed. It's not supposed to.
+			if (!(PlayerController.Instance && PlayerController.Instance.Possessed))
 				return;
 
-			ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
+			PlayerController.Instance.Possessed.OnPickedUpItem -= PickedUpItemHandler;
+			PlayerController.Instance.Possessed.OnDroppedItem -= DroppedItemHandler;
+		}
+
+		private void PickedUpItemHandler(Item item)
+		{
+			if (!(item is Gun gun))
+				return;
+
+			icon = gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
+			gun.OnAfterFire += () => UpdateAmmoCount(gun);
+			this.gun = gun;
+
+			UpdateAmmoCount(gun);
+
+			SetSlotState(true);
+		}
+
+		private void DroppedItemHandler()
+		{
+			SetSlotState(false);
+			if (icon)
+				Destroy(icon.gameObject);
+		}
+
+		private void UpdateAmmoCount(Gun gun) => ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
+		
+		private void SetSlotState(bool enabled)
+		{
+			transform.localPosition = new Vector3(transform.localPosition.x, enabled ? 0 : offset, transform.localPosition.z);
+			ammoCount.gameObject.SetActive(enabled);
+			this.enabled = enabled;
 		}
 	}
 }

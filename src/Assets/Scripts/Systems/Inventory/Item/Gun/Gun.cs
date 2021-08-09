@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Gun : Item<Gun>
 {
+	public delegate void AfterFireAction();
+	public event AfterFireAction OnAfterFire;
+
 	public Transform Barrel { get; protected set; }
 	public GunSfxData SoundEffects { get; protected set; }
 
@@ -128,9 +131,10 @@ public class Gun : Item<Gun>
 
 	public virtual void PostFire(Vector3 direction, Projectile projectile)
 	{
-		SoundEffects.Play(SoundEffects.Fire);
-
 		currentFireDelay = FireDelay;
+
+		SoundEffects.Play(SoundEffects.Fire);
+		OnAfterFire?.Invoke();
 	}
 
 	public virtual Projectile CreateProjectile()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 using Inventory;
 
@@ -6,11 +7,9 @@ using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
-	public delegate void PickUpItemAction(Item item);
-	public event PickUpItemAction OnPickedUpItem;
-
-	public delegate void ActiveItemAction(Item item);
-	public event ActiveItemAction OnItemChange;
+	public event Action<Item> OnItemChange;
+	public event Action<Item> OnPickedUpItem;
+	public event Action OnDroppedItem;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
@@ -305,5 +304,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 			return;
 
 		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
+		OnDroppedItem?.Invoke();
 	}
 }
