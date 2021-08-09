@@ -12875,6 +12875,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   mob: {fileID: 1475526454}
+  lookAtTolerance: 0.5
   lookSmoothing: 1
 --- !u!1001 &566897156
 PrefabInstance:
@@ -19825,6 +19826,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   mob: {fileID: 1475526454}
+  lookAtTolerance: 0.5
   lookSmoothing: 0.1
 --- !u!4 &732463191
 Transform:
@@ -21355,6 +21357,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   mob: {fileID: 31900923}
+  lookAtTolerance: 0.5
   lookSmoothing: 0.1
 --- !u!1 &832270824
 GameObject:
@@ -21401,8 +21404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 4
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":264,"yPos":243},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[2],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":1}],"EditorInfo":{"isRoot":true,"xPos":220.5,"yPos":-283},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Ready
-    or not, here I co-","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":false,"xPos":85,"yPos":-75},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"*chuckles*","parentUIDs":[0],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":false,"xPos":308,"yPos":100},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"There
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":360.5,"yPos":333},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[2],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":1}],"EditorInfo":{"isRoot":true,"xPos":317,"yPos":-193},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Ready
+    or not, here I co-","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":false,"xPos":181.5,"yPos":15},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"*chuckles*","parentUIDs":[0],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":false,"xPos":404.5,"yPos":190},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"There
     you are! Roooaaaaargh!!!","parentUIDs":[1],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: Bosco
@@ -52035,6 +52038,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 566295690}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   mob: {fileID: 1475526454}
   pathNodes:
   - {fileID: 1872975025}
@@ -58615,7 +58630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.99
+      value: 6.939
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58623,7 +58638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.9
+      value: -8.919
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59737,10 +59752,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0021152196
       objectReference: {fileID: 0}
-    - target: {fileID: 7754778512917168797, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: 4677e022d646e794b86c759695f1f786, type: 3}
     - target: {fileID: 7754778512917168797, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_WarningMessage
       value: 
