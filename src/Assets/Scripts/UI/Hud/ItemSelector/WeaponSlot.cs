@@ -28,14 +28,17 @@ namespace UI
 
 		private void OnDestroy()
 		{
+			// <TODO> This thing launches when the game is closed. It's not supposed to.
+			if (!(PlayerController.Instance && PlayerController.Instance.Possessed))
+				return;
+
 			PlayerController.Instance.Possessed.OnPickedUpItem -= PickedUpItemHandler;
 			PlayerController.Instance.Possessed.OnDroppedItem -= DroppedItemHandler;
 		}
 
 		private void PickedUpItemHandler(Item item)
 		{
-			Gun gun = item as Gun;
-			if (gun == null)
+			if (!(item is Gun gun))
 				return;
 
 			icon = gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);

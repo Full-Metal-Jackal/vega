@@ -2,7 +2,7 @@
 using UnityEngine;
 
 using UI;
-using UI.CircuitConstructor;
+using Input;
 
 public static class Game
 {
@@ -13,25 +13,25 @@ public static class Game
 
 	public readonly static Texture2D defaultCursor = null;
 
-	// <TODO> Change to Paused as soon as we get the main menu.
-	private static GameState state = GameState.Normal;
-	public static GameState State
+	private static bool paused = false;
+	public static bool Paused
 	{
-		get => state;
+		get => paused;
 		set
 		{
-			state = value;
-			switch (state)
-			{
-			case GameState.Normal:
-				Input.PlayerInput.WorldInputEnabled = true;
-				Input.PlayerInput.UiInputEnabled = false;
-				break;
-			case GameState.Paused:
-				Input.PlayerInput.WorldInputEnabled = false;
-				Input.PlayerInput.UiInputEnabled = true;
-				break;
-			}
+			paused = value;
+			PlayerInput.Instance.UpdateInput();
+		}
+	}
+
+	private static bool playingScene = false;
+	public static bool PlayingScene
+	{
+		get => playingScene;
+		set
+		{
+			playingScene = value;
+			PlayerInput.Instance.UpdateInput();
 		}
 	}
 
@@ -55,8 +55,7 @@ public static class Game
 		if (!Initialized)
 			throw new System.Exception("Attempted to start uninitialized Game instance.");
 
-		// Update the input state at start.
-		State = state;
+		PlayerInput.Instance.UpdateInput();
 
 		Debug.Log("The Game has been started.");
 	}
@@ -69,7 +68,4 @@ public static class Game
 	{
 		Entities.RemoveWhere((Entity entity) => !entity.Persistent);
 	}
-
-	// Just a shortcut for quick comparison.
-	public static bool Paused => state == GameState.Paused;
 }
