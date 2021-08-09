@@ -176,9 +176,14 @@ MonoBehaviour:
   possessAtStart: {fileID: 0}
   movement: {x: 0, y: 0, z: 0}
   isPerfomingAction: 0
+  aiAttacks:
+  - {fileID: 11400000, guid: 85e7f9aa72bd9964cb218a919525a6e7, type: 2}
+  - {fileID: 11400000, guid: 9b0713088066c114bb18241e3e2c3b5c, type: 2}
+  currentAttack: {fileID: 0}
   detectionRadius: 5
   maxDetectionAngle: 50
   minDetectionAngle: -50
+  currentRecoveryTime: 0
 --- !u!114 &8777081387241898150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +204,7 @@ MonoBehaviour:
   player: {fileID: 0}
   distanceFromTarget: 0
   stoppingDistance: 0.5
+  rotationSpeed: 15
 --- !u!1 &8474404131979490115
 GameObject:
   m_ObjectHideFlags: 0

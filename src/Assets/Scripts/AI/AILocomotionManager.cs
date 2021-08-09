@@ -100,6 +100,9 @@ namespace AI
 			// Move via pathfinding	
 			else
 			{
+				navMeshAgent.enabled = true;
+				navMeshAgent.SetDestination(currentTarget.transform.position);
+				transform.parent.rotation = Quaternion.Slerp(transform.rotation, navMeshAgent.transform.rotation, rotationSpeed / delta);
 				targetDirection = navMeshAgent.desiredVelocity;
 			}
 
