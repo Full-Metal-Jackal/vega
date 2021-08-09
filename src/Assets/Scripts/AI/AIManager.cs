@@ -8,7 +8,7 @@ namespace AI
 	public class AIManager : MobController
 	{
 		AILocomotionManager aiLocomotionManager;
-		bool isPerfomingAction;
+		public bool isPerfomingAction = true;
 
 		[Header("A.I Settings")]
 		public float detectionRadius = 5;
@@ -22,20 +22,36 @@ namespace AI
 	}
 		protected override void OnUpdate(float delta)
 		{
-			HandleCurrentAction();
+			HandleCurrentAction(delta);
 		}
 
-		private void HandleCurrentAction()
+		private void HandleCurrentAction(float delta)
 		{
 			if (aiLocomotionManager.currentTarget == null)
 			{
 				aiLocomotionManager.HandleDetection();
 			}
+			else if (aiLocomotionManager.distanceFromTarget > aiLocomotionManager.stoppingDistance)
+			{
+				aiLocomotionManager.HandleMoveToTarget(delta);
+			}
+			else if (aiLocomotionManager.distanceFromTarget <= aiLocomotionManager.stoppingDistance)
+			{
+				//Handle Attack
+			}
 		}
+
+		#region Attacks
+		private void GetNewAttack()
+		{
+			Vector3 targetDirection = aiLocomotionManager.currentTarget.transform.position - transform.position;
+			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+		}
+		#endregion
 
 		private void OnDrawGizmosSelected()
 		{
-			Gizmos.color = Color.red; //replace red with whatever color you prefer
+			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(transform.position, detectionRadius);
 		}
 	}
