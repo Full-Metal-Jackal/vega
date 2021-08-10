@@ -7,7 +7,7 @@ namespace AI
 {
 	public abstract class AIState : MonoBehaviour
 	{
-		public abstract AIState RunCurrentState();
+		public abstract AIState Tick(AIManager aiManager, Mob mob);
 	}
 }
 

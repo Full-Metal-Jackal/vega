@@ -6,21 +6,58 @@ namespace AI
 {
 	public class ChaseAIState : AIState
 	{
-		public AttackAIState attackState;
-
-		[field: SerializeField]
-		public bool IsInAttackRange { get; set; }
-
-		public override AIState RunCurrentState()
+		public CombatStanceAIState combatStanceState;
+		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
-			if (IsInAttackRange)
+			//Chase target
+			//if within attack range, switch to combat state
+			//else return this
+			if (aiManager.IsPerfomingAction)
 			{
-				return attackState;
+				return this;
+			}
+			float delta = Time.deltaTime;
+			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
+			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
+
+			if (distanceFromTarget > aiManager.maxAttackRange)
+			{
+				aiManager.movement = targetDirection;
+			}
+
+			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
+			aiManager.navMeshAgent.transform.localRotation = Quaternion.identity;
+
+			if (distanceFromTarget <= aiManager.maxAttackRange)
+			{
+				return combatStanceState;
 			}
 			else
 			{
 				return this;
 			}
+		}
+
+		public Vector3 GetNavMeshDirection(float delta, AIManager aiManager)
+		{
+			Vector3 targetDirection;
+			//Move manualy
+			if (aiManager.IsPerfomingAction)
+			{
+				targetDirection = aiManager.currentTarget.transform.position - transform.position;
+			}
+			// Move via pathfinding	
+			else
+			{
+				aiManager.navMeshAgent.enabled = true;
+				aiManager.navMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
+				transform.parent.rotation = Quaternion.Slerp(transform.rotation, 
+															 aiManager.navMeshAgent.transform.rotation, 
+															 aiManager.rotationSpeed / delta);
+				targetDirection = aiManager.navMeshAgent.desiredVelocity;
+			}
+
+			return targetDirection;
 		}
 	}
 }

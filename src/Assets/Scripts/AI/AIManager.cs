@@ -1,55 +1,92 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 namespace AI
 {
 	public class AIManager : MobController
 	{
-		AILocomotionManager aiLocomotionManager;
-		public bool IsPerfomingAction {get; private set;}
+		public AIState currentState;
+		private bool isPerfomingAction;
+		public bool IsPerfomingAction 
+		{
+			get
+			{
+				return isPerfomingAction;
+			}
 
-		public AIAttackAction[] aiAttacks;
-		private AIAttackAction currentAttack;
+			set
+			{
+				isPerfomingAction = value;
+			}
+		}
+		public Mob currentTarget;
+		public Mob Player { get; private set; }  //needs to prevent AI detecting itself
+		private Mob mob;
 
 		private float currentRecoveryTime = 0;
+		public float CurrentRecoveryTime 
+		{ 
+			get => currentRecoveryTime;
+			set => currentRecoveryTime = value; 
+		}
+		private float distanceFromTarget;
+		public float DistanceFromTarget
+		{
+			get
+			{
+				return distanceFromTarget;
+			}
+
+			set
+			{
+				distanceFromTarget = value;
+			}
+		}
 
 		[Header("A.I Settings")]
+		public NavMeshAgent navMeshAgent;
 		public float detectionRadius = 5;
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
+		public float viewableAngle;
+		public float rotationSpeed = 15;
+		public float maxAttackRange = 1.5f;
+		public LayerMask detectionLayer;
+		public AIAttackAction[] aiAttacks;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
-		    aiLocomotionManager = GetComponent<AILocomotionManager>();
+			mob = transform.parent.GetComponent<Mob>();
+			Player = PlayerController.Instance.possessAtStart;
+			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
+			navMeshAgent.enabled = false;
 		}
 		protected override void OnUpdate(float delta)
 		{
-			HandleCurrentAction(delta);
+			HandleStateMachine(delta);
 			HandleRecoveryTime(delta);
 		}
 
-		private void HandleCurrentAction(float delta)
+		private void HandleStateMachine(float delta)
 		{
-			if (aiLocomotionManager.currentTarget != null)
+			if (currentState != null)
 			{
-				aiLocomotionManager.DistanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
+				AIState nextState = currentState.Tick(this, mob);
+
+				if (nextState != null)
+				{
+					SwitchToNextState(nextState);
+				}
 			}
-			if (aiLocomotionManager.currentTarget == null)
-			{
-				aiLocomotionManager.HandleDetection();
-			}
-			else if (aiLocomotionManager.DistanceFromTarget > aiLocomotionManager.stoppingDistance)
-			{
-				aiLocomotionManager.HandleMoveToTarget(delta);
-			}
-			else if (aiLocomotionManager.DistanceFromTarget <= aiLocomotionManager.stoppingDistance)
-			{
-				//Handle Attack
-				AttackTarget();
-			}
+		}
+
+		private void SwitchToNextState(AIState state)
+		{
+			currentState = state;
 		}
 
 		private void HandleRecoveryTime(float delta)
@@ -58,79 +95,11 @@ namespace AI
 			{
 				currentRecoveryTime -= delta;
 			}
-			else if (IsPerfomingAction)
+			else if (isPerfomingAction)
 			{
-				IsPerfomingAction = false;
+				isPerfomingAction = false;
 			}
 		}
-#region Attacks
-		private void AssignNewAttack()
-		{
-			print("Wha");
-			Vector3 targetDirection = aiLocomotionManager.currentTarget.transform.position - transform.position;
-			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-			aiLocomotionManager.DistanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
-
-			if (currentAttack != null)
-			{
-				return;
-			}
-
-			int maxScore = 0;
-
-			foreach (AIAttackAction aiAttackAction in aiAttacks)
-			{
-				if (aiLocomotionManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiLocomotionManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
-				{
-					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
-					{
-						maxScore += aiAttackAction.attackScore;
-					}
-				}
-			}
-
-			int randomValue = Random.Range(0, maxScore);
-			int tmpScore = 0;
-
-			foreach (AIAttackAction aiAttackAction in aiAttacks)
-			{
-				if (aiLocomotionManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiLocomotionManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
-				{
-					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
-					{
-						tmpScore += aiAttackAction.attackScore;
-
-						if (tmpScore > randomValue)
-						{
-							currentAttack = aiAttackAction;
-						}
-					}
-				}
-			}
-		}
-
-		private void AttackTarget()
-		{
-			if (IsPerfomingAction)
-			{
-				return;
-			}
-			if (currentAttack == null)
-			{
-				AssignNewAttack();
-			}
-			else
-			{
-				IsPerfomingAction = true;
-				currentRecoveryTime = currentAttack.recoveryTime;
-				//TODO Кусок говнокода, как замена воспроизведения атаки.
-				Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
-				currentAttack = null;
-			}
-		}
-#endregion
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;

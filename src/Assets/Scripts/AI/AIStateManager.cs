@@ -6,7 +6,7 @@ namespace AI
 {
 	public class AIStateManager : MonoBehaviour
 	{
-
+		/*
 		public AIState currentState;
 		private void Update()
 		{
@@ -27,7 +27,7 @@ namespace AI
 		private void SwitchState(AIState nextState)
 		{
 			currentState = nextState;
-		}
+		}*/
 	}
 
 }
