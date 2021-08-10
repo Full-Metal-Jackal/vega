@@ -10,11 +10,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action<Item> OnItemChange;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
+	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
 	[field: SerializeField]
 	public float Health { get; protected set; }
+	public float CriticalHealth { get; protected set; }
 
 	[field: SerializeField]
 	public float Stamina { get; set; }
@@ -146,7 +148,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual void TakeDamage(Entity inflictor, float damage)
 	{
 		Debug.Log($"{this} took {damage} damage from {inflictor}.");
-		Health -= damage;
+		
+		if ((Health -= damage) < 0f)
+			Die();
 	}
 
 	/// <summary>
@@ -305,5 +309,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		item.Drop(transform.forward * ItemDropSpeed + Body.velocity);
 		OnDroppedItem?.Invoke();
+	}
+
+	public void Die()
+	{
+		Debug.Log($"{this} died.");
+
+		OnDefeated?.Invoke(this);
 	}
 }
