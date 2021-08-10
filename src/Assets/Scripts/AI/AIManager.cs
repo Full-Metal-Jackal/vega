@@ -8,23 +8,23 @@ namespace AI
 	public class AIManager : MobController
 	{
 		AILocomotionManager aiLocomotionManager;
-		public bool isPerfomingAction = true;
+		public bool IsPerfomingAction {get; private set;}
 
 		public AIAttackAction[] aiAttacks;
-		public AIAttackAction currentAttack;
+		private AIAttackAction currentAttack;
+
+		private float currentRecoveryTime = 0;
 
 		[Header("A.I Settings")]
 		public float detectionRadius = 5;
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
 
-		public float currentRecoveryTime = 0;
-
 		protected override void Initialize()
 		{
 			base.Initialize();
 		    aiLocomotionManager = GetComponent<AILocomotionManager>();
-	}
+		}
 		protected override void OnUpdate(float delta)
 		{
 			HandleCurrentAction(delta);
@@ -35,17 +35,17 @@ namespace AI
 		{
 			if (aiLocomotionManager.currentTarget != null)
 			{
-				aiLocomotionManager.distanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
+				aiLocomotionManager.DistanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
 			}
 			if (aiLocomotionManager.currentTarget == null)
 			{
 				aiLocomotionManager.HandleDetection();
 			}
-			else if (aiLocomotionManager.distanceFromTarget > aiLocomotionManager.stoppingDistance)
+			else if (aiLocomotionManager.DistanceFromTarget > aiLocomotionManager.stoppingDistance)
 			{
 				aiLocomotionManager.HandleMoveToTarget(delta);
 			}
-			else if (aiLocomotionManager.distanceFromTarget <= aiLocomotionManager.stoppingDistance)
+			else if (aiLocomotionManager.DistanceFromTarget <= aiLocomotionManager.stoppingDistance)
 			{
 				//Handle Attack
 				AttackTarget();
@@ -58,30 +58,30 @@ namespace AI
 			{
 				currentRecoveryTime -= delta;
 			}
-
-			if (isPerfomingAction)
+			else if (IsPerfomingAction)
 			{
-				if (currentRecoveryTime <= 0)
-				{
-					isPerfomingAction = false;
-				}
+				IsPerfomingAction = false;
 			}
 		}
-		#region Attacks
-		private void GetNewAttack()
+#region Attacks
+		private void AssignNewAttack()
 		{
+			print("Wha");
 			Vector3 targetDirection = aiLocomotionManager.currentTarget.transform.position - transform.position;
 			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-			aiLocomotionManager.distanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
+			aiLocomotionManager.DistanceFromTarget = Vector3.Distance(aiLocomotionManager.currentTarget.transform.position, transform.position);
+
+			if (currentAttack != null)
+			{
+				return;
+			}
 
 			int maxScore = 0;
 
-			for (int i = 0; i < aiAttacks.Length; i++)
+			foreach (AIAttackAction aiAttackAction in aiAttacks)
 			{
-				AIAttackAction aiAttackAction = aiAttacks[i];
-
-				if (aiLocomotionManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiLocomotionManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
+				if (aiLocomotionManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
+					&& aiLocomotionManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
 				{
 					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
 					{
@@ -93,20 +93,13 @@ namespace AI
 			int randomValue = Random.Range(0, maxScore);
 			int tmpScore = 0;
 
-			for (int i = 0; i < aiAttacks.Length; i++)
+			foreach (AIAttackAction aiAttackAction in aiAttacks)
 			{
-				AIAttackAction aiAttackAction = aiAttacks[i];
-
-				if (aiLocomotionManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiLocomotionManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
+				if (aiLocomotionManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
+					&& aiLocomotionManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
 				{
 					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
 					{
-						if (currentAttack != null)
-						{
-							return;
-						}
-
 						tmpScore += aiAttackAction.attackScore;
 
 						if (tmpScore > randomValue)
@@ -120,24 +113,24 @@ namespace AI
 
 		private void AttackTarget()
 		{
-			if (isPerfomingAction)
+			if (IsPerfomingAction)
 			{
 				return;
 			}
 			if (currentAttack == null)
 			{
-				GetNewAttack();
+				AssignNewAttack();
 			}
 			else
 			{
-				isPerfomingAction = true;
+				IsPerfomingAction = true;
 				currentRecoveryTime = currentAttack.recoveryTime;
 				//TODO Кусок говнокода, как замена воспроизведения атаки.
-				print("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
+				Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
 				currentAttack = null;
 			}
 		}
-		#endregion
+#endregion
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;

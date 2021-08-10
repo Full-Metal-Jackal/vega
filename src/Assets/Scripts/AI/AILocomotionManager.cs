@@ -10,36 +10,44 @@ namespace AI
 	{
 
 		AIManager aiManager;
-		MobAnimationHandler aiAnimatorHandler;
-		Rigidbody aiRigidBody;
 		public NavMeshAgent navMeshAgent;
-		public Mob currentTarget;
-		public LayerMask detectionLayer;
-		public Mob player;  //needs to prevent AI detecting itself
+		public Mob currentTarget { get; private set; }
+		private Mob player;  //needs to prevent AI detecting itself
 		private Mob mob;
-		private MobController controller;
-		
 
-		public float distanceFromTarget;
+		private float distanceFromTarget;
+		public float DistanceFromTarget
+		{
+			get
+			{
+				return distanceFromTarget;
+			}
+
+			set
+			{
+				distanceFromTarget = value;
+			}
+		}
+
+		[Header("A.I Movement/Detection Settings")]
+		public LayerMask detectionLayer;
 		public float stoppingDistance = 0.5f;
-
 		public float rotationSpeed = 15;
 
 		private void Awake()
 		{
 			aiManager = GetComponent<AIManager>();
-			aiAnimatorHandler = transform.parent.GetComponentInChildren<MobAnimationHandler>();
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			mob = transform.parent.GetComponent<Mob>();
-			aiRigidBody = transform.parent.GetComponent<Rigidbody>();
+			player = PlayerController.Instance.possessAtStart;
 		}
 		public void HandleDetection()
 		{
 			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.detectionRadius, detectionLayer);
 
-			for (int i = 0; i < colliders.Length; i++)
+			foreach (Collider colliderElem in colliders)
 			{
-				Mob character = colliders[i].transform.parent.GetComponent<Mob>();
+				Mob character = colliderElem.transform.parent.GetComponent<Mob>();
 				if (character != null)
 				{
 					/* TODO
@@ -66,7 +74,7 @@ namespace AI
 			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
 
-			if (aiManager.isPerfomingAction)
+			if (aiManager.IsPerfomingAction)
 			{
 				aiManager.movement = Vector3.zero;
 				navMeshAgent.enabled = false;
@@ -91,7 +99,7 @@ namespace AI
 		{
 			Vector3 targetDirection;
 			//Move manualy
-			if (aiManager.isPerfomingAction)
+			if (aiManager.IsPerfomingAction)
 			{
 				targetDirection = currentTarget.transform.position - transform.position;
 				
