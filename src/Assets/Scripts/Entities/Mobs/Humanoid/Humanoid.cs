@@ -235,7 +235,6 @@ public abstract class Humanoid : Mob
 		Vector3 targetVelocity = speed * direction * delta;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
-
 		Body.velocity = targetVelocity;
 	}
 

@@ -11,7 +11,7 @@ public abstract class MobController : MonoBehaviour
 
 	protected int Id { get; private set; }
 
-	protected Vector3 movement;
+	public Vector3 movement;
 
 	public bool Initialized { get; private set; }
 
