@@ -11,7 +11,7 @@ namespace TriggerSystem
 	public class MobSpawner : MonoBehaviour
 	{
 		[field: SerializeField]
-		private int Amount { get; set; } = 1;
+		public int Amount { get; private set; } = 1;
 		public int MobsLeftToSpawn { get; private set; }
 
 		[SerializeField]
