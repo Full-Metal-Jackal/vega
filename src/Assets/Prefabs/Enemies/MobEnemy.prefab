@@ -168,7 +168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 437544988736559121}
   - component: {fileID: 3640164491392850730}
-  - component: {fileID: 8777081387241898150}
   m_Layer: 0
   m_Name: AI
   m_TagString: Untagged
@@ -210,10 +209,6 @@ MonoBehaviour:
   movement: {x: 0, y: 0, z: 0}
   currentState: {fileID: 2813307396437435965}
   currentTarget: {fileID: 0}
-  aiAttacks:
-  - {fileID: 11400000, guid: 85e7f9aa72bd9964cb218a919525a6e7, type: 2}
-  - {fileID: 11400000, guid: 9b0713088066c114bb18241e3e2c3b5c, type: 2}
-  currentRecoveryTime: 0
   navMeshAgent: {fileID: 0}
   detectionRadius: 5
   maxDetectionAngle: 50
@@ -224,21 +219,9 @@ MonoBehaviour:
   detectionLayer:
     serializedVersion: 2
     m_Bits: 16384
---- !u!114 &8777081387241898150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634832936025044902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9771e45969cd794dbf7e771484388cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 2175030256474187013}
-  stoppingDistance: 0.5
-  rotationSpeed: 15
+  aiAttacks:
+  - {fileID: 11400000, guid: 85e7f9aa72bd9964cb218a919525a6e7, type: 2}
+  - {fileID: 11400000, guid: 9b0713088066c114bb18241e3e2c3b5c, type: 2}
 --- !u!1 &8474404131979490115
 GameObject:
   m_ObjectHideFlags: 0
