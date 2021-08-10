@@ -105,6 +105,7 @@ public class Gun : Item<Gun>
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
+		projectile.damage = Damage;
 
 		PostFire(direction, projectile);
 
