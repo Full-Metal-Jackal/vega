@@ -12,7 +12,7 @@ namespace AI
 			//Look for target
 			//Switch to Pursue target state
 			//if no target return this	
-			#region Handle Enemy Target Detection
+
 			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.detectionRadius, aiManager.detectionLayer);
 
 			foreach (Collider colliderElem in colliders)
@@ -35,7 +35,6 @@ namespace AI
 					}
 				}
 			}
-			#endregion
 
 			if (aiManager.currentTarget != null)
 			{

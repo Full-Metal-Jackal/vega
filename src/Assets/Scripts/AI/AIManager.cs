@@ -35,15 +35,8 @@ namespace AI
 		private float distanceFromTarget;
 		public float DistanceFromTarget
 		{
-			get
-			{
-				return distanceFromTarget;
-			}
-
-			set
-			{
-				distanceFromTarget = value;
-			}
+			get => distanceFromTarget;
+			set => distanceFromTarget = value;
 		}
 
 		[Header("A.I Settings")]
@@ -65,6 +58,7 @@ namespace AI
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			navMeshAgent.enabled = false;
 		}
+
 		protected override void OnUpdate(float delta)
 		{
 			HandleStateMachine(delta);
@@ -100,6 +94,7 @@ namespace AI
 				isPerfomingAction = false;
 			}
 		}
+
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
@@ -107,4 +102,3 @@ namespace AI
 		}
 	}
 }
-
