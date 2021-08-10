@@ -31,6 +31,9 @@ public static class Game
 		set
 		{
 			playingScene = value;
+			CameraController.Instance.InScene = playingScene;
+			Hud.Instance.Toggle(!playingScene);
+
 			PlayerInput.Instance.UpdateInput();
 		}
 	}

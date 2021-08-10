@@ -46,5 +46,10 @@ namespace Scenario
 				active = false;
 			}
 		}
+
+		public void Cease()
+		{
+			active = false;
+		}
 	}
 }
