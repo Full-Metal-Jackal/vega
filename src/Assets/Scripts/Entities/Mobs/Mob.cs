@@ -21,11 +21,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	private float __health;
 	public float Health
 	{
-		get
-		{
-			return __health;
-		}
-
+		get => __health;
 		protected set
 		{
 			__health = value;
@@ -39,11 +35,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	private float __stamina;
 	public float Stamina
 	{
-		get
-		{
-			return __stamina;
-		}
-
+		get => __stamina;
 		protected set
 		{
 			__stamina = value;
@@ -111,17 +103,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual bool CanReload => CanUseItems;
 	public virtual bool CanDropItems => CanUseItems;
 
+	private Item __activeItem;
 	public virtual Item ActiveItem
 	{
-		get => activeItem;
+		get => __activeItem;
 		set
 		{
-			activeItem = value;
-
-			OnItemChange?.Invoke(activeItem);
+			__activeItem = value;
+			OnItemChange?.Invoke(__activeItem);
 		}
 	}
-	private Item activeItem;
 
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
