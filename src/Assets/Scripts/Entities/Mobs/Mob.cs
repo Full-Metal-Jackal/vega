@@ -7,7 +7,7 @@ using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
-	public event Action<Item> OnItemChange;
+	public event Action OnItemChanged;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
@@ -110,7 +110,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		set
 		{
 			__activeItem = value;
-			OnItemChange?.Invoke(__activeItem);
+			OnItemChanged?.Invoke();
 		}
 	}
 
