@@ -11,7 +11,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
-	public event Action OnStaminaChanged;
 	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
@@ -31,17 +30,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public float CriticalHealth { get; protected set; }
 
-	[SerializeField, EditorEx.Prop(ReadOnly = true, Name = "Stamina")]
-	private float __stamina;
-	public float Stamina
-	{
-		get => __stamina;
-		protected set
-		{
-			__stamina = value;
-			OnStaminaChanged?.Invoke();
-		}
-	}
+	[field: SerializeField, EditorEx.Prop(ReadOnly = true)]
+	public float Stamina { get; protected set; }
 
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
