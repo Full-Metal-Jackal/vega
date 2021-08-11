@@ -9,6 +9,6 @@ namespace UI
 		private Text text;
 
 		private void Start() =>
-			PlayerController.Instance.OnPossessed += (player) => text.text = player.Name;
+			PlayerController.Instance.OnPossessed += player => text.text = player.Name;
 	}
 }

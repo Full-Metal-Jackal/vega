@@ -41,7 +41,7 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		PlayerController.Instance.OnPossessed += mob =>
+		PlayerController.Instance.OnPossessed += (mob) =>
 		{
 			CameraController.Instance.SetTrackedMob(mob);
 		};

@@ -43,23 +43,32 @@ namespace UI
 			if (!(item is Gun gun))
 				return;
 
-			icon = gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
-			gun.OnAfterFire += () => UpdateAmmoCount(gun);
 			this.gun = gun;
+			this.gun.OnAfterFire += UpdateAmmoCount;
+			this.gun.OnAfterReloaded += UpdateAmmoCount;
+			icon = this.gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
 
-			UpdateAmmoCount(gun);
-
+			UpdateAmmoCount();
 			SetSlotState(true);
 		}
 
 		private void DroppedItemHandler()
 		{
+			if (!gun)
+				return;
+			
+			gun.OnAfterFire -= UpdateAmmoCount;
+			gun.OnAfterReloaded -= UpdateAmmoCount;
+
 			SetSlotState(false);
 			if (icon)
 				Destroy(icon.gameObject);
+
+			gun = null;
+			icon = null;
 		}
 
-		private void UpdateAmmoCount(Gun gun) => ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
+		private void UpdateAmmoCount() => ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
 		
 		private void SetSlotState(bool enabled)
 		{
