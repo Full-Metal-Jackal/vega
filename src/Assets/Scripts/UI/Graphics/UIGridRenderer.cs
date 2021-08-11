@@ -14,13 +14,13 @@ namespace UI.CircuitConstructor
 
 		public bool background = true;
 
-		private float cellSize = 64f;
+		private float __cellSize = 64f;
 		public float CellSize
 		{
-			get => cellSize;
+			get => __cellSize;
 			set
 			{
-				cellSize = value;
+				__cellSize = value;
 				SetVerticesDirty();
 			}
 		}

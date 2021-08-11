@@ -114,20 +114,21 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
+	private MobState __state = MobState.Standing;
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
 	public virtual MobState State
 	{
-		get => state;
+		get => __state;
 		protected set
 		{
-			state = value;
+			__state = value;
 			if (!Animator)
 				return;
 
 			const string animatorVariable = "MovementState";
-			switch (state)
+			switch (__state)
 			{
 			case MobState.Standing:
 				Animator.SetInteger(animatorVariable, 0);
@@ -147,7 +148,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 			}
 		}
 	}
-	private MobState state = MobState.Standing;
 
 	/// <summary>
 	/// The way this mob moves continuously: walking, running or sprinting.

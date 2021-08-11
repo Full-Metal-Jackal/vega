@@ -12,15 +12,7 @@ public abstract class Entity : MonoBehaviour
 	[field: SerializeField]
 	public bool CanHideWalls { get; set; } = false;
 
-	protected Outline outline;
-	public Outline Outline
-	{
-		get => outline;
-		private set
-		{
-			outline = value;
-		}
-	}
+	public Outline Outline { get; private set; }
 
 	public IEnumerable<Collider> Colliders => GetComponentsInChildren<Collider>();
 
@@ -49,7 +41,9 @@ public abstract class Entity : MonoBehaviour
 			return false;
 		}
 
+		Outline outline;
 		TryGetComponent(out outline);
+		Outline = outline;
 
 		return Initialized = true;
 	}
