@@ -26,7 +26,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 			return __health;
 		}
 
-		protected set {
+		protected set
+		{
 			__health = value;
 			OnHealthChanged?.Invoke();
 		}
@@ -43,7 +44,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 			return __stamina;
 		}
 
-		protected set {
+		protected set
+		{
 			__stamina = value;
 			OnStaminaChanged?.Invoke();
 		}
