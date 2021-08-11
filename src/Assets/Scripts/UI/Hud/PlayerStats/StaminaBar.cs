@@ -13,7 +13,7 @@ namespace UI
 		private void Start()
 		{
 			enabled = false;
-			PlayerController.Instance.OnPossesed += (player) =>
+			PlayerController.Instance.OnPossessed += (player) =>
 			{
 				this.player = player;
 				enabled = true;

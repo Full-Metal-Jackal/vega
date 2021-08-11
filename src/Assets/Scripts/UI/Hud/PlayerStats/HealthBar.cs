@@ -11,7 +11,7 @@ namespace UI
 		private Mob player;
 
 		private void Start() =>
-			PlayerController.Instance.OnPossesed += (player) =>
+			PlayerController.Instance.OnPossessed += (player) =>
 			{
 				if (this.player)
 					this.player.OnHealthChanged -= HealthChangedHandler;

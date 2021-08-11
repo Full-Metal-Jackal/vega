@@ -24,7 +24,7 @@ namespace UI
 		{
 			SetSlotState(false); // initially offset the slot, showing its disabled state
 
-			PlayerController.Instance.OnPossesed += (player) =>
+			PlayerController.Instance.OnPossessed += (player) =>
 			{
 				if (this.player)
 				{
