@@ -14,10 +14,10 @@ namespace UI
 			PlayerController.Instance.OnPossesed += (player) =>
 			{
 				if (this.player)
-					player.OnHealthChanged -= HealthChangedHandler;
+					this.player.OnHealthChanged -= HealthChangedHandler;
 				
 				this.player = player;
-				player.OnHealthChanged += HealthChangedHandler;
+				this.player.OnHealthChanged += HealthChangedHandler;
 			};
 
 		private void HealthChangedHandler()

@@ -18,12 +18,24 @@ namespace UI
 
 		private const float offset = 48;
 
+		private Mob player;
+
 		private void Start()
 		{
 			SetSlotState(false); // initially offset the slot, showing its disabled state
 
-			PlayerController.Instance.Possessed.OnPickedUpItem += PickedUpItemHandler;
-			PlayerController.Instance.Possessed.OnDroppedItem += DroppedItemHandler;
+			PlayerController.Instance.OnPossesed += (player) =>
+			{
+				if (this.player)
+				{
+					this.player.OnPickedUpItem -= PickedUpItemHandler;
+					this.player.OnDroppedItem -= DroppedItemHandler;
+				}
+
+				this.player = player;
+				this.player.OnPickedUpItem += PickedUpItemHandler;
+				this.player.OnDroppedItem += DroppedItemHandler;
+			};
 		}
 
 		private void PickedUpItemHandler(Item item)

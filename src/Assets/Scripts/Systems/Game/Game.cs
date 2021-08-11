@@ -43,7 +43,6 @@ public static class Game
 
 		PlayerController.Instance.OnPossesed += mob =>
 		{
-			Hud.Instance.RegisterComponents();
 			CameraController.Instance.SetTrackedMob(mob);
 		};
 
