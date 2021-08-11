@@ -53,4 +53,12 @@ public static class Utils
 
 		return smoothedLine.ToArray();
 	}
+
+	/// <summary>
+	/// Shortcut for quick picking a random item from a list.
+	/// </summary>
+	/// <typeparam name="T">The list's type.</typeparam>
+	/// <param name="list">The list to pick from.</param>
+	/// <returns>A random element from the list.</returns>
+	public static T Pick<T>(List<T> list) => list[Random.Range(0, list.Count)];
 }
