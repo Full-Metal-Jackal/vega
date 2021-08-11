@@ -7,13 +7,8 @@ namespace UI
 	{
 		[SerializeField]
 		private Text text;
-		
-		private Mob player;
 
 		private void Start() =>
-			player = PlayerController.Instance.Possessed;
-		
-		private void Update() =>
-			text.text = player.Name;
+			PlayerController.Instance.OnPossesed += (player) => text.text = player.Name;
 	}
 }

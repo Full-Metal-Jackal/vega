@@ -10,16 +10,45 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action<Item> OnItemChange;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
+	public event Action OnHealthChanged;
+	public event Action OnStaminaChanged;
 	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
-	[field: SerializeField]
-	public float Health { get; protected set; }
+
+	[SerializeField, EditorEx.Prop(ReadOnly = true, Name = "Health")]
+	private float __health;
+	public float Health
+	{
+		get
+		{
+			return __health;
+		}
+
+		protected set {
+			__health = value;
+			OnHealthChanged?.Invoke();
+		}
+	}
+
 	public float CriticalHealth { get; protected set; }
 
-	[field: SerializeField]
-	public float Stamina { get; set; }
+	[SerializeField, EditorEx.Prop(ReadOnly = true, Name = "Stamina")]
+	private float __stamina;
+	public float Stamina
+	{
+		get
+		{
+			return __stamina;
+		}
+
+		protected set {
+			__stamina = value;
+			OnStaminaChanged?.Invoke();
+		}
+	}
+
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
 
