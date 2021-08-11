@@ -41,8 +41,7 @@ public abstract class Entity : MonoBehaviour
 			return false;
 		}
 
-		Outline outline;
-		TryGetComponent(out outline);
+		TryGetComponent(out Outline outline);
 		Outline = outline;
 
 		return Initialized = true;
