@@ -19,7 +19,7 @@ namespace AI
 			//set recovery timer to attacks recovery time
 			//return combat stance state
 			
-			if (aiManager.IsPerfomingAction)
+			if (aiManager.isPerfomingAction)
 			{
 				return combateStance;
 			}
@@ -35,10 +35,10 @@ namespace AI
 					if (aiManager.viewableAngle <= currentAttack.maximumAttackAngle &&
 						aiManager.viewableAngle >= currentAttack.minimumAttackAngle)
 					{
-						if (aiManager.CurrentRecoveryTime <= 0 && aiManager.IsPerfomingAction == false)
+						if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 						{
 							aiManager.movement = Vector3.zero;
-							aiManager.IsPerfomingAction = true;
+							aiManager.isPerfomingAction = true;
 							//TODO Кусок говнокода, как замена воспроизведения атаки.
 							Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
 							aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
