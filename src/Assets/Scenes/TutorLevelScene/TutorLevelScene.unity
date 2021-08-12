@@ -878,7 +878,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46473798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.88, y: -0.100000024, z: 1.29}
+  m_LocalPosition: {x: -5.88, y: -0.100000024, z: 2.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1982504512}
@@ -6885,7 +6885,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373708683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.44, y: 1.4, z: -11.41}
+  m_LocalPosition: {x: 7.93, y: 1.4, z: -11.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925229144}
@@ -20384,6 +20384,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1970739561}
+        m_TargetAssemblyTypeName: HumanoidAnimationHandler, Assembly-CSharp
+        m_MethodName: set_LookAtIkEnabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!4 &731128738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3581524689520757587, guid: 33018be03c50e4443beb9bda1989b665, type: 3}
@@ -20769,7 +20781,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742930279}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7, y: -0.100000024, z: 3.11}
+  m_LocalPosition: {x: -2.48, y: -0.100000024, z: 1.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1982504512}
@@ -25125,40 +25137,40 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 3.12, y: 1.4, z: -26.4}
-  - {x: 3.0609818, y: 1.3999995, z: -25.274603}
-  - {x: 3.0231946, y: 1.4000001, z: -24.173883}
-  - {x: 3.0085602, y: 1.4, z: -23.119366}
-  - {x: 3.018385, y: 1.4, z: -22.128307}
-  - {x: 3.053403, y: 1.3999999, z: -21.213867}
-  - {x: 3.1138442, y: 1.4000001, z: -20.385405}
-  - {x: 3.1994762, y: 1.4, z: -19.648693}
-  - {x: 3.3096695, y: 1.4, z: -19.006239}
-  - {x: 3.4434347, y: 1.3999999, z: -18.457518}
-  - {x: 3.5994825, y: 1.4, z: -17.999304}
-  - {x: 3.7762685, y: 1.4, z: -17.625957}
-  - {x: 3.972034, y: 1.4, z: -17.329718}
-  - {x: 4.1848555, y: 1.4, z: -17.101034}
-  - {x: 4.41269, y: 1.4, z: -16.92892}
-  - {x: 4.653413, y: 1.4, z: -16.801281}
-  - {x: 4.904855, y: 1.4000001, z: -16.705229}
-  - {x: 5.1648436, y: 1.4, z: -16.627499}
-  - {x: 5.4312463, y: 1.4, z: -16.554798}
-  - {x: 5.701994, y: 1.4, z: -16.474173}
-  - {x: 5.975123, y: 1.4, z: -16.37342}
-  - {x: 6.248803, y: 1.4, z: -16.241484}
-  - {x: 6.52137, y: 1.4, z: -16.068853}
-  - {x: 6.791354, y: 1.4, z: -15.848011}
-  - {x: 7.057509, y: 1.4, z: -15.573835}
-  - {x: 7.318835, y: 1.3999999, z: -15.24406}
-  - {x: 7.5746045, y: 1.4, z: -14.859726}
-  - {x: 7.824385, y: 1.4, z: -14.425629}
-  - {x: 8.068063, y: 1.4000001, z: -13.950808}
-  - {x: 8.305858, y: 1.4, z: -13.449019}
-  - {x: 8.538345, y: 1.4, z: -12.939224}
-  - {x: 8.766469, y: 1.4, z: -12.446099}
-  - {x: 8.991564, y: 1.4000001, z: -12.000546}
-  - {x: 9.215357, y: 1.4, z: -11.640205}
-  - {x: 9.44, y: 1.4, z: -11.41}
+  - {x: 3.0609815, y: 1.3999995, z: -25.274603}
+  - {x: 3.023189, y: 1.4000001, z: -24.173882}
+  - {x: 3.0085201, y: 1.4, z: -23.119354}
+  - {x: 3.01822, y: 1.4, z: -22.128267}
+  - {x: 3.0529127, y: 1.3999999, z: -21.213757}
+  - {x: 3.112657, y: 1.4000001, z: -20.38514}
+  - {x: 3.196982, y: 1.4, z: -19.648136}
+  - {x: 3.304946, y: 1.4, z: -19.005201}
+  - {x: 3.4351747, y: 1.3999999, z: -18.455738}
+  - {x: 3.5859208, y: 1.4, z: -17.996435}
+  - {x: 3.7551146, y: 1.4, z: -17.621578}
+  - {x: 3.9404116, y: 1.4, z: -17.323318}
+  - {x: 4.139254, y: 1.4, z: -17.092041}
+  - {x: 4.34893, y: 1.4, z: -16.916695}
+  - {x: 4.5666265, y: 1.4, z: -16.785147}
+  - {x: 4.7894897, y: 1.4000001, z: -16.684513}
+  - {x: 5.0146875, y: 1.4, z: -16.601562}
+  - {x: 5.239477, y: 1.4, z: -16.52309}
+  - {x: 5.461261, y: 1.4, z: -16.436314}
+  - {x: 5.6776614, y: 1.4, z: -16.329258}
+  - {x: 5.8865805, y: 1.4, z: -16.191196}
+  - {x: 6.0862746, y: 1.4, z: -16.013075}
+  - {x: 6.2754235, y: 1.4, z: -15.7879305}
+  - {x: 6.4532013, y: 1.4, z: -15.511362}
+  - {x: 6.6193504, y: 1.3999999, z: -15.181982}
+  - {x: 6.77426, y: 1.4, z: -14.8018875}
+  - {x: 6.919036, y: 1.4, z: -14.377142}
+  - {x: 7.055587, y: 1.4000001, z: -13.918276}
+  - {x: 7.186697, y: 1.4, z: -13.440787}
+  - {x: 7.3161125, y: 1.4, z: -12.965651}
+  - {x: 7.44862, y: 1.4, z: -12.51986}
+  - {x: 7.5901356, y: 1.4000001, z: -12.136951}
+  - {x: 7.747786, y: 1.4, z: -11.857567}
+  - {x: 7.93, y: 1.4, z: -11.73}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.09607387
@@ -26180,7 +26192,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960717376}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.7799997, y: -0.050000012, z: 3.1899986}
+  m_LocalPosition: {x: -5.78, y: -0.050000012, z: 1.89}
   m_LocalScale: {x: 0.7692308, y: 1, z: 0.7692308}
   m_Children: []
   m_Father: {fileID: 1982504512}
@@ -37564,7 +37576,7 @@ PlayableDirector:
     value: {fileID: 0}
   m_ExposedReferences:
     m_References:
-    - 5814f00844e89174cbd1970735ce6c56: {fileID: 2072669895}
+    - 5814f00844e89174cbd1970735ce6c56: {fileID: 0}
 --- !u!1001 &1384749473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41258,9 +41270,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2078997237}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: set_applyRootMotion
+      - m_Target: {fileID: 1970739561}
+        m_TargetAssemblyTypeName: HumanoidAnimationHandler, Assembly-CSharp
+        m_MethodName: set_LookAtIkEnabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41268,7 +41280,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &1525169149
 PrefabInstance:
@@ -43142,9 +43154,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 3
-  json: '{"Options":[],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":1}],"EditorInfo":{"isRoot":true,"xPos":239,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Ready
-    or not, here I co-","parentUIDs":[],"AdvanceDialogueAutomatically":true,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":2,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":false,"xPos":452,"yPos":111},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"*chuckles*","parentUIDs":[0],"AdvanceDialogueAutomatically":true,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":2,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":233,"yPos":204},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"There
-    you are! ROOOOAARGHH!! [For the love of God adapt the dialogues already]","parentUIDs":[1],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":239,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Ready
+    or not, here I co-\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":2,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":452,\"yPos\":111},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"*chuckles*\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Gaius\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":2,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":233,\"yPos\":204},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"There
+    you are! ROOOOAARGHH!!  \\/\\/ \u042D\u0442\u0430 \u0445\u0443\u0435\u0442\u0430
+    \u0434\u043E\u043B\u0436\u043D\u0430 \u0437\u0430\u043A\u0440\u044B\u0442\u044C\u0441\u044F
+    \u0441\u0430\u043C\u0430, \u0430 \u043D\u0435 \u043F\u043E \u0442\u0430\u0439\u043C\u0435\u0440\u0443\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
   saveVersion: 110
   DefaultName: Bosco
   DefaultSprite: {fileID: 0}
@@ -43157,7 +43171,19 @@ MonoBehaviour:
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 654567560}
+        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1697782142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43540,7 +43566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3522529734014688632, guid: cee07786bcb77b14587d9418894f4a53, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.357
+      value: -6.23
       objectReference: {fileID: 0}
     - target: {fileID: 3522529734014688632, guid: cee07786bcb77b14587d9418894f4a53, type: 3}
       propertyPath: m_LocalPosition.y
@@ -43548,7 +43574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3522529734014688632, guid: cee07786bcb77b14587d9418894f4a53, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.969
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 3522529734014688632, guid: cee07786bcb77b14587d9418894f4a53, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44841,7 +44867,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756915307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.16, y: 1.4, z: -12.25}
+  m_LocalPosition: {x: 6.81, y: 1.4, z: -11.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925229144}
@@ -47688,7 +47714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 4
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":292,"yPos":204},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":true,"xPos":288.5,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Gaius!","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":242.5,"yPos":204},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":true,"xPos":239,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Gaius!","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
@@ -47700,19 +47726,7 @@ MonoBehaviour:
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 745407873}
-        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1001 &1846537097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54294,6 +54308,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3906166242965127773, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
   m_PrefabInstance: {fileID: 4593133216795748573}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1970739561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 141599198974396547, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
+  m_PrefabInstance: {fileID: 4593133216795748573}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970739558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8ffe209a1586a4ebd061bf6e7d280b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1970739562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54310,6 +54335,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 4bed45faab76e08469ae1f7989406bb5, type: 2}
     - {fileID: 0}
+    - {fileID: 11400000, guid: 46dd1fa34002da346b3e66a4ba738dcb, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -54334,6 +54360,20 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1770840370}
+          m_TargetAssemblyTypeName: Scenario.TimelineAssistant, Assembly-CSharp
+          m_MethodName: ResetMobTransform
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1970739561}
+            m_ObjectArgumentAssemblyTypeName: MobAnimationHandler, Assembly-CSharp
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -55192,11 +55232,6 @@ MonoBehaviour:
   mob: {fileID: 1475526454}
   lookAtTolerance: 0.5
   lookSmoothing: 1
---- !u!1 &2072669895 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6618989752560004027, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
-  m_PrefabInstance: {fileID: 4593133216795748573}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2075651071 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6444845247233141179, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
@@ -57847,18 +57882,6 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 31900921}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 822871375}
-        m_TargetAssemblyTypeName: Scenario.ScriptedLook, Assembly-CSharp
-        m_MethodName: LookAt
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1475526452}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -60864,11 +60887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.617
+      value: 0.51
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.87
+      value: -9.02
       objectReference: {fileID: 0}
     - target: {fileID: 4471993034485986336, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalRotation.w
