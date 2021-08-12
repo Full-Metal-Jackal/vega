@@ -30,11 +30,36 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public float CriticalHealth { get; protected set; }
 
-	[field: SerializeField, EditorEx.Prop(ReadOnly = true)]
-	public float Stamina { get; protected set; }
+	[SerializeField, EditorEx.Prop(ReadOnly = true)]
+	private float __stamina;
+	public float Stamina
+	{
+		get => __stamina;
+		protected set
+		{
+			if (value < __stamina)
+				lastStaminaDrain = Time.time;
+			
+			__stamina = Mathf.Clamp(value, 0, MaxStamina);
+		}
+	}
 
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
+	
+	/// <summary>
+	/// Stamina regeneration speed, measured in points per second.
+	/// </summary>
+	[field: SerializeField]
+	public float StaminaRegenSpeed { get; protected set; } = 20f;
+
+	/// <summary>
+	/// How much seconds should pass before the stamina begins to regenerate.
+	/// </summary>
+	[field: SerializeField]
+	public float StaminaRegenDelay { get; protected set; } = .75f;
+
+	protected float lastStaminaDrain;
 
 	[field: SerializeField]
 	protected Animator Animator { get; private set; }
@@ -323,9 +348,24 @@ public abstract class Mob : DynamicEntity, IDamageable
 		OnDroppedItem?.Invoke();
 	}
 
+	protected override void Tick(float delta)
+	{
+		base.Tick(delta);
+		UpdateStaminaRegeneration(delta);
+	}
+
+	protected virtual void UpdateStaminaRegeneration(float delta)
+	{
+		if (lastStaminaDrain + StaminaRegenDelay > Time.time)
+			return;
+
+		Stamina += StaminaRegenSpeed * delta;
+	}
+
 	public void Die()
 	{
 		Debug.Log($"{this} died.");
+		State = MobState.Dead;
 
 		OnDefeated?.Invoke(this);
 	}
