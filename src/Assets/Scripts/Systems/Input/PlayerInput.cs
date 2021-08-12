@@ -39,9 +39,6 @@ namespace Input
 		{
 			WorldInputEnabled = !(Game.Paused || Game.PlayingScene);
 			UiInputEnabled = Game.Paused;
-
-			print($"UI: {UiInputEnabled}");
-			print($"World: {WorldInputEnabled}");
 		}
 	}
 }
