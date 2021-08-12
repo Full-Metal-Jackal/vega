@@ -69,6 +69,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	protected float MaxTurningSpeed { get; private set; } = 10f;
 
+	[field: SerializeField]
+	public float AimHeight { get; private set; } = 1.7f;
+
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
