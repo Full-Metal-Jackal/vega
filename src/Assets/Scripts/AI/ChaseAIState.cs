@@ -12,7 +12,7 @@ namespace AI
 			//Chase target
 			//if within attack range, switch to combat state
 			//else return this
-			if (aiManager.IsPerfomingAction)
+			if (aiManager.isPerfomingAction)
 			{
 				return this;
 			}
@@ -42,7 +42,7 @@ namespace AI
 		{
 			Vector3 targetDirection;
 			//Move manualy
-			if (aiManager.IsPerfomingAction)
+			if (aiManager.isPerfomingAction)
 			{
 				targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			}

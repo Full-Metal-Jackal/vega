@@ -7,19 +7,32 @@ using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
-	public event Action<Item> OnItemChange;
+	public event Action OnItemChanged;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
+	public event Action OnHealthChanged;
 	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
-	[field: SerializeField]
-	public float Health { get; protected set; }
+
+	[SerializeField, EditorEx.Prop(ReadOnly = true, Name = "Health")]
+	private float __health;
+	public float Health
+	{
+		get => __health;
+		protected set
+		{
+			__health = value;
+			OnHealthChanged?.Invoke();
+		}
+	}
+
 	public float CriticalHealth { get; protected set; }
 
-	[field: SerializeField]
-	public float Stamina { get; set; }
+	[field: SerializeField, EditorEx.Prop(ReadOnly = true)]
+	public float Stamina { get; protected set; }
+
 	[field: SerializeField]
 	public virtual float MaxStamina { get; set; } = 100;
 
@@ -80,32 +93,32 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual bool CanReload => CanUseItems;
 	public virtual bool CanDropItems => CanUseItems;
 
+	private Item __activeItem;
 	public virtual Item ActiveItem
 	{
-		get => activeItem;
+		get => __activeItem;
 		set
 		{
-			activeItem = value;
-
-			OnItemChange?.Invoke(activeItem);
+			__activeItem = value;
+			OnItemChanged?.Invoke();
 		}
 	}
-	private Item activeItem;
 
+	private MobState __state = MobState.Standing;
 	/// <summary>
 	/// The current state of the mob, represents mostly the animation that is being played right now.
 	/// </summary>
 	public virtual MobState State
 	{
-		get => state;
+		get => __state;
 		protected set
 		{
-			state = value;
+			__state = value;
 			if (!Animator)
 				return;
 
 			const string animatorVariable = "MovementState";
-			switch (state)
+			switch (__state)
 			{
 			case MobState.Standing:
 				Animator.SetInteger(animatorVariable, 0);
@@ -125,7 +138,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 			}
 		}
 	}
-	private MobState state = MobState.Standing;
 
 	/// <summary>
 	/// The way this mob moves continuously: walking, running or sprinting.

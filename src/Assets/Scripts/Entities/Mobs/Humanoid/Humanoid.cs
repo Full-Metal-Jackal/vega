@@ -57,26 +57,26 @@ public abstract class Humanoid : Mob
 			aimPosSmoothing
 		);
 
-	private bool isAiming = false;
+	private bool __isAiming = false;
 	/// <summary>
 	/// Is the mob should currently aim, used for animation.
 	/// </summary>
 	public bool IsAiming
 	{
-		get => isAiming;
-		protected set => Animator.SetBool("IsAiming", isAiming = value);
+		get => __isAiming;
+		protected set => Animator.SetBool("IsAiming", __isAiming = value);
 	}
 
-	private bool isReloading = false;
+	private bool __isReloading = false;
 	/// <summary>
 	/// Is the mob is currently reloading.
 	/// </summary>
 	public bool IsReloading
 	{
-		get => isReloading;
+		get => __isReloading;
 		protected set
 		{
-			if (isReloading = value)
+			if (__isReloading = value)
 				Animator.SetTrigger("ReloadTrigger");
 		}
 	}
@@ -96,21 +96,21 @@ public abstract class Humanoid : Mob
 	/// </summary>
 	public virtual float AimEnableDistance => 1f;
 
-	private HoldType holdState = HoldType.None;
+	private HoldType __holdState = HoldType.None;
 	/// <summary>
 	/// Represents the aiming animation that is being played right now.
 	/// </summary>
 	public virtual HoldType HoldState
 	{
-		get => holdState;
+		get => __holdState;
 		protected set
 		{
-			holdState = value;
+			__holdState = value;
 			if (!Animator)
 				return;
 
 			int animatorValue = 0;
-			switch (holdState)
+			switch (__holdState)
 			{
 			case HoldType.SingleHandPistol:
 				animatorValue = 1;

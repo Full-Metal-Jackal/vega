@@ -18,22 +18,24 @@ namespace UI
 
 		private const float offset = 48;
 
+		private Mob player;
+
 		private void Start()
 		{
 			SetSlotState(false); // initially offset the slot, showing its disabled state
 
-			PlayerController.Instance.Possessed.OnPickedUpItem += PickedUpItemHandler;
-			PlayerController.Instance.Possessed.OnDroppedItem += DroppedItemHandler;
-		}
+			PlayerController.Instance.OnPossessed += (player) =>
+			{
+				if (this.player)
+				{
+					this.player.OnPickedUpItem -= PickedUpItemHandler;
+					this.player.OnDroppedItem -= DroppedItemHandler;
+				}
 
-		private void OnDestroy()
-		{
-			// <TODO> This thing launches when the game is closed. It's not supposed to.
-			if (!(PlayerController.Instance && PlayerController.Instance.Possessed))
-				return;
-
-			PlayerController.Instance.Possessed.OnPickedUpItem -= PickedUpItemHandler;
-			PlayerController.Instance.Possessed.OnDroppedItem -= DroppedItemHandler;
+				this.player = player;
+				this.player.OnPickedUpItem += PickedUpItemHandler;
+				this.player.OnDroppedItem += DroppedItemHandler;
+			};
 		}
 
 		private void PickedUpItemHandler(Item item)
@@ -41,23 +43,32 @@ namespace UI
 			if (!(item is Gun gun))
 				return;
 
-			icon = gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
-			gun.OnAfterFire += () => UpdateAmmoCount(gun);
 			this.gun = gun;
+			this.gun.OnAfterFire += UpdateAmmoCount;
+			this.gun.OnAfterReloaded += UpdateAmmoCount;
+			icon = this.gun.ItemData.PasteIcon(background.transform, siblingIdx: 0);
 
-			UpdateAmmoCount(gun);
-
+			UpdateAmmoCount();
 			SetSlotState(true);
 		}
 
 		private void DroppedItemHandler()
 		{
+			if (!gun)
+				return;
+			
+			gun.OnAfterFire -= UpdateAmmoCount;
+			gun.OnAfterReloaded -= UpdateAmmoCount;
+
 			SetSlotState(false);
 			if (icon)
 				Destroy(icon.gameObject);
+
+			gun = null;
+			icon = null;
 		}
 
-		private void UpdateAmmoCount(Gun gun) => ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
+		private void UpdateAmmoCount() => ammoCount.text = $"{gun.AmmoCount}/{gun.ClipSize}";
 		
 		private void SetSlotState(bool enabled)
 		{

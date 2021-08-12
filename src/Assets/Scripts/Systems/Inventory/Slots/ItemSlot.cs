@@ -36,19 +36,19 @@ namespace Inventory
 
 	public abstract class ItemSlot<ItemType> : ItemSlot where ItemType : Item
 	{
-		private ItemType item;
+		private ItemType __item;
 		public ItemType Item
 		{
-			get => item;
+			get => __item;
 			set
 			{
-				if (!(item = value))
+				if (!(__item = value))
 					return;
 
-				item.Slot = this;
+				__item.Slot = this;
 
 				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
-				item.Select();
+				__item.Select();
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace Inventory
 
 		public override void OnActivated()
 		{
-			item.Select();
+			Item.Select();
 		}
 
 		public override void Clear()

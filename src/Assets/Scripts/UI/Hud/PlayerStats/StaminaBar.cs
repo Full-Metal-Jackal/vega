@@ -10,9 +10,19 @@ namespace UI
 		
 		private Mob player;
 
-		private void Start() =>
-			player = PlayerController.Instance.Possessed;
+		private void Start()
+		{
+			enabled = false;
+			PlayerController.Instance.OnPossessed += (player) =>
+			{
+				this.player = player;
+				enabled = true;
+			};
+		}
 		
+		// NOTE: StaminaBar uses Update() logic instead of an event
+		// because the value of stamina will be updated almost every frame e.g. when user holds down the shift button,
+		// and calling an event delegate almost every frame is much more expensive than this
 		private void Update()
 		{
 			float staminaRatio = Math.Min(player.Stamina / player.MaxStamina, 1f);

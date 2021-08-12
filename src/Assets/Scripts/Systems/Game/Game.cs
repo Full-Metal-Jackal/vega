@@ -13,24 +13,24 @@ public static class Game
 
 	public readonly static Texture2D defaultCursor = null;
 
-	private static bool paused = false;
+	private static bool __paused = false;
 	public static bool Paused
 	{
-		get => paused;
+		get => __paused;
 		set
 		{
-			paused = value;
+			__paused = value;
 			PlayerInput.Instance.UpdateInput();
 		}
 	}
 
-	private static bool playingScene = false;
+	private static bool __playingScene = false;
 	public static bool PlayingScene
 	{
-		get => playingScene;
+		get => __playingScene;
 		set
 		{
-			playingScene = value;
+			__playingScene = value;
 			PlayerInput.Instance.UpdateInput();
 		}
 	}
@@ -41,9 +41,8 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		PlayerController.Instance.OnPossesed += mob =>
+		PlayerController.Instance.OnPossessed += (mob) =>
 		{
-			Hud.Instance.RegisterComponents();
 			CameraController.Instance.SetTrackedMob(mob);
 		};
 
