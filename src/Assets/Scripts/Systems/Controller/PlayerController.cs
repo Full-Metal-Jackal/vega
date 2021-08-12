@@ -84,7 +84,7 @@ public class PlayerController : MobController
 		base.PossessMob(mob);
 		mob.CanHideWalls = true;
 
-		OnPossesed?.Invoke(mob);
+		OnPossessed?.Invoke(mob);
 	}
 
 	protected override Vector3 UpdateMovementInput()
