@@ -125,13 +125,8 @@ public class PlayerController : MobController
 		UpdateAimPos();
 	}
 
-	public void UpdateAimPos()
-	{
-		// <TODO> Check if this constant works well enough; otherwise, make it depend on the mob's height/distance to cursor.
-		const float aimHeight = 1.5f;
-
-		Possessed.AimPos = CameraController.GetWorldCursorPos(-aimHeight);
-	}
+	public void UpdateAimPos() =>
+		Possessed.AimPos = CameraController.GetWorldCursorPos(-Possessed.AimHeight);
 
 	public void SetSelectedOutline(bool selected)
 	{
