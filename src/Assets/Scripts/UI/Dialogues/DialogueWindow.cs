@@ -44,19 +44,19 @@ namespace UI.Dialogue
 		private bool typewriting = false;
 
 		private readonly List<OptionButton> optionButtons = new List<OptionButton>();
-		private OptionButton selectedOption;
+		private OptionButton __selectedOption;
 
 		private float tillAutoAdvance = 0;
 
 		public OptionButton SelectedOption
 		{
-			get => selectedOption;
+			get => __selectedOption;
 			set
 			{
 				foreach (OptionButton button in optionButtons)
 					button.ToggleSelect(false);
-				if (selectedOption = value)
-					selectedOption.ToggleSelect(true);
+				if (__selectedOption = value)
+					__selectedOption.ToggleSelect(true);
 			}
 		}
 		private int optionIndex = 0;

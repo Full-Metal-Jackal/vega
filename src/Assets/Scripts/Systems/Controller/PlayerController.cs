@@ -1,12 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MobController
 {
-	public delegate void PossesAction(Mob mob);
-
-	public event PossesAction OnPossesed;
+	public event Action<Mob> OnPossessed;
 
 	/// Да простит меня Аллах
 	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах

@@ -29,8 +29,10 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected Transform leftHandIkTarget;
 	protected Transform rightHandIkTarget;
 
-	public void SetupHandsIkForItem(Inventory.Item item)
+	public void SetupHandsIkForItem()
 	{
+		Inventory.Item item = humanoid.ActiveItem;
+		
 		if (item && item.Model)
 		{
 			leftHandIkTarget = item.Model.LeftHandGrip;
@@ -62,7 +64,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		base.Initialize();
 
 		humanoid = transform.parent.GetComponent<Humanoid>();
-		humanoid.OnItemChange += item => SetupHandsIkForItem(item);
+		humanoid.OnItemChanged += SetupHandsIkForItem;
 	}
 
 	public void OnDodgeRollBegin()

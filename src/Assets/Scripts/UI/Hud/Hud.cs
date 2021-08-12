@@ -12,24 +12,14 @@ namespace UI
 		// Unused yet, added for future reference
 		private CanvasScaler canvasScaler;
 
-		private bool componentsActive = false;
+		private bool componentsActive = true;
 
 		private void Awake()
 		{
 			canvasScaler = GetComponent<CanvasScaler>();
-			ToggleComponents(false);
 		}
 
-		/// <summary>
-		///	Registers (activates) components which are inactive by default
-		///	<para>NOTE: might as well change this to be a method to toggle hud</para>
-		/// </summary>
-		public void RegisterComponents()
-		{
-			if (!componentsActive)
-				ToggleComponents(true);
-		}
-
+		// NOTE: currently unused, reserved for future applications (e.g. toggling hud)
 		private void ToggleComponents(bool toggle)
 		{
 			playerStats.SetActive(toggle);

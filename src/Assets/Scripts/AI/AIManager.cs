@@ -9,19 +9,7 @@ namespace AI
 	public class AIManager : MobController
 	{
 		public AIState currentState;
-		private bool isPerfomingAction;
-		public bool IsPerfomingAction 
-		{
-			get
-			{
-				return isPerfomingAction;
-			}
-
-			set
-			{
-				isPerfomingAction = value;
-			}
-		}
+		public bool isPerfomingAction;
 		public Mob currentTarget;
 		public Mob Player { get; private set; }  //needs to prevent AI detecting itself
 		private Mob mob;

@@ -13,14 +13,14 @@ namespace UI.CircuitConstructor
 		public float minZoom = .6f, maxZoom = 3f;
 		public float zoomSensivity = .1f;
 		
-		private float zoom;
+		private float __zoom;
 		public float Zoom
 		{
-			get => zoom;
+			get => __zoom;
 			set
 			{
-				zoom = Mathf.Clamp(value, minZoom, maxZoom);
-				Content.localScale = new Vector2(zoom, zoom);
+				__zoom = Mathf.Clamp(value, minZoom, maxZoom);
+				Content.localScale = new Vector2(__zoom, __zoom);
 			}
 		}
 

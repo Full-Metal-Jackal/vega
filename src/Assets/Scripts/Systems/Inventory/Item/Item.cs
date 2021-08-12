@@ -21,16 +21,16 @@ namespace Inventory
 		/// </summary>
 		public ItemModelData Model { get; protected set; }
 
-		private ItemSlot slot;
+		private ItemSlot __slot;
 		public ItemSlot Slot
 		{
-			get => slot;
+			get => __slot;
 			set
 			{
-				if (!(slot = value))
+				if (!(__slot = value))
 					return;
 
-				transform.SetParent(slot.transform);
+				transform.SetParent(__slot.transform);
 			}
 		}
 
