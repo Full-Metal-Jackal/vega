@@ -40,6 +40,7 @@ namespace AI
 							aiManager.movement = Vector3.zero;
 							aiManager.IsPerfomingAction = true;
 							//TODO Кусок говнокода, как замена воспроизведения атаки.
+							mob.Fire();
 							Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
 							aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 							currentAttack = null;

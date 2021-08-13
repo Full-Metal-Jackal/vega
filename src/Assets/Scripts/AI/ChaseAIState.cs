@@ -7,6 +7,8 @@ namespace AI
 	public class ChaseAIState : AIState
 	{
 		public CombatStanceAIState combatStanceState;
+
+		private const int aimRange = 5;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Chase target
@@ -23,6 +25,7 @@ namespace AI
 			if (distanceFromTarget > aiManager.maxAttackRange)
 			{
 				aiManager.movement = targetDirection;
+				mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
 			}
 
 			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;

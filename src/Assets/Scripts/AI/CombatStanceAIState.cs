@@ -8,6 +8,8 @@ namespace AI
 	{
 		public AttackAIState attackState;
 		public ChaseAIState chaseState;
+
+		private const int aimRange = 5;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			aiManager.DistanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
@@ -19,6 +21,8 @@ namespace AI
 			//if ready to attack return attack State
 			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.DistanceFromTarget <= aiManager.maxAttackRange)
 			{
+				print("Attack");
+				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.DistanceFromTarget;
 				return attackState;
 			}
 			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange)

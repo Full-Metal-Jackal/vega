@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Inventory;
+
 
 namespace AI
 {
@@ -40,6 +42,7 @@ namespace AI
 		}
 
 		[Header("A.I Settings")]
+		public ItemData weaponData;
 		public NavMeshAgent navMeshAgent;
 		public float detectionRadius = 5;
 		public float maxDetectionAngle = 50;
@@ -53,10 +56,16 @@ namespace AI
 		protected override void Initialize()
 		{
 			base.Initialize();
-			mob = transform.parent.GetComponent<Mob>();
 			Player = PlayerController.Instance.possessAtStart;
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			navMeshAgent.enabled = false;
+		}
+
+		protected override void Setup()
+		{
+			base.Setup();
+			mob = Possessed;
+			AssignWeapon();
 		}
 
 		protected override void OnUpdate(float delta)
@@ -93,6 +102,17 @@ namespace AI
 			{
 				isPerfomingAction = false;
 			}
+		}
+
+		private void AssignWeapon()
+		{
+			Gun weapon = weaponData.PasteItem(Containers.Instance.Items) as Gun;
+			if (!weapon)
+			{
+				Debug.Log("Weapon assign failed");
+				return;
+			}
+			mob.PickUpItem(weapon);
 		}
 
 		private void OnDrawGizmosSelected()

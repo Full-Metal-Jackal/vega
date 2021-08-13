@@ -19,7 +19,14 @@ namespace Inventory
 		{
 			foreach (ItemSlot slot in Slots)
 				if (slot is ItemSlot<ItemType> result && result.IsFree)
+				{
+
 					return result;
+				}
+				else
+				{
+					print(slot);
+				}
 
 			return null;
 		}

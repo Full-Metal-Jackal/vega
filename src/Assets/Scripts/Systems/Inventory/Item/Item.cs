@@ -133,7 +133,7 @@ namespace Inventory
 				Model.transform.localRotation *= Model.Origin.localRotation;
 			}
 
-			if (ItemData.Cursor)
+			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(
 					ItemData.Cursor,
 					new Vector2(ItemData.Cursor.width / 2, ItemData.Cursor.height / 2),
@@ -151,7 +151,7 @@ namespace Inventory
 			if (Model)
 				Model.Suicide();
 
-			if (ItemData.Cursor)
+			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(Game.defaultCursor, Vector2.zero, CursorMode.Auto);
 
 			Owner.ActiveItem = null;

@@ -48,7 +48,7 @@ public class Gun : Item<Gun>
 
 	public override bool CanReload => AmmoCount < ClipSize;
 
-	public override bool IsAimable => true;
+	public override bool IsAimable => true; //Если это то о чем думаю нужно сделать настраивамым
 
 	protected override void Initialize()
 	{
