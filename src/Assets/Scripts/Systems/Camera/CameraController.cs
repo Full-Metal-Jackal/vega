@@ -29,14 +29,14 @@ public class CameraController : MonoSingleton<CameraController>
 	/// </summary>
 	private float followSmoothing = .1f;
 
-	private bool inScene = false;
+	private bool __inScene = false;
 	public bool InScene
 	{
-		get => inScene;
+		get => __inScene;
 		set
 		{
-			inScene = value;
-			followSmoothing = inScene ? sceneSmoothing : inGameSmoothing;
+			__inScene = value;
+			followSmoothing = __inScene ? sceneSmoothing : inGameSmoothing;
 		}
 	}
 

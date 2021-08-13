@@ -1,12 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MobController
 {
-	public delegate void PossesAction(Mob mob);
-
-	public event PossesAction OnPossesed;
+	public event Action<Mob> OnPossessed;
 
 	/// Да простит меня Аллах
 	/// Майки пидоры нельзя несколько базовых классов классов как в плюсах
@@ -89,7 +86,7 @@ public class PlayerController : MobController
 
 		mob.CanHideWalls = true;
 
-		OnPossesed?.Invoke(mob);
+		OnPossessed?.Invoke(mob);
 
 		return true;
 	}
@@ -128,13 +125,8 @@ public class PlayerController : MobController
 		UpdateAimPos();
 	}
 
-	public void UpdateAimPos()
-	{
-		// <TODO> Check if this constant works well enough; otherwise, make it depend on the mob's height/distance to cursor.
-		const float aimHeight = 1.5f;
-
-		Possessed.AimPos = CameraController.GetWorldCursorPos(-aimHeight);
-	}
+	public void UpdateAimPos() =>
+		Possessed.AimPos = CameraController.GetWorldCursorPos(-Possessed.AimHeight);
 
 	public void SetSelectedOutline(bool selected)
 	{

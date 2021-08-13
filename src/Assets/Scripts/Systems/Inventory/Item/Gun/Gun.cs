@@ -1,10 +1,11 @@
-﻿using Inventory;
+﻿using System;
+using Inventory;
 using UnityEngine;
 
 public class Gun : Item<Gun>
 {
-	public delegate void AfterFireAction();
-	public event AfterFireAction OnAfterFire;
+	public event Action OnAfterFire;
+	public event Action OnAfterReloaded;
 
 	public Transform Barrel { get; protected set; }
 	public GunSfxData SoundEffects { get; protected set; }
@@ -73,21 +74,14 @@ public class Gun : Item<Gun>
 		Barrel = gunModel.Barrel;
 	}
 
-	public void OnReloadBegin() =>
-		IsReloading = true;
-
-	public void OnReloadEnd()
-	{
-		Reload();
-		IsReloading = false;
-	}
-
 	public override bool Reload()
 	{
 		if (!CanReload)
 			return false;
 
 		AmmoCount = ClipSize;
+		OnAfterReloaded?.Invoke();
+		
 		return true;
 	}
 
@@ -121,7 +115,7 @@ public class Gun : Item<Gun>
 		}
 
 		direction = Quaternion.AngleAxis(
-			Random.Range(-Spread, Spread),
+			UnityEngine.Random.Range(-Spread, Spread),
 			Barrel.up
 		) * direction;
 
