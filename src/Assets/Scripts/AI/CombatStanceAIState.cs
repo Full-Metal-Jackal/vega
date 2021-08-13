@@ -21,8 +21,8 @@ namespace AI
 			//if ready to attack return attack State
 			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.DistanceFromTarget <= aiManager.maxAttackRange)
 			{
-				print("Attack");
-				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.DistanceFromTarget;
+				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.DistanceFromTarget + Vector3.up * mob.AimHeight;
+				
 				return attackState;
 			}
 			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange)
