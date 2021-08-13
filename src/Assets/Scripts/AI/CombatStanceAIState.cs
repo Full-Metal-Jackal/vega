@@ -29,10 +29,27 @@ namespace AI
 			{
 				return chaseState;
 			}
+			else if (aiManager.DistanceFromTarget < aiManager.maxAttackRange / 2)  //временая константа
+			{
+				Flee(aiManager, targetDirection);
+				return attackState;
+			}
 			else
 			{
 				return this;
 			}
+		}
+
+		private void Flee(AIManager aiManager, Vector3 targetDirection)
+		{
+			float delta = Time.deltaTime;
+			Vector3 newPos = transform.position + targetDirection;  //TODO Check newPos for availability
+			aiManager.navMeshAgent.enabled = true;
+			aiManager.navMeshAgent.SetDestination(newPos);
+			transform.parent.rotation = Quaternion.Slerp(transform.rotation,
+														 aiManager.navMeshAgent.transform.rotation,
+														 aiManager.rotationSpeed / delta);
+			aiManager.movement = aiManager.navMeshAgent.desiredVelocity;
 		}
 	}
 }

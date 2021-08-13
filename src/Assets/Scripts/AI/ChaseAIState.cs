@@ -14,6 +14,7 @@ namespace AI
 			//Chase target
 			//if within attack range, switch to combat state
 			//else return this
+			//if (aiManager.isPerfomingAction || !aiManager.CanSeeTarget)
 			if (aiManager.isPerfomingAction)
 			{
 				return this;

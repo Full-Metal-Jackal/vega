@@ -13,6 +13,7 @@ namespace AI
 		public AIState currentState;
 		public bool isPerfomingAction;
 		public Mob currentTarget;
+		public bool CanSeeTarget = false;
 		public Mob Player { get; private set; }  //needs to prevent AI detecting itself
 		private Mob mob;
 
