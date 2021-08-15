@@ -14,7 +14,6 @@ namespace AI
 			//Chase target
 			//if within attack range, switch to combat state
 			//else return this
-			//if (aiManager.isPerfomingAction || !aiManager.CanSeeTarget)
 			if (aiManager.isPerfomingAction)
 			{
 				return this;
@@ -23,7 +22,7 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-			if (distanceFromTarget > aiManager.maxAttackRange)
+			if (distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
 				aiManager.movement = targetDirection;
 				mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
@@ -32,7 +31,7 @@ namespace AI
 			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 			aiManager.navMeshAgent.transform.localRotation = Quaternion.identity;
 
-			if (distanceFromTarget <= aiManager.maxAttackRange)
+			if (distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
 				return combatStanceState;
 			}

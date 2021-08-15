@@ -19,21 +19,22 @@ namespace AI
 
 
 			//if ready to attack return attack State
-			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.DistanceFromTarget <= aiManager.maxAttackRange)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.DistanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.DistanceFromTarget + Vector3.up * mob.AimHeight;
 				
 				return attackState;
 			}
-			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange)
+			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
 				return chaseState;
 			}
+			/*
 			else if (aiManager.DistanceFromTarget < aiManager.maxAttackRange / 2)  //временая константа
 			{
-				Flee(aiManager, targetDirection);
+				//Flee(aiManager, targetDirection);
 				return attackState;
-			}
+			}*/
 			else
 			{
 				return this;

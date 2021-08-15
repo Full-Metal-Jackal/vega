@@ -40,6 +40,7 @@ namespace AI
 		public float rotationSpeed = 15;
 		public float maxAttackRange = 1.5f;
 		public LayerMask detectionLayer;
+		public LayerMask obstacleLayer;
 		public AIAttackAction[] aiAttacks;
 
 		protected override void Initialize()
@@ -59,6 +60,7 @@ namespace AI
 
 		protected override void OnUpdate(float delta)
 		{
+			CheckTargetVisibility();
 			HandleStateMachine(delta);
 			HandleRecoveryTime(delta);
 		}
@@ -104,6 +106,30 @@ namespace AI
 			mob.PickUpItem(weapon);
 		}
 
+		private void CheckTargetVisibility()
+		{
+			if (currentTarget == null)
+			{
+				CanSeeTarget = false;
+				return;
+			}
+			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
+			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
+			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius))
+			{
+				var detection = hit.transform;
+				if (detection.GetComponent<Mob>() == Player)
+				{
+					print("Find one");
+					CanSeeTarget = true;
+				}
+				else
+				{
+					CanSeeTarget = false;
+				}	
+			}
+			Debug.DrawRay(castFrom, castTo, Color.red);
+		}
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
