@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Speech
 {
-	public class PassiveSpeech : MonoBehaviour
+	public class MobSpeaker : MonoBehaviour
 	{
 		[field: SerializeField]
 		public Transform SpeechPosition { get; private set; }
@@ -36,8 +36,10 @@ namespace Speech
 		/// </summary>
 		/// <param name="line">The line to say.</param>
 		/// <param name="time">The time the line will float in the air. Pass value lower than zero to disable automatic disappearance.</param>
-		public void Speak(string line, float time)
+		public void Speak(string line, float time, bool additive = false)
 		{
+			if (additive)
+				time += GetSpeechTime(line);
 			life = time;
 
 			text.text = line;
