@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class RotatingBillboard : BillboardSprite
+public class RotatingBillboard : Billboard
 {
 	[SerializeField]
 	private Transform referenceOrientation;

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class BillboardSprite : MonoBehaviour
+public class Billboard : MonoBehaviour
 {
-	// Sprites of dynamically spawned entities need to face the camera even before the first frame
+	// Dynamically spawned entities need to face the camera even before the first frame
 	// since their incorrent rotation is quite noticable at the moment of their creation.
 	private void Start() => FaceCam();
 
