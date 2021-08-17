@@ -12,6 +12,9 @@ namespace Speech
 
 		private float life;
 
+		private Transform disappearAwayFrom;
+		private float disappearAtDistance;
+
 		private void Awake()
 		{
 			if (!SpeechPosition)
@@ -27,6 +30,13 @@ namespace Speech
 		{
 			if (life > 0)
 				text.enabled = (life -= Time.deltaTime) > 0;
+
+			if (disappearAwayFrom && Vector3.Distance(transform.position, disappearAwayFrom.position) > disappearAtDistance)
+			{
+				print($"{disappearAwayFrom}, {disappearAtDistance}");
+				text.enabled = false;
+				disappearAwayFrom = null;
+			}
 		}
 
 		public void Speak(string line) => Speak(line, GetSpeechTime(line));
@@ -44,6 +54,12 @@ namespace Speech
 
 			text.text = line;
 			text.enabled = true;
+		}
+
+		public void DisappearAtDistance(Transform subjectTransform, float distance = 2f)
+		{
+			disappearAwayFrom = subjectTransform;
+			disappearAtDistance = distance;
 		}
 
 		private const float secondsPerCharacter = .1f;
