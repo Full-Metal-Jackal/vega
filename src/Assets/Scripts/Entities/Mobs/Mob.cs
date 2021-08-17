@@ -52,6 +52,23 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// </summary>
 	[field: SerializeField]
 	public float StaminaRegenSpeed { get; protected set; } = 20f;
+	protected bool CanRegenStamina
+	{
+		get
+		{
+			if (MovementType == MovementType.Sprinting)
+				return false;
+
+			switch (State)
+			{
+			case MobState.Dead:
+			case MobState.Dodging:
+				return false;
+			}
+
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// How much seconds should pass before the stamina begins to regenerate.
@@ -359,6 +376,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected virtual void UpdateStaminaRegeneration(float delta)
 	{
+		if (!CanRegenStamina)
+			return;
+
 		if (lastStaminaDrain + StaminaRegenDelay > Time.time)
 			return;
 
