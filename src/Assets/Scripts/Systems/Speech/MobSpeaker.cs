@@ -33,9 +33,9 @@ namespace Speech
 
 			if (disappearAwayFrom && Vector3.Distance(transform.position, disappearAwayFrom.position) > disappearAtDistance)
 			{
-				print($"{disappearAwayFrom}, {disappearAtDistance}");
-				text.enabled = false;
+				life = 0;
 				disappearAwayFrom = null;
+				text.enabled = false;
 			}
 		}
 
