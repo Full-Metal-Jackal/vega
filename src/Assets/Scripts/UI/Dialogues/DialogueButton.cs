@@ -11,8 +11,7 @@ namespace UI.Dialogue
 	[RequireComponent(typeof(Button))]
 	public abstract class DialogueButton : MonoBehaviour
 	{
-		public delegate void DialogueButtonClickEvent(ConversationNode node);
-		public event DialogueButtonClickEvent OnClick;
+		public event System.Action<ConversationNode> OnClick;
 		public ConversationNode Node { get; protected set; }
 
 		public bool Initialized { get; private set; } = false;

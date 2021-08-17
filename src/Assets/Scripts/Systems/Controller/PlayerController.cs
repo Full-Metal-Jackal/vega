@@ -79,16 +79,12 @@ public class PlayerController : MobController
 		Actions.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 	}
 
-	public override bool PossessMob(Mob mob)
+	public override void PossessMob(Mob mob)
 	{
-		if (!base.PossessMob(mob))
-			return false;
-
+		base.PossessMob(mob);
 		mob.CanHideWalls = true;
 
 		OnPossessed?.Invoke(mob);
-
-		return true;
 	}
 
 	protected override Vector3 UpdateMovementInput()

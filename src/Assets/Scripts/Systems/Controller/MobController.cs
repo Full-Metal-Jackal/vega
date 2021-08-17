@@ -37,13 +37,11 @@ public abstract class MobController : MonoBehaviour
 	/// Assumes control of the mob.
 	/// </summary>
 	/// <param name="mob">The mob to take control of.</param>
-	/// <returns>true in case of successful possession, false otherwise.</returns>
-	public virtual bool PossessMob(Mob mob)
+	public virtual void PossessMob(Mob mob)
 	{
 		mob.SetPossessed(this);
 		Possessed = mob;
 		Debug.Log($"Controller {Id} possessed {mob}.");
-		return true;
 	}
 
 	private void Update()
