@@ -5,21 +5,27 @@ public abstract class Interaction : MonoBehaviour
 {
 	public bool Initialized { get; private set; } = false;
 
+	[field: SerializeField]
 	public Entity Entity { get; private set; }
+	[field: SerializeField]
+	public Outline Outline { get; private set; }
 
 	public bool Selectable { get; set; } = true;
 
-	private void Awake()
-	{
+	private void Awake() =>
 		Initialize();
-	}
 
 	protected virtual void Initialize()
 	{
 		if (Initialized)
 			throw new System.Exception($"Multiple initialization attempts of {this}!");
 		
-		Entity = GetComponent<Entity>();
+		// So we can assign another GOs entity and outline to the interaction.
+		if (!Entity)
+			Entity = GetComponent<Entity>();
+		if (!Outline)
+			Outline = GetComponent<Outline>();
+
 		Initialized = true;
 	}
 

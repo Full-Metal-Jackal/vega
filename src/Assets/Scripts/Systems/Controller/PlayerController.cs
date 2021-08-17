@@ -43,17 +43,6 @@ public class PlayerController : MobController
 	/// </summary>
 	public float selectionDistance = 1.25f;
 
-	/// <summary>
-	/// The color of the outline of selected entities.
-	/// </summary>
-	public Color selectedColor = Color.white;
-
-	/// <summary>
-	/// The color of the outline of deselected entities.
-	/// <TODO> implement some constant or something instead of this
-	/// </summary>
-	public Color deselectedColor = Color.black;
-
 	protected override void Initialize()
 	{
 		base.Initialize();
@@ -126,8 +115,8 @@ public class PlayerController : MobController
 
 	public void SetSelectedOutline(bool selected)
 	{
-		if ((SelectedEntity is Interaction interaction) && interaction.Entity.Outline is Outline outline)
-			outline.OutlineColor = selected ? selectedColor : deselectedColor;
+		if (SelectedEntity && SelectedEntity.Outline)
+			SelectedEntity.Outline.enabled = selected;
 	}
 
 	public void UpdateSelectedEntitiy()
