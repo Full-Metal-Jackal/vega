@@ -11,19 +11,23 @@ namespace AI
 	public class AIManager : MobController
 	{
 		public AIState currentState;
-		public bool isPerfomingAction;
 		public Mob currentTarget;
-		public bool CanSeeTarget = false;
-		public Mob Player { get; private set; }  //needs to prevent AI detecting itself
-		private Mob mob;
 
+		[HideInInspector]
+		public bool isPerfomingAction;
+
+		public bool CanSeeTarget { get; private set; }
+		public Mob Player { get; private set; }
+		
+		private Mob mob;
 		private float currentRecoveryTime = 0;
+		public float currentMovementRecoveryTime = 0;
+		private float distanceFromTarget;
 		public float CurrentRecoveryTime 
 		{ 
 			get => currentRecoveryTime;
 			set => currentRecoveryTime = value; 
 		}
-		private float distanceFromTarget;
 		public float DistanceFromTarget
 		{
 			get => distanceFromTarget;
@@ -40,7 +44,6 @@ namespace AI
 		public float rotationSpeed = 15;
 		public float maxAttackRange = 1.5f;
 		public LayerMask detectionLayer;
-		public LayerMask obstacleLayer;
 		public AIAttackAction[] aiAttacks;
 
 		protected override void Initialize()
@@ -120,7 +123,6 @@ namespace AI
 				var detection = hit.transform;
 				if (detection.GetComponent<Mob>() == Player)
 				{
-					print("Find one");
 					CanSeeTarget = true;
 				}
 				else
@@ -128,7 +130,6 @@ namespace AI
 					CanSeeTarget = false;
 				}	
 			}
-			Debug.DrawRay(castFrom, castTo, Color.red);
 		}
 		private void OnDrawGizmosSelected()
 		{
