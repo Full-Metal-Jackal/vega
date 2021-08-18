@@ -74,31 +74,14 @@ namespace AI
 				{
 					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
 					{
-						maxScore += aiAttackAction.attackScore;
-					}
-				}
-			}
-
-			int randomValue = Random.Range(0, maxScore);
-			int tmpScore = 0;
-
-			foreach (AIAttackAction aiAttackAction in aiManager.aiAttacks)
-			{
-				if (aiManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
-				{
-					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
-					{
-						tmpScore += aiAttackAction.attackScore;
-
-						if (tmpScore > randomValue)
+						if (aiAttackAction.attackScore > maxScore)
 						{
+							maxScore = aiAttackAction.attackScore;
 							currentAttack = aiAttackAction;
 						}
 					}
 				}
 			}
-
 		}
 	}
 }

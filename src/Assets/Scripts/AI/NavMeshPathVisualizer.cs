@@ -9,14 +9,13 @@ namespace AI
 {
 	public class NavMeshPathVisualizer : MonoBehaviour
 	{
-		LineRenderer line; //to hold the line Renderer
-		Transform target; //to hold the transform of the target
-		NavMeshAgent agent; //to hold the agent of this gameObject
+		LineRenderer line;
+		NavMeshAgent agent;
 
 		void Start()
 		{
-			line = GetComponent<LineRenderer>(); //get the line renderer
-			agent = GetComponent<NavMeshAgent>(); //get the agent
+			line = GetComponent<LineRenderer>();
+			agent = GetComponent<NavMeshAgent>();
 		}
 
 		public void DrawPath(NavMeshPath path)
@@ -26,7 +25,6 @@ namespace AI
 				return;
 
 			line.positionCount = path.corners.Length;  //set the array of positions to the amount of corners
-
 			line.SetPositions(agent.path.corners);
 		}
 	}
