@@ -26,21 +26,19 @@ namespace AI
 
 			if (currentAttack != null)
 			{
-				if (aiManager.DistanceFromTarget <= currentAttack.minimumDistanceNeededToAttack)
+				if (aiManager.distanceFromTarget <= currentAttack.minimumDistanceNeededToAttack)
 				{
 					return this;
 				}
-				else if (aiManager.DistanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
+				else if (aiManager.distanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
 				{
 					if (aiManager.viewableAngle <= currentAttack.maximumAttackAngle &&
 						aiManager.viewableAngle >= currentAttack.minimumAttackAngle)
 					{
 						if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 						{
-							aiManager.movement = Vector3.zero;
 							aiManager.isPerfomingAction = true;
-							//TODO Кусок говнокода, как замена воспроизведения атаки.
-							Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
+							mob.Fire();
 							aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 							currentAttack = null;
 							return combateStance;
@@ -60,7 +58,7 @@ namespace AI
 		{
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-			aiManager.DistanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
+			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
 			if (currentAttack != null)
 			{
@@ -71,36 +69,19 @@ namespace AI
 
 			foreach (AIAttackAction aiAttackAction in aiManager.aiAttacks)
 			{
-				if (aiManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
+				if (aiManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
+					&& aiManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
 				{
 					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
 					{
-						maxScore += aiAttackAction.attackScore;
-					}
-				}
-			}
-
-			int randomValue = Random.Range(0, maxScore);
-			int tmpScore = 0;
-
-			foreach (AIAttackAction aiAttackAction in aiManager.aiAttacks)
-			{
-				if (aiManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
-				{
-					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
-					{
-						tmpScore += aiAttackAction.attackScore;
-
-						if (tmpScore > randomValue)
+						if (aiAttackAction.attackScore > maxScore)
 						{
+							maxScore = aiAttackAction.attackScore;
 							currentAttack = aiAttackAction;
 						}
 					}
 				}
 			}
-
 		}
 	}
 }
