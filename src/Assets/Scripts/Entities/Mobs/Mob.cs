@@ -52,6 +52,23 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// </summary>
 	[field: SerializeField]
 	public float StaminaRegenSpeed { get; protected set; } = 20f;
+	protected bool CanRegenStamina
+	{
+		get
+		{
+			if (MovementType == MovementType.Sprinting)
+				return false;
+
+			switch (State)
+			{
+			case MobState.Dead:
+			case MobState.Dodging:
+				return false;
+			}
+
+			return true;
+		}
+	}
 
 	/// <summary>
 	/// How much seconds should pass before the stamina begins to regenerate.
@@ -61,7 +78,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected float lastStaminaDrain;
 
-	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
 	public MobInventory Inventory { get; private set; }
@@ -100,6 +116,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
+	public Speech.MobSpeaker Speaker { get; private set; }
 
 	public virtual bool CanUseItems
 	{
@@ -180,7 +197,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
-		Inventory = GetComponentInChildren<Inventory.MobInventory>();
+		Inventory = GetComponentInChildren<MobInventory>();
+		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
+		Animator = GetComponentInChildren<Animator>();
 
 		return true;
 	}
@@ -359,6 +378,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected virtual void UpdateStaminaRegeneration(float delta)
 	{
+		if (!CanRegenStamina)
+			return;
+
 		if (lastStaminaDrain + StaminaRegenDelay > Time.time)
 			return;
 

@@ -76,7 +76,7 @@ public class CameraController : MonoSingleton<CameraController>
 	public void SetTrackedMob(Mob mob)
 	{
 		if (this.mob)
-			RemovePOI(this.mob.gameObject);
+			RemovePOI(this.mob.transform);
 
 		this.mob = mob;
 		AddPOI(mob.transform);
@@ -166,7 +166,13 @@ public class CameraController : MonoSingleton<CameraController>
 		followingCursor = false;
 		AddPOI(poi);
 	}
-	public void ResetPOI() => SetTrackedMob(mob);
+
+	public void ResetPOI()
+	{
+		points.Clear();
+		if (mob)
+			SetTrackedMob(mob);
+	}
 
 	// There are separate methods because unity won't serialize 2 arguments by default.
 	public void AddPOI(GameObject poi) => AddPOI(poi.transform, 1f);

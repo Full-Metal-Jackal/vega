@@ -15,7 +15,7 @@ public abstract class Humanoid : Mob
 	/// <summary>
 	/// The velocity with which this mob is forced forward when dodgeing.
 	/// </summary>
-	public float DodgeSpeed { get; private set; } = 600f;
+	public float DodgeSpeed { get; private set; } = 8f;
 	protected float dodgeAngle = 10f;
 
 	/// <summary>
@@ -297,11 +297,15 @@ public abstract class Humanoid : Mob
 		Stamina -= DodgeStaminaCost;
 
 		Body.velocity = Vector3.zero;
-		Body.AddForce(force, ForceMode.Impulse);
+		Body.AddForce(force, ForceMode.VelocityChange);
 	}
 
-	public void OnDodgeRollEnd() =>
+	public void OnDodgeRollEnd()
+	{
 		State = MobState.Sprinting;
+
+		lastStaminaDrain = Time.time;
+	}
 
 	protected override void Tick(float delta)
 	{

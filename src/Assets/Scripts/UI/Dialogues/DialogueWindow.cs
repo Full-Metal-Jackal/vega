@@ -45,6 +45,9 @@ namespace UI.Dialogue
 
 		private readonly List<OptionButton> optionButtons = new List<OptionButton>();
 		private OptionButton __selectedOption;
+
+		private float tillAutoAdvance = 0;
+
 		public OptionButton SelectedOption
 		{
 			get => __selectedOption;
@@ -68,14 +71,25 @@ namespace UI.Dialogue
 		protected virtual void Setup()
 		{
 			gameObject.SetActive(false);
-			continueButton.OnClick += (buttonNode) => SetupSpeech(buttonNode as SpeechNode);
+			continueButton.OnClick += (node) => SetupSpeech(node as SpeechNode);
 		}
 
 		private void Update()
 		{
+			if (tillAutoAdvance > 0)
+				if ((tillAutoAdvance -= Time.deltaTime) <= 0)
+					Skip();
+
 			if (typewritingEnabled && typewriting && Time.time > typewriteNext)
 				Typewrite();
 		}
+
+		/// <summary>
+		/// Skips through the typewriting and options display directly to the next current from the current one.
+		/// 
+		/// </summary>
+		public void Skip() =>
+			SetupSpeech(GetValidSpeech(currentSpeech));
 
 		private void OnCycle(InputAction.CallbackContext ctx)
 		{
@@ -97,7 +111,11 @@ namespace UI.Dialogue
 
 		private void OnSubmitPressed(InputAction.CallbackContext ctx)
 		{
-			if (typewriting)
+			//  <TODO> Awaits dialogue adaptation.
+			//  if (currentSpeech.AutomaticallyAdvance && currentSpeech.AllowSkipping)
+			//  	Skip();
+			//  else
+			if (typewriting && tillAutoAdvance <= 0)
 				FinishSpeech();
 			else if (SelectedOption)
 				SelectedOption.OnButtonClicked();
@@ -139,7 +157,7 @@ namespace UI.Dialogue
 			Input.PlayerInput.Actions.UI.Submit.performed += OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Navigate.performed += OnCycle;
 
-			SetupSpeech(currentSpeech = conversation.Root);
+			SetupSpeech(conversation.Root);
 		}
 
 		public void SetupSpeech(SpeechNode speech)
@@ -179,6 +197,14 @@ namespace UI.Dialogue
 			{
 				audioSource.volume = speech.Volume;
 				audioSource.PlayOneShot(speech.Audio);
+			}
+
+			if (speech.AutomaticallyAdvance)
+			{
+				tillAutoAdvance = speech.TimeUntilAdvance;
+				// <TODO> Awaits dialogue adaptation.
+				//  if (typewritingEnabled && speech.addTypewritingTime)
+				//  	tillAutoAdvance += charTypingDelay * speech.Text.Length;
 			}
 		}
 
@@ -333,7 +359,7 @@ namespace UI.Dialogue
 
 			ClearOptions();
 
-			if (currentSpeech.AutomaticallyAdvance && IsAutoAdvance())
+			if (currentSpeech.AutomaticallyAdvance && AutoAdvance())
 				return;
 
 			if (GetValidSpeech(option) is SpeechNode nextSpeech)
@@ -342,7 +368,7 @@ namespace UI.Dialogue
 				Close();
 		}
 
-		private bool IsAutoAdvance()
+		private bool AutoAdvance()
 		{
 			switch (currentSpeech.ConnectionType)
 			{
