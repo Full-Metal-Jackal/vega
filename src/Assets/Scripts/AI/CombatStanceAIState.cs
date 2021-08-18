@@ -11,7 +11,7 @@ namespace AI
 		public ChaseAIState chaseState;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
-			aiManager.DistanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			Vector3 pos;
 
@@ -20,9 +20,9 @@ namespace AI
 
 			//if ready to attack return attack State
 
-			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.DistanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
-				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.DistanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
@@ -35,14 +35,14 @@ namespace AI
 					}
 				}
 				
-				aiManager.nmpv.DrawPath(aiManager.navMeshAgent.path);
+				aiManager.navMeshVisualizer.DrawPath(aiManager.navMeshAgent.path);
 				Vector3 moveToPos = aiManager.navMeshAgent.desiredVelocity;
 				aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 				aiManager.movement = moveToPos;
 
 				return attackState;
 			}
-			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
+			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
 				aiManager.navMeshAgent.enabled = false;
 				return chaseState;

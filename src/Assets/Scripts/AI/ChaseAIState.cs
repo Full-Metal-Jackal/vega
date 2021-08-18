@@ -23,7 +23,7 @@ namespace AI
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
 			NavMeshPath path = aiManager.navMeshAgent.path;
-			aiManager.nmpv.DrawPath(path); //Draw path
+			aiManager.navMeshVisualizer.DrawPath(path); //Draw path
 
 			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 

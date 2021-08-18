@@ -12,7 +12,7 @@ namespace AI
 	{
 		public AIState currentState;
 		public Mob currentTarget;
-		public NavMeshPathVisualizer nmpv;
+		public NavMeshPathVisualizer navMeshVisualizer;
 
 		[HideInInspector]
 		public bool isPerfomingAction;
@@ -24,18 +24,14 @@ namespace AI
 		private float currentRecoveryTime = 0;
 		public float currentMovementRecoveryTime = 0;
 
-		private float distanceFromTarget;
-		public float StoppingDistance { get; private set; }
+		public float distanceFromTarget;
+		private const float rangeCoefficient = 0.9f;
+		public float StoppingDistance { get; protected set; }
 
 		public float CurrentRecoveryTime 
 		{ 
 			get => currentRecoveryTime;
 			set => currentRecoveryTime = value; 
-		}
-		public float DistanceFromTarget
-		{
-			get => distanceFromTarget;
-			set => distanceFromTarget = value;
 		}
 
 		[Header("A.I Settings")]
@@ -58,7 +54,7 @@ namespace AI
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			navMeshAgent.updateRotation = false;
 			navMeshAgent.enabled = false;
-			nmpv = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
+			navMeshVisualizer = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
 		}
 
 		protected override void Setup()
@@ -66,7 +62,7 @@ namespace AI
 			base.Setup();
 			mob = Possessed;
 			AssignWeapon();
-			StoppingDistance = maxAttackRange / 100 * 90;  //Не нашел метод который делает сам, поэтому цыфорки
+			StoppingDistance = maxAttackRange * rangeCoefficient;
 		}
 
 		protected override void OnUpdate(float delta)
@@ -113,8 +109,7 @@ namespace AI
 
 		private void AssignWeapon()
 		{
-			Gun weapon = weaponData.PasteItem(Containers.Instance.Items) as Gun;
-			if (!weapon)
+			if (!(weaponData.PasteItem(Containers.Instance.Items) is Gun weapon))
 			{
 				Debug.Log("Weapon assign failed");
 				return;

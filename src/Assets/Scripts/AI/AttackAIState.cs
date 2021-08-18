@@ -26,11 +26,11 @@ namespace AI
 
 			if (currentAttack != null)
 			{
-				if (aiManager.DistanceFromTarget <= currentAttack.minimumDistanceNeededToAttack)
+				if (aiManager.distanceFromTarget <= currentAttack.minimumDistanceNeededToAttack)
 				{
 					return this;
 				}
-				else if (aiManager.DistanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
+				else if (aiManager.distanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
 				{
 					if (aiManager.viewableAngle <= currentAttack.maximumAttackAngle &&
 						aiManager.viewableAngle >= currentAttack.minimumAttackAngle)
@@ -58,7 +58,7 @@ namespace AI
 		{
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-			aiManager.DistanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
+			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
 			if (currentAttack != null)
 			{
@@ -69,8 +69,8 @@ namespace AI
 
 			foreach (AIAttackAction aiAttackAction in aiManager.aiAttacks)
 			{
-				if (aiManager.DistanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiManager.DistanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
+				if (aiManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
+					&& aiManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
 				{
 					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
 					{
