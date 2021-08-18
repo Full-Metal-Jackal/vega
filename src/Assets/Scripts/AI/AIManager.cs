@@ -12,6 +12,7 @@ namespace AI
 	{
 		public AIState currentState;
 		public Mob currentTarget;
+		public NavMeshPathVisualizer nmpv;
 
 		[HideInInspector]
 		public bool isPerfomingAction;
@@ -24,6 +25,7 @@ namespace AI
 		public float currentMovementRecoveryTime = 0;
 
 		private float distanceFromTarget;
+		public float StoppingDistance { get; private set; }
 
 		public float CurrentRecoveryTime 
 		{ 
@@ -45,6 +47,7 @@ namespace AI
 		public float viewableAngle;
 		public float rotationSpeed = 15;
 		public float maxAttackRange = 1.5f;
+		public float maxMovementRecoveryTime = 5;
 		public LayerMask detectionLayer;
 		public AIAttackAction[] aiAttacks;
 
@@ -55,6 +58,7 @@ namespace AI
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			navMeshAgent.updateRotation = false;
 			navMeshAgent.enabled = false;
+			nmpv = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
 		}
 
 		protected override void Setup()
@@ -62,6 +66,7 @@ namespace AI
 			base.Setup();
 			mob = Possessed;
 			AssignWeapon();
+			StoppingDistance = maxAttackRange / 100 * 90;  //Не нашел метод который делает сам, поэтому цыфорки
 		}
 
 		protected override void OnUpdate(float delta)

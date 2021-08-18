@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI
 {
@@ -8,7 +9,6 @@ namespace AI
 	{
 		public CombatStanceAIState combatStanceState;
 
-		private const int aimRange = 5;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Chase target
@@ -22,14 +22,17 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-		    aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
+			NavMeshPath path = aiManager.navMeshAgent.path;
+			aiManager.nmpv.DrawPath(path); //Draw path
 
+			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 
-			if (distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (distanceFromTarget <= aiManager.StoppingDistance && aiManager.CanSeeTarget)
 			{
+				aiManager.navMeshAgent.enabled = false;
 				return combatStanceState;
 			}
-	
+
 			aiManager.movement = targetDirection;
 			mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
 			return this;
