@@ -22,7 +22,9 @@ namespace AI
 		private Mob mob;
 		private float currentRecoveryTime = 0;
 		public float currentMovementRecoveryTime = 0;
+
 		private float distanceFromTarget;
+
 		public float CurrentRecoveryTime 
 		{ 
 			get => currentRecoveryTime;
@@ -51,6 +53,7 @@ namespace AI
 			base.Initialize();
 			Player = PlayerController.Instance.possessAtStart;
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
+			navMeshAgent.updateRotation = false;
 			navMeshAgent.enabled = false;
 		}
 
@@ -96,6 +99,11 @@ namespace AI
 			{
 				isPerfomingAction = false;
 			}
+
+			if (currentMovementRecoveryTime > 0)
+			{
+				currentMovementRecoveryTime -= delta;
+			}
 		}
 
 		private void AssignWeapon()
@@ -131,6 +139,32 @@ namespace AI
 				}	
 			}
 		}
+
+		public Vector3 FIxNavMeshPosition(Vector3 pos)
+		{
+			NavMeshHit hit;
+			print("Pos: " + pos);
+			// Check for nearest point on navmesh to agent, within onMeshThreshold
+			if (NavMesh.SamplePosition(pos, out hit, 3, NavMesh.AllAreas))
+			{
+				// Check if the positions are vertically aligned
+				if (Mathf.Approximately(pos.x, hit.position.x) && Mathf.Approximately(pos.z, hit.position.z))
+				{
+					print("OK");
+					return pos;
+				}
+			}
+			if (NavMesh.FindClosestEdge(pos, out hit, NavMesh.AllAreas))
+			{
+				print("HIT: " + hit.position);
+				return hit.position;
+			}
+			else
+			{
+				return Player.transform.position;
+			}
+		}
+
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;

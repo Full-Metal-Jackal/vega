@@ -37,11 +37,11 @@ namespace AI
 					{
 						if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 						{
-							aiManager.movement = Vector3.zero;
+							//aiManager.movement = Vector3.zero;
 							aiManager.isPerfomingAction = true;
 							//TODO Кусок говнокода, как замена воспроизведения атаки.
-							mob.Fire();
-							Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
+							//mob.Fire();
+							//Debug.Log("ATTTAAAACK ANIMATION FOR " + currentAttack.attackName);
 							aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 							currentAttack = null;
 							return combateStance;

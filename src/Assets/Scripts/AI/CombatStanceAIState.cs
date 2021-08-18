@@ -40,6 +40,7 @@ namespace AI
 				aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 				aiManager.movement = aiManager.navMeshAgent.desiredVelocity;
 				Debug.DrawRay(pos, pos + Vector3.up * 10, Color.blue);
+
 				return attackState;
 			}
 			else if (aiManager.DistanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
@@ -75,6 +76,7 @@ namespace AI
 			aiManager.movement = aiManager.navMeshAgent.desiredVelocity;
 		}
 		*/
+
 		private bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
 		{
 			NavMeshHit hit;

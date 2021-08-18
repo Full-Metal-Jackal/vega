@@ -22,23 +22,18 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-			if (distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
-			{
-				aiManager.movement = targetDirection;
-				mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
-			}
+		    aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
 
-			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
-			aiManager.navMeshAgent.transform.localRotation = Quaternion.identity;
 
 			if (distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
 				return combatStanceState;
 			}
-			else
-			{
-				return this;
-			}
+	
+			aiManager.movement = targetDirection;
+			mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
+			return this;
+
 		}
 
 		public Vector3 GetNavMeshDirection(float delta, AIManager aiManager)
@@ -54,9 +49,7 @@ namespace AI
 			{
 				aiManager.navMeshAgent.enabled = true;
 				aiManager.navMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
-				transform.parent.rotation = Quaternion.Slerp(transform.rotation, 
-															 aiManager.navMeshAgent.transform.rotation, 
-															 aiManager.rotationSpeed / delta);
+
 				targetDirection = aiManager.navMeshAgent.desiredVelocity;
 			}
 
@@ -64,4 +57,5 @@ namespace AI
 		}
 	}
 }
+
 
