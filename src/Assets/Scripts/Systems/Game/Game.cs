@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using UI;
 using Input;
@@ -49,7 +50,7 @@ public static class Game
 
 	public static void LoadScene()
 	{
-
+		Debug.Log("The scene has been loaded.");
 	}
 
 	public static void Start()
@@ -69,5 +70,25 @@ public static class Game
 	private static void Cleanup()
 	{
 		Entities.RemoveWhere((Entity entity) => !entity.Persistent);
+	}
+
+	public static void ChangeLevel(string sceneName)
+	{
+		LoadScene();
+
+		var loading = SceneManager.LoadSceneAsync(sceneName);
+		loading.allowSceneActivation = false;
+
+		//loaderCanvas.SetActive(true);
+		//do
+		//{
+		//	await Task.Delay(100);  //only for test purpose
+		//	progressBar.value = loading.progress;
+
+		//} while (loading.progress < 0.9f);
+
+		loading.allowSceneActivation = true;
+
+		// loaderCanvas.SetActive(false);
 	}
 }

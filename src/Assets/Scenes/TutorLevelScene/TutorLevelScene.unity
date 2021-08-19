@@ -46415,6 +46415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1818332627}
   - component: {fileID: 1818332626}
+  - component: {fileID: 1818332628}
   - component: {fileID: 1818332625}
   m_Layer: 0
   m_Name: SceneChangeTrigger
@@ -46435,6 +46436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323cfb93210a1d44ba8f4d4ac417c145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnTriggered:
+    m_PersistentCalls:
+      m_Calls: []
   sceneName: BoscoFightScene
 --- !u!65 &1818332626
 BoxCollider:
@@ -46463,6 +46467,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818332628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818332624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fdaf69350bc7844b6bec252e821efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1818332625}
+        m_TargetAssemblyTypeName: TriggerSystem.LevelChangeTrigger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  requiresPlayer: 1
 --- !u!1 &1826331039
 GameObject:
   m_ObjectHideFlags: 0
