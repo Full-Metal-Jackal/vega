@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+	// Singletons shouldn't contain reference to the old scene's objects after transition to another scene.
+	protected virtual void Awake()
+	{
+		inst = null;
+	}
+
 	private static T inst;
 	public static T Instance
 	{

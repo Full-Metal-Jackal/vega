@@ -44,12 +44,12 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
-		PlayerController.Instance.OnPossessed += (mob) =>
-		{
-			CameraController.Instance.SetTrackedMob(mob);
-		};
-
 		Initialized = true;
+	}
+
+	public static void LoadScene()
+	{
+
 	}
 
 	public static void Start()

@@ -14,23 +14,13 @@ namespace UI.CircuitConstructor
 
 		public bool IsOpened => gameObject.activeInHierarchy;
 
-		private void Awake()
-		{
-			Initialize();
-		}
-
-		protected virtual void Initialize()
+		protected override void Awake()
 		{
 			if (!Viewport)
 				throw new System.Exception("No viewport assigned to the circuit constructor.");
 		}
 
-		private void Start()
-		{
-			Setup();
-		}
-
-		public void Setup()
+		public void Start()
 		{
 			gameObject.SetActive(false);
 		}

@@ -30,7 +30,13 @@ namespace Input
 			}
 		}
 
-		private void Awake()
+		//protected override void Initialize()
+		//{
+		//	base.Initialize();
+		//	Actions = new InputActions();
+		//}
+
+		protected override void Awake()
 		{
 			Actions = new InputActions();
 		}
