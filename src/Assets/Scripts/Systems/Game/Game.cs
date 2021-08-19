@@ -21,7 +21,7 @@ public static class Game
 		set
 		{
 			__paused = value;
-			PlayerInput.Instance.UpdateInput();
+			PlayerInput.UpdateInput();
 		}
 	}
 
@@ -35,7 +35,7 @@ public static class Game
 			CameraController.Instance.InScene = __playingScene;
 			Hud.Instance.Toggle(!__playingScene);
 
-			PlayerInput.Instance.UpdateInput();
+			PlayerInput.UpdateInput();
 		}
 	}
 
@@ -46,19 +46,15 @@ public static class Game
 			throw new System.Exception("Multiple Game initialization attempts.");
 
 		Initialized = true;
+		PlayerInput.Initialize();
 	}
 
 	public static void LoadScene()
 	{
-		Debug.Log("The scene has been loaded.");
-	}
-
-	public static void Start()
-	{
 		if (!Initialized)
 			throw new System.Exception("Attempted to start uninitialized Game instance.");
 
-		PlayerInput.Instance.UpdateInput();
+		PlayerInput.UpdateInput();
 
 		Debug.Log("The Game has been started.");
 	}
@@ -74,10 +70,10 @@ public static class Game
 
 	public static void ChangeLevel(string sceneName)
 	{
-		LoadScene();
+		Cleanup();
 
 		var loading = SceneManager.LoadSceneAsync(sceneName);
-		loading.allowSceneActivation = false;
+		// loading.allowSceneActivation = false;
 
 		//loaderCanvas.SetActive(true);
 		//do

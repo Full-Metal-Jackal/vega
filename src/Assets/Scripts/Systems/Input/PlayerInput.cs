@@ -2,7 +2,7 @@
 
 namespace Input
 {
-	public class PlayerInput : MonoSingleton<PlayerInput>
+	public static class PlayerInput
 	{
 		public static InputActions Actions { get; private set; }
 
@@ -30,18 +30,12 @@ namespace Input
 			}
 		}
 
-		//protected override void Initialize()
-		//{
-		//	base.Initialize();
-		//	Actions = new InputActions();
-		//}
-
-		protected override void Awake()
+		public static void Initialize()
 		{
 			Actions = new InputActions();
 		}
 
-		public void UpdateInput()
+		public static void UpdateInput()
 		{
 			WorldInputEnabled = !(Game.Paused || Game.PlayingScene);
 			UiInputEnabled = Game.Paused;

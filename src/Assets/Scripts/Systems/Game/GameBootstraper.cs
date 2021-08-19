@@ -8,11 +8,9 @@ public class GameBootstraper : MonoBehaviour
 	{
 		if (!Game.Initialized)
 			Game.Initialize();
-		// Game.LoadScene();
 	}
 
-	private void Start() =>
-		Game.Start();
+	private void Start() => Game.LoadScene();
 
 	/// <summary>
 	/// Since Unity cannot handle properties, there's a setter for this one.
