@@ -78,7 +78,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected float lastStaminaDrain;
 
-	[field: SerializeField]
 	protected Animator Animator { get; private set; }
 
 	public MobInventory Inventory { get; private set; }
@@ -117,6 +116,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public bool Alive { get; protected set; } = true;
 
 	public MobController Controller { get; set; }
+	public Speech.MobSpeaker Speaker { get; private set; }
 
 	public virtual bool CanUseItems
 	{
@@ -197,7 +197,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Health = MaxHealth;
 		Stamina = MaxStamina;
 
-		Inventory = GetComponentInChildren<Inventory.MobInventory>();
+		Inventory = GetComponentInChildren<MobInventory>();
+		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
+		Animator = GetComponentInChildren<Animator>();
 
 		return true;
 	}

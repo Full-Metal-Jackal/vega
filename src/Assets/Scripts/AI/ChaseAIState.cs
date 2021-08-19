@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI
 {
 	public class ChaseAIState : AIState
 	{
 		public CombatStanceAIState combatStanceState;
+
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Chase target
@@ -20,22 +22,21 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-			if (distanceFromTarget > aiManager.maxAttackRange)
-			{
-				aiManager.movement = targetDirection;
-			}
+			NavMeshPath path = aiManager.navMeshAgent.path;
+			aiManager.navMeshVisualizer.DrawPath(path); //Draw path
 
 			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
-			aiManager.navMeshAgent.transform.localRotation = Quaternion.identity;
 
-			if (distanceFromTarget <= aiManager.maxAttackRange)
+			if (distanceFromTarget <= aiManager.StoppingDistance && aiManager.CanSeeTarget)
 			{
+				aiManager.navMeshAgent.enabled = false;
 				return combatStanceState;
 			}
-			else
-			{
-				return this;
-			}
+
+			aiManager.movement = targetDirection;
+			mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
+			return this;
+
 		}
 
 		public Vector3 GetNavMeshDirection(float delta, AIManager aiManager)
@@ -51,9 +52,7 @@ namespace AI
 			{
 				aiManager.navMeshAgent.enabled = true;
 				aiManager.navMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
-				transform.parent.rotation = Quaternion.Slerp(transform.rotation, 
-															 aiManager.navMeshAgent.transform.rotation, 
-															 aiManager.rotationSpeed / delta);
+
 				targetDirection = aiManager.navMeshAgent.desiredVelocity;
 			}
 
@@ -61,4 +60,5 @@ namespace AI
 		}
 	}
 }
+
 
