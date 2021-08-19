@@ -72,19 +72,9 @@ public static class Game
 	{
 		Cleanup();
 
-		var loading = SceneManager.LoadSceneAsync(sceneName);
-		// loading.allowSceneActivation = false;
+		AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName);
+		loading.allowSceneActivation = false;
 
-		//loaderCanvas.SetActive(true);
-		//do
-		//{
-		//	await Task.Delay(100);  //only for test purpose
-		//	progressBar.value = loading.progress;
-
-		//} while (loading.progress < 0.9f);
-
-		loading.allowSceneActivation = true;
-
-		// loaderCanvas.SetActive(false);
+		UI.Loading.LoadingScreen.Instance.Open(loading);
 	}
 }
