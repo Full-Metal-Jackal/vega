@@ -51,12 +51,14 @@ namespace UI.Loading
 		{
 			if (finished)
 				return;
-			
-			const float neededProgress = .9f;  // loading.isDone never happens for some reason.
 
-			progressBar.Progress = loading.progress / neededProgress;
+			progressBar.Progress = loading.progress / LevelLoader.neededProgress;
 
-			if (loading.progress >= neededProgress)
+			const int maxDots = 3;
+			const float drummingSpeed = 3f;
+			progressBar.Text.text = "Loading" + new string('.', 1 + (Mathf.FloorToInt(Time.time * drummingSpeed) % maxDots));
+
+			if (loading.progress >= LevelLoader.neededProgress)
 				FinishLoading();
 		}
 
@@ -65,13 +67,17 @@ namespace UI.Loading
 			continueButton.gameObject.SetActive(enabled);
 		}
 
+		public void ContinuePressed()
+		{
+			loading.allowSceneActivation = true;
+		}
+
 		public void Close()
 		{
 			gameObject.SetActive(false);
 			Game.Paused = false;
 
 			Debug.Log("Closing the loading screen...");
-			loading.allowSceneActivation = true;
 		}
 	}
 }

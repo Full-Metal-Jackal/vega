@@ -8,9 +8,9 @@ namespace TriggerSystem
 		private string sceneName;
 
 		public void ChangeScene(string sceneName) =>
-			Game.ChangeLevel(sceneName);
+			LevelLoader.Instance.ChangeLevel(sceneName);
 		
 		public void ChangeScene() =>
-			Game.ChangeLevel(sceneName);
+			LevelLoader.Instance.ChangeLevel(sceneName);
 	}
 }

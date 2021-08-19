@@ -45,36 +45,25 @@ public static class Game
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 
+		Debug.Log("The game has been initialized.");
 		Initialized = true;
 		PlayerInput.Initialize();
 	}
 
-	public static void LoadScene()
+	public static void StartLevel()
 	{
 		if (!Initialized)
 			throw new System.Exception("Attempted to start uninitialized Game instance.");
 
 		PlayerInput.UpdateInput();
-
-		Debug.Log("The Game has been started.");
 	}
 
 	/// <summary>
 	/// Clears all the references contained in this object.
 	/// Has to be used on level transitions.
 	/// </summary>
-	private static void Cleanup()
+	public static void Cleanup()
 	{
 		Entities.RemoveWhere((Entity entity) => !entity.Persistent);
-	}
-
-	public static void ChangeLevel(string sceneName)
-	{
-		Cleanup();
-
-		AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName);
-		loading.allowSceneActivation = false;
-
-		UI.Loading.LoadingScreen.Instance.Open(loading);
 	}
 }
