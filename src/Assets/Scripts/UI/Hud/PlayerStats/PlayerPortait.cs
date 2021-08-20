@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerPortait : MonoBehaviour
+namespace UI.HUD
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public class PlayerPortait : MonoBehaviour
+	{
+		[SerializeField]
+		private Image image;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	//	private void Start() =>
+	//		PlayerController.Instance.OnPossessed += (player) =>
+	//		{
+	//			image.sprite = player.PersonData.mediumPortrait;
+	//		};
+	}
 }
