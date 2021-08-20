@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.HUD
 {
 	[RequireComponent(typeof(CanvasScaler))]
 	public sealed class Hud : MonoSingleton<Hud>
 	{
 		[SerializeField]
-		private GameObject playerStats, weaponSelector;
+		private GameObject weaponSelector;
 
 		// Unused yet, added for future reference
 		private CanvasScaler canvasScaler;
@@ -17,15 +17,6 @@ namespace UI
 		private void Awake()
 		{
 			canvasScaler = GetComponent<CanvasScaler>();
-		}
-
-		// NOTE: currently unused, reserved for future applications (e.g. toggling hud)
-		private void ToggleComponents(bool toggle)
-		{
-			playerStats.SetActive(toggle);
-			weaponSelector.SetActive(toggle);
-
-			componentsActive = toggle;
 		}
 
 		public void Toggle(bool toggle) => gameObject.SetActive(toggle);

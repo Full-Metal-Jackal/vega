@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace UI
+namespace UI.HUD
 {
-	public class StaminaBar : MonoBehaviour
+	public class PlayerStaminaIndicator : MonoBehaviour
 	{
 		[SerializeField]
 		private List<AlphaIndicator> indicators;

@@ -1,13 +1,7 @@
-﻿using System;
-using UnityEngine;
-
-namespace UI
+﻿namespace UI.HUD
 {
-	public class HealthBar : MonoBehaviour
+	public class PlayerHealthBar : HorizontalProgressBar
 	{
-		[SerializeField]
-		private RectTransform barTransform;
-
 		private Mob player;
 
 		private void Start() =>
@@ -22,8 +16,7 @@ namespace UI
 
 		private void HealthChangedHandler()
 		{
-			float healthRatio = Math.Min(player.Health / player.MaxHealth, 1f);
-			barTransform.localPosition = new Vector3(-barTransform.rect.width * (1 - healthRatio), 0f, 0f);
+			Value = player.Health / player.MaxHealth;
 		}
 	}
 }

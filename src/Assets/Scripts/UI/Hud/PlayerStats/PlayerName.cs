@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
-namespace UI
+namespace UI.HUD
 {
 	public class PlayerName : MonoBehaviour
 	{
 		[SerializeField]
-		private Text text;
+		private TMP_Text text;
 
 		private void Start() =>
 			PlayerController.Instance.OnPossessed += player => text.text = player.Name;
