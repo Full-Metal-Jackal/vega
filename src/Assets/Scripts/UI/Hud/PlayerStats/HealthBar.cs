@@ -6,7 +6,7 @@ namespace UI
 	public class HealthBar : MonoBehaviour
 	{
 		[SerializeField]
-		private RectTransform rectTransform;
+		private RectTransform barTransform;
 
 		private Mob player;
 
@@ -23,7 +23,7 @@ namespace UI
 		private void HealthChangedHandler()
 		{
 			float healthRatio = Math.Min(player.Health / player.MaxHealth, 1f);
-			rectTransform.localPosition = new Vector3(-rectTransform.rect.width * (1 - healthRatio), 0f, 0f);
+			barTransform.localPosition = new Vector3(-barTransform.rect.width * (1 - healthRatio), 0f, 0f);
 		}
 	}
 }

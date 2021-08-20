@@ -8,9 +8,6 @@ namespace UI
 	public class StaminaBar : MonoBehaviour
 	{
 		[SerializeField]
-		private RectTransform rectTransform;
-
-		[SerializeField]
 		private List<AlphaIndicator> indicators;
 
 		private Mob player;
@@ -30,14 +27,12 @@ namespace UI
 		// and calling an event delegate almost every frame is much more expensive than this
 		private void Update()
 		{
-			float toFlash = Mathf.Clamp01(player.Stamina / player.MaxStamina) * indicators.Count;
-
-			Debug.Log(Mathf.Clamp01(player.Stamina / player.MaxStamina));
+			float indicatorsToEnable = Mathf.Clamp01(player.Stamina / player.MaxStamina) * indicators.Count;
 
 			foreach (AlphaIndicator indicator in indicators)
 			{
-				indicator.Value = toFlash;
-				toFlash -= 1f;
+				indicator.Value = indicatorsToEnable;
+				indicatorsToEnable -= 1f;
 			}
 		}
 	}
