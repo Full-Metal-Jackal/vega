@@ -29,8 +29,6 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 
 		while (!loading.isDone)
 			yield return null;
-
-		UI.Loading.LoadingScreen.Instance.Close();
 	}
 
 	// <TODO> Must be relocated somewhere else

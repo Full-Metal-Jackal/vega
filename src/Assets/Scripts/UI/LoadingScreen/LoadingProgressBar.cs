@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.Loading
 {
+	// <TODO> Make child of ProgressBar class from the HUD branch
 	public class LoadingProgressBar : MonoBehaviour
 	{
 		[SerializeField]

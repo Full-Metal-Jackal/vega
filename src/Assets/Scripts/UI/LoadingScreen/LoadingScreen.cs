@@ -45,6 +45,7 @@ namespace UI.Loading
 		{
 			finished = true;
 			ToggleButton(true);
+			progressBar.Text.text = "Continue";
 		}
 
 		private void OnGUI()
@@ -70,11 +71,12 @@ namespace UI.Loading
 		public void ContinuePressed()
 		{
 			loading.allowSceneActivation = true;
+			Close();
 		}
 
 		public void Close()
 		{
-			gameObject.SetActive(false);
+			gameObject.SetActive(false);  // Might destroy the entire object as well.
 			Game.Paused = false;
 
 			Debug.Log("Closing the loading screen...");
