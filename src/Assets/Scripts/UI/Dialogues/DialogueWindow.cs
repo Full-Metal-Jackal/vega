@@ -61,7 +61,7 @@ namespace UI.Dialogue
 		}
 		private int optionIndex = 0;
 
-		private void Awake()
+		protected override void Awake()
 		{
 			audioSource = GetComponent<AudioSource>();
 		}

@@ -8,7 +8,7 @@ namespace TriggerSystem
 		[SerializeField]
 		private bool requiresPlayer = true;
 
-		private void OnTriggerEnter(Collider other)
+		protected virtual void OnTriggerEnter(Collider other)
 		{
 			if (requiresPlayer
 				&& !(other.transform.parent.TryGetComponent(out Mob mob) && mob.IsPlayer)

@@ -73,6 +73,7 @@ public class PlayerController : MobController
 		base.PossessMob(mob);
 		mob.CanHideWalls = true;
 
+		CameraController.Instance.SetTrackedMob(mob);
 		OnPossessed?.Invoke(mob);
 	}
 

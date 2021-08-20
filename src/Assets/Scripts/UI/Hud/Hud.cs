@@ -14,7 +14,7 @@ namespace UI
 
 		private bool componentsActive = true;
 
-		private void Awake()
+		protected override void Awake()
 		{
 			canvasScaler = GetComponent<CanvasScaler>();
 		}

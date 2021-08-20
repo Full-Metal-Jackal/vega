@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TriggerSystem
 {
-	public class Timer : Trigger
+	public class TimedTrigger : Trigger
 	{
 		/// <summary>
 		/// How much time should pass befoare the trigger activates.
