@@ -18,6 +18,7 @@ namespace UI.Dialogue
 
 		[SerializeField]
 		private RectTransform optionsHolder;
+		private bool optionsHolderPendingUpdate = false;
 
 		[SerializeField]
 		private TextMeshProUGUI characterLine;
@@ -74,6 +75,12 @@ namespace UI.Dialogue
 
 		private void Update()
 		{
+			if (optionsHolderPendingUpdate)
+			{
+				LayoutRebuilder.ForceRebuildLayoutImmediate(optionsHolder);
+				optionsHolderPendingUpdate = false;
+			}
+
 			if (tillAutoAdvance > 0)
 				if ((tillAutoAdvance -= Time.deltaTime) <= 0)
 					Skip();
@@ -331,6 +338,7 @@ namespace UI.Dialogue
 			button.OnClick += (buttonNode) => OptionSelected(buttonNode as OptionNode);
 
 			optionButtons.Add(button);
+			optionsHolderPendingUpdate = true;
 
 			return button;
 		}
