@@ -4,6 +4,7 @@ using DialogueEditor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace UI.Dialogue
 {
@@ -83,7 +84,6 @@ namespace UI.Dialogue
 
 		/// <summary>
 		/// Skips through the typewriting and options display directly to the next current from the current one.
-		/// 
 		/// </summary>
 		public void Skip() =>
 			SetupSpeech(GetValidSpeech(currentSpeech));
@@ -172,7 +172,6 @@ namespace UI.Dialogue
 			// <TODO> We will store the character's name in the portrait info later.
 			characterName.text = speech.Name;
 
-			characterLine.font = speech.TMPFont;
 			characterLine.text = speech.Text;
 			if (typewritingEnabled)
 			{

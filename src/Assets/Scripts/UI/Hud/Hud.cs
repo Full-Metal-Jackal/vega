@@ -12,8 +12,6 @@ namespace UI.HUD
 		// Unused yet, added for future reference
 		private CanvasScaler canvasScaler;
 
-		private bool componentsActive = true;
-
 		private void Awake()
 		{
 			canvasScaler = GetComponent<CanvasScaler>();
