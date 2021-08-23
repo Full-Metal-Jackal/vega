@@ -23,9 +23,6 @@ namespace UI.Dialogue
 		[SerializeField]
 		private TextMeshProUGUI characterName;
 
-		[SerializeField]
-		private RectTransform divider;
-
 		private Conversation conversation;
 		private SpeechNode currentSpeech;
 
@@ -399,7 +396,6 @@ namespace UI.Dialogue
 		private void ToggleOptions(bool toggle)
 		{
 			optionsHolder.gameObject.SetActive(toggle);
-			divider.gameObject.SetActive(toggle);
 		}
 
 		public void Close()
