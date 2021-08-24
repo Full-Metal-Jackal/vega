@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoverSpot : Entity
+public class CoverSpot : MonoBehaviour
 {
 	// Объект являющийся укрытием. Представляет собой "Щит" простреливаемый с внутренней стороны, но не со внешней.
 	// Может быть уничтожено гранатой

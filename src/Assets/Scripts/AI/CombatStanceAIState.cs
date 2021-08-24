@@ -47,7 +47,6 @@ namespace AI
 				if (FixCoverPos(newCover, out Vector3 newPos))
 				{
 					aiManager.navMeshAgent.enabled = true;
-					print("Found Cover with position in: " + newPos);
 					pos = newPos;
 					aiManager.navMeshAgent.SetDestination(pos);
 					aiManager.currentCover = newCover;
@@ -114,12 +113,10 @@ namespace AI
 		{
 			NavMeshHit hit;
 			Vector3 pointInSphere = Random.insideUnitSphere * cover.radius;
-			//pointInSphere.y = 0;
 			Vector3 randomPoint = cover.transform.position + pointInSphere;
-			print("RandomPoint: " + randomPoint);
 			Vector3 randP = randomPoint;
 			randP.y = 0;
-			if (NavMesh.SamplePosition(randomPoint, out hit, 0.1f, -1 << 18))
+			if (NavMesh.SamplePosition(randomPoint, out hit, 0.1f, -1 << NavMesh.GetAreaFromName("Cover")))
 			{
 				point = hit.position;
 				return true;
