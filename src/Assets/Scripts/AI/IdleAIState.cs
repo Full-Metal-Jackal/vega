@@ -7,6 +7,7 @@ namespace AI
 	public class IdleAIState : AIState
 	{
 		public ChaseAIState chaseState;
+		public CombatStanceAIState combatStance;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Look for target
@@ -38,6 +39,9 @@ namespace AI
 
 			if (aiManager.currentTarget != null)
 			{
+				if (aiManager.InCover)
+					return combatStance;
+
 				return chaseState;
 			}
 			else

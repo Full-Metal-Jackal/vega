@@ -68,12 +68,15 @@ MonoBehaviour:
   <Name>k__BackingField: TestBoy
   <CanHideWalls>k__BackingField: 0
   <MaxHealth>k__BackingField: 100
-  <Health>k__BackingField: 50
-  <Stamina>k__BackingField: 100
+  __health: 0
+  __stamina: 0
   <MaxStamina>k__BackingField: 100
-  <Animator>k__BackingField: {fileID: 1273937342606175730}
+  <StaminaRegenSpeed>k__BackingField: 20
+  <StaminaRegenDelay>k__BackingField: 0.75
+  CanTakeCover: 0
   <MoveSpeed>k__BackingField: 250
   <MaxTurningSpeed>k__BackingField: 10
+  <AimHeight>k__BackingField: 1.7
   <WalkSpeedFactor>k__BackingField: 0.5
   <DodgeCooldown>k__BackingField: 1
   <DodgeStaminaCost>k__BackingField: 25
@@ -172,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: {fileID: 988521597117681137}
   chaseState: {fileID: 7776505678116739360}
+  idleState: {fileID: 2813307396437435965}
 --- !u!1 &5955227860236560870
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +271,13 @@ MonoBehaviour:
   movement: {x: 0, y: 0, z: 0}
   currentState: {fileID: 2813307396437435965}
   currentTarget: {fileID: 0}
+  navMeshVisualizer: {fileID: 0}
+  isPerfomingAction: 0
+  currentMovementRecoveryTime: 0
+  distanceFromTarget: 0
+  coverSpots: {fileID: 0}
+  currentCover: {fileID: 0}
+  InCover: 0
   weaponData: {fileID: 0}
   navMeshAgent: {fileID: 0}
   detectionRadius: 5
@@ -275,9 +286,13 @@ MonoBehaviour:
   viewableAngle: 180
   rotationSpeed: 15
   maxAttackRange: 1.5
+  maxMovementRecoveryTime: 5
   detectionLayer:
     serializedVersion: 2
     m_Bits: 16384
+  coverSpotsLayer:
+    serializedVersion: 2
+    m_Bits: 0
   aiAttacks:
   - {fileID: 11400000, guid: 85e7f9aa72bd9964cb218a919525a6e7, type: 2}
   - {fileID: 11400000, guid: 9b0713088066c114bb18241e3e2c3b5c, type: 2}
@@ -325,6 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseState: {fileID: 7776505678116739360}
+  combatStance: {fileID: 710179232444781986}
 --- !u!1 &8669919439474539877
 GameObject:
   m_ObjectHideFlags: 0
@@ -6751,6 +6767,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3755270706502844177, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
+--- !u!1 &4667834686811759329 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7909442504868135696, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
+  m_PrefabInstance: {fileID: 3243865961591464433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4917045975482702671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7581912934239632062, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
@@ -6766,19 +6787,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7658728989514225273, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
   m_PrefabInstance: {fileID: 3243865961591464433}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1273937342606175730 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4371141069514378243, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
-  m_PrefabInstance: {fileID: 3243865961591464433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1888977366036675867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3977373363273047274, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
-  m_PrefabInstance: {fileID: 3243865961591464433}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4667834686811759329 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7909442504868135696, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
   m_PrefabInstance: {fileID: 3243865961591464433}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5101063048573633390

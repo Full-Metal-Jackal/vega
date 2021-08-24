@@ -14,19 +14,21 @@ namespace AI
 		public Mob currentTarget;
 		public NavMeshPathVisualizer navMeshVisualizer;
 
-		[HideInInspector]
-		public bool isPerfomingAction;
-
 		public bool CanSeeTarget { get; private set; }
 		public Mob Player { get; private set; }
-		
 		private Mob mob;
 		private float currentRecoveryTime = 0;
-		public float currentMovementRecoveryTime = 0;
 
+		public bool isPerfomingAction;
+		[HideInInspector]
+		public float currentMovementRecoveryTime = 0;
 		public float distanceFromTarget;
 		private const float rangeCoefficient = 0.9f;
 		public float StoppingDistance { get; protected set; }
+
+		public GameObject coverSpots;
+		public CoverSpot currentCover;
+		public bool InCover = false;
 
 		public float CurrentRecoveryTime 
 		{ 
@@ -45,6 +47,7 @@ namespace AI
 		public float maxAttackRange = 1.5f;
 		public float maxMovementRecoveryTime = 5;
 		public LayerMask detectionLayer;
+		public LayerMask coverSpotsLayer;
 		public AIAttackAction[] aiAttacks;
 
 		protected override void Initialize()
@@ -68,6 +71,7 @@ namespace AI
 		protected override void OnUpdate(float delta)
 		{
 			CheckTargetVisibility();
+			CheckIfInCover();
 			HandleStateMachine(delta);
 			HandleRecoveryTime(delta);
 		}
@@ -140,35 +144,48 @@ namespace AI
 			}
 		}
 
-		public Vector3 FIxNavMeshPosition(Vector3 pos)
+		public bool FindCover(out CoverSpot cover)
 		{
-			NavMeshHit hit;
-			print("Pos: " + pos);
-			// Check for nearest point on navmesh to agent, within onMeshThreshold
-			if (NavMesh.SamplePosition(pos, out hit, 3, NavMesh.AllAreas))
+			Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, coverSpotsLayer);
+			foreach (Collider colliderElem in colliders)
 			{
-				// Check if the positions are vertically aligned
-				if (Mathf.Approximately(pos.x, hit.position.x) && Mathf.Approximately(pos.z, hit.position.z))
+				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
 				{
-					print("OK");
-					return pos;
+					if (!cover.IsOccupied && !cover.IsDestroyed)
+					{
+						//TODO Добавить проверку на дальность
+						return true;
+					}
 				}
 			}
-			if (NavMesh.FindClosestEdge(pos, out hit, NavMesh.AllAreas))
+			cover = null;
+			return false;
+		}
+
+		private void CheckIfInCover()
+		{
+			Collider[] colliders = Physics.OverlapSphere(transform.position, 1.0f, coverSpotsLayer);
+			foreach (Collider colliderElem in colliders)
 			{
-				print("HIT: " + hit.position);
-				return hit.position;
+				if (colliderElem.TryGetComponent<CoverSpot>(out CoverSpot cover))
+				{
+					if (cover == currentCover)
+					{
+						InCover = true;
+						return;
+					}
+				}
 			}
-			else
-			{
-				return Player.transform.position;
-			}
+			InCover = false;
 		}
 
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(transform.position, detectionRadius);
+
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(transform.position, 0.5f);
 		}
 	}
 }
