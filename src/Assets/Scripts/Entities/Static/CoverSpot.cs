@@ -15,8 +15,6 @@ public class CoverSpot : MonoBehaviour
     public bool IsOccupied;
 	public bool IsDestroyed;
 	public float radius = 2;
-	//public bool IsSafe;  //Возможно лишнее
-
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -26,8 +24,15 @@ public class CoverSpot : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
-			IsOccupied = false;
+		if (other.transform.parent.TryGetComponent(out Mob mob))
+		{
+			CoverSpot mobsCover = mob.GetComponent<AI.AIManager>().currentCover;
+			if (mobsCover == this)
+			{
+				IsOccupied = false;
+			}
+		}
+			
 	}
 
 	private void OnDrawGizmosSelected()
