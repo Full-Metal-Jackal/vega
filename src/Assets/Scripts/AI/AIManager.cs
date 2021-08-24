@@ -28,7 +28,7 @@ namespace AI
 		[HideInInspector]
 		public float distanceFromTarget;
 		[HideInInspector]
-		public bool InCover = false;
+		public bool inCover = false;
 		private const float rangeCoefficient = 0.9f;
 		public float StoppingDistance { get; protected set; }
 
@@ -153,7 +153,7 @@ namespace AI
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
 				{
-					if (!cover.IsOccupied && !cover.IsDestroyed)
+					if (!cover.isOccupied && !cover.isDestroyed)
 					{
 						//TODO Добавить проверку на дальность
 						return true;
@@ -173,12 +173,12 @@ namespace AI
 				{
 					if (cover == currentCover)
 					{
-						InCover = true;
+						inCover = true;
 						return;
 					}
 				}
 			}
-			InCover = false;
+			inCover = false;
 		}
 
 		private void OnDrawGizmosSelected()

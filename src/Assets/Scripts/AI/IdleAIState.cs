@@ -39,7 +39,7 @@ namespace AI
 
 			if (aiManager.currentTarget != null)
 			{
-				if (aiManager.InCover)
+				if (aiManager.inCover)
 					return combatStance;
 
 				return chaseState;

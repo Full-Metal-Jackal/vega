@@ -25,7 +25,7 @@ namespace AI
 			if (aiManager.currentCover != null)
 			{
 				float dist = Vector3.Distance(transform.position, aiManager.currentCover.transform.position);
-				if (!aiManager.InCover)
+				if (!aiManager.inCover)
 				{
 					MoveToLastPos(aiManager);
 					return this;

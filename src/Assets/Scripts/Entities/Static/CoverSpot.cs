@@ -12,14 +12,14 @@ public class CoverSpot : MonoBehaviour
 	// Взаимодействет с Навмешем, создает/обязан находиться в зоне Cover.
 	// 
 
-    public bool IsOccupied;
-	public bool IsDestroyed;
+	public bool isOccupied;
+	public bool isDestroyed;
 	public float radius = 2;
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
-			IsOccupied = true;
+			isOccupied = true;
 	}
 
 	private void OnTriggerExit(Collider other)
@@ -29,7 +29,7 @@ public class CoverSpot : MonoBehaviour
 			CoverSpot mobsCover = mob.GetComponent<AI.AIManager>().currentCover;
 			if (mobsCover == this)
 			{
-				IsOccupied = false;
+				isOccupied = false;
 			}
 		}
 	}
