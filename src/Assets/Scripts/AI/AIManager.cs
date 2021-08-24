@@ -12,23 +12,25 @@ namespace AI
 	{
 		public AIState currentState;
 		public Mob currentTarget;
-		public NavMeshPathVisualizer navMeshVisualizer;
+		public CoverSpot currentCover;
 
 		public bool CanSeeTarget { get; private set; }
 		public Mob Player { get; private set; }
 		private Mob mob;
 		private float currentRecoveryTime = 0;
 
+		[HideInInspector]
+		public NavMeshPathVisualizer navMeshVisualizer;
+		[HideInInspector]
 		public bool isPerfomingAction;
 		[HideInInspector]
 		public float currentMovementRecoveryTime = 0;
+		[HideInInspector]
 		public float distanceFromTarget;
+		[HideInInspector]
+		public bool InCover = false;
 		private const float rangeCoefficient = 0.9f;
 		public float StoppingDistance { get; protected set; }
-
-		public GameObject coverSpots;
-		public CoverSpot currentCover;
-		public bool InCover = false;
 
 		public float CurrentRecoveryTime 
 		{ 

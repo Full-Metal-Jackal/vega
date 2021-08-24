@@ -32,7 +32,6 @@ public class CoverSpot : MonoBehaviour
 				IsOccupied = false;
 			}
 		}
-			
 	}
 
 	private void OnDrawGizmosSelected()
