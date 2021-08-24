@@ -151,9 +151,7 @@ public class Gun : Item<Gun>
 		SoundEffects.Play(SoundEffects.DryFire);
 		// <TODO> May be start reloading here?
 		if (!Owner.IsPlayer)
-		{
-			Reload();
-		}
+			Owner.Reload();
 	}
 
 	private void Update() => Tick();

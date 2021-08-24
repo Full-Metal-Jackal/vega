@@ -50,7 +50,6 @@ namespace AI
 			{
 				AssignNewAttack(aiManager);
 			}
-
 			return combateStance;
 		}
 

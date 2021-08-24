@@ -5,14 +5,16 @@
 		private Mob player;
 
 		private void Start() =>
-			PlayerController.Instance.OnPossessed += (player) =>
-			{
-				if (this.player)
-					this.player.OnHealthChanged -= HealthChangedHandler;
-				
-				this.player = player;
-				this.player.OnHealthChanged += HealthChangedHandler;
-			};
+			PlayerController.Instance.OnPossessed += SetPlayer;
+
+		private void SetPlayer(Mob mobPlayer)
+		{
+			if (player)
+				player.OnHealthChanged -= HealthChangedHandler;
+
+			player = mobPlayer;
+			player.OnHealthChanged += HealthChangedHandler;
+		}
 
 		private void HealthChangedHandler()
 		{

@@ -78,6 +78,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected float lastStaminaDrain;
 
+	public bool CanTakeCover;
 	protected Animator Animator { get; private set; }
 
 	public MobInventory Inventory { get; private set; }
