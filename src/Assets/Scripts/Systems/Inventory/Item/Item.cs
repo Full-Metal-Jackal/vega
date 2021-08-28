@@ -4,6 +4,8 @@ namespace Inventory
 {
 	public abstract class Item : MonoBehaviour
 	{
+		public event System.Action OnSlotTextChanged;
+
 		public bool Initialized { get; private set; } = false;
 
 		[field: SerializeField]
@@ -14,6 +16,8 @@ namespace Inventory
 
 		[field: SerializeField]
 		public string Desc { get; private set; }
+
+		public abstract string SlotText { get; }
 
 		/// <summary>
 		/// The model that currently represents this item in the mob's hands.
@@ -60,12 +64,7 @@ namespace Inventory
 		/// </summary>
 		public virtual bool IsAimable => false;
 
-		private void Awake()
-		{
-			Initialize();
-		}
-
-		protected virtual void Initialize()
+		protected virtual void Awake()
 		{
 			if (Initialized)
 				throw new System.Exception($"Multiple initialization attempts of {this}!");
@@ -159,6 +158,9 @@ namespace Inventory
 
 		public bool Drop() => Drop(Vector3.zero);
 		public abstract bool Drop(Vector3 force);
+		
+		protected void UpdateSlotText() =>
+			OnSlotTextChanged?.Invoke();
 	}
 
 	public abstract class Item<ItemType> : Item where ItemType : Item

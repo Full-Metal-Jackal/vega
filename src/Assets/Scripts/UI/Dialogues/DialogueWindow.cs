@@ -4,6 +4,7 @@ using DialogueEditor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace UI.Dialogue
 {
@@ -17,14 +18,12 @@ namespace UI.Dialogue
 
 		[SerializeField]
 		private RectTransform optionsHolder;
+		private bool optionsHolderPendingUpdate = false;
 
 		[SerializeField]
 		private TextMeshProUGUI characterLine;
 		[SerializeField]
 		private TextMeshProUGUI characterName;
-
-		[SerializeField]
-		private RectTransform divider;
 
 		private Conversation conversation;
 		private SpeechNode currentSpeech;
@@ -76,6 +75,12 @@ namespace UI.Dialogue
 
 		private void Update()
 		{
+			if (optionsHolderPendingUpdate)
+			{
+				LayoutRebuilder.ForceRebuildLayoutImmediate(optionsHolder);
+				optionsHolderPendingUpdate = false;
+			}
+
 			if (tillAutoAdvance > 0)
 				if ((tillAutoAdvance -= Time.deltaTime) <= 0)
 					Skip();
@@ -86,7 +91,6 @@ namespace UI.Dialogue
 
 		/// <summary>
 		/// Skips through the typewriting and options display directly to the next current from the current one.
-		/// 
 		/// </summary>
 		public void Skip() =>
 			SetupSpeech(GetValidSpeech(currentSpeech));
@@ -149,7 +153,7 @@ namespace UI.Dialogue
 			Debug.Log("Opening the dialogue window...");
 			gameObject.SetActive(true);
 			Game.Paused = true;
-			Hud.Instance.Toggle(false);
+			HUD.Hud.Instance.Toggle(false);
 
 			conversation = npcConversation.Deserialize();
 
@@ -175,7 +179,6 @@ namespace UI.Dialogue
 			// <TODO> We will store the character's name in the portrait info later.
 			characterName.text = speech.Name;
 
-			characterLine.font = speech.TMPFont;
 			characterLine.text = speech.Text;
 			if (typewritingEnabled)
 			{
@@ -335,6 +338,7 @@ namespace UI.Dialogue
 			button.OnClick += (buttonNode) => OptionSelected(buttonNode as OptionNode);
 
 			optionButtons.Add(button);
+			optionsHolderPendingUpdate = true;
 
 			return button;
 		}
@@ -399,7 +403,6 @@ namespace UI.Dialogue
 		private void ToggleOptions(bool toggle)
 		{
 			optionsHolder.gameObject.SetActive(toggle);
-			divider.gameObject.SetActive(toggle);
 		}
 
 		public void Close()
@@ -407,7 +410,7 @@ namespace UI.Dialogue
 			Debug.Log("Closing the dialogue window...");
 			gameObject.SetActive(false);
 			Game.Paused = false;
-			Hud.Instance.Toggle(true);
+			HUD.Hud.Instance.Toggle(true);
 
 			Input.PlayerInput.Actions.UI.Click.performed -= OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Submit.performed -= OnSubmitPressed;
