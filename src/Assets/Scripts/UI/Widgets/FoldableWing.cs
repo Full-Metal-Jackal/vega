@@ -90,7 +90,6 @@ namespace UI
 				pos.y = shift * reverseMultiplier;
 			}
 
-			print($"{transitionProgress}: {wingRect.localPosition} => {pos} //{wingRect.rect.width}");
 			wingRect.localPosition = pos;
 		}
 
