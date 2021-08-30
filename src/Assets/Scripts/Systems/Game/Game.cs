@@ -33,7 +33,7 @@ public static class Game
 		{
 			__playingScene = value;
 			CameraController.Instance.InScene = __playingScene;
-			Hud.Instance.Toggle(!__playingScene);
+			UI.HUD.Hud.Instance.Toggle(!__playingScene);
 
 			PlayerInput.UpdateInput();
 		}

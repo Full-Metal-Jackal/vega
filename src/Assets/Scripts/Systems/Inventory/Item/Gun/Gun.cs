@@ -51,9 +51,12 @@ public class Gun : Item<Gun>
 
 	public override bool IsAimable => true;
 
-	protected override void Initialize()
+	public override string SlotText =>
+		$"{AmmoCount}/{ClipSize}";
+
+	protected override void Awake()
 	{
-		base.Initialize();
+		base.Awake();
 		AmmoCount = ClipSize;
 	}
 
@@ -76,12 +79,13 @@ public class Gun : Item<Gun>
 
 	public override bool Reload()
 	{
-		if (!CanReload)
+		if (!base.Reload())
 			return false;
 
 		AmmoCount = ClipSize;
 		OnAfterReloaded?.Invoke();
-		
+		UpdateSlotText();
+
 		return true;
 	}
 
@@ -130,6 +134,7 @@ public class Gun : Item<Gun>
 
 		SoundEffects.Play(SoundEffects.Fire);
 		OnAfterFire?.Invoke();
+		UpdateSlotText();
 	}
 
 	public virtual Projectile CreateProjectile()

@@ -158,7 +158,7 @@ public abstract class Humanoid : Mob
 			if (State == MobState.Standing)
 				return false;
 
-			return Stamina > SprintStaminaCost;
+			return Stamina > 0f;
 		}
 	}
 
