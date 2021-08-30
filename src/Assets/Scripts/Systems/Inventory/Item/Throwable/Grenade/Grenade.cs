@@ -11,7 +11,7 @@ public class Grenade : Throwable
 		if (!base.Fire(target))
 			return false;
 
-		// Spawn projectile-grenade.
+		// Spawn projectile-grenade here after throwing animation (for humanoids).
 
 		return true;
 	}
