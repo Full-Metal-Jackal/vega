@@ -11,22 +11,8 @@ public class Grenade : Throwable
 		if (!base.Fire(target))
 			return false;
 
-		timeUntilDetonation = DetonationTime;
-		
+		// Spawn projectile-grenade.
+
 		return true;
-	}
-
-	protected void Update()
-	{
-		if ((timeUntilDetonation -= Time.deltaTime) > 0f)
-			return;
-
-		Explode();
-	}
-
-	protected virtual void Explode()
-	{
-		print($"Let's assume {this} has exploded.");
-		Destroy(gameObject);
 	}
 }

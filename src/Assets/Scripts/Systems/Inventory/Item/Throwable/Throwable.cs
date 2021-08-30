@@ -11,6 +11,8 @@ public class Throwable : Item<Throwable>
 	public float ThrowingSpeed { get; private set; } = 25f;
 	public int Amount { get; protected set; }
 
+	public override string SlotText => Amount.ToString();
+
 	public override bool Fire(Vector3 target)
 	{
 		if (!base.Fire(target))
