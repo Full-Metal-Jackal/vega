@@ -49,7 +49,6 @@ namespace UI
 			enabled = true;
 			IsUnfold = unfold;
 			transitionTarget = unfold ? 1f : 0f;
-			print($"{unfold}: {transitionTarget}");
 		}
 
 		private void Start()
