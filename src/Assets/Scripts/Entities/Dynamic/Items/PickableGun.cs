@@ -1,5 +1,3 @@
-﻿using UnityEngine;
-
-public class PickableGun : Pickable<Gun>
+﻿public class PickableGun : Pickable<Gun>
 {
 }

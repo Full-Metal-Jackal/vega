@@ -15,9 +15,9 @@ public class Table : Interaction
 
 	public DynamicProp Dynamic { get; private set; }
 
-	protected override void Initialize()
+	protected override void Awake()
 	{
-		base.Initialize();
+		base.Awake();
 		Dynamic = Entity as DynamicProp;
 	}
 
