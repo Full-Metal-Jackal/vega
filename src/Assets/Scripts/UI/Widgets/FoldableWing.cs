@@ -15,12 +15,17 @@ namespace UI
 
 		[field: SerializeField]
 		private RectTransform wingRect;
+		[field: SerializeField]
+		private RectTransform buttonRect;
 
 		[SerializeField]
 		private TMPro.TextMeshProUGUI ButtonText;
 
 		[SerializeField]
 		private bool inversed;
+
+		[SerializeField]
+		private float additionalOffset = 0f;
 
 		private bool __isUnfold = false;
 		public bool IsUnfold
@@ -34,9 +39,6 @@ namespace UI
 			}
 		}
 
-		// We have to start the wing offseted because the size fitter makes its width 0 at start.
-		private Vector3 initialOffset;
-
 		private float transitionTarget = 0f;
 		private float transitionProgress = 0f;
 
@@ -47,11 +49,7 @@ namespace UI
 			enabled = true;
 			IsUnfold = unfold;
 			transitionTarget = unfold ? 1f : 0f;
-		}
-
-		private void Awake()
-		{
-			initialOffset = wingRect.localPosition;
+			print($"{unfold}: {transitionTarget}");
 		}
 
 		private void Start()
@@ -76,21 +74,18 @@ namespace UI
 
 		private void OnGUI()
 		{
-			float reverseMultiplier = inversed ? -1f : 1f;
-			Vector3 pos = wingRect.localPosition;
+			Vector3 pos = wingRect.anchoredPosition;
 
 			if (orientation is Orientation.Horizontal)
-			{
-				float shift = Mathf.Lerp(initialOffset.x, 0, transitionProgress);
-				pos.x = shift * reverseMultiplier;
-			}
+				pos.x = inversed
+					? Mathf.Lerp(buttonRect.rect.width - additionalOffset, wingRect.rect.width, transitionProgress)
+					: Mathf.Lerp(buttonRect.rect.width - additionalOffset - wingRect.rect.width, 0, transitionProgress);
 			else
-			{
-				float shift = Mathf.Lerp(initialOffset.y, 0, transitionProgress);
-				pos.y = shift * reverseMultiplier;
-			}
+				pos.y = inversed
+					? Mathf.Lerp(additionalOffset + wingRect.rect.height - buttonRect.rect.height, 0, transitionProgress)
+					: Mathf.Lerp(buttonRect.rect.height - additionalOffset, wingRect.rect.height, transitionProgress);
 
-			wingRect.localPosition = pos;
+			wingRect.anchoredPosition = pos;
 		}
 
 		[SerializeField]
