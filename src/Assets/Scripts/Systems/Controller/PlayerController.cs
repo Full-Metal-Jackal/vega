@@ -43,9 +43,9 @@ public class PlayerController : MobController
 	/// </summary>
 	public float selectionDistance = 1.25f;
 
-	protected override void Initialize()
+	protected override void Awake()
 	{
-		base.Initialize();
+		base.Awake();
 		
 		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items", "Mobs" });
 	}

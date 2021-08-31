@@ -9,5 +9,8 @@
 	SingleHandPistol,
 	TwoHandsPistol,
 	AssaultRifle,
-	Shotgun
+	Shotgun,
+
+	Club,
+	Sword
 }

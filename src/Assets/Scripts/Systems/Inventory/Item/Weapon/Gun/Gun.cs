@@ -2,7 +2,7 @@
 using Inventory;
 using UnityEngine;
 
-public class Gun : Item<Gun>
+public class Gun : Weapon
 {
 	public event Action OnAfterFire;
 	public event Action OnAfterReloaded;
@@ -11,19 +11,13 @@ public class Gun : Item<Gun>
 	public GunSfxData SoundEffects { get; protected set; }
 
 	[field: SerializeField]
-	public GameObject ProjectilePrefab { get; private set; }
+	public Projectile ProjectilePrefab { get; private set; }
 
 	[field: SerializeField]
 	public float ProjectileSpeed { get; private set; } = 50f;
 
 	[field: SerializeField]
 	public float Spread { get; private set; } = 0f;
-
-	[field: SerializeField]
-	public float Damage { get; private set; } = 10f;
-
-	[field: SerializeField]
-	public float Mass { get; private set; } = 2f;
 
 	[field: SerializeField]
 	public int ClipSize { get; protected set; } = 8;
@@ -139,8 +133,9 @@ public class Gun : Item<Gun>
 
 	public virtual Projectile CreateProjectile()
 	{
-		if (!Instantiate(ProjectilePrefab).TryGetComponent(out Projectile projectile))
-			throw new System.Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
+		Projectile projectile = Instantiate(ProjectilePrefab);
+		if (!projectile)
+			throw new Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
 
 		projectile.Setup(Owner);
 		return projectile;

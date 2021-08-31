@@ -4,8 +4,6 @@ public class Grenade : Throwable
 {
 	public float DetonationTime { get; protected set; }
 
-	private float timeUntilDetonation = 0f;
-
 	public override bool Fire(Vector3 target)
 	{
 		if (!base.Fire(target))
@@ -14,5 +12,11 @@ public class Grenade : Throwable
 		// Spawn projectile-grenade here after throwing animation (for humanoids).
 
 		return true;
+	}
+
+	public override Projectile CreateProjectile()
+	{
+		Projectile projectile = base.CreateProjectile();
+		return projectile;
 	}
 }
