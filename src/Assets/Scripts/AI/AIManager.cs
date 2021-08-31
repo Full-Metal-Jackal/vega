@@ -153,7 +153,7 @@ namespace AI
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
 				{
-					if (!cover.isOccupied && !cover.isDestroyed)
+					if (!cover.isOccupied && !cover.isDestroyed && cover.isSafe)
 					{
 						//TODO Добавить проверку на дальность
 						return true;
