@@ -181,6 +181,17 @@ namespace AI
 			inCover = false;
 		}
 
+		public bool IsCoverRelevant()
+		{
+			if (currentCover.isDestroyed || !currentCover.isSafe)
+			{
+				currentCover = null;
+				return false;
+			}
+				
+			return true;
+		}
+
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;

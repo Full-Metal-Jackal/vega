@@ -24,6 +24,10 @@ namespace AI
 
 			if (aiManager.currentCover != null)
 			{
+				if (!aiManager.IsCoverRelevant())
+				{
+					return this;
+				}
 				float dist = Vector3.Distance(transform.position, aiManager.currentCover.transform.position);
 				if (!aiManager.inCover)
 				{
