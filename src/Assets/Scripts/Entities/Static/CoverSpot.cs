@@ -55,16 +55,15 @@ public class CoverSpot : MonoBehaviour
 
 	private void CheckSafety()
 	{
-		float detectionRange = 50f;
-		if (Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, detectionRange, layerMask))
+		Vector3 dir = (player.transform.position - transform.position).normalized;
+		float angle = Vector3.SignedAngle(dir, transform.forward, Vector3.up);
+		if (Mathf.Abs(angle) < 90)  //Checking that the new point is not in the target's direction
 		{
-			Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.green);
-			isSafe = true;
+			isSafe = false;
 		}
 		else
 		{
-			Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
-			isSafe = false;
+			isSafe = true;
 		}
 	}
 
