@@ -1,12 +1,12 @@
 ﻿[System.Serializable]
 public struct Damage
 {
-	public float Amount { get; private set; }
-	public DamageType Type { get; private set; }
+	public float amount;
+	public DamageType type;
 
 	public Damage(float amount, DamageType type = DamageType.Kinetic)
 	{
-		Amount = amount;
-		Type = type;
+		this.amount = amount;
+		this.type = type;
 	}
 }

@@ -209,7 +209,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		Debug.Log($"{this} took {damage} damage from {inflictor}.");
 		
-		if ((Health -= damage.Amount) < 0f)
+		if ((Health -= damage.amount) < 0f)
 			Die();
 	}
 
