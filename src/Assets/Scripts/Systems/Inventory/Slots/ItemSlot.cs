@@ -47,8 +47,8 @@ namespace Inventory
 
 				__item.Slot = this;
 
-				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
-				__item.Select();
+				if (__item.SelectOnPickUp)
+					__item.Select();
 			}
 		}
 

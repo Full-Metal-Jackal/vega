@@ -24,8 +24,7 @@ namespace Inventory
 				null
 			).GetComponent<Pickable<ItemType>>();
 
-			pickable.transform.position = position;
-			pickable.transform.rotation = rotation;
+			pickable.transform.SetPositionAndRotation(position, rotation);
 
 			return pickable;
 		}
