@@ -190,10 +190,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// </summary>
 	public virtual MovementType MovementType { get; set; } = MovementType.Running;
 
-	protected override bool Initialize()
+	protected override void Awake()
 	{
-		if (!base.Initialize())
-			return false;
+		base.Awake();
 
 		Health = MaxHealth;
 		Stamina = MaxStamina;
@@ -201,16 +200,14 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Inventory = GetComponentInChildren<MobInventory>();
 		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
 		Animator = GetComponentInChildren<Animator>();
-
-		return true;
 	}
 
-	public virtual void TakeDamage(Entity inflictor, Damage damage)
+	public virtual void TakeDamage(Damage damage)
 	{
-		Debug.Log($"{this} took {damage} damage from {inflictor}.");
-		
+		Debug.Log($"{this} took {damage.amount} points of {damage.type} damage from {damage.inflictor}.");
+
 		if ((Health -= damage.amount) < 0f)
-			Die();
+			Die(damage);
 	}
 
 	/// <summary>
@@ -312,9 +309,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual bool PickUpItem<ItemType>(ItemType item) where ItemType : Item
+	public virtual bool PickUpItem(Item item)
 	{
-		ItemSlot<ItemType> slot = Inventory.GetFreeItemSlot<ItemType>();
+		ItemSlot slot = Inventory.GetFreeItemSlot(item.SlotType);
+
 		if (!slot)
 			return false;
 
@@ -371,10 +369,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		OnDroppedItem?.Invoke();
 	}
 
-	protected override void Tick(float delta)
+	protected override void Update()
 	{
-		base.Tick(delta);
-		UpdateStaminaRegeneration(delta);
+		base.Update();
+		UpdateStaminaRegeneration(Time.deltaTime);
 	}
 
 	protected virtual void UpdateStaminaRegeneration(float delta)
@@ -388,7 +386,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Stamina += StaminaRegenSpeed * delta;
 	}
 
-	public void Die()
+	/// <summary>
+	/// Sets the mob dead.
+	/// </summary>
+	/// <param name="force">Damage that caused the mob's death, influences animations mostly.</param>
+	public virtual void Die(Damage damage)
 	{
 		Debug.Log($"{this} died.");
 		State = MobState.Dead;

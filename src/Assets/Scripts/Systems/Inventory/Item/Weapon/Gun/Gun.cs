@@ -93,11 +93,11 @@ public class Gun : Weapon
 		if (!PreFire(ref direction))
 			return false;
 
-		Projectile projectile = CreateProjectile();
+		Projectile projectile = CreateProjectile(Damage);
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
+
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
-		projectile.damage = Damage;
 
 		PostFire(direction, projectile);
 
@@ -131,13 +131,14 @@ public class Gun : Weapon
 		UpdateSlotText();
 	}
 
-	public virtual Projectile CreateProjectile()
+	public virtual Projectile CreateProjectile(Damage damage)
 	{
 		Projectile projectile = Instantiate(ProjectilePrefab);
 		if (!projectile)
 			throw new Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
 
-		projectile.Setup(Owner);
+		projectile.Setup(Owner, damage);
+
 		return projectile;
 	}
 
@@ -149,9 +150,7 @@ public class Gun : Weapon
 			Owner.Reload();
 	}
 
-	private void Update() => Tick();
-
-	protected virtual void Tick()
+	protected virtual void Update()
 	{
 		if (currentFireDelay > 0)
 			currentFireDelay -= Time.deltaTime;

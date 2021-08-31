@@ -21,40 +21,16 @@ public abstract class Entity : MonoBehaviour
 	/// </summary>
 	public bool Persistent { get; protected set; }
 
-	private void Awake()
+	protected virtual void Awake()
 	{
-		if (enabled = Initialize())
-			Game.Entities.Add(this);
+		Outline = GetComponent<Outline>();
 	}
 
-	private void Update()
-	{
-		float delta = Time.deltaTime;
-		Tick(delta);
-	}
-
-	protected virtual bool Initialize()
-	{
-		if (Initialized)
-		{
-			Debug.LogWarning($"Multiple initialization attempts of {this}!");
-			return false;
-		}
-
-		TryGetComponent(out Outline outline);
-		Outline = outline;
-
-		return Initialized = true;
-	}
-
-	public void Start() =>
-		Setup();
-
-	public virtual void Setup()
+	protected virtual void Start()
 	{
 	}
 
-	protected virtual void Tick(float delta)
+	protected virtual void Update()
 	{
 	}
 

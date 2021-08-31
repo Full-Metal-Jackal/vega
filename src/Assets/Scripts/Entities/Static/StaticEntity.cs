@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class StaticEntity : Entity
 {
-	protected override bool Initialize()
+	protected override void Awake()
 	{
-		return base.Initialize();
 	}
 }

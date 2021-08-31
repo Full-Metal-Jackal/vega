@@ -17,6 +17,9 @@ public class Throwable : Item<Throwable>
 
 	public override string SlotText => Amount.ToString();
 
+	[field: SerializeField]
+	public Damage Damage { get; private set; }
+
 	public override bool Fire(Vector3 target)
 	{
 		if (!base.Fire(target))
@@ -43,7 +46,7 @@ public class Throwable : Item<Throwable>
 		if (!projectile)
 			throw new Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
 
-		projectile.Setup(Owner);
+		projectile.Setup(Owner, Damage);
 		return projectile;
 	}
 

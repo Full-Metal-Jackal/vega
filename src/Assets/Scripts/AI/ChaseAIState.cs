@@ -22,14 +22,14 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-			NavMeshPath path = aiManager.navMeshAgent.path;
-			aiManager.navMeshVisualizer.DrawPath(path); //Draw path
+			NavMeshPath path = aiManager.NavMeshAgent.path;
+			aiManager.NavMeshVisualizer.DrawPath(path);
 
-			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
+			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 
 			if (distanceFromTarget <= aiManager.StoppingDistance && aiManager.CanSeeTarget)
 			{
-				aiManager.navMeshAgent.enabled = false;
+				aiManager.NavMeshAgent.enabled = false;
 				return combatStanceState;
 			}
 
@@ -50,10 +50,10 @@ namespace AI
 			// Move via pathfinding	
 			else
 			{
-				aiManager.navMeshAgent.enabled = true;
-				aiManager.navMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
+				aiManager.NavMeshAgent.enabled = true;
+				aiManager.NavMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
 
-				targetDirection = aiManager.navMeshAgent.desiredVelocity;
+				targetDirection = aiManager.NavMeshAgent.desiredVelocity;
 			}
 
 			return targetDirection;
