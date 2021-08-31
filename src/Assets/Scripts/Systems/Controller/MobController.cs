@@ -9,20 +9,14 @@ public abstract class MobController : MonoBehaviour
 	public Mob possessAtStart;
 	public Mob Possessed { get; protected set; }
 
-	protected int Id { get; private set; }
+	protected static int TotalControllers { get; private set; } = 0;
+	public int Id { get; private set; }
 
 	public Vector3 movement;
 
-	public bool Initialized { get; private set; }
-
-	private void Awake() => Initialize();
-
-	protected virtual void Initialize()
+	protected virtual void Awake()
 	{
-		if (Initialized)
-			throw new System.Exception($"Multiple initialization attempts of {this}.");
-
-		Initialized = true;
+		Id = TotalControllers++;
 	}
 
 	private void Start() => Setup();

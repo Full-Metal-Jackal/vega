@@ -17,6 +17,9 @@ namespace Inventory
 		[field: SerializeField]
 		public string Desc { get; private set; }
 
+		[field: SerializeField]
+		public float Mass { get; private set; } = 2f;
+
 		public abstract string SlotText { get; }
 
 		/// <summary>
@@ -26,6 +29,10 @@ namespace Inventory
 		public ItemModelData Model { get; protected set; }
 
 		private ItemSlot __slot;
+
+		[field: SerializeField]
+		public bool SelectOnPickUp { get; private set; }
+
 		public ItemSlot Slot
 		{
 			get => __slot;

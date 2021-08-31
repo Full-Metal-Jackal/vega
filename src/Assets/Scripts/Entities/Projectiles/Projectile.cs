@@ -1,18 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Projectile : DynamicEntity
+public abstract class Projectile : DynamicEntity
 {
-	public float damage = 10f;
+	public event Action OnImpact;
+
+	public Damage damage;
 
 	/// <summary>
 	/// Who (or what) shot Kennedy.
 	/// </summary>
 	public Entity Source { get; protected set; }
 
-	[field: SerializeField]
-	public ProjecitleType Type { get; private set; } = ProjecitleType.Kinetic;
-
-	public void Setup(Entity source)
+	public virtual void Setup(Entity source)
 	{
 		foreach (Collider sourceCollider in source.Colliders)
 			foreach (Collider collider in Colliders)
@@ -21,15 +21,12 @@ public class Projectile : DynamicEntity
 		Source = source;
 	}
 
-	private void OnCollisionEnter(Collision collision) => OnHit(collision.gameObject);
+	private void OnCollisionEnter(Collision collision) =>
+		Impact(collision.gameObject);
 
-	public virtual void OnHit(GameObject other)
-	{
-		Suicide();
-		if (other.transform.TryGetComponent(out Entity entity)
-			&& entity is IDamageable damageable)
-			damageable.TakeDamage(Source, damage);
-	}
+	public virtual void Impact(GameObject other) =>
+		OnImpact?.Invoke();
 
-	public void Suicide() => Destroy(gameObject);
+	public void Suicide() =>
+		Destroy(gameObject);
 }

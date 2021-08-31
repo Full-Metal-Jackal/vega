@@ -103,7 +103,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected readonly float movementHaltThreshold = .01f;
 
 	[SerializeField]
-	private readonly bool turnsToMovementDirection = true;
+	private bool turnsToMovementDirection = true;
 	protected readonly float rotationThreshold = .01f;
 
 	protected Vector3 activeDirection = Vector3.zero;
@@ -205,11 +205,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 		return true;
 	}
 
-	public virtual void TakeDamage(Entity inflictor, float damage)
+	public virtual void TakeDamage(Entity inflictor, Damage damage)
 	{
 		Debug.Log($"{this} took {damage} damage from {inflictor}.");
 		
-		if ((Health -= damage) < 0f)
+		if ((Health -= damage.amount) < 0f)
 			Die();
 	}
 
@@ -249,7 +249,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		activeDirection = direction;
 
-		Vector3 targetVelocity = MoveSpeed * direction * delta;
+		Vector3 targetVelocity = delta * MoveSpeed * direction;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 

@@ -10,10 +10,7 @@ public abstract class Interaction : MonoBehaviour
 
 	public bool Selectable { get; set; } = true;
 
-	private void Awake() =>
-		Initialize();
-
-	protected virtual void Initialize()
+	protected virtual void Awake()
 	{
 		if (Initialized)
 			throw new System.Exception($"Multiple initialization attempts of {this}!");

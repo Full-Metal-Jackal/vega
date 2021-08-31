@@ -52,9 +52,9 @@ namespace AI
 		public LayerMask coverSpotsLayer;
 		public AIAttackAction[] aiAttacks;
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 			Player = PlayerController.Instance.possessAtStart;
 			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
 			navMeshAgent.updateRotation = false;
