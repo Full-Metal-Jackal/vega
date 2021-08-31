@@ -15,22 +15,17 @@ namespace Inventory
 
 		protected int selectedIndex = 0;
 
-		public virtual ItemSlot<ItemType> GetFreeItemSlot<ItemType>() where ItemType : Item
+		public virtual ItemSlot GetFreeItemSlot(SlotType type)
 		{
 			foreach (ItemSlot slot in Slots)
-				if (slot is ItemSlot<ItemType> result && result.IsFree)
-				{
-					return result;
-				}
+			{
+				if (slot.Type == type && slot.IsFree)
+					return slot;
+			}
 			return null;
 		}
 
-		private void Awake()
-		{
-			Initialize();
-		}
-
-		protected virtual void Initialize()
+		protected virtual void Awake()
 		{
 			if (Initialized)
 				throw new System.Exception($"Multiple initialization attempts of {this}!");

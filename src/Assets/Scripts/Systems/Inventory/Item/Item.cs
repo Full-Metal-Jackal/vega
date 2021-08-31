@@ -20,6 +20,8 @@ namespace Inventory
 		[field: SerializeField]
 		public float Mass { get; private set; } = 2f;
 
+		[field: SerializeField]
+		public SlotType SlotType { get; private set; } = SlotType.Weapon;
 		public abstract string SlotText { get; }
 
 		/// <summary>

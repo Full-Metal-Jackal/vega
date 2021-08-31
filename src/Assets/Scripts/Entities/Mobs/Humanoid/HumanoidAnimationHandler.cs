@@ -44,7 +44,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		}
 	}
 
-	private void SetIkWeights(AvatarIKGoal goal, float weight)
+	public void SetIkWeights(AvatarIKGoal goal, float weight)
 	{
 		Animator.SetIKPositionWeight(goal, weight);
 		Animator.SetIKRotationWeight(goal, weight);
@@ -59,9 +59,9 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		Animator.SetIKRotation(goal, rotation);
 	}
 
-	protected override void Initialize()
+	protected override void Awake()
 	{
-		base.Initialize();
+		base.Awake();
 
 		humanoid = transform.parent.GetComponent<Humanoid>();
 		humanoid.OnItemChanged += SetupHandsIkForItem;
@@ -144,15 +144,15 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	/// </summary>
 	/// <param name="targetWeight">The weight the "look at" IK will assume at the end of transitionTime.</param>
 	/// <param name="transitionTime">The time of the transition.</param>
-	protected void TransitIkWeightTo(float targetWeight, float transitionTime)
+	public void TransitIkWeightTo(float targetWeight, float transitionTime)
 	{
 		ikTransitionGoal = targetWeight;
 		ikTransitionTime = transitionTime;
 	}
 
-	protected override void OnUpdate()
+	protected override void Update()
 	{
-		base.OnUpdate();
+		base.Update();
 
 		if (ikTransitionGoal == ikTransition)
 			return;
@@ -163,12 +163,19 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 			ikTransition = Mathf.Max(ikTransition -= Time.deltaTime / ikTransitionTime, ikTransitionGoal);
 	}
 
-	protected bool AdditionalLayersEnabled
+	public bool AdditionalLayersEnabled
 	{
 		set
 		{
+			float weight = value ? 1f : 0f;
 			for (int i = 1; i < Animator.layerCount; i++)
-				Animator.SetLayerWeight(i, value ? 1f : 0f);
+				Animator.SetLayerWeight(i, weight);
 		}
+	}
+
+	public void OnRagdoll()
+	{
+		if (Animator.TryGetComponent(out RagdollController ragdollController))
+			ragdollController.ToggleRagdoll(true);
 	}
 }

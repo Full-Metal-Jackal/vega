@@ -9,10 +9,10 @@ namespace AI
 {
 	public class NavMeshPathVisualizer : MonoBehaviour
 	{
-		LineRenderer line;
-		NavMeshAgent agent;
+		private LineRenderer line;
+		private NavMeshAgent agent;
 
-		void Start()
+		void Awake()
 		{
 			line = GetComponent<LineRenderer>();
 			agent = GetComponent<NavMeshAgent>();
