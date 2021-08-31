@@ -14,22 +14,28 @@ public class CoverSpot : MonoBehaviour
 
 	public bool isOccupied;
 	public bool isDestroyed;
+	public bool isSafe;  //Define if player can easily attack/see this cover spot
 	public float radius = 2;
+	private Mob currentUser;
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
-			isOccupied = true;
+		if (!isOccupied)
+		{
+			if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
+				isOccupied = true;
+			currentUser = mob;
+		}	
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.transform.parent.TryGetComponent(out Mob mob))
 		{
-			CoverSpot mobsCover = mob.GetComponent<AI.AIManager>().currentCover;
-			if (mobsCover == this)
+			if (currentUser == mob)
 			{
 				isOccupied = false;
+				currentUser = null;
 			}
 		}
 	}
