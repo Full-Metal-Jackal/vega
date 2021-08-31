@@ -12,7 +12,7 @@ namespace AI
 		private LineRenderer line;
 		private NavMeshAgent agent;
 
-		void Awake()
+		private void Awake()
 		{
 			line = GetComponent<LineRenderer>();
 			agent = GetComponent<NavMeshAgent>();

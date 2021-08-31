@@ -18,8 +18,10 @@ public abstract class Projectile : DynamicEntity
 			foreach (Collider collider in Colliders)
 				Physics.IgnoreCollision(collider, sourceCollider);
 
-		this.damage = damage;
 		Source = source;
+
+		damage.inflictor = source;
+		this.damage = damage;
 	}
 
 	private void OnCollisionEnter(Collision collision) =>
