@@ -181,14 +181,14 @@ namespace AI
 			inCover = false;
 		}
 
-		public bool IsCoverRelevant()
+		public bool IsCurrentCoverRelevant()
 		{
 			if (currentCover.isDestroyed || !currentCover.isSafe)
 			{
+				inCover = false;
 				currentCover = null;
 				return false;
-			}
-				
+			}	
 			return true;
 		}
 

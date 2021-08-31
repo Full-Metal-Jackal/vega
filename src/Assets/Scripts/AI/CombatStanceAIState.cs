@@ -24,7 +24,7 @@ namespace AI
 
 			if (aiManager.currentCover != null)
 			{
-				if (!aiManager.IsCoverRelevant())
+				if (!aiManager.IsCurrentCoverRelevant())
 				{
 					return this;
 				}
