@@ -136,7 +136,7 @@ namespace Inventory
 			Model.transform.localScale = Vector3.one;
 			if (Model.Origin)
 			{
-				Model.transform.localPosition += Model.Origin.localPosition;
+				Model.transform.localPosition += Model.Origin.localRotation * Model.Origin.localPosition;
 				Model.transform.localRotation *= Model.Origin.localRotation;
 			}
 
