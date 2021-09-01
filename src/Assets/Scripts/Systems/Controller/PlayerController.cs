@@ -50,9 +50,9 @@ public class PlayerController : MobController
 		interactableMask = LayerMask.GetMask(new string[] { "Interactables", "Items", "Mobs" });
 	}
 
-	protected override void Setup()
+	protected override void Start()
 	{
-		base.Setup();
+		base.Start();
 
 		Actions.World.Use.performed += ctx => OnUsePressed();
 		Actions.World.Dodge.performed += ctx => OnDodgePressed();

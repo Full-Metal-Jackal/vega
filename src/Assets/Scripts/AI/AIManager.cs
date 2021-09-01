@@ -10,17 +10,11 @@ namespace AI
 {
 	public class AIManager : MobController
 	{
-		public AIState currentState;
-		public Mob currentTarget;
-		public CoverSpot currentCover;
-
 		public bool CanSeeTarget { get; private set; }
 		public Mob Player { get; private set; }
 		private Mob mob;
 		private float currentRecoveryTime = 0;
 
-		[HideInInspector]
-		public NavMeshPathVisualizer navMeshVisualizer;
 		[HideInInspector]
 		public bool isPerfomingAction;
 		[HideInInspector]
@@ -29,6 +23,13 @@ namespace AI
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
+		[HideInInspector]
+		public AIState currentState;
+		[HideInInspector]
+		public Mob currentTarget;
+		[HideInInspector]
+		public CoverSpot currentCover;
+
 		private const float rangeCoefficient = 0.9f;
 		public float StoppingDistance { get; protected set; }
 
@@ -38,9 +39,10 @@ namespace AI
 			set => currentRecoveryTime = value; 
 		}
 
+		[field: SerializeField]
+		public ItemData StartItemData { get; private set; }
+
 		[Header("A.I Settings")]
-		public ItemData weaponData;
-		public NavMeshAgent navMeshAgent;
 		public float detectionRadius = 5;
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
@@ -52,22 +54,31 @@ namespace AI
 		public LayerMask coverSpotsLayer;
 		public AIAttackAction[] aiAttacks;
 
+		public NavMeshAgent NavMeshAgent { get; private set; }
+		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
+
 		protected override void Awake()
 		{
 			base.Awake();
+
 			Player = PlayerController.Instance.possessAtStart;
-			navMeshAgent = transform.parent.GetComponentInChildren<NavMeshAgent>();
-			navMeshAgent.updateRotation = false;
-			navMeshAgent.enabled = false;
-			navMeshVisualizer = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
+
+			NavMeshAgent = transform.GetComponentInChildren<NavMeshAgent>();
+			NavMeshAgent.updateRotation = false;
+			NavMeshAgent.enabled = false;
+
+			NavMeshVisualizer = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
+
+			StoppingDistance = maxAttackRange * rangeCoefficient;
 		}
 
-		protected override void Setup()
+		protected override void Start()
 		{
-			base.Setup();
+			base.Start();
+
 			mob = Possessed;
-			AssignWeapon();
-			StoppingDistance = maxAttackRange * rangeCoefficient;
+			
+			GiveStartItem();
 		}
 
 		protected override void OnUpdate(float delta)
@@ -113,14 +124,15 @@ namespace AI
 			}
 		}
 
-		private void AssignWeapon()
+		private void GiveStartItem()
 		{
-			if (!(weaponData.PasteItem(Containers.Instance.Items) is Gun weapon))
-			{
-				Debug.Log("Weapon assign failed");
+			if (!StartItemData)
 				return;
-			}
-			mob.PickUpItem(weapon);
+
+			if (!(StartItemData.PasteItem(Containers.Instance.Items) is Item item))
+				throw new System.Exception($"Invalid item data assigned for {mob}");
+
+			mob.PickUpItem(item);
 		}
 
 		private void CheckTargetVisibility()

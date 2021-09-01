@@ -19,9 +19,7 @@ public abstract class MobController : MonoBehaviour
 		Id = TotalControllers++;
 	}
 
-	private void Start() => Setup();
-
-	protected virtual void Setup()
+	protected virtual void Start()
 	{
 		if ((possessAtStart is Mob mob) || TryGetComponent(out mob))
 			PossessMob(mob);

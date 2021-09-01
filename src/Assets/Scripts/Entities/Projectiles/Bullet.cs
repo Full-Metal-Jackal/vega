@@ -10,6 +10,6 @@ public class Bullet : Projectile
 
 		if (other.transform.TryGetComponent(out Entity entity)
 			&& entity is IDamageable damageable)
-			damageable.TakeDamage(Source, damage);
+			damageable.TakeDamage(damage);
 	}
 }

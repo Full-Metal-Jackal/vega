@@ -15,7 +15,6 @@ namespace AI
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			Vector3 pos;
-			CoverSpot newCover;
 
 			//Check for attack range
 			//prioritize moving to cover
@@ -46,13 +45,13 @@ namespace AI
 				}
 				return this;
 			}
-			else if (aiManager.FindCover(out newCover))
+			else if (aiManager.FindCover(out CoverSpot newCover))
 			{   
 				if (FixCoverPos(newCover, out Vector3 newPos))
 				{
-					aiManager.navMeshAgent.enabled = true;
+					aiManager.NavMeshAgent.enabled = true;
 					pos = newPos;
-					aiManager.navMeshAgent.SetDestination(pos);
+					aiManager.NavMeshAgent.SetDestination(pos);
 					aiManager.currentCover = newCover;
 				}
 				return this;
@@ -65,9 +64,9 @@ namespace AI
 				{
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
 					{		
-						aiManager.navMeshAgent.enabled = true;
+						aiManager.NavMeshAgent.enabled = true;
 						pos = newPos;
-						aiManager.navMeshAgent.SetDestination(pos);
+						aiManager.NavMeshAgent.SetDestination(pos);
 						aiManager.currentMovementRecoveryTime = aiManager.maxMovementRecoveryTime;
 					}
 				}
@@ -78,7 +77,7 @@ namespace AI
 			}
 			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
-				aiManager.navMeshAgent.enabled = false;
+				aiManager.NavMeshAgent.enabled = false;
 				return chaseState;
 			}
 			else
@@ -131,9 +130,9 @@ namespace AI
 
 		private void MoveToLastPos(AIManager aiManager)
 		{
-			aiManager.navMeshVisualizer.DrawPath(aiManager.navMeshAgent.path);
-			Vector3 moveToPos = aiManager.navMeshAgent.desiredVelocity;
-			aiManager.navMeshAgent.transform.localPosition = Vector3.zero;
+			aiManager.NavMeshVisualizer.DrawPath(aiManager.NavMeshAgent.path);
+			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
+			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 			aiManager.movement = moveToPos;
 		}
 	}
