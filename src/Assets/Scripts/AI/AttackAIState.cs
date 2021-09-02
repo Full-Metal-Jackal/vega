@@ -28,22 +28,28 @@ namespace AI
 			{
 				if (aiManager.distanceFromTarget <= currentAttack.minimumDistanceNeededToAttack)
 				{
-					return this;
+					return combateStance;
 				}
 				else if (aiManager.distanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
 				{
+					print("Should attack");
+					if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
+					{
+						aiManager.isPerfomingAction = true;
+						mob.Fire();
+						aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
+						currentAttack = null;
+						return combateStance;
+					}
+					/*
+					Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
+					aiManager.viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 					if (aiManager.viewableAngle <= currentAttack.maximumAttackAngle &&
 						aiManager.viewableAngle >= currentAttack.minimumAttackAngle)
 					{
-						if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
-						{
-							aiManager.isPerfomingAction = true;
-							mob.Fire();
-							aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
-							currentAttack = null;
-							return combateStance;
-						}
+						
 					}
+					*/
 				}
 			}
 			else

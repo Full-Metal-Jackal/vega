@@ -19,15 +19,15 @@ namespace AI
 		public bool isPerfomingAction;
 		[HideInInspector]
 		public float currentMovementRecoveryTime = 0;
-		[HideInInspector]
+		//[HideInInspector]
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
-		[HideInInspector]
+		//[HideInInspector]
 		public AIState currentState;
-		[HideInInspector]
+		//[HideInInspector]
 		public Mob currentTarget;
-		[HideInInspector]
+		//[HideInInspector]
 		public CoverSpot currentCover;
 
 		private const float rangeCoefficient = 0.9f;
@@ -47,8 +47,8 @@ namespace AI
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
 		public float viewableAngle;
-		public float rotationSpeed = 15;
-		public float maxAttackRange = 1.5f;
+		public float rotationSpeed = 15f;
+		public float maxAttackRange = 5;
 		public float maxMovementRecoveryTime = 5;
 		public LayerMask detectionLayer;
 		public LayerMask coverSpotsLayer;
@@ -67,8 +67,12 @@ namespace AI
 			NavMeshAgent.updateRotation = false;
 			NavMeshAgent.enabled = false;
 
-			NavMeshVisualizer = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
+			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
+			foreach (AIAttackAction attack in aiAttacks)
+			{
+				maxAttackRange = Mathf.Max(maxAttackRange, attack.maximumDistanceNeededToAttack);
+			}
 			StoppingDistance = maxAttackRange * rangeCoefficient;
 		}
 

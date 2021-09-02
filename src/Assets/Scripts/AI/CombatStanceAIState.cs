@@ -56,14 +56,16 @@ namespace AI
 				}
 				return this;
 			}
-			else if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 				
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
+					print("here");
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
-					{		
+					{
+						print("New pos: " + newPos);
 						aiManager.NavMeshAgent.enabled = true;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
@@ -72,11 +74,12 @@ namespace AI
 				}
 
 				MoveToLastPos(aiManager);
-
+				
 				return attackState;
 			}
 			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
+				print("mem");
 				aiManager.NavMeshAgent.enabled = false;
 				return chaseState;
 			}
