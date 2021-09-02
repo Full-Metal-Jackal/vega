@@ -15,6 +15,14 @@ namespace Inventory
 
 		protected int selectedIndex = 0;
 
+		public virtual ItemSlot GetItemSlot(SlotType type)
+		{
+			foreach (ItemSlot slot in Slots)
+				if (slot.Type == type)
+					return slot;
+			return null;
+		}
+
 		public virtual ItemSlot GetFreeItemSlot(SlotType type)
 		{
 			foreach (ItemSlot slot in Slots)

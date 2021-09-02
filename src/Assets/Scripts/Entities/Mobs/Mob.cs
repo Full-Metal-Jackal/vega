@@ -7,7 +7,8 @@ using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
-	public event Action OnItemChanged;
+	public event Action<Item> OnActiveItemChanged;
+	public event Action<Throwable> OnThrowableItemChanged;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
@@ -137,6 +138,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	}
 	public virtual bool CanFire => CanUseItems;
 	public virtual bool CanReload => CanUseItems;
+	public virtual bool CanThrow => CanUseItems;
 	public virtual bool CanDropItems => CanUseItems;
 
 	private Item __activeItem;
@@ -146,7 +148,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 		set
 		{
 			__activeItem = value;
-			OnItemChanged?.Invoke();
+			OnActiveItemChanged?.Invoke(__activeItem);
+		}
+	}
+
+	private Throwable __throwableItem;
+	public virtual Throwable ThrowableItem
+	{
+		get => __throwableItem;
+		set
+		{
+			__throwableItem = value;
+			OnThrowableItemChanged?.Invoke(__throwableItem);
 		}
 	}
 
@@ -319,6 +332,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		slot.Item = item;
 		OnPickedUpItem?.Invoke(item);
 
+		// That's how we're changing active throwable item now, because all our mobs can have only one throwable item at once.
+		if (item is Throwable throwable)
+			ThrowableItem = throwable;
+
 		return true;
 	}
 
@@ -350,6 +367,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		if (ActiveItem && CanReload)
 			ActiveItem.Reload();
+	}
+
+	public virtual void Throw()
+	{
+		ThrowableItem.SetupModel();
+		ThrowableItem.Fire(AimPos);
 	}
 
 	public virtual void DropItem() => DropItem(ActiveItem);

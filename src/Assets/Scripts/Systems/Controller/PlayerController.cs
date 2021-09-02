@@ -58,6 +58,8 @@ public class PlayerController : MobController
 		Actions.World.Dodge.performed += ctx => OnDodgePressed();
 		Actions.World.Fire.performed += ctx => OnFirePressed();
 		Actions.World.Reload.performed += ctx => OnReloadPressed();
+		Actions.World.Throw.performed += ctx => OnThrowPressed();
+		Actions.World.SpecialAbilty.performed += ctx => OnSpecialAbilityPressed();
 		Actions.World.Drop.performed += ctx => OnDropPressed();
 
 		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
@@ -92,11 +94,9 @@ public class PlayerController : MobController
 	}
 
 	public void OnFirePressed() => Possessed.Fire();
-
 	public void OnReloadPressed() => Possessed.Reload();
-
+	public void OnThrowPressed() => Possessed.Throw();
 	private void OnDodgePressed() => Possessed.DashAction();
-
 	private void OnDropPressed() => Possessed.DropItem();
 
 	private void OnSprintInput(bool sprint) =>
@@ -104,6 +104,12 @@ public class PlayerController : MobController
 
 	private void OnMoveInput(Vector2 inputMovement) =>
 		movement = CameraController.Instance.VerticalRotation * new Vector3(inputMovement.x, 0, inputMovement.y);
+
+	public void OnSpecialAbilityPressed()
+	{
+		if (Possessed.TryGetComponent(out SpecialAbility ability))
+			ability.Activate();
+	}
 
 	protected override void OnUpdate(float delta)
 	{
