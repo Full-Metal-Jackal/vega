@@ -27,12 +27,13 @@ public class CoverSpot : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-
+	
 		if (!isOccupied)
 		{
 			if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
 			{
 				currentUser = mob;
+				print(currentUser + " Entered");
 			}	
 		}	
 	}
@@ -43,9 +44,10 @@ public class CoverSpot : MonoBehaviour
 		{
 			if (currentUser == mob)
 			{
-				AI.AIManager ai = currentUser.GetComponentInChildren<AI.AIManager>();
+				AI.AIManager ai = currentUser.transform.GetComponentInChildren<AI.AIManager>();
 				if (ai != null)
 				{
+					print(currentUser + " Exited");
 					ai.currentCover = null;
 				}
 				currentUser = null;

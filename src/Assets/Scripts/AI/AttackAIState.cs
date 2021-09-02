@@ -32,11 +32,10 @@ namespace AI
 				}
 				else if (aiManager.distanceFromTarget <= currentAttack.maximumDistanceNeededToAttack)
 				{
-					print("Should attack");
 					if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 					{
 						aiManager.isPerfomingAction = true;
-						mob.Fire();
+						//mob.Fire();
 						aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 						currentAttack = null;
 						return combateStance;

@@ -44,7 +44,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.00001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8172828751170547549
 MonoBehaviour:
@@ -58,13 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e95b4a92682de459c3c8798a68b643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOccupied: 0
   isDestroyed: 0
   isSafe: 0
-  radius: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
+  radius: 0.75
+  currentUser: {fileID: 0}
 --- !u!1 &3564342705139678021
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +187,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6487221669749273916
 MonoBehaviour:
@@ -204,13 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e95b4a92682de459c3c8798a68b643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOccupied: 0
   isDestroyed: 0
   isSafe: 0
-  radius: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
+  radius: 0.75
+  currentUser: {fileID: 0}
 --- !u!1 &4203522533238669169
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +249,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4203522533238669172
 MonoBehaviour:
@@ -269,13 +263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e95b4a92682de459c3c8798a68b643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOccupied: 0
   isDestroyed: 0
   isSafe: 0
-  radius: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
+  radius: 0.75
+  currentUser: {fileID: 0}
 --- !u!1 &4203522533304296856
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +426,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2399061427034536571
 MonoBehaviour:
@@ -449,13 +440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e95b4a92682de459c3c8798a68b643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOccupied: 0
   isDestroyed: 0
   isSafe: 0
-  radius: 1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
+  radius: 0.75
+  currentUser: {fileID: 0}
 --- !u!1 &5285712381225278248
 GameObject:
   m_ObjectHideFlags: 0
