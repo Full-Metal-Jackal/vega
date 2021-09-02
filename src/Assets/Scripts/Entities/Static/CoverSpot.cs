@@ -12,8 +12,7 @@ public class CoverSpot : MonoBehaviour
 	// Взаимодействет с Навмешем, создает/обязан находиться в зоне Cover.
 	// 
 
-	public bool isOccupied => currentUser;
-	public bool isDestroyed;
+	public bool IsOccupied => currentUser;
 	public bool isSafe;  //Define if player can easily attack/see this cover spot
 	public float radius = 2;
 	public Mob currentUser;
@@ -28,7 +27,7 @@ public class CoverSpot : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 	
-		if (!isOccupied)
+		if (!IsOccupied)
 		{
 			if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
 			{
@@ -71,7 +70,7 @@ public class CoverSpot : MonoBehaviour
 
 	private void OnDrawGizmosSelected()
 	{
-		if (!isOccupied && isSafe)
+		if (!IsOccupied && isSafe)
 		{
 			Gizmos.color = Color.green;
 		}

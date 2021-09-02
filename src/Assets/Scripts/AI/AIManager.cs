@@ -19,15 +19,15 @@ namespace AI
 		public bool isPerfomingAction;
 		[HideInInspector]
 		public float currentMovementRecoveryTime = 0;
-		//[HideInInspector]
+		[HideInInspector]
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
-		//[HideInInspector]
+		[HideInInspector]
 		public AIState currentState;
-		//[HideInInspector]
+		[HideInInspector]
 		public Mob currentTarget;
-		//[HideInInspector]
+		[HideInInspector]
 		public CoverSpot currentCover;
 
 		private const float rangeCoefficient = 0.9f;
@@ -169,7 +169,7 @@ namespace AI
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
 				{
-					if (!cover.isOccupied && !cover.isDestroyed && cover.isSafe)
+					if (!cover.IsOccupied && cover.isSafe)
 					{
 						//TODO Добавить проверку на дальность
 						return true;
@@ -199,7 +199,7 @@ namespace AI
 
 		public bool IsCurrentCoverRelevant()
 		{
-			if (currentCover.isDestroyed || !currentCover.isSafe || (currentCover.currentUser != mob && currentCover.isOccupied))
+			if (!currentCover.isSafe || (currentCover.currentUser != mob && currentCover.IsOccupied))
 			{
 				inCover = false;
 				currentCover = null;
