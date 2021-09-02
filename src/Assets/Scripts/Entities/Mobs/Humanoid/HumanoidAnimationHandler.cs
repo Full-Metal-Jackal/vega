@@ -16,6 +16,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	/// </summary>
 	[SerializeField]
 	private float lookAtIkNonAimingFactor = .5f;
+
 	/// <summary>
 	/// How far from MinAimDistance IK should start to blend.
 	/// </summary>
