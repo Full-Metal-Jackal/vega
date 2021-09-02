@@ -199,7 +199,7 @@ namespace AI
 
 		public bool IsCurrentCoverRelevant()
 		{
-			if (currentCover.isDestroyed || !currentCover.isSafe)
+			if (currentCover.isDestroyed || !currentCover.isSafe || (currentCover.currentUser != mob && currentCover.isOccupied))
 			{
 				inCover = false;
 				currentCover = null;

@@ -39,7 +39,7 @@ namespace AI
 
 					return attackState;
 				}
-				else if (dist < 1.0f)
+				if (dist < 1.0f)
 				{
 					aiManager.movement = Vector3.zero;
 				}
@@ -62,10 +62,8 @@ namespace AI
 				
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
-					print("here");
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
 					{
-						print("New pos: " + newPos);
 						aiManager.NavMeshAgent.enabled = true;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
@@ -79,7 +77,6 @@ namespace AI
 			}
 			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
-				print("mem");
 				aiManager.NavMeshAgent.enabled = false;
 				return chaseState;
 			}
