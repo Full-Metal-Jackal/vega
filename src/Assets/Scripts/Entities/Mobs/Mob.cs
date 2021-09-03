@@ -99,7 +99,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
-
 	protected readonly float movementHaltThreshold = .01f;
 
 	[SerializeField]
@@ -118,6 +117,17 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public MobController Controller { get; set; }
 	public Speech.MobSpeaker Speaker { get; private set; }
+
+	/// <summary>
+	/// Is the mob currently engaged in a fight.
+	/// Influences animations mostly.
+	/// </summary>
+	public bool IsAlert
+	{
+		get => __isAlert;
+		protected set => Animator.SetBool("IsAlert", __isAlert = value);
+	}
+	private bool __isAlert;
 
 	public virtual bool CanUseItems
 	{
@@ -200,6 +210,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Inventory = GetComponentInChildren<MobInventory>();
 		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
 		Animator = GetComponentInChildren<Animator>();
+
+		// <TODO> currently just sets true by default, but later will be used to tell mobs who're engaged in a fight
+		// from peacefully walking ones.
+		IsAlert = true;
 	}
 
 	public virtual void TakeDamage(Damage damage)
