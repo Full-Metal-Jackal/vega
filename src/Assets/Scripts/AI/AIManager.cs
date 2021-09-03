@@ -47,8 +47,8 @@ namespace AI
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
 		public float viewableAngle;
-		public float rotationSpeed = 15;
-		public float maxAttackRange = 1.5f;
+		public float rotationSpeed = 15f;
+		public float maxAttackRange = 5;
 		public float maxMovementRecoveryTime = 5;
 		public LayerMask detectionLayer;
 		public LayerMask coverSpotsLayer;
@@ -67,8 +67,12 @@ namespace AI
 			NavMeshAgent.updateRotation = false;
 			NavMeshAgent.enabled = false;
 
-			NavMeshVisualizer = transform.parent.GetComponentInChildren<NavMeshPathVisualizer>();
+			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
+			foreach (AIAttackAction attack in aiAttacks)
+			{
+				maxAttackRange = Mathf.Max(maxAttackRange, attack.maximumDistanceNeededToAttack);
+			}
 			StoppingDistance = maxAttackRange * rangeCoefficient;
 		}
 
@@ -165,7 +169,7 @@ namespace AI
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
 				{
-					if (!cover.isOccupied && !cover.isDestroyed)
+					if (!cover.IsOccupied && cover.isSafe)
 					{
 						//TODO Добавить проверку на дальность
 						return true;
@@ -191,6 +195,17 @@ namespace AI
 				}
 			}
 			inCover = false;
+		}
+
+		public bool IsCurrentCoverRelevant()
+		{
+			if (!currentCover.isSafe || (currentCover.currentUser != mob && currentCover.IsOccupied))
+			{
+				inCover = false;
+				currentCover = null;
+				return false;
+			}	
+			return true;
 		}
 
 		private void OnDrawGizmosSelected()

@@ -23,6 +23,10 @@ namespace AI
 
 			if (aiManager.currentCover != null)
 			{
+				if (!aiManager.IsCurrentCoverRelevant())
+				{
+					return this;
+				}
 				float dist = Vector3.Distance(transform.position, aiManager.currentCover.transform.position);
 				if (!aiManager.inCover)
 				{
@@ -35,7 +39,7 @@ namespace AI
 
 					return attackState;
 				}
-				else if (dist < 1.0f)
+				if (dist < 1.0f)
 				{
 					aiManager.movement = Vector3.zero;
 				}
@@ -52,14 +56,14 @@ namespace AI
 				}
 				return this;
 			}
-			else if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 				
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
-					{		
+					{
 						aiManager.NavMeshAgent.enabled = true;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
@@ -68,7 +72,7 @@ namespace AI
 				}
 
 				MoveToLastPos(aiManager);
-
+				
 				return attackState;
 			}
 			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
