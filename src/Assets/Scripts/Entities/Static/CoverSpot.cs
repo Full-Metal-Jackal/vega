@@ -12,31 +12,73 @@ public class CoverSpot : MonoBehaviour
 	// Взаимодействет с Навмешем, создает/обязан находиться в зоне Cover.
 	// 
 
-	public bool isOccupied;
-	public bool isDestroyed;
+	public bool IsOccupied => currentUser;
+	public bool isSafe;  //Define if player can easily attack/see this cover spot
 	public float radius = 2;
+	public Mob currentUser;
+	private Mob player;
+
+	private void Update()
+	{
+		player = PlayerController.Instance.Possessed;
+		CheckSafety();
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
-			isOccupied = true;
+	
+		if (!IsOccupied)
+		{
+			if (other.transform.parent.TryGetComponent(out Mob mob) && mob.CanTakeCover)
+			{
+				currentUser = mob;
+				print(currentUser + " Entered");
+			}	
+		}	
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.transform.parent.TryGetComponent(out Mob mob))
 		{
-			CoverSpot mobsCover = mob.GetComponent<AI.AIManager>().currentCover;
-			if (mobsCover == this)
+			if (currentUser == mob)
 			{
-				isOccupied = false;
+				AI.AIManager ai = currentUser.transform.GetComponentInChildren<AI.AIManager>();
+				if (ai != null)
+				{
+					print(currentUser + " Exited");
+					ai.currentCover = null;
+				}
+				currentUser = null;
 			}
+		}
+	}
+
+	private void CheckSafety()
+	{
+		Vector3 dir = (player.transform.position - transform.position).normalized;
+		float angle = Vector3.SignedAngle(dir, transform.forward, Vector3.up);
+		if (Mathf.Abs(angle) < 90)
+		{
+			isSafe = false;
+		}
+		else
+		{
+			isSafe = true;
 		}
 	}
 
 	private void OnDrawGizmosSelected()
 	{
-		Gizmos.color = Color.blue;
+		if (!IsOccupied && isSafe)
+		{
+			Gizmos.color = Color.green;
+		}
+		else
+		{
+			Gizmos.color = Color.red;
+		}
+		
 		Gizmos.DrawWireSphere(transform.position, radius);
 	}
 }
