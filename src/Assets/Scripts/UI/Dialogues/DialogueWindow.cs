@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using DialogueEditor;
 using TMPro;
@@ -30,15 +31,9 @@ namespace UI.Dialogue
 
 		private AudioSource audioSource;
 
+		private DialogEventHolder dialogEventHolder;
+
 		public bool typewritingEnabled = true;
-		/// <summary>
-		/// How much seconds passes between two letters' appearance.
-		/// </summary>
-		private float charTypingDelay = .05f;  // <TODO> most probably will be contained inside the character's portrait info.
-		/// <summary>
-		/// The "voice" of the speaker.
-		/// </summary>
-		private AudioClip typewritingSound;  // <TODO> most probably will be contained inside the character's portrait info.
 		private float typewriteNext = 0f;
 		private bool typewriting = false;
 
@@ -46,6 +41,8 @@ namespace UI.Dialogue
 		private OptionButton __selectedOption;
 
 		private float tillAutoAdvance = 0;
+
+		private float TypingDelay => 1 / (currentSpeech.MobTraits.TypingSpeed * 10);
 
 		public OptionButton SelectedOption
 		{
@@ -59,6 +56,8 @@ namespace UI.Dialogue
 			}
 		}
 		private int optionIndex = 0;
+
+		private bool HasOptions => optionButtons.Count > 0;
 
 		protected override void Awake()
 		{
@@ -81,9 +80,12 @@ namespace UI.Dialogue
 				optionsHolderPendingUpdate = false;
 			}
 
-			if (tillAutoAdvance > 0)
-				if ((tillAutoAdvance -= Time.deltaTime) <= 0)
-					Skip();
+			if (
+				!HasOptions &&
+				tillAutoAdvance > 0 &&
+				(tillAutoAdvance -= Time.deltaTime) <= 0
+			)
+				Skip();
 
 			if (typewritingEnabled && typewriting && Time.time > typewriteNext)
 				Typewrite();
@@ -97,12 +99,13 @@ namespace UI.Dialogue
 
 		private void OnCycle(InputAction.CallbackContext ctx)
 		{
-			if (ctx.ReadValue<Vector2>().y == 0)
+			float y = ctx.ReadValue<Vector2>().y;
+			if (y == 0)
 				return;
 
-			if (optionButtons.Count == 0)
+			if (!HasOptions)
 				optionIndex = 0;
-			else if (ctx.ReadValue<Vector2>().y < 0)
+			else if (y < 0)
 				optionIndex = ++optionIndex % optionButtons.Count;
 			else if (--optionIndex < 0)
 				optionIndex = optionButtons.Count - 1;
@@ -115,11 +118,19 @@ namespace UI.Dialogue
 
 		private void OnSubmitPressed(InputAction.CallbackContext ctx)
 		{
-			//  <TODO> Awaits dialogue adaptation.
-			//  if (currentSpeech.AutomaticallyAdvance && currentSpeech.AllowSkipping)
-			//  	Skip();
-			//  else
-			if (typewriting && tillAutoAdvance <= 0)
+			if ( // skipping the pause after typewriting has finished
+				!HasOptions &&
+				currentSpeech.AutomaticallyAdvance &&
+				!typewriting &&
+				tillAutoAdvance > 0
+			)
+				Skip();
+			else if ( // skip typewriting right to the pause
+				!HasOptions && (
+					currentSpeech.AutomaticallyAdvance && currentSpeech.Skippable ||
+					typewriting && tillAutoAdvance <= 0
+				)
+			)
 				FinishSpeech();
 			else if (SelectedOption)
 				SelectedOption.OnButtonClicked();
@@ -135,16 +146,18 @@ namespace UI.Dialogue
 				return;
 			}
 
-			if (typewritingSound)
-				audioSource.PlayOneShot(typewritingSound);
+			if (currentSpeech.MobTraits.TypingSound)
+				audioSource.PlayOneShot(currentSpeech.MobTraits.TypingSound);
 
-			typewriteNext = Time.time + charTypingDelay;
+			typewriteNext = Time.time + TypingDelay;
 		}
 
 		private void FinishSpeech()
 		{
+			if (!HasOptions)
+				CreateUIOptions();
+
 			typewriting = false;
-			CreateUIOptions();
 			characterLine.maxVisibleCharacters = currentSpeech.Text.Length;
 		}
 
@@ -156,6 +169,7 @@ namespace UI.Dialogue
 			HUD.Hud.Instance.Toggle(false);
 
 			conversation = npcConversation.Deserialize();
+			dialogEventHolder = npcConversation.GetComponentInChildren<DialogEventHolder>();
 
 			Input.PlayerInput.Actions.UI.Click.performed += OnSubmitPressed;
 			Input.PlayerInput.Actions.UI.Submit.performed += OnSubmitPressed;
@@ -174,10 +188,12 @@ namespace UI.Dialogue
 
 			currentSpeech = speech;
 
+			if (!currentSpeech.MobTraits)
+				throw new Exception($"Found null {typeof(MobTraits)} object on {currentSpeech}");
+
 			ClearOptions();
 
-			// <TODO> We will store the character's name in the portrait info later.
-			characterName.text = speech.Name;
+			characterName.text = currentSpeech.MobTraits.Name;
 
 			characterLine.text = speech.Text;
 			if (typewritingEnabled)
@@ -205,9 +221,8 @@ namespace UI.Dialogue
 			if (speech.AutomaticallyAdvance)
 			{
 				tillAutoAdvance = speech.TimeUntilAdvance;
-				// <TODO> Awaits dialogue adaptation.
-				//  if (typewritingEnabled && speech.addTypewritingTime)
-				//  	tillAutoAdvance += charTypingDelay * speech.Text.Length;
+				 if (typewritingEnabled && speech.AddTypewritingTime)
+				 	tillAutoAdvance += TypingDelay * speech.Text.Length;
 			}
 		}
 
@@ -294,24 +309,23 @@ namespace UI.Dialogue
 		{
 			if (currentSpeech.ConnectionType == Connection.eConnectionType.Option)
 			{
-				bool any = false;
-				foreach (OptionConnection connection in currentSpeech.Connections)
-				{
-					if (ConditionsMet(connection))
-					{
-						CreateOptionButton(connection.OptionNode);
-						any = true;
-					}
-				}
-
-				if (!any)
+				Connection[] options = currentSpeech.Connections.Where(c => c is OptionConnection).ToArray();
+				if (options.Length == 0)
 					return;
+				
+				foreach (OptionConnection connection in options)
+					if (ConditionsMet(connection))
+						CreateOptionButton(connection.OptionNode);
 
 				ToggleOptions(true);
-				SelectOption(0);
+
+				if (options.Length == 1)
+					SelectOption(0);
 			}
-			else if (!currentSpeech.AutomaticallyAdvance || currentSpeech.AutoAdvanceShouldDisplayOption
-				&& currentSpeech.ConnectionType == Connection.eConnectionType.Speech)
+			else if (
+				!currentSpeech.AutomaticallyAdvance ||
+				currentSpeech.AutoAdvanceShouldDisplayOption && currentSpeech.ConnectionType == Connection.eConnectionType.Speech
+			)
 			{
 				UpdateContinueButton(GetValidSpeech(currentSpeech));
 			}
@@ -358,8 +372,7 @@ namespace UI.Dialogue
 			}
 
 			DoParamAction(option);
-			if (!(option.Event is null))
-				option.Event.Invoke();
+			option.Event?.Invoke();
 
 			ClearOptions();
 
@@ -400,10 +413,8 @@ namespace UI.Dialogue
 			ToggleOptions(false);
 		}
 
-		private void ToggleOptions(bool toggle)
-		{
+		private void ToggleOptions(bool toggle) =>
 			optionsHolder.gameObject.SetActive(toggle);
-		}
 
 		public void Close()
 		{
@@ -417,6 +428,9 @@ namespace UI.Dialogue
 			Input.PlayerInput.Actions.UI.Navigate.performed -= OnCycle;
 
 			ClearOptions();
+
+			if (dialogEventHolder)
+				dialogEventHolder.OnFinished?.Invoke();
 		}
 	}
 }

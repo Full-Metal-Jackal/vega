@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
 
 namespace DialogueEditor
 {
@@ -39,6 +38,11 @@ namespace DialogueEditor
 
         public EditableSpeechNode Speech;
 
+        [JsonConstructor]
+        private EditableSpeechConnection() : base()
+        {
+        }
+
         public EditableSpeechConnection(EditableSpeechNode node) : base()
         {
             Speech = node;
@@ -52,6 +56,11 @@ namespace DialogueEditor
         public override eConnectiontype ConnectionType { get { return eConnectiontype.Option; } }
 
         public EditableOptionNode Option;
+
+        [JsonConstructor]
+        private EditableOptionConnection() : base()
+        {
+        }
 
         public EditableOptionConnection(EditableOptionNode node) : base()
         {

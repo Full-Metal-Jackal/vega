@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DialogueEditor;
-using UI.Dialogue;
 
 [RequireComponent(typeof(Mob))]
 public class MobDialogue : Interaction
@@ -18,7 +15,8 @@ public class MobDialogue : Interaction
 			return false;
 
 		Debug.Log($"{mob} started dialogue with {Mob}");
-		DialogueWindow.Instance.Open(Conversation);
+		Conversation.OpenDialog();
+
 		return true;
 	}
 }

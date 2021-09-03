@@ -176,32 +176,41 @@ namespace DialogueEditor
         // ----
         // Serialized Node data
 
-        /// <summary> The NPC Name </summary>
-        [DataMember] public string Name;
-
         /// <summary> The NPC Icon </summary>
         public Sprite Icon;
         /// <summary> Deprecated as of V1.03 </summary>
-        [DataMember] public string IconGUID;
+        [DataMember]
+        public string IconGUID;
 
         /// <summary> The Audio Clip acompanying this Speech. </summary>
         public AudioClip Audio;
         /// <summary> Deprecated as of V1.03 </summary>
-        [DataMember] public string AudioGUID;
+        [DataMember]
+        public string AudioGUID;
 
         /// <summary> The Volume for the AudioClip; </summary>
-        [DataMember] public float Volume;
+        [DataMember]
+        public float Volume;
+
+        [DataMember]
+        public bool AddTypewritingTime = true;
+
+        [DataMember]
+        public bool Skippable = true;
 
         /// <summary> If this dialogue leads onto another dialogue... 
         /// Should the dialogue advance automatially? </summary>
-        [DataMember] public bool AdvanceDialogueAutomatically;
+        [DataMember]
+        public bool AdvanceDialogueAutomatically = true;
 
         /// <summary> If this dialogue automatically advances, should it also display an 
         /// "end" / "continue" button? </summary>
-        [DataMember] public bool AutoAdvanceShouldDisplayOption;
+        [DataMember]
+        public bool AutoAdvanceShouldDisplayOption;
 
         /// <summary>  The time it will take for the Dialogue to automaically advance </summary>
-        [DataMember] public float TimeUntilAdvance;
+        [DataMember]
+        public float TimeUntilAdvance;
 
 
         //--------
@@ -210,12 +219,16 @@ namespace DialogueEditor
         /// <summary> Deprecated as of V1.1 </summary>
         public List<EditableOptionNode> Options;
         /// <summary> Deprecated as of V1.1 </summary>
-        [DataMember] public List<int> OptionUIDs;
+        [DataMember] 
+        public List<int> OptionUIDs;
         /// <summary> Deprecated as of V1.1 </summary>
         public EditableSpeechNode Speech;
         /// <summary> Deprecated as of V1.1 </summary>
-        [DataMember] public int SpeechUID;
+        [DataMember]
+        public int SpeechUID;
 
+        [DataMember]
+        public MobTraits MobTraits;
 
         // ------------------------------
 
