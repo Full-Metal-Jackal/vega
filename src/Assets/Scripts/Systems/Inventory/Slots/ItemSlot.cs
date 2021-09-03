@@ -3,41 +3,13 @@ using UnityEngine;
 
 namespace Inventory
 {
-	public abstract class ItemSlot : MonoBehaviour
+	public class ItemSlot : MonoBehaviour
 	{
-		public bool Initialized { get; private set; } = false;
+		[field: SerializeField]
+		public SlotType Type { get; private set; }
 
-		public MobInventory Inventory { get; private set; }
-
-		private void Awake()
-		{
-			Initialize();
-		}
-
-		protected virtual void Initialize()
-		{
-			if (Initialized)
-				throw new System.Exception($"Multiple initialization attempts of {this}!");
-
-			Inventory = transform.parent.GetComponent<MobInventory>();
-
-			Initialized = true;
-		}
-
-		public virtual bool IsFree => false;
-
-		/// <summary>
-		/// Called when the player pushes the slot's button to activate the stored item.
-		/// </summary>
-		public abstract void OnActivated();
-
-		public abstract void Clear();
-	}
-
-	public abstract class ItemSlot<ItemType> : ItemSlot where ItemType : Item
-	{
-		private ItemType __item;
-		public ItemType Item
+		private Item __item;
+		public Item Item
 		{
 			get => __item;
 			set
@@ -47,19 +19,29 @@ namespace Inventory
 
 				__item.Slot = this;
 
-				// <TODO> Will be removed as soon as we get slot-switching mechanics working.
-				__item.Select();
+				if (__item.SelectOnPickUp)
+					__item.Select();
 			}
 		}
 
-		public override bool IsFree => Item is null;
+		public MobInventory Inventory { get; private set; }
 
-		public override void OnActivated()
+		protected virtual void Awake()
+		{
+			Inventory = transform.parent.GetComponent<MobInventory>();
+		}
+
+		public bool IsFree => Item is null;
+
+		/// <summary>
+		/// Called when the player pushes the slot's button to activate the stored item.
+		/// </summary>
+		public void OnActivated()
 		{
 			Item.Select();
 		}
 
-		public override void Clear()
+		public void Clear()
 		{
 			Item.Slot = null;
 			Item = null;

@@ -7,14 +7,10 @@ public class DynamicProp : DynamicEntity
 	[SerializeField]
 	private bool startFrozen = false;
 
-	protected override bool Initialize()
+	protected override void Start()
 	{
-		if (!base.Initialize())
-			return false;
-
+		base.Start();
 		Frozen = startFrozen;
-
-		return true;
 	}
 
 	public virtual bool Frozen

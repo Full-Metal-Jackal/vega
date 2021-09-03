@@ -232,7 +232,7 @@ public abstract class Humanoid : Mob
 			TurnTo(delta, direction);
 		}
 
-		Vector3 targetVelocity = speed * direction * delta;
+		Vector3 targetVelocity = delta * speed * direction;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 		Body.velocity = targetVelocity;
@@ -307,10 +307,9 @@ public abstract class Humanoid : Mob
 		lastStaminaDrain = Time.time;
 	}
 
-	protected override void Tick(float delta)
+	protected override void Update()
 	{
-		base.Tick(delta);
-
+		base.Update();
 		UpdateSmoothedAimPos();
 	}
 
@@ -321,5 +320,34 @@ public abstract class Humanoid : Mob
 	{
 		ActiveItem.Reload();
 		IsReloading = false;
+	}
+
+	public override void Die(Damage damage)
+	{
+		base.Die(damage);
+
+		const float deathAnimationChance = .2f;
+		const float deathAnimationVelocityThreshold = .1f;
+
+		if (Random.value <= deathAnimationChance
+			&& Body.velocity.magnitude < deathAnimationVelocityThreshold
+			)
+		{
+			if (Animator.TryGetComponent(out HumanoidAnimationHandler animationHandler))
+			{
+				animationHandler.TransitIkWeightTo(0, .1f);
+				animationHandler.AdditionalLayersEnabled = false;
+			}
+
+			const int deathAnimationsVariety = 1;
+			Animator.SetInteger("RandomAnimationIndex", Random.Range(0, deathAnimationsVariety - 1));
+			Animator.SetTrigger("DeathTrigger");
+		}
+		else if (Animator.TryGetComponent(out RagdollController ragdollController))
+		{
+			ragdollController.ToggleRagdoll(true);
+			if (damage.AppliesForce)
+				ragdollController.ApplyRagdollForce(damage.direction * damage.force, damage.hitPoint);
+		}
 	}
 }

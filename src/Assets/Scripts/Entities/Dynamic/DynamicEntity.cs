@@ -5,14 +5,11 @@ public class DynamicEntity : Entity
 {
 	public Rigidbody Body { get; protected set; }
 
-	protected override bool Initialize()
+	protected override void Awake()
 	{
-		if (!base.Initialize())
-			return false;
+		base.Awake();
 
 		Body = GetComponent<Rigidbody>();
-
-		return true;
 	}
 
 	private void FixedUpdate() =>

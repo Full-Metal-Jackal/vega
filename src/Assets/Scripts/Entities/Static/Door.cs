@@ -14,11 +14,6 @@ public class Door : Interaction
 	[SerializeField]
 	private Animator animator;
 
-	protected override void Initialize()
-	{
-		base.Initialize();
-	}
-
 	public override bool CanBeUsedBy(Mob mob) => !Active;
 
 	public override bool OnUse(Mob mob)

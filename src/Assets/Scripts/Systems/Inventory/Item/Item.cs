@@ -17,6 +17,11 @@ namespace Inventory
 		[field: SerializeField]
 		public string Desc { get; private set; }
 
+		[field: SerializeField]
+		public float Mass { get; private set; } = 2f;
+
+		[field: SerializeField]
+		public SlotType SlotType { get; private set; } = SlotType.Weapon;
 		public abstract string SlotText { get; }
 
 		/// <summary>
@@ -26,6 +31,10 @@ namespace Inventory
 		public ItemModelData Model { get; protected set; }
 
 		private ItemSlot __slot;
+
+		[field: SerializeField]
+		public bool SelectOnPickUp { get; private set; }
+
 		public ItemSlot Slot
 		{
 			get => __slot;
@@ -124,11 +133,10 @@ namespace Inventory
 			}
 
 			Model = model;
-			const float skeletonScale = .01f;  // This shit exists just because it wants to. Don't mess with it.
-			Model.transform.localScale = Vector3.one * skeletonScale;
+			Model.transform.localScale = Vector3.one;
 			if (Model.Origin)
 			{
-				Model.transform.localPosition += Model.Origin.localPosition * skeletonScale;
+				Model.transform.localPosition += Model.Origin.localRotation * Model.Origin.localPosition;
 				Model.transform.localRotation *= Model.Origin.localRotation;
 			}
 

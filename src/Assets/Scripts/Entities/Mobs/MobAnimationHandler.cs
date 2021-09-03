@@ -8,23 +8,17 @@ public class MobAnimationHandler : MonoBehaviour
 	protected Mob Mob { get; private set; }
 	protected Animator Animator { get; private set; }
 
-	private void Awake() => Initialize();
-
-	protected virtual void Initialize()
+	protected virtual void Awake()
 	{
 		Mob = transform.parent.GetComponent<Mob>();
 		Animator = GetComponent<Animator>();
 	}
 
-	private void Start() => Setup();
-
-	protected virtual void Setup()
+	protected virtual void Start()
 	{
 	}
 
-	private void Update() => OnUpdate();
-
-	protected virtual void OnUpdate()
+	protected virtual void Update()
 	{
 	}
 }
