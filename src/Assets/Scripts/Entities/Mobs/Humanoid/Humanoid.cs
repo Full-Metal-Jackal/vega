@@ -240,14 +240,12 @@ public abstract class Humanoid : Mob
 		Vector3 horDir = transform.forward;
 		horDir.y = 0;
 
-		Vector3 legsMovementVector;
-		if (HasAimableItem)
-			legsMovementVector = Quaternion.AngleAxis(
+		Vector3 legsMovementVector = HasAimableItem
+			? Quaternion.AngleAxis(
 				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
 				Vector3.up
-			) * Vector3.forward;
-		else
-			legsMovementVector = Vector3.forward;
+			) * Vector3.forward
+			: Vector3.forward;
 
 		legsMovementVector *= Body.velocity.magnitude / MoveSpeed;
 
