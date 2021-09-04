@@ -226,6 +226,7 @@ namespace DialogueEditor
                     // Construct Connections from the OptionUIDs and SpeechUIDs (which are now deprecated)
                     // This supports upgrading from V1.03 +
 
+                    node.Connections = new List<EditableConnection>();
                     node.ParamActions = new List<EditableSetParamAction>();
 
                     if (
