@@ -272,7 +272,7 @@ namespace DialogueEditor
                 foreach (EditableConnection connection in node.Connections)
                 {
                     if (connection is EditableSpeechConnection speechConnection)
-                        (connection as EditableSpeechConnection).Speech.parents.Add(node);
+                        speechConnection.Speech.parents.Add(node);
                     else if (connection is EditableOptionConnection optionConnection)
                         optionConnection.Option.parents.Add(node);
                 }
