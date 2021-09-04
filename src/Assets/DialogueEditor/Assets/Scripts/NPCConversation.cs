@@ -254,13 +254,13 @@ namespace DialogueEditor
                 // V1.10 +
                 else
                 {
-                     // For each node..  Reconstruct the connections
+                    // For each node..  Reconstruct the connections
                     foreach (EditableConnection connection in node.Connections)
                     {
-                        if (connection is EditableSpeechConnection)
-                            (connection as EditableSpeechConnection).Speech = conversation.GetSpeechByUID(connection.NodeUID);
-                        else if (connection is EditableOptionConnection)
-                            (connection as EditableOptionConnection).Option = conversation.GetOptionByUID(connection.NodeUID);;
+                        if (connection is EditableSpeechConnection speechConnection)
+                            speechConnection.Speech = conversation.GetSpeechByUID(speechConnection.NodeUID);
+                        else if (connection is EditableOptionConnection optionConnection)
+                            optionConnection.Option = conversation.GetOptionByUID(optionConnection.NodeUID);;
                     }
                 }
             }
@@ -271,10 +271,10 @@ namespace DialogueEditor
             {
                 foreach (EditableConnection connection in node.Connections)
                 {
-                    if (connection.ConnectionType == EditableConnection.eConnectiontype.Speech)
+                    if (connection is EditableSpeechConnection speechConnection)
                         (connection as EditableSpeechConnection).Speech.parents.Add(node);
-                    else if (connection.ConnectionType == EditableConnection.eConnectiontype.Option)
-                        (connection as EditableOptionConnection).Option.parents.Add(node);
+                    else if (connection is EditableOptionConnection optionConnection)
+                        optionConnection.Option.parents.Add(node);
                 }
             }
         }
