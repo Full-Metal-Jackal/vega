@@ -93,8 +93,6 @@ public abstract class Humanoid : Mob
 	/// </summary>
 	public virtual float AimEnableDistance => 1f;
 
-	protected Vector3 itemUseTarget;
-
 	private HoldType __holdState = HoldType.None;
 	/// <summary>
 	/// Represents the aiming animation that is being played right now.
@@ -329,14 +327,13 @@ public abstract class Humanoid : Mob
 		ThrowableItem.SetupModel(ItemSocket);
 
 		IsBusy = true;
-		itemUseTarget = AimPos;
 
 		Animator.SetTrigger("ThrowTrigger");
 	}
 
 	public void OnThrowEnd()
 	{
-		ThrowableItem.Fire(itemUseTarget);
+		ThrowableItem.Fire(AimPos);
 		IsBusy = false;
 		if (ActiveItem && ActiveItem.Model)
 			ActiveItem.Model.gameObject.SetActive(true);
