@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+
+using DialogEventHolder = UI.Dialogue.DialogEventHolder;
 
 namespace DialogueEditor
 {
@@ -686,6 +687,27 @@ namespace DialogueEditor
                 EditorGUILayout.LabelField("'End' font:", GUILayout.MinWidth(labelWidth), GUILayout.MaxWidth(labelWidth));
                 CurrentAsset.EndConversationFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(CurrentAsset.EndConversationFont, typeof(TMPro.TMP_FontAsset), false, GUILayout.MaxWidth(fieldWidth));
                 EditorGUILayout.EndHorizontal();
+
+                // Dialog OnFinished event
+                
+                DialogEventHolder evtHolder = CurrentAsset.GetDialogData();
+                CurrentAsset.OnFinished = evtHolder.OnFinished;
+
+                SerializedObject serializedHolder = new SerializedObject(evtHolder);
+                SerializedProperty holderOnFinishedProp = serializedHolder.FindProperty("OnFinished");
+
+                SerializedObject serializedCurAsset = new SerializedObject(CurrentAsset);
+                SerializedProperty curAssetOnFinishedProp = serializedHolder.FindProperty("OnFinished");
+
+                // Draw dummy event
+                GUILayout.Label("Events", panelTitleStyle);
+                EditorGUILayout.PropertyField(curAssetOnFinishedProp);
+
+                serializedCurAsset.ApplyModifiedProperties();
+
+                holderOnFinishedProp = curAssetOnFinishedProp;
+
+                serializedHolder.ApplyModifiedProperties();
             }
             else
             {
@@ -706,29 +728,23 @@ namespace DialogueEditor
                         GUILayout.Label("[" + node.ID + "] NPC Dialogue Node.", panelTitleStyle);
                         EditorGUILayout.Space();
 
-                        GUILayout.Label("Character Name", EditorStyles.boldLabel);
-                        GUI.SetNextControlName(CONTROL_NAME);
-                        node.Name = GUILayout.TextField(node.Name);
-                        EditorGUILayout.Space();
-
                         GUILayout.Label("Dialogue", EditorStyles.boldLabel);
+                        GUI.SetNextControlName(CONTROL_NAME);
                         node.Text = GUILayout.TextArea(node.Text);
                         EditorGUILayout.Space();
 
                         // Advance
-                        if (node.Connections.Count > 0 && node.Connections[0] is EditableSpeechConnection)
+                        GUILayout.Label("Auto-Advance options", EditorStyles.boldLabel);
+                        node.AdvanceDialogueAutomatically = EditorGUILayout.ToggleLeft("Automatically Advance", node.AdvanceDialogueAutomatically);
+                        if (node.AdvanceDialogueAutomatically)
                         {
-                            GUILayout.Label("Auto-Advance options", EditorStyles.boldLabel);
-                            node.AdvanceDialogueAutomatically = EditorGUILayout.Toggle("Automatically Advance", node.AdvanceDialogueAutomatically);
-                            if (node.AdvanceDialogueAutomatically)
-                            {
-                                node.AutoAdvanceShouldDisplayOption = EditorGUILayout.Toggle("Display continue option", node.AutoAdvanceShouldDisplayOption);
-                                node.TimeUntilAdvance = EditorGUILayout.FloatField("Dialogue Time", node.TimeUntilAdvance);
-                                if (node.TimeUntilAdvance < 0.1f)
-                                    node.TimeUntilAdvance = 0.1f;
-                            }
-                            EditorGUILayout.Space();
+                            node.AddTypewritingTime = EditorGUILayout.ToggleLeft("Add Typewriting time", node.AddTypewritingTime);
+                            node.AutoAdvanceShouldDisplayOption = EditorGUILayout.ToggleLeft("Display continue option", node.AutoAdvanceShouldDisplayOption);
+                            node.TimeUntilAdvance = EditorGUILayout.FloatField("Dialogue Time", node.TimeUntilAdvance);
+                            if (node.TimeUntilAdvance < 0.1f)
+                                node.TimeUntilAdvance = 0.1f;
                         }
+                        EditorGUILayout.Space();
 
                         GUILayout.Label("Icon", EditorStyles.boldLabel);
                         node.Icon = (Sprite)EditorGUILayout.ObjectField(node.Icon, typeof(Sprite), false, GUILayout.ExpandWidth(true));
@@ -744,6 +760,14 @@ namespace DialogueEditor
 
                         GUILayout.Label("TMP Font", EditorStyles.boldLabel);
                         node.TMPFont = (TMPro.TMP_FontAsset)EditorGUILayout.ObjectField(node.TMPFont, typeof(TMPro.TMP_FontAsset), false);
+                        EditorGUILayout.Space();
+
+                        GUILayout.Label("Mob Traits", EditorStyles.boldLabel);
+                        node.MobTraits = (MobTraits)EditorGUILayout.ObjectField(node.MobTraits, typeof(MobTraits), false);
+                        EditorGUILayout.Space();
+
+                        GUILayout.Label("Misc Options", EditorStyles.boldLabel);
+                        node.Skippable = EditorGUILayout.ToggleLeft("Skippable", node.Skippable);
                         EditorGUILayout.Space();
 
                         // Event
@@ -1289,7 +1313,6 @@ namespace DialogueEditor
             newSpeech.ID = CurrentAsset.CurrentIDCounter++;
 
             // Give the speech it's default values
-            newSpeech.Name = CurrentAsset.DefaultName;
             newSpeech.Icon = CurrentAsset.DefaultSprite;
             newSpeech.TMPFont = CurrentAsset.DefaultFont;
 

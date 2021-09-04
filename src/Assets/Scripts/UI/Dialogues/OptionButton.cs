@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace UI.Dialogue
 {
 	[RequireComponent(typeof(Button))]
-	public class OptionButton : DialogueButton, IPointerEnterHandler
+	public class OptionButton : DialogueButton, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField]
 		private Image selector;
@@ -24,6 +24,12 @@ namespace UI.Dialogue
 
 		public void OnPointerEnter(PointerEventData eventData) =>
 			DialogueWindow.Instance.SelectedOption = this;
+		
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			if (DialogueWindow.Instance.SelectedOption == this) // in case of a conflict of precedence of these methods
+				DialogueWindow.Instance.SelectedOption = null;
+		}
 
 		public void ToggleSelect(bool toggle)
 		{

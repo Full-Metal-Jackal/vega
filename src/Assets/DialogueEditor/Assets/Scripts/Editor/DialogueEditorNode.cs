@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -343,8 +342,8 @@ namespace DialogueEditor
 
             // Name
             const int NAME_PADDING = 1;
-            Rect name = new Rect(rect.x + TEXT_BORDER * 0.5f, rect.y + NAME_PADDING + TITLE_HEIGHT, rect.width - TEXT_BORDER * 0.5f, NAME_HEIGHT);
-            GUI.Box(name, SpeechNode.Name, npcNameStyle);
+            Rect nameRect = new Rect(rect.x + TEXT_BORDER * 0.5f, rect.y + NAME_PADDING + TITLE_HEIGHT, rect.width - TEXT_BORDER * 0.5f, NAME_HEIGHT);
+            GUI.Box(nameRect, SpeechNode.MobTraits?.Name ?? "Assign MobTraits data", npcNameStyle);
 
             // Icon
             Rect icon = new Rect(rect.x + TEXT_BORDER * 0.5f, rect.y + TITLE_HEIGHT + TITLE_GAP + NAME_HEIGHT, SPRITE_SZ, SPRITE_SZ);
