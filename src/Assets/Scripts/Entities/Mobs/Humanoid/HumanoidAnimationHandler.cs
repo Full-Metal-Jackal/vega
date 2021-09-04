@@ -46,8 +46,6 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	public void SetupHandsIkForItem()
 	{
-		Inventory.Item item = humanoid.ActiveItem;
-		
 		if (item && item.Model)
 		{
 			leftHandIkTarget = item.Model.LeftHandGrip;
@@ -103,6 +101,17 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	public void OnReloadEnd()
 	{
 		humanoid.OnReloadEnd();
+		TransitIkWeightTo(1f, .1f);
+	}
+
+	public void OnThrowBegin()
+	{
+		TransitIkWeightTo(0f, .1f);
+	}
+
+	public void OnThrowEnd()
+	{
+		humanoid.OnThrowEnd();
 		TransitIkWeightTo(1f, .1f);
 	}
 
