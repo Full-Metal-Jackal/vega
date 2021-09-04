@@ -319,11 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b689f0edeec2f41867cbb3f3fbd63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &31900925 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 4248042688316607875, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
-  m_PrefabInstance: {fileID: 4593133216795748573}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &44337940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -872,7 +867,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59678
+  m_Name: pb_Mesh55848
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1176,6 +1171,7 @@ GameObject:
   - component: {fileID: 146293748}
   - component: {fileID: 146293747}
   - component: {fileID: 146293746}
+  - component: {fileID: 146293749}
   m_Layer: 0
   m_Name: ConversationEventInfo
   m_TagString: Untagged
@@ -1278,6 +1274,21 @@ MonoBehaviour:
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
+--- !u!114 &146293749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146293744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609cc17b8576bb94f8cabcebd9f148f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &155371423 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6492698126085035113, guid: 33018be03c50e4443beb9bda1989b665, type: 3}
@@ -4347,7 +4358,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60656
+  m_Name: pb_Mesh56822
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5055,22 +5066,303 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83189876d4d389f43b7dd2e925aa112e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentIDCounter: 19
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":260,"yPos":1071},"ID":18,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[16],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":true,"xPos":284,"yPos":14},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Pew-pew-pew!
-    You''re a dead bear, Bosco!","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":4}],"EditorInfo":{"isRoot":false,"xPos":142,"yPos":115},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"I
-    surrender, I surrender!","parentUIDs":[0],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":5}],"EditorInfo":{"isRoot":false,"xPos":387,"yPos":160},"ID":4,"ParamActions":[],"TMPFontGUID":null,"Text":"Anyway...
-    When will mom and dad be back?","parentUIDs":[3],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":6}],"EditorInfo":{"isRoot":false,"xPos":146,"yPos":222},"ID":5,"ParamActions":[],"TMPFontGUID":null,"Text":"You''ve
-    asked me already. They''ll be back soon.","parentUIDs":[4],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":7}],"EditorInfo":{"isRoot":false,"xPos":392,"yPos":293},"ID":6,"ParamActions":[],"TMPFontGUID":null,"Text":"Soon
-    when?","parentUIDs":[5],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":9}],"EditorInfo":{"isRoot":false,"xPos":143,"yPos":358},"ID":7,"ParamActions":[],"TMPFontGUID":null,"Text":"I
-    have no clue! May be an hour, they didn''t tell me. Let''s better play something
-    to kill the time.","parentUIDs":[6],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":11}],"EditorInfo":{"isRoot":false,"xPos":146,"yPos":476},"ID":9,"ParamActions":[],"TMPFontGUID":null,"Text":"How
-    about pirates?","parentUIDs":[7],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":13}],"EditorInfo":{"isRoot":false,"xPos":390.5,"yPos":577},"ID":11,"ParamActions":[],"TMPFontGUID":null,"Text":"No!
-    We''ll play Imperials and Rebels!","parentUIDs":[9],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":14}],"EditorInfo":{"isRoot":false,"xPos":153.5,"yPos":666},"ID":13,"ParamActions":[],"TMPFontGUID":null,"Text":"Gaius...
-    Madam Verax doesn''t want us to play such games. She says they''re inappropriate.
-    Let''s not dissapoint your mom-","parentUIDs":[11],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":15}],"EditorInfo":{"isRoot":false,"xPos":400.5,"yPos":761},"ID":14,"ParamActions":[],"TMPFontGUID":null,"Text":"Alright,
-    alright! Then... you''re a space pirate!","parentUIDs":[13],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":16}],"EditorInfo":{"isRoot":false,"xPos":153.5,"yPos":847},"ID":15,"ParamActions":[],"TMPFontGUID":null,"Text":"Grey
-    Bosco, the Ravager of all Trados!","parentUIDs":[14],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":18}],"EditorInfo":{"isRoot":false,"xPos":394.5,"yPos":937},"ID":16,"ParamActions":[],"TMPFontGUID":null,"Text":"Then
-    I am Imperial officer Gaius Verax, and this time you won''t get away from me!","parentUIDs":[15],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Gaius","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  CurrentIDCounter: 22
+  json: "{\r\n  \"$type\": \"DialogueEditor.EditableConversation, Assembly-CSharp\",\r\n 
+    \"SpeechNodes\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": [\r\n      {\r\n        \"$type\":
+    \"DialogueEditor.EditableSpeechNode, Assembly-CSharp\",\r\n        \"IconGUID\":
+    null,\r\n        \"AudioGUID\": null,\r\n        \"Volume\": 0.0,\r\n       
+    \"AddTypewritingTime\": true,\r\n        \"Skippable\": true,\r\n        \"AdvanceDialogueAutomatically\":
+    false,\r\n        \"AutoAdvanceShouldDisplayOption\": false,\r\n        \"TimeUntilAdvance\":
+    0.0,\r\n        \"OptionUIDs\": null,\r\n        \"SpeechUID\": 0,\r\n       
+    \"MobTraits\": {\r\n          \"$type\": \"MobTraits, Assembly-CSharp\",\r\n         
+    \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"TypingSound\": {\r\n            \"$type\": \"UnityEngine.AudioClip,
+    UnityEngine.AudioModule\"\r\n          },\r\n          \"Name\": \"Gaius\",\r\n         
+    \"TypingSpeed\": 2.0,\r\n          \"name\": \"Gaius5yo\",\r\n          \"hideFlags\":
+    \"None\",\r\n          \"<Avatar>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n          },\r\n          \"<TypingSound>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n         
+    },\r\n          \"<Name>k__BackingField\": \"Gaius\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 398.5,\r\n          \"yPos\": -11.0,\r\n         
+    \"isRoot\": true\r\n        },\r\n        \"ID\": 0,\r\n        \"Text\": \"Pew-pew-pew!
+    You're a dead bear, Bosco!\",\r\n        \"Connections\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": [\r\n            {\r\n              \"$type\":
+    \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 3\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": {\r\n          \"$type\": \"MobTraits,
+    Assembly-CSharp\",\r\n          \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite,
+    UnityEngine.CoreModule\"\r\n          },\r\n          \"TypingSound\": {\r\n           
+    \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"Name\": \"Bosco\",\r\n          \"TypingSpeed\": 2.0,\r\n          \"name\":
+    \"Bosco\",\r\n          \"hideFlags\": \"None\",\r\n          \"<Avatar>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"<TypingSound>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"<Name>k__BackingField\": \"Bosco\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 157.5,\r\n          \"yPos\": 97.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 3,\r\n        \"Text\": \"I
+    surrender, I surrender!\",\r\n        \"Connections\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": [\r\n            {\r\n              \"$type\":
+    \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 4\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            0\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": {\r\n          \"$type\": \"MobTraits,
+    Assembly-CSharp\",\r\n          \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite,
+    UnityEngine.CoreModule\"\r\n          },\r\n          \"TypingSound\": {\r\n           
+    \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"Name\": \"Gaius\",\r\n          \"TypingSpeed\": 2.0,\r\n          \"name\":
+    \"Gaius5yo\",\r\n          \"hideFlags\": \"None\",\r\n          \"<Avatar>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"<TypingSound>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"<Name>k__BackingField\": \"Gaius\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 402.5,\r\n          \"yPos\": 141.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 4,\r\n        \"Text\": \"Anyway...
+    When will mom and dad be back?\",\r\n        \"Connections\": {\r\n         
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 20\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            3\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": {\r\n          \"$type\": \"MobTraits,
+    Assembly-CSharp\",\r\n          \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite,
+    UnityEngine.CoreModule\"\r\n          },\r\n          \"TypingSound\": {\r\n           
+    \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"Name\": \"Gaius\",\r\n          \"TypingSpeed\": 2.0,\r\n          \"name\":
+    \"Gaius5yo\",\r\n          \"hideFlags\": \"None\",\r\n          \"<Avatar>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"<TypingSound>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"<Name>k__BackingField\": \"Gaius\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 408.5,\r\n          \"yPos\": 275.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 6,\r\n        \"Text\": \"Soon
+    when?\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 7\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            20\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": {\r\n          \"$type\": \"MobTraits,
+    Assembly-CSharp\",\r\n          \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite,
+    UnityEngine.CoreModule\"\r\n          },\r\n          \"TypingSound\": {\r\n           
+    \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"Name\": \"Bosco\",\r\n          \"TypingSpeed\": 2.0,\r\n          \"name\":
+    \"Bosco\",\r\n          \"hideFlags\": \"None\",\r\n          \"<Avatar>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"<TypingSound>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"<Name>k__BackingField\": \"Bosco\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 158.5,\r\n          \"yPos\": 340.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 7,\r\n        \"Text\": \"I
+    have no clue! May be an hour, they didn't tell me. Let's better play something
+    to kill the time.\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 9\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            6\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 162.5,\r\n          \"yPos\": 458.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 9,\r\n        \"Text\": \"How
+    about pirates?\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 11\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            7\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 409.0,\r\n          \"yPos\": 497.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 11,\r\n        \"Text\": \"No!
+    We'll play Imperials and Rebels!\",\r\n        \"Connections\": {\r\n         
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 13\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            9\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 163.0,\r\n          \"yPos\": 574.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 13,\r\n        \"Text\": \"Gaius...
+    Madam Verax doesn't want us to play such games. She says they're inappropriate.
+    Let's not dissapoint your mom-\",\r\n        \"Connections\": {\r\n         
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 14\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            11\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 411.0,\r\n          \"yPos\": 630.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 14,\r\n        \"Text\": \"Alright,
+    alright! Then... you're a space pirate!\",\r\n        \"Connections\": {\r\n         
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 15\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            13\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 162.0,\r\n          \"yPos\": 710.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 15,\r\n        \"Text\": \"Grey
+    Bosco, the Ravager of all Trados!\",\r\n        \"Connections\": {\r\n         
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 16\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            14\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 395.0,\r\n          \"yPos\": 779.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 16,\r\n        \"Text\": \"Then
+    I am Imperial officer Gaius Verax, and this time you won't get away from me!\",\r\n       
+    \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            15\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": false,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.1,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": {\r\n          \"$type\": \"MobTraits,
+    Assembly-CSharp\",\r\n          \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite,
+    UnityEngine.CoreModule\"\r\n          },\r\n          \"TypingSound\": {\r\n           
+    \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"Name\": \"Bosco\",\r\n          \"TypingSpeed\": 2.0,\r\n          \"name\":
+    \"Bosco\",\r\n          \"hideFlags\": \"None\",\r\n          \"<Avatar>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"<TypingSound>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n          },\r\n         
+    \"<Name>k__BackingField\": \"Bosco\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 163.0,\r\n          \"yPos\": 219.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 20,\r\n        \"Text\": \"You
+    asked me a lot already. Soon.\",\r\n        \"Connections\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": [\r\n            {\r\n              \"$type\":
+    \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 6\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            4\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      }\r\n    ]\r\n  },\r\n  \"Options\": {\r\n   
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableOptionNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"Parameters\":
+    {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableParameter,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  }\r\n}"
   saveVersion: 110
   DefaultName: Gaius
   DefaultSprite: {fileID: 0}
@@ -5079,7 +5371,6 @@ MonoBehaviour:
   - {fileID: 1943331774}
   - {fileID: 1943331779}
   - {fileID: 1943331778}
-  - {fileID: 1943331777}
   - {fileID: 1943331776}
   - {fileID: 1943331775}
   - {fileID: 1943331780}
@@ -5089,24 +5380,17 @@ MonoBehaviour:
   - {fileID: 1943331783}
   - {fileID: 1943331786}
   - {fileID: 1943331785}
-  - {fileID: 1943331787}
+  - {fileID: 1943331777}
+  dialogSerializedData: {fileID: 1943331787}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1770840370}
-        m_TargetAssemblyTypeName: Scenario.TimelineAssistant, Assembly-CSharp
-        m_MethodName: Resume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogEventHolder: {fileID: 0}
 --- !u!1001 &335801960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6363,7 +6647,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59984
+  m_Name: pb_Mesh56154
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7146,7 +7430,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60504
+  m_Name: pb_Mesh56674
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15362,7 +15646,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59642
+  m_Name: pb_Mesh55812
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19161,7 +19445,7 @@ MonoBehaviour:
   OnFinish:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 31900925}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
         m_MethodName: set_isKinematic
         m_Mode: 6
@@ -19209,7 +19493,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1970739561}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HumanoidAnimationHandler, Assembly-CSharp
         m_MethodName: set_LookAtIkEnabled
         m_Mode: 6
@@ -20017,7 +20301,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59942
+  m_Name: pb_Mesh56112
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20268,7 +20552,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60216
+  m_Name: pb_Mesh56386
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20462,7 +20746,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60030
+  m_Name: pb_Mesh56200
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21016,7 +21300,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60364
+  m_Name: pb_Mesh56534
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21360,7 +21644,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59386
+  m_Name: pb_Mesh55556
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28393,7 +28677,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59906
+  m_Name: pb_Mesh56076
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28623,7 +28907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1009022952
 Transform:
   m_ObjectHideFlags: 0
@@ -28645,7 +28929,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59918
+  m_Name: pb_Mesh56088
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -28905,7 +29189,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60520
+  m_Name: pb_Mesh56690
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -31170,7 +31454,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59788
+  m_Name: pb_Mesh55958
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -31338,7 +31622,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1102988035}
   - component: {fileID: 1102988036}
-  - component: {fileID: 1102988038}
   - component: {fileID: 1102988037}
   m_Layer: 0
   m_Name: ConversationEventInfo
@@ -31389,47 +31672,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1102988034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 609cc17b8576bb94f8cabcebd9f148f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event:
+  OnFinished:
     m_PersistentCalls:
       m_Calls: []
-  NodeID: 3
-  TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
-  Audio: {fileID: 0}
---- !u!114 &1102988038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102988034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 462753070}
-        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  NodeID: 2
-  TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
-  Audio: {fileID: 0}
 --- !u!1001 &1103635255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31540,7 +31788,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59440
+  m_Name: pb_Mesh55610
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -31704,7 +31952,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59868
+  m_Name: pb_Mesh56038
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -34382,7 +34630,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60198
+  m_Name: pb_Mesh56368
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -34546,7 +34794,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59570
+  m_Name: pb_Mesh55740
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -35050,7 +35298,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59616
+  m_Name: pb_Mesh55786
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -38084,7 +38332,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59930
+  m_Name: pb_Mesh56100
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -39409,7 +39657,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60474
+  m_Name: pb_Mesh56644
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -41118,7 +41366,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59598
+  m_Name: pb_Mesh55768
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -41416,13 +41664,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2075651071}
-        m_TargetAssemblyTypeName: UI.Dialogue.DialogueWindow, Assembly-CSharp
-        m_MethodName: Open
-        m_Mode: 2
+      - m_Target: {fileID: 1844509112}
+        m_TargetAssemblyTypeName: DialogueEditor.NPCConversation, Assembly-CSharp
+        m_MethodName: OpenDialog
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1844509112}
-          m_ObjectArgumentAssemblyTypeName: DialogueEditor.NPCConversation, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -41451,30 +41699,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 31900925}
-        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
-        m_MethodName: set_isKinematic
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1970739561}
-        m_TargetAssemblyTypeName: HumanoidAnimationHandler, Assembly-CSharp
-        m_MethodName: set_LookAtIkEnabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1001 &1525169149
 PrefabInstance:
@@ -42491,7 +42715,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59770
+  m_Name: pb_Mesh55940
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -42729,7 +42953,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60644
+  m_Name: pb_Mesh56810
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -43018,12 +43242,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83189876d4d389f43b7dd2e925aa112e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentIDCounter: 3
-  json: "{\"Options\":[],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":1}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":239,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Ready
-    or not, here I co-\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":2,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":452,\"yPos\":111},\"ID\":1,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"*chuckles*\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Gaius\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":2,\"Volume\":0},{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":233,\"yPos\":204},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"There
-    you are! ROOOOAARGHH!!  \\/\\/ \u042D\u0442\u0430 \u0445\u0443\u0435\u0442\u0430
-    \u0434\u043E\u043B\u0436\u043D\u0430 \u0437\u0430\u043A\u0440\u044B\u0442\u044C\u0441\u044F
-    \u0441\u0430\u043C\u0430, \u0430 \u043D\u0435 \u043F\u043E \u0442\u0430\u0439\u043C\u0435\u0440\u0443\",\"parentUIDs\":[1],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
+  CurrentIDCounter: 4
+  json: "{\r\n  \"$type\": \"DialogueEditor.EditableConversation, Assembly-CSharp\",\r\n 
+    \"SpeechNodes\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": [\r\n      {\r\n        \"$type\":
+    \"DialogueEditor.EditableSpeechNode, Assembly-CSharp\",\r\n        \"IconGUID\":
+    null,\r\n        \"AudioGUID\": null,\r\n        \"Volume\": 0.0,\r\n       
+    \"AddTypewritingTime\": true,\r\n        \"Skippable\": true,\r\n        \"AdvanceDialogueAutomatically\":
+    true,\r\n        \"AutoAdvanceShouldDisplayOption\": false,\r\n        \"TimeUntilAdvance\":
+    2.0,\r\n        \"OptionUIDs\": null,\r\n        \"SpeechUID\": 0,\r\n       
+    \"MobTraits\": null,\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 165.5,\r\n          \"yPos\": 87.0,\r\n         
+    \"isRoot\": true\r\n        },\r\n        \"ID\": 0,\r\n        \"Text\": \"Ready
+    or not, here I co-\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 1\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": true,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 2.0,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 498.5,\r\n          \"yPos\": 217.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 1,\r\n        \"Text\": \"*chuckles*\",\r\n       
+    \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": [\r\n            {\r\n             
+    \"$type\": \"DialogueEditor.EditableSpeechConnection, Assembly-CSharp\",\r\n             
+    \"Conditions\": {\r\n                \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableCondition,
+    Assembly-CSharp]], mscorlib\",\r\n                \"$values\": []\r\n             
+    },\r\n              \"NodeUID\": 2\r\n            }\r\n          ]\r\n       
+    },\r\n        \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            0\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      },\r\n      {\r\n        \"$type\": \"DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp\",\r\n        \"IconGUID\": null,\r\n        \"AudioGUID\": null,\r\n       
+    \"Volume\": 0.0,\r\n        \"AddTypewritingTime\": true,\r\n        \"Skippable\":
+    true,\r\n        \"AdvanceDialogueAutomatically\": true,\r\n        \"AutoAdvanceShouldDisplayOption\":
+    false,\r\n        \"TimeUntilAdvance\": 0.1,\r\n        \"OptionUIDs\": null,\r\n       
+    \"SpeechUID\": 0,\r\n        \"MobTraits\": null,\r\n        \"EditorInfo\":
+    {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 221.5,\r\n          \"yPos\": 380.0,\r\n         
+    \"isRoot\": false\r\n        },\r\n        \"ID\": 2,\r\n        \"Text\": \"There
+    you are! ROOOOAARGHH!!\",\r\n        \"Connections\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": []\r\n        },\r\n        \"parentUIDs\":
+    {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": [\r\n            1\r\n         
+    ]\r\n        },\r\n        \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      }\r\n    ]\r\n  },\r\n  \"Options\": {\r\n   
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableOptionNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"Parameters\":
+    {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableParameter,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  }\r\n}"
   saveVersion: 110
   DefaultName: Bosco
   DefaultSprite: {fileID: 0}
@@ -43032,12 +43312,13 @@ MonoBehaviour:
   - {fileID: 146293748}
   - {fileID: 146293747}
   - {fileID: 146293746}
+  dialogSerializedData: {fileID: 146293749}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654567560}
+      - m_Target: {fileID: 566295690}
         m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
         m_MethodName: Activate
         m_Mode: 1
@@ -43049,6 +43330,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogEventHolder: {fileID: 0}
 --- !u!1001 &1697782142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43212,35 +43497,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 4
-  json: "{\"Options\":[{\"Connections\":[],\"EditorInfo\":{\"isRoot\":false,\"xPos\":235,\"yPos\":224},\"ID\":2,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Continue\",\"parentUIDs\":[3],\"SpeechUID\":-1}],\"Parameters\":[],\"SpeechNodes\":[{\"Connections\":[{\"__type\":\"EditableSpeechConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":3}],\"EditorInfo\":{\"isRoot\":true,\"xPos\":239,\"yPos\":22},\"ID\":0,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"Gaius!
-    I'm gonna find you!\",\"parentUIDs\":[],\"AdvanceDialogueAutomatically\":true,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":3,\"Volume\":0},{\"Connections\":[{\"__type\":\"EditableOptionConnection:#DialogueEditor\",\"Conditions\":[],\"NodeUID\":2}],\"EditorInfo\":{\"isRoot\":false,\"xPos\":233,\"yPos\":125},\"ID\":3,\"ParamActions\":[],\"TMPFontGUID\":null,\"Text\":\"\\/\\/
-    \u0425\u0430\u0432\u0447\u0438\u043A \u0430\u0434\u0430\u043F\u0442\u0438\u0440\u0443\u0439
-    \u0434\u0438\u0430\u043B\u043E\u0433\u0438, \u0447\u0442\u043E\u0431\u044B \u043D\u043E\u0434\u044B
-    \u043C\u043E\u0433\u043B\u0438 \u0430\u0432\u0442\u043E\u043F\u0440\u043E\u043B\u0438\u0441\u0442\u044B\u0432\u0430\u0442\u044C\u0441\u044F
-    \u043A\u043E\u0433\u0434\u0430 \u0443\u0433\u043E\u0434\u043D\u043E, \u0430 \u043D\u0435
-    \u0442\u043E\u043B\u044C\u043A\u043E \u043A\u043E\u0433\u0434\u0430 \u0443 \u043D\u0438\u0445
-    \u0435\u0441\u0442\u044C \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F
-    \u043D\u043E\u0434\u0430.\",\"parentUIDs\":[0],\"AdvanceDialogueAutomatically\":false,\"AudioGUID\":null,\"AutoAdvanceShouldDisplayOption\":false,\"IconGUID\":null,\"Name\":\"Bosco\",\"OptionUIDs\":null,\"SpeechUID\":0,\"TimeUntilAdvance\":0,\"Volume\":0}]}"
+  json: "{\r\n  \"$type\": \"DialogueEditor.EditableConversation, Assembly-CSharp\",\r\n 
+    \"SpeechNodes\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": [\r\n      {\r\n        \"$type\":
+    \"DialogueEditor.EditableSpeechNode, Assembly-CSharp\",\r\n        \"IconGUID\":
+    null,\r\n        \"AudioGUID\": null,\r\n        \"Volume\": 0.0,\r\n       
+    \"AddTypewritingTime\": true,\r\n        \"Skippable\": true,\r\n        \"AdvanceDialogueAutomatically\":
+    true,\r\n        \"AutoAdvanceShouldDisplayOption\": false,\r\n        \"TimeUntilAdvance\":
+    3.0,\r\n        \"OptionUIDs\": null,\r\n        \"SpeechUID\": 0,\r\n       
+    \"MobTraits\": null,\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 327.5,\r\n          \"yPos\": 22.0,\r\n         
+    \"isRoot\": true\r\n        },\r\n        \"ID\": 0,\r\n        \"Text\": \"Gaius!
+    I'm gonna find you!\",\r\n        \"Connections\": {\r\n          \"$type\":
+    \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection, Assembly-CSharp]],
+    mscorlib\",\r\n          \"$values\": []\r\n        },\r\n        \"parentUIDs\":
+    {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      }\r\n    ]\r\n  },\r\n  \"Options\": {\r\n   
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableOptionNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"Parameters\":
+    {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableParameter,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  }\r\n}"
   saveVersion: 110
   DefaultName: Bosco
   DefaultSprite: {fileID: 0}
   DefaultFont: {fileID: 0}
   NodeSerializedDataList:
   - {fileID: 1102988036}
-  - {fileID: 1102988038}
-  - {fileID: 1102988037}
+  dialogSerializedData: {fileID: 1102988037}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
       m_Calls: []
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogEventHolder: {fileID: 0}
 --- !u!43 &1708785911
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60290
+  m_Name: pb_Mesh56460
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -44336,7 +44638,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59468
+  m_Name: pb_Mesh55638
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -44688,7 +44990,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59728
+  m_Name: pb_Mesh55898
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -44909,7 +45211,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60114
+  m_Name: pb_Mesh56284
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -46654,19 +46956,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 4
-  json: '{"Options":[{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":242.5,"yPos":204},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"Continue","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":true,"xPos":239,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Gaius!","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Bosco","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: "{\r\n  \"$type\": \"DialogueEditor.EditableConversation, Assembly-CSharp\",\r\n 
+    \"SpeechNodes\": {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSpeechNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": [\r\n      {\r\n        \"$type\":
+    \"DialogueEditor.EditableSpeechNode, Assembly-CSharp\",\r\n        \"IconGUID\":
+    null,\r\n        \"AudioGUID\": null,\r\n        \"Volume\": 0.0,\r\n       
+    \"AddTypewritingTime\": true,\r\n        \"Skippable\": true,\r\n        \"AdvanceDialogueAutomatically\":
+    false,\r\n        \"AutoAdvanceShouldDisplayOption\": false,\r\n        \"TimeUntilAdvance\":
+    0.0,\r\n        \"OptionUIDs\": null,\r\n        \"SpeechUID\": 0,\r\n       
+    \"MobTraits\": {\r\n          \"$type\": \"MobTraits, Assembly-CSharp\",\r\n         
+    \"Avatar\": {\r\n            \"$type\": \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n         
+    },\r\n          \"TypingSound\": {\r\n            \"$type\": \"UnityEngine.AudioClip,
+    UnityEngine.AudioModule\"\r\n          },\r\n          \"Name\": \"Bosco\",\r\n         
+    \"TypingSpeed\": 2.0,\r\n          \"name\": \"Bosco\",\r\n          \"hideFlags\":
+    \"None\",\r\n          \"<Avatar>k__BackingField\": {\r\n            \"$type\":
+    \"UnityEngine.Sprite, UnityEngine.CoreModule\"\r\n          },\r\n          \"<TypingSound>k__BackingField\":
+    {\r\n            \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n         
+    },\r\n          \"<Name>k__BackingField\": \"Bosco\",\r\n          \"<TypingSpeed>k__BackingField\":
+    2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
+    Assembly-CSharp\",\r\n          \"xPos\": 287.5,\r\n          \"yPos\": 194.0,\r\n         
+    \"isRoot\": true\r\n        },\r\n        \"ID\": 0,\r\n        \"Text\": \"Gaius!\",\r\n       
+    \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"parentUIDs\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[System.Int32,
+    mscorlib]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"ParamActions\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableSetParamAction,
+    Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
+    \"TMPFontGUID\": null\r\n      }\r\n    ]\r\n  },\r\n  \"Options\": {\r\n   
+    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableOptionNode,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  },\r\n  \"Parameters\":
+    {\r\n    \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableParameter,
+    Assembly-CSharp]], mscorlib\",\r\n    \"$values\": []\r\n  }\r\n}"
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
   DefaultFont: {fileID: 0}
   NodeSerializedDataList:
   - {fileID: 2137843377}
-  - {fileID: 2137843378}
+  dialogSerializedData: {fileID: 2137843378}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
       m_Calls: []
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogEventHolder: {fileID: 0}
 --- !u!1001 &1846537097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49171,7 +49507,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60012
+  m_Name: pb_Mesh56182
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -50045,7 +50381,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60242
+  m_Name: pb_Mesh56412
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -51059,7 +51395,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59712
+  m_Name: pb_Mesh55882
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -51315,7 +51651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483878883289625586, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 4652.982
+      value: 4308.303
       objectReference: {fileID: 0}
     - target: {fileID: 483878883289625586, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -51323,7 +51659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483878883289625586, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2326.491
+      value: 2154.1516
       objectReference: {fileID: 0}
     - target: {fileID: 483878883289625586, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -51343,7 +51679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 827504308059521746, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 4600.982
+      value: 4256.303
       objectReference: {fileID: 0}
     - target: {fileID: 827504308059521746, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -51351,7 +51687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 827504308059521746, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2340.491
+      value: 2168.1516
       objectReference: {fileID: 0}
     - target: {fileID: 827504308059521746, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -51791,11 +52127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4049211482017366976, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 4652.982
+      value: 4308.303
       objectReference: {fileID: 0}
     - target: {fileID: 4049211482017366976, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2326.491
+      value: 2154.1516
       objectReference: {fileID: 0}
     - target: {fileID: 4049211482017366976, guid: 06776b11b6450be45816029dd9b973bd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -52499,7 +52835,6 @@ GameObject:
   - component: {fileID: 1943331774}
   - component: {fileID: 1943331779}
   - component: {fileID: 1943331778}
-  - component: {fileID: 1943331777}
   - component: {fileID: 1943331776}
   - component: {fileID: 1943331775}
   - component: {fileID: 1943331780}
@@ -52510,6 +52845,7 @@ GameObject:
   - component: {fileID: 1943331786}
   - component: {fileID: 1943331785}
   - component: {fileID: 1943331787}
+  - component: {fileID: 1943331777}
   m_Layer: 0
   m_Name: ConversationEventInfo
   m_TagString: Untagged
@@ -52603,7 +52939,7 @@ MonoBehaviour:
   Event:
     m_PersistentCalls:
       m_Calls: []
-  NodeID: 5
+  NodeID: 20
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
@@ -52799,35 +53135,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1943331772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 609cc17b8576bb94f8cabcebd9f148f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event:
+  OnFinished:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 263782924}
-        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  NodeID: 18
-  TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
-  Audio: {fileID: 0}
+      m_Calls: []
 --- !u!43 &1950585772
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60054
+  m_Name: pb_Mesh56224
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -53048,7 +53368,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60438
+  m_Name: pb_Mesh56608
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -53320,82 +53640,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49237fbf6efc6c14ebb2c553eca4c4cc, type: 3}
---- !u!1 &1970739558 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3906166242965127773, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
-  m_PrefabInstance: {fileID: 4593133216795748573}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1970739561 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 141599198974396547, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
-  m_PrefabInstance: {fileID: 4593133216795748573}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970739558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf8ffe209a1586a4ebd061bf6e7d280b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1970739562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970739558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 4bed45faab76e08469ae1f7989406bb5, type: 2}
-    - {fileID: 0}
-    - {fileID: 11400000, guid: 46dd1fa34002da346b3e66a4ba738dcb, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1770840370}
-          m_TargetAssemblyTypeName: Scenario.TimelineAssistant, Assembly-CSharp
-          m_MethodName: Pause
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: UnityEngine.Playables.PlayableDirector, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1770840370}
-          m_TargetAssemblyTypeName: Scenario.TimelineAssistant, Assembly-CSharp
-          m_MethodName: ResetMobTransform
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1970739561}
-            m_ObjectArgumentAssemblyTypeName: MobAnimationHandler, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1001 &1982504510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53672,7 +53916,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60230
+  m_Name: pb_Mesh56400
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54028,7 +54272,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh60458
+  m_Name: pb_Mesh56628
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54262,7 +54506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2077811486
 Transform:
   m_ObjectHideFlags: 0
@@ -56731,7 +56975,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh59854
+  m_Name: pb_Mesh56024
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -57152,28 +57396,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2137843375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 609cc17b8576bb94f8cabcebd9f148f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event:
+  OnFinished:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 745407873}
-        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  NodeID: 3
-  TMPFont: {fileID: 0}
-  Icon: {fileID: 0}
-  Audio: {fileID: 0}
+      m_Calls: []
 --- !u!1001 &1455926898543967487
 PrefabInstance:
   m_ObjectHideFlags: 0
