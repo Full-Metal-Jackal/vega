@@ -2,7 +2,7 @@
 
 namespace TriggerSystem
 {
-	public class LevelChangeTrigger : Trigger
+	public class LevelChanger : Trigger
 	{
 		[SerializeField]
 		private string sceneName;
