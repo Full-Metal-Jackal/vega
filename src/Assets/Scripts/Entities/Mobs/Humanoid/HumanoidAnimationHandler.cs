@@ -38,13 +38,13 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		base.Awake();
 
 		humanoid = transform.parent.GetComponent<Humanoid>();
-		humanoid.OnItemChanged += SetupHandsIkForItem;
+		humanoid.OnActiveItemChanged += SetupHandsIkForItem;
 
 		previousLayersWeight = new float[Animator.layerCount];
 		UpperBodyLayer = Animator.GetLayerIndex("UpperBody");
 	}
 
-	public void SetupHandsIkForItem()
+	public void SetupHandsIkForItem(Inventory.Item item)
 	{
 		if (item && item.Model)
 		{
