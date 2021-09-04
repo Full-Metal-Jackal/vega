@@ -13,13 +13,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Human Base
+  <CanHideWalls>k__BackingField: 0
   <MaxHealth>k__BackingField: 100
-  <Health>k__BackingField: 100
-  <Stamina>k__BackingField: 100
+  __health: 0
+  __stamina: 0
   <MaxStamina>k__BackingField: 100
-  <Animator>k__BackingField: {fileID: 1618262357948111153}
-  <MoveSpeed>k__BackingField: 250
+  <StaminaRegenSpeed>k__BackingField: 20
+  <StaminaRegenDelay>k__BackingField: 0.75
+  CanTakeCover: 0
+  <MoveSpeed>k__BackingField: 5
+  turnsToMovementDirection: 1
   <MaxTurningSpeed>k__BackingField: 20
+  <AimHeight>k__BackingField: 1.7
   <WalkSpeedFactor>k__BackingField: 0.5
   <DodgeCooldown>k__BackingField: 1
   <DodgeStaminaCost>k__BackingField: 25
@@ -95,10 +100,5 @@ PrefabInstance:
 --- !u!1 &5125004719389808162 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
-  m_PrefabInstance: {fileID: 7426515666677834457}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1618262357948111153 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8171062085197151208, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
   m_PrefabInstance: {fileID: 7426515666677834457}
   m_PrefabAsset: {fileID: 0}
