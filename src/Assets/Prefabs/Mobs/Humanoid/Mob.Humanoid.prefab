@@ -29,7 +29,6 @@ MonoBehaviour:
   bodyIkWeight: 0.75
   lookAtIkNonAimingFactor: 0.8
   ikBlendingDistance: 2
-  <Ragdollable>k__BackingField: 0
 --- !u!114 &1757398473128913816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +128,10 @@ PrefabInstance:
     - target: {fileID: 362617913272631574, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683381887463390795, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
+      propertyPath: m_Name
+      value: MobObstacle
       objectReference: {fileID: 0}
     - target: {fileID: 3977373363273047274, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
       propertyPath: m_RootOrder
