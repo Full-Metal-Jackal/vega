@@ -29,9 +29,6 @@ public abstract class Projectile : DynamicEntity
 
 	public virtual void Impact(GameObject other)
 	{
-		damage.hitPoint = transform.position;
-		damage.direction = transform.forward;
-
 		OnImpact?.Invoke();
 	}
 

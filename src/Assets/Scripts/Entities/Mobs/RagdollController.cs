@@ -44,7 +44,7 @@ public class RagdollController : MonoBehaviour
 
 		foreach (Rigidbody bone in Bones)
 		{
-			float distance = Vector3.Distance(bone.transform.position, point);
+			float distance = Vector3.Distance(bone.ClosestPointOnBounds(point), point);
 			if (distance >= closestBoneDistance)
 				continue;
 			closestBoneDistance = distance;
