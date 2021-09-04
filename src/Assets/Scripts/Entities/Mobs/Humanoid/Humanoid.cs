@@ -93,8 +93,6 @@ public abstract class Humanoid : Mob
 	/// </summary>
 	public virtual float AimEnableDistance => 1f;
 
-	protected Vector3 itemUseTarget;
-
 	private HoldType __holdState = HoldType.None;
 	/// <summary>
 	/// Represents the aiming animation that is being played right now.
@@ -178,8 +176,6 @@ public abstract class Humanoid : Mob
 		set
 		{
 			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
-			if (!HasAimableItem)
-				ResetLegsAnimation();
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
@@ -222,16 +218,12 @@ public abstract class Humanoid : Mob
 
 		activeDirection = direction;
 		if (HasAimableItem)
-		{
-			UpdateLegsAnimation();
 			UpdateAiming(delta);
-		}
 		else
-		{
 			TurnTo(delta, direction);
-		}
+		UpdateLegsAnimation();
 
-		Vector3 targetVelocity = delta * speed * direction;
+		Vector3 targetVelocity = speed * direction;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 		Body.velocity = targetVelocity;
@@ -245,19 +237,17 @@ public abstract class Humanoid : Mob
 		Vector3 horDir = transform.forward;
 		horDir.y = 0;
 
-		Vector3 relativeMovDir = Quaternion.AngleAxis(
-			Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
-			Vector3.up
-		) * Vector3.forward;
+		Vector3 legsMovementVector = HasAimableItem
+			? Quaternion.AngleAxis(
+				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+				Vector3.up
+			) * Vector3.forward
+			: Vector3.forward;
 
-		Animator.SetFloat("MovementSide", relativeMovDir.x);
-		Animator.SetFloat("MovementForward", relativeMovDir.z);
-	}
+		legsMovementVector *= Body.velocity.magnitude / MoveSpeed;
 
-	protected virtual void ResetLegsAnimation()
-	{
-		Animator.SetFloat("MovementSide", 0f);
-		Animator.SetFloat("MovementForward", 1f);
+		Animator.SetFloat("MovementSide", legsMovementVector.x);
+		Animator.SetFloat("MovementForward", legsMovementVector.z);
 	}
 
 	/// <summary>
@@ -337,14 +327,13 @@ public abstract class Humanoid : Mob
 		ThrowableItem.SetupModel(ItemSocket);
 
 		IsBusy = true;
-		itemUseTarget = AimPos;
 
 		Animator.SetTrigger("ThrowTrigger");
 	}
 
 	public void OnThrowEnd()
 	{
-		ThrowableItem.Fire(itemUseTarget);
+		ThrowableItem.Fire(AimPos);
 		IsBusy = false;
 		if (ActiveItem && ActiveItem.Model)
 			ActiveItem.Model.gameObject.SetActive(true);
@@ -364,7 +353,7 @@ public abstract class Humanoid : Mob
 			if (Animator.TryGetComponent(out HumanoidAnimationHandler animationHandler))
 			{
 				animationHandler.TransitIkWeightTo(0, .1f);
-				animationHandler.AdditionalLayersEnabled = false;
+				animationHandler.DisableAdditionalLayers();
 			}
 
 			const int deathAnimationsVariety = 1;

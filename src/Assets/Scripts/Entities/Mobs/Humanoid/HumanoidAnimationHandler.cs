@@ -30,6 +30,20 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected Transform leftHandIkTarget;
 	protected Transform rightHandIkTarget;
 
+	protected int UpperBodyLayer { get; private set; }
+	private float[] previousLayersWeight;
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		humanoid = transform.parent.GetComponent<Humanoid>();
+		humanoid.OnActiveItemChanged += SetupHandsIkForItem;
+
+		previousLayersWeight = new float[Animator.layerCount];
+		UpperBodyLayer = Animator.GetLayerIndex("UpperBody");
+	}
+
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
 		if (item && item.Model)
@@ -58,14 +72,6 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		Animator.SetIKRotation(goal, rotation);
 	}
 
-	protected override void Awake()
-	{
-		base.Awake();
-
-		humanoid = transform.parent.GetComponent<Humanoid>();
-		humanoid.OnActiveItemChanged += SetupHandsIkForItem;
-	}
-
 	public void OnDodgeRollBegin()
 	{
 		humanoid.OnDodgeRoll();
@@ -74,8 +80,8 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		// the player could press dodge and then press reload before the dodge itself took place,
 		// thus reloading while dodging.
 		Animator.SetTrigger("StopAdditionalAnimations");
-		
-		AdditionalLayersEnabled = false;
+
+		DisableAdditionalLayers();
 		TransitIkWeightTo(0f, .1f);
 	}
 
@@ -83,7 +89,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	{
 		humanoid.OnDodgeRollEnd();
 
-		AdditionalLayersEnabled = true;
+		EnableAdditionalLayers();
 		TransitIkWeightTo(1f, .1f);
 	}
 
@@ -173,19 +179,18 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 			ikTransition = Mathf.Max(ikTransition -= Time.deltaTime / ikTransitionTime, ikTransitionGoal);
 	}
 
-	public bool AdditionalLayersEnabled
+	public void DisableAdditionalLayers()
 	{
-		set
+		for (int i = 1; i < Animator.layerCount; i++)
 		{
-			float weight = value ? 1f : 0f;
-			for (int i = 1; i < Animator.layerCount; i++)
-				Animator.SetLayerWeight(i, weight);
+			previousLayersWeight[i] = Animator.GetLayerWeight(i);
+			Animator.SetLayerWeight(i, 0f);
 		}
 	}
 
-	public void OnRagdoll()
+	public void EnableAdditionalLayers()
 	{
-		if (Animator.TryGetComponent(out RagdollController ragdollController))
-			ragdollController.ToggleRagdoll(true);
+		for (int i = 1; i < Animator.layerCount; i++)
+			Animator.SetLayerWeight(i, previousLayersWeight[i]);
 	}
 }
