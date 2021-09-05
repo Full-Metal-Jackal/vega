@@ -23,7 +23,7 @@ namespace AI
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
-		//[HideInInspector]
+		[HideInInspector]
 		public AIState currentState;
 		[HideInInspector]
 		public Mob currentTarget;
