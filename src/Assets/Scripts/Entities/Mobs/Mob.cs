@@ -7,7 +7,8 @@ using static Utils;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
-	public event Action OnItemChanged;
+	public event Action<Item> OnActiveItemChanged;
+	public event Action<Throwable> OnThrowableItemChanged;
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
@@ -99,7 +100,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
-
 	protected readonly float movementHaltThreshold = .01f;
 
 	[SerializeField]
@@ -119,6 +119,17 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public MobController Controller { get; set; }
 	public Speech.MobSpeaker Speaker { get; private set; }
 
+	/// <summary>
+	/// Is the mob currently engaged in a fight.
+	/// Influences animations mostly.
+	/// </summary>
+	public bool IsAlert
+	{
+		get => __isAlert;
+		protected set => Animator.SetBool("IsAlert", __isAlert = value);
+	}
+	private bool __isAlert;
+
 	public virtual bool CanUseItems
 	{
 		get
@@ -137,6 +148,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	}
 	public virtual bool CanFire => CanUseItems;
 	public virtual bool CanReload => CanUseItems;
+	public virtual bool CanThrow => CanUseItems;
 	public virtual bool CanDropItems => CanUseItems;
 
 	private Item __activeItem;
@@ -146,7 +158,18 @@ public abstract class Mob : DynamicEntity, IDamageable
 		set
 		{
 			__activeItem = value;
-			OnItemChanged?.Invoke();
+			OnActiveItemChanged?.Invoke(__activeItem);
+		}
+	}
+
+	private Throwable __throwableItem;
+	public virtual Throwable ThrowableItem
+	{
+		get => __throwableItem;
+		set
+		{
+			__throwableItem = value;
+			OnThrowableItemChanged?.Invoke(__throwableItem);
 		}
 	}
 
@@ -200,6 +223,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Inventory = GetComponentInChildren<MobInventory>();
 		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
 		Animator = GetComponentInChildren<Animator>();
+
+		// <TODO> currently just sets true by default, but later will be used to tell mobs who're engaged in a fight
+		// from peacefully walking ones.
+		IsAlert = true;
 	}
 
 	public virtual void TakeDamage(Damage damage)
@@ -319,6 +346,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		slot.Item = item;
 		OnPickedUpItem?.Invoke(item);
 
+		// That's how we're changing active throwable item now, because all our mobs can have only one throwable item at once.
+		if (item is Throwable throwable)
+			ThrowableItem = throwable;
+
 		return true;
 	}
 
@@ -350,6 +381,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 	{
 		if (ActiveItem && CanReload)
 			ActiveItem.Reload();
+	}
+
+	public virtual void Throw()
+	{
+		ThrowableItem.SetupModel();
+		ThrowableItem.Fire(AimPos);
 	}
 
 	public virtual void DropItem() => DropItem(ActiveItem);

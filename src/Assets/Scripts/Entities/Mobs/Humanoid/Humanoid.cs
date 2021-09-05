@@ -67,25 +67,22 @@ public abstract class Humanoid : Mob
 		protected set => Animator.SetBool("IsAiming", __isAiming = value);
 	}
 
-	private bool __isReloading = false;
+	private bool __isBusy;
 	/// <summary>
-	/// Is the mob is currently reloading.
+	/// Is the mob is currently playing item usage animation: reloading a gun, throwing a grenade or deploying a drone.
 	/// </summary>
-	public bool IsReloading
+	public bool IsBusy
 	{
-		get => __isReloading;
+		get => __isBusy;
 		protected set
 		{
-			if (__isReloading = value)
-				Animator.SetTrigger("ReloadTrigger");
+			__isBusy = value;
+			Animator.SetBool("IsBusy", __isBusy);
 		}
 	}
 
+	public override bool CanUseItems => base.CanUseItems && !IsBusy;
 	public override bool CanFire => base.CanFire && IsAiming;
-
-	public override bool CanReload => base.CanReload;
-
-	public override bool CanUseItems => base.CanUseItems && !IsReloading;
 
 	/// <summary>
 	/// The minimum AimDistance required to aim.
@@ -144,7 +141,7 @@ public abstract class Humanoid : Mob
 				return false;
 			}
 
-			return Stamina > DodgeStaminaCost;
+			return !IsBusy && Stamina > DodgeStaminaCost;
 		}
 	}
 
@@ -179,8 +176,6 @@ public abstract class Humanoid : Mob
 		set
 		{
 			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
-			if (!HasAimableItem)
-				ResetLegsAnimation();
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
@@ -223,16 +218,12 @@ public abstract class Humanoid : Mob
 
 		activeDirection = direction;
 		if (HasAimableItem)
-		{
-			UpdateLegsAnimation();
 			UpdateAiming(delta);
-		}
 		else
-		{
 			TurnTo(delta, direction);
-		}
+		UpdateLegsAnimation();
 
-		Vector3 targetVelocity = delta * speed * direction;
+		Vector3 targetVelocity = speed * direction;
 		if (!affectY)
 			targetVelocity.y = Body.velocity.y;
 		Body.velocity = targetVelocity;
@@ -246,19 +237,17 @@ public abstract class Humanoid : Mob
 		Vector3 horDir = transform.forward;
 		horDir.y = 0;
 
-		Vector3 relativeMovDir = Quaternion.AngleAxis(
-			Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
-			Vector3.up
-		) * Vector3.forward;
+		Vector3 legsMovementVector = HasAimableItem
+			? Quaternion.AngleAxis(
+				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+				Vector3.up
+			) * Vector3.forward
+			: Vector3.forward;
 
-		Animator.SetFloat("MovementSide", relativeMovDir.x);
-		Animator.SetFloat("MovementForward", relativeMovDir.z);
-	}
+		legsMovementVector *= Body.velocity.magnitude / MoveSpeed;
 
-	protected virtual void ResetLegsAnimation()
-	{
-		Animator.SetFloat("MovementSide", 0f);
-		Animator.SetFloat("MovementForward", 1f);
+		Animator.SetFloat("MovementSide", legsMovementVector.x);
+		Animator.SetFloat("MovementForward", legsMovementVector.z);
 	}
 
 	/// <summary>
@@ -313,13 +302,41 @@ public abstract class Humanoid : Mob
 		UpdateSmoothedAimPos();
 	}
 
-	public override void Reload() =>
-		IsReloading = ActiveItem && ActiveItem.CanReload && CanReload;
+	public override void Reload()
+	{
+		if (!(ActiveItem && ActiveItem.CanReload && CanReload))
+			return;
+
+		IsBusy = true;
+		Animator.SetTrigger("ReloadTrigger");
+	}
 
 	public void OnReloadEnd()
 	{
 		ActiveItem.Reload();
-		IsReloading = false;
+		IsBusy = false;
+	}
+
+	public override void Throw()
+	{
+		if (!(ThrowableItem && ThrowableItem.CanFire && CanThrow))
+			return;
+
+		if (ActiveItem && ActiveItem.Model)
+			ActiveItem.Model.gameObject.SetActive(false);
+		ThrowableItem.SetupModel(ItemSocket);
+
+		IsBusy = true;
+
+		Animator.SetTrigger("ThrowTrigger");
+	}
+
+	public void OnThrowEnd()
+	{
+		ThrowableItem.Fire(AimPos);
+		IsBusy = false;
+		if (ActiveItem && ActiveItem.Model)
+			ActiveItem.Model.gameObject.SetActive(true);
 	}
 
 	public override void Die(Damage damage)
@@ -336,7 +353,7 @@ public abstract class Humanoid : Mob
 			if (Animator.TryGetComponent(out HumanoidAnimationHandler animationHandler))
 			{
 				animationHandler.TransitIkWeightTo(0, .1f);
-				animationHandler.AdditionalLayersEnabled = false;
+				animationHandler.DisableAdditionalLayers();
 			}
 
 			const int deathAnimationsVariety = 1;

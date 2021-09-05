@@ -51,9 +51,6 @@ namespace DialogueEditor
     {
         public override eNodeType NodeType { get { return eNodeType.Speech; } }
 
-        /// <summary> The name of the NPC who is speaking. </summary>
-        public string Name;
-
         /// <summary> Should this speech node go onto the next one automatically? </summary>
         public bool AutomaticallyAdvance;
 
@@ -69,6 +66,11 @@ namespace DialogueEditor
 
         public AudioClip Audio;
         public float Volume;
+
+        public bool AddTypewritingTime;
+        public bool Skippable;
+
+        public MobTraits MobTraits;
 
         /// <summary> UnityEvent, to betriggered when this Node starts. </summary>
         public UnityEngine.Events.UnityEvent Event;

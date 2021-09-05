@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
+
+using DialogEventHolder = UI.Dialogue.DialogEventHolder;
 
 namespace DialogueEditor
 {
@@ -59,6 +59,20 @@ namespace DialogueEditor
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("Node " + n.NodeID + " event and data information holder.");
+            EditorGUILayout.EndVertical();
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+
+    [CustomEditor(typeof(DialogEventHolder))]
+    public class DialogEventHolderEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            EditorGUILayout.Space();
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.LabelField("Dialog event and data information holder.");
             EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }

@@ -15,16 +15,6 @@ namespace Inventory
 
 		protected int selectedIndex = 0;
 
-		public virtual ItemSlot GetFreeItemSlot(SlotType type)
-		{
-			foreach (ItemSlot slot in Slots)
-			{
-				if (slot.Type == type && slot.IsFree)
-					return slot;
-			}
-			return null;
-		}
-
 		protected virtual void Awake()
 		{
 			if (Initialized)
@@ -34,5 +24,8 @@ namespace Inventory
 
 			Initialized = true;
 		}
+
+		public virtual ItemSlot GetItemSlot(SlotType type) => Slots.Find(slot => slot.Type == type);
+		public virtual ItemSlot GetFreeItemSlot(SlotType type) => Slots.Find(slot => slot.Type == type && slot.IsFree);
 	}
 }

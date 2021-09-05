@@ -107,6 +107,22 @@ namespace Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""aea9e10b-8515-480b-8f46-22a7816ca54a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpecialAbilty"",
+                    ""type"": ""Button"",
+                    ""id"": ""8937b71d-d23d-48a5-9bbe-3f01d6d11bc3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -410,11 +426,33 @@ namespace Input
                 {
                     ""name"": """",
                     ""id"": ""be93263b-cd7e-4b0a-a5f4-541aeac11db1"",
-                    ""path"": ""<Keyboard>/g"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdc06654-fccd-4bac-974d-a015ac8c94c4"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8fd98284-6983-4b7e-9ebb-ca472542675a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SpecialAbilty"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1509,6 +1547,8 @@ namespace Input
             m_World_PrimaryWeapon = m_World.FindAction("PrimaryWeapon", throwIfNotFound: true);
             m_World_SecondaryWeapon = m_World.FindAction("SecondaryWeapon", throwIfNotFound: true);
             m_World_Drop = m_World.FindAction("Drop", throwIfNotFound: true);
+            m_World_Throw = m_World.FindAction("Throw", throwIfNotFound: true);
+            m_World_SpecialAbilty = m_World.FindAction("SpecialAbilty", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1593,6 +1633,8 @@ namespace Input
         private readonly InputAction m_World_PrimaryWeapon;
         private readonly InputAction m_World_SecondaryWeapon;
         private readonly InputAction m_World_Drop;
+        private readonly InputAction m_World_Throw;
+        private readonly InputAction m_World_SpecialAbilty;
         public struct WorldActions
         {
             private @InputActions m_Wrapper;
@@ -1608,6 +1650,8 @@ namespace Input
             public InputAction @PrimaryWeapon => m_Wrapper.m_World_PrimaryWeapon;
             public InputAction @SecondaryWeapon => m_Wrapper.m_World_SecondaryWeapon;
             public InputAction @Drop => m_Wrapper.m_World_Drop;
+            public InputAction @Throw => m_Wrapper.m_World_Throw;
+            public InputAction @SpecialAbilty => m_Wrapper.m_World_SpecialAbilty;
             public InputActionMap Get() { return m_Wrapper.m_World; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1650,6 +1694,12 @@ namespace Input
                     @Drop.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
                     @Drop.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
                     @Drop.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnDrop;
+                    @Throw.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnThrow;
+                    @Throw.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnThrow;
+                    @Throw.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnThrow;
+                    @SpecialAbilty.started -= m_Wrapper.m_WorldActionsCallbackInterface.OnSpecialAbilty;
+                    @SpecialAbilty.performed -= m_Wrapper.m_WorldActionsCallbackInterface.OnSpecialAbilty;
+                    @SpecialAbilty.canceled -= m_Wrapper.m_WorldActionsCallbackInterface.OnSpecialAbilty;
                 }
                 m_Wrapper.m_WorldActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1687,6 +1737,12 @@ namespace Input
                     @Drop.started += instance.OnDrop;
                     @Drop.performed += instance.OnDrop;
                     @Drop.canceled += instance.OnDrop;
+                    @Throw.started += instance.OnThrow;
+                    @Throw.performed += instance.OnThrow;
+                    @Throw.canceled += instance.OnThrow;
+                    @SpecialAbilty.started += instance.OnSpecialAbilty;
+                    @SpecialAbilty.performed += instance.OnSpecialAbilty;
+                    @SpecialAbilty.canceled += instance.OnSpecialAbilty;
                 }
             }
         }
@@ -1959,6 +2015,8 @@ namespace Input
             void OnPrimaryWeapon(InputAction.CallbackContext context);
             void OnSecondaryWeapon(InputAction.CallbackContext context);
             void OnDrop(InputAction.CallbackContext context);
+            void OnThrow(InputAction.CallbackContext context);
+            void OnSpecialAbilty(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

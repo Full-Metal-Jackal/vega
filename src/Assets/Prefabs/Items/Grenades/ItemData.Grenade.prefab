@@ -14,7 +14,7 @@ CapsuleCollider:
   m_Height: 0.275
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3893593658167666615
+--- !u!114 &2071349178327657464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23,17 +23,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 7440269782111898340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de739c3b5f452a7488afdc2c6285058a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2145d9853e06b894595f2dab7be82a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ItemData>k__BackingField: {fileID: 4877331616680928377}
-  <Name>k__BackingField: Frag Grenade
-  <Desc>k__BackingField: 'A corporate-standart frag-grenade, compatible to be launched
-    from '
-  <Mass>k__BackingField: 2
+  <Name>k__BackingField: Grenade Base
+  <Desc>k__BackingField: Grenade base, not supposed to be used in game in any way.
+  <Mass>k__BackingField: 0.6
+  <SlotType>k__BackingField: 1
+  <SelectOnPickUp>k__BackingField: 0
   <HoldType>k__BackingField: 0
-  <ProjectilePrefab>k__BackingField: {fileID: 0}
-  <ThrowingSpeed>k__BackingField: 25
+  <ProjectilePrefab>k__BackingField: {fileID: -1889607005452648758, guid: 5d67f96b5be287041a3eb399470cff05, type: 3}
+  <ThrowingSpeed>k__BackingField: 8
+  <ThrowingTorque>k__BackingField: {x: 50, y: 0, z: 0}
+  <ThrowAngle>k__BackingField: 45
+  <MaxAmount>k__BackingField: 3
+  <Damage>k__BackingField:
+    amount: 0
+    type: 0
+    incapacitating: 0
+    inflictor: {fileID: 0}
+    force: 0
+    direction: {x: 0, y: 0, z: 0}
+    hitPoint: {x: 0, y: 0, z: 0}
 --- !u!1001 &781687127245621082
 PrefabInstance:
   m_ObjectHideFlags: 0

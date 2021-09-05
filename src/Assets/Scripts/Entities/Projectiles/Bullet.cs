@@ -6,10 +6,13 @@ public class Bullet : Projectile
 	{
 		base.Impact(other);
 
-		Suicide();
+		damage.hitPoint = transform.position;
+		damage.direction = transform.forward;
 
 		if (other.transform.TryGetComponent(out Entity entity)
 			&& entity is IDamageable damageable)
 			damageable.TakeDamage(damage);
+
+		Suicide();
 	}
 }

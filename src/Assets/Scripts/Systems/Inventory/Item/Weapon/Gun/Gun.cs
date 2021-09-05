@@ -88,7 +88,9 @@ public class Gun : Weapon
 		if (!base.Fire(target))
 			return false;
 
-		Vector3 direction = (target - Barrel.position).normalized;
+		Vector3 direction = (target - Owner.transform.position);
+		direction.y = (target - Barrel.position).y;  // <TODO> Change if causes shooting inaccuracy.
+		direction.Normalize();
 
 		if (!PreFire(ref direction))
 			return false;
