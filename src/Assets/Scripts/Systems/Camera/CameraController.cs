@@ -76,10 +76,14 @@ public class CameraController : MonoSingleton<CameraController>
 	public void SetTrackedMob(Mob mob)
 	{
 		if (this.mob)
+		{
+			mob.CanHideWalls = false;
 			RemovePOI(this.mob.transform);
+		}
 
 		this.mob = mob;
 		AddPOI(mob.transform);
+		mob.CanHideWalls = true;
 		followingCursor = true;
 	}
 
