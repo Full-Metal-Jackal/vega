@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEditor;
 using Inventory;
 
 
@@ -29,6 +29,8 @@ namespace AI
 		public Mob currentTarget;
 		[HideInInspector]
 		public CoverSpot currentCover;
+
+		private int obstacleLayer;
 
 		private const float rangeCoefficient = 0.9f;
 		public float StoppingDistance { get; protected set; }
@@ -57,6 +59,8 @@ namespace AI
 		public NavMeshAgent NavMeshAgent { get; private set; }
 		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
 
+		public NavMeshObstacle NavMeshObstacle { get; private set; }
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -64,8 +68,10 @@ namespace AI
 			Player = PlayerController.Instance.possessAtStart;
 
 			NavMeshAgent = transform.GetComponentInChildren<NavMeshAgent>();
+			NavMeshObstacle = transform.GetComponentInChildren<NavMeshObstacle>();
 			NavMeshAgent.updateRotation = false;
 			NavMeshAgent.enabled = false;
+			NavMeshObstacle.enabled = true;
 
 			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
@@ -74,6 +80,11 @@ namespace AI
 				maxAttackRange = Mathf.Max(maxAttackRange, attack.maximumDistanceNeededToAttack);
 			}
 			StoppingDistance = maxAttackRange * rangeCoefficient;
+
+			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) 
+				| (1 << LayerMask.NameToLayer("Covers")) 
+				| (1 << LayerMask.NameToLayer("Mobs")) 
+				| (1 << LayerMask.NameToLayer("NavMeshDynamic"));
 		}
 
 		protected override void Start()
@@ -148,10 +159,11 @@ namespace AI
 			}
 			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
 			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
-			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius))
+			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius, obstacleLayer))
 			{
+				print(hit.transform.name);
 				var detection = hit.transform;
-				if (detection.GetComponent<Mob>() == Player)
+				if (detection.TryGetComponent<Mob>(out Mob mob) && mob == Player)
 				{
 					CanSeeTarget = true;
 				}

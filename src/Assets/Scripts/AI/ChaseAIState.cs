@@ -30,6 +30,7 @@ namespace AI
 			if (distanceFromTarget <= aiManager.StoppingDistance && aiManager.CanSeeTarget)
 			{
 				aiManager.NavMeshAgent.enabled = false;
+				aiManager.NavMeshObstacle.enabled = true;
 				return combatStanceState;
 			}
 
@@ -51,6 +52,7 @@ namespace AI
 			else
 			{
 				aiManager.NavMeshAgent.enabled = true;
+				aiManager.NavMeshObstacle.enabled = false;
 				aiManager.NavMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
 
 				targetDirection = aiManager.NavMeshAgent.desiredVelocity;
