@@ -50,6 +50,7 @@ namespace AI
 				if (FixCoverPos(newCover, out Vector3 newPos))
 				{
 					aiManager.NavMeshAgent.enabled = true;
+					aiManager.NavMeshObstacle.enabled = false;
 					pos = newPos;
 					aiManager.NavMeshAgent.SetDestination(pos);
 					aiManager.currentCover = newCover;
@@ -65,6 +66,7 @@ namespace AI
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
 					{
 						aiManager.NavMeshAgent.enabled = true;
+						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
 						aiManager.currentMovementRecoveryTime = aiManager.maxMovementRecoveryTime;
@@ -78,6 +80,7 @@ namespace AI
 			else if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
 			{
 				aiManager.NavMeshAgent.enabled = false;
+				aiManager.NavMeshObstacle.enabled = true;
 				return chaseState;
 			}
 			else

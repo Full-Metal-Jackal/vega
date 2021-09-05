@@ -57,6 +57,8 @@ namespace AI
 		public NavMeshAgent NavMeshAgent { get; private set; }
 		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
 
+		public NavMeshObstacle NavMeshObstacle { get; private set; }
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -64,8 +66,10 @@ namespace AI
 			Player = PlayerController.Instance.possessAtStart;
 
 			NavMeshAgent = transform.GetComponentInChildren<NavMeshAgent>();
+			NavMeshObstacle = transform.GetComponentInChildren<NavMeshObstacle>();
 			NavMeshAgent.updateRotation = false;
 			NavMeshAgent.enabled = false;
+			NavMeshObstacle.enabled = true;
 
 			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
