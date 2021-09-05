@@ -81,10 +81,10 @@ namespace AI
 			}
 			StoppingDistance = maxAttackRange * rangeCoefficient;
 
-			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) |
-							(1 << LayerMask.NameToLayer("Covers")) | 
-							(1 << LayerMask.NameToLayer("Mobs")) | 
-							(1 << LayerMask.NameToLayer("NavMeshDynamic"));
+			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) 
+				| (1 << LayerMask.NameToLayer("Covers")) 
+				| (1 << LayerMask.NameToLayer("Mobs")) 
+				| (1 << LayerMask.NameToLayer("NavMeshDynamic"));
 		}
 
 		protected override void Start()
