@@ -29,7 +29,11 @@ namespace Circuitry
 			if (!(inputA.Value is Number numberA && inputB.Value is Number numberB))
 				return false;
 
-			output.Push((Number)(numberA % numberB));
+			if (numberB != 0)
+				output.Push((Number)(numberA % numberB));
+			else
+				Logging.Log($"{this}: zero division attempt discarded.");
+
 			Sleep(CooldownPerUse);
 			return true;
 		}

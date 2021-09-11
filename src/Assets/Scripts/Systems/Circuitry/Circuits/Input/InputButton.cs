@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Circuitry
+﻿namespace Circuitry
 {
 	public class InputButton : Circuit
 	{
+		public override void Setup()
+		{
+			AddPulseOutput("On pressed");
+		}
 	}
 }

@@ -10,8 +10,8 @@ namespace UI.CircuitConstructor
 
 		// <TODO> ideally, will be removed in the future; we will use Setup(GameObject circuitPrefab) instead.
 		[SerializeField]
-		private GameObject startCircuitPrefab;
-		public GameObject CircuitPrefab { get; protected set; }
+		private CircuitContainer startCircuitPrefab;
+		public CircuitContainer CircuitPrefab { get; protected set; }
 
 		public RectTransform RectTransform { get; private set; }
 
@@ -49,17 +49,13 @@ namespace UI.CircuitConstructor
 				Setup(startCircuitPrefab);
 		}
 
-		public virtual void Setup(GameObject circuitPrefab)
+		public virtual void Setup(CircuitContainer circuitPrefab)
 		{
 			CircuitPrefab = circuitPrefab;
 
-			GameObject circuitObject = Instantiate(circuitPrefab);
-			if (!circuitObject.TryGetComponent(out CircuitContainer circuit))
-				throw new System.Exception($"Attempted to create invalid visualization for {this}");
-			
-			circuitObject.transform.SetParent(CircuitHolder, false);
 
-			Circuit = circuit;
+			Circuit = Instantiate(circuitPrefab);
+			Circuit.transform.SetParent(CircuitHolder, false);
 		}
 
 		public override string ToString() => $"{Circuit.Circuit}'s widget";
