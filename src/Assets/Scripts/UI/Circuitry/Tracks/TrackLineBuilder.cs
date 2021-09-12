@@ -17,8 +17,7 @@ namespace UI.CircuitConstructor
 
 		private UILineRenderer line;
 
-		public PinWidget startPin;
-		public PinWidget endPin;
+		private PinWidget startPin, endPin;
 
 		private void Awake()
 		{

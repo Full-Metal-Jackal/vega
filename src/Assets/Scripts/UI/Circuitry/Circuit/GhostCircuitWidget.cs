@@ -11,7 +11,7 @@ namespace UI.CircuitConstructor
 	[RequireComponent(typeof(RectTransform))]
 	public class GhostCircuitWidget : CircuitWidgetBase
 	{
-		public GameObject CircuitWidgetPrefab { get; protected set; }
+		public CircuitWidget CircuitWidgetPrefab { get; protected set; }
 		public DraggableCircuitWidget Source { get; protected set; }
 
 		public AssemblyGrid AssemblyGrid
@@ -25,7 +25,7 @@ namespace UI.CircuitConstructor
 			}
 		}
 
-		public void Setup(DraggableCircuitWidget source, GameObject circuitPrefab)
+		public void Setup(DraggableCircuitWidget source, CircuitContainer circuitPrefab)
 		{
 			Source = source;
 			Setup(circuitPrefab);
