@@ -11,7 +11,7 @@ namespace Circuitry
 	/// 
 	/// Ideally should be completely devoid of MonoBehaviour inheritance.
 	/// </summary>
-	public class Circuit : MonoBehaviour
+	public abstract class Circuit : MonoBehaviour
 	{
 		public bool Initialized { get; set; } = false;
 
@@ -96,27 +96,13 @@ namespace Circuitry
 
 		private void Awake()
 		{
-			Initialize();
-			Setup();
-		}
-
-		protected virtual bool Initialize()
-		{
-			if (Initialized)
-			{
-				Debug.LogWarning($"Multiple initialization attempts of {this}!");
-				return false;
-			}
-
 			Shape = Shape.Single;
 			PowerInput = new InputTerminal(this);
 
-			return Initialized = true;
+			Setup();
 		}
 
-		public virtual void Setup()
-		{
-		}
+		public abstract void Setup();
 
 		private void FixedUpdate()
 		{

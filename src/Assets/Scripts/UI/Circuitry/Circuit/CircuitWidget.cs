@@ -26,7 +26,7 @@ namespace UI.CircuitConstructor
 			return base.Initialize();
 		}
 
-		public override void Setup(GameObject circuitPrefab)
+		public override void Setup(CircuitContainer circuitPrefab)
 		{
 			base.Setup(circuitPrefab);
 

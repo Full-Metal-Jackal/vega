@@ -14,7 +14,6 @@ namespace UI.CircuitConstructor
 		[SerializeField]
 		private Text desc;
 
-		[SerializeField]
 		private CircuitPorts ports;
 
 		protected override bool Initialize()
@@ -24,7 +23,7 @@ namespace UI.CircuitConstructor
 			return base.Initialize();
 		}
 
-		public override void Setup(GameObject circuitPrefab)
+		public override void Setup(CircuitContainer circuitPrefab)
 		{
 			base.Setup(circuitPrefab);
 

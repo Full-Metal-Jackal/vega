@@ -13,11 +13,11 @@ namespace UI.CircuitConstructor
 	public class SelectableCircuitWidget : DraggableCircuitWidget, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField]
-		private GameObject tooltipPrefab;
-		private GameObject tooltipObject;
+		private CircuitTooltipWidget tooltipPrefab;
+		private CircuitTooltipWidget tooltip;
 
 		[SerializeField]
-		private GameObject circuitWidgetPrefab;
+		private CircuitWidget circuitWidgetPrefab;
 
 		public float initialTooltipDelay = .5f;
 		private float tooltipDelay = 0f;
@@ -45,22 +45,21 @@ namespace UI.CircuitConstructor
 			hovered = false;
 			tooltipDelay = 0f;
 
-			if (tooltipObject)
+			if (tooltip)
 				DestroyTooltip();
 		}
 
 		public void CreateTooltip()
 		{
-			tooltipObject = Instantiate(tooltipPrefab);
-			tooltipObject.transform.SetParent(CircuitConstructor.Instance.transform);
+			tooltip = Instantiate(tooltipPrefab);
+			tooltip.transform.SetParent(CircuitConstructor.Instance.transform);
 			
-			CircuitTooltipWidget tooltip = tooltipObject.GetComponent<CircuitTooltipWidget>();
 			tooltip.Setup(CircuitPrefab);
 		}
 
 		public void DestroyTooltip()
 		{
-			Destroy(tooltipObject);
+			Destroy(tooltip.gameObject);
 		}
 
 		public void OnGUI()
@@ -68,9 +67,9 @@ namespace UI.CircuitConstructor
 			if (!hovered)
 				return;
 
-			if (tooltipObject)
+			if (tooltip)
 			{
-				tooltipObject.transform.position = Mouse.current.position.ReadValue();
+				tooltip.transform.position = Mouse.current.position.ReadValue();
 				return;
 			}
 
@@ -80,7 +79,7 @@ namespace UI.CircuitConstructor
 		}
 		public override void DropOnAssembly(AssemblyWidget assemblyWidget, Vector2Int cell)
 		{
-			CircuitWidget circuitWidget = Instantiate(circuitWidgetPrefab).GetComponent<CircuitWidget>();
+			CircuitWidget circuitWidget = Instantiate(circuitWidgetPrefab);
 			circuitWidget.Setup(CircuitPrefab);
 
 			if (!assemblyWidget.AddCircuit(circuitWidget, cell))
