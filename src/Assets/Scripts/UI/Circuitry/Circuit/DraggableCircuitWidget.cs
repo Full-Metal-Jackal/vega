@@ -8,7 +8,7 @@ namespace UI.CircuitConstructor
 	public abstract class DraggableCircuitWidget : CircuitWidgetBase, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
 		[SerializeField]
-		private GameObject circuitGhostPrefab;
+		private GhostCircuitWidget circuitGhostPrefab;
 		private GhostCircuitWidget ghost;
 
 		// In future, we may want to change this value to implement the ability to drag circuits at specific point.
@@ -30,7 +30,7 @@ namespace UI.CircuitConstructor
 
 		private void CreateGhost()
 		{
-			ghost = Instantiate(circuitGhostPrefab).GetComponent<GhostCircuitWidget>();
+			ghost = Instantiate(circuitGhostPrefab);
 			ghost.RectTransform.SetParent(CircuitConstructor.Instance.transform, false);
 			ghost.Setup(this, CircuitPrefab);
 		}
