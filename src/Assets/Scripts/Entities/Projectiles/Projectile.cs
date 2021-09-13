@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Projectile : DynamicEntity
 {
-	public event Action OnImpact;
+	public event Action<Collision> OnImpact;
 
 	protected Damage damage;
 
@@ -24,12 +24,15 @@ public abstract class Projectile : DynamicEntity
 		this.damage = damage;
 	}
 
-	private void OnCollisionEnter(Collision collision) =>
+	private void OnCollisionEnter(Collision collision)
+	{
 		Impact(collision.gameObject);
+		OnImpact?.Invoke(collision);
+	}
 
 	public virtual void Impact(GameObject other)
 	{
-		OnImpact?.Invoke();
+		
 	}
 
 	public void Suicide() =>

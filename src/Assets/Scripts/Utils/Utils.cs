@@ -61,4 +61,11 @@ public static class Utils
 	/// <param name="list">The list to pick from.</param>
 	/// <returns>A random element from the list.</returns>
 	public static T Pick<T>(List<T> list) => list[Random.Range(0, list.Count)];
+	/// <summary>
+	/// Shortcut for quick picking a random item from an array.
+	/// </summary>
+	/// <typeparam name="T">Array item type</typeparam>
+	/// <param name="list">The array to pick from</param>
+	/// <returns>A random element from the array</returns>
+	public static T Pick<T>(T[] arr) => arr[Random.Range(0, arr.Length)];
 }

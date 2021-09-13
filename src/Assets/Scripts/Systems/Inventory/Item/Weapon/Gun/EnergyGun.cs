@@ -1,4 +1,4 @@
 ﻿public class EnergyGun : Gun
 {
-	// There'll be some overheating mechanics and shit.
+	public override ImpactType ImpactType => ImpactType.Energy;
 }

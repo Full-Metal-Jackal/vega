@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="Character Data/MobTrait"), Serializable]
+[CreateAssetMenu(menuName ="Character Data/MobTraits"), Serializable]
 public class MobTraits : ScriptableObject
 {
 	[field: SerializeField]
