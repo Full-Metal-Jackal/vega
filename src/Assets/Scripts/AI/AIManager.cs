@@ -224,12 +224,9 @@ namespace AI
 
 		private void HandleTargetRelevance()
 		{
-			if (currentTarget)
+			if (currentTarget && !currentTarget.Alive)
 			{
-				if (!currentTarget.Alive)
-				{
-					currentTarget = null;
-				}
+				currentTarget = null;
 			}
 		}
 

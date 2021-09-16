@@ -13,6 +13,10 @@ namespace AI
 		private ChaseAIState chaseState;
 		[SerializeField]
 		private IdleAIState idleState;
+
+		private const int normalAvoidanceAngle = 45;
+		private const int closeAvoidanceAngle = 90;
+
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
@@ -108,12 +112,12 @@ namespace AI
 			Vector3 newPosDir = (randomPoint - transform.position).normalized;
 			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
 
-			if (aiManager.distanceFromTarget < aiManager.dangerThreshhold && Mathf.Abs(angle) < 90) //Checking that the new point is not in the target's direction
+			if (aiManager.distanceFromTarget < aiManager.dangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
 			{
 				point = Vector3.zero;
 				return false;
 			}
-			else if (Mathf.Abs(angle) < 45)
+			else if (Mathf.Abs(angle) < normalAvoidanceAngle)
 			{
 				point = Vector3.zero;
 				return false;
