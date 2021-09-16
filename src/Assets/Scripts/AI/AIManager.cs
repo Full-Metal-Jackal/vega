@@ -32,7 +32,7 @@ namespace AI
 
 		private int obstacleLayer;
 
-		private const float rangeCoefficient = 0.9f;
+		private const float rangeCoefficient = 0.5f;
 		public float StoppingDistance { get; protected set; }
 
 		public float CurrentRecoveryTime 
@@ -46,6 +46,7 @@ namespace AI
 
 		[Header("A.I Settings")]
 		public float detectionRadius = 5;
+		public float dangerThreshhold = 2.5f;
 		public float maxDetectionAngle = 50;
 		public float minDetectionAngle = -50;
 		public float viewableAngle;
@@ -98,6 +99,7 @@ namespace AI
 
 		protected override void OnUpdate(float delta)
 		{
+			HandleTargetRelevance();
 			CheckTargetVisibility();
 			CheckIfInCover();
 			HandleStateMachine(delta);
@@ -218,6 +220,17 @@ namespace AI
 				return false;
 			}	
 			return true;
+		}
+
+		private void HandleTargetRelevance()
+		{
+			if (currentTarget)
+			{
+				if (!currentTarget.Alive)
+				{
+					currentTarget = null;
+				}
+			}
 		}
 
 		private void OnDrawGizmosSelected()

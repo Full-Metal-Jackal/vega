@@ -7,7 +7,8 @@ namespace AI
 {
 	public class AttackAIState : AIState
 	{
-		public CombatStanceAIState combateStance;
+		[SerializeField]
+		private CombatStanceAIState combateStance;
 
 		private AIAttackAction currentAttack;
 
@@ -35,7 +36,7 @@ namespace AI
 					if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 					{
 						aiManager.isPerfomingAction = true;
-						//mob.Fire();
+						mob.Fire();
 						aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 						currentAttack = null;
 						return combateStance;
