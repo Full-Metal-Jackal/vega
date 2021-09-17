@@ -8,7 +8,7 @@ namespace UI
 		[SerializeField]
 		private Image image;
 
-		public float Value
+		public virtual float Value
 		{
 			set
 			{
