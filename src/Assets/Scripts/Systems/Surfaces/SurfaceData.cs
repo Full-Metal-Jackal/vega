@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using kTools.Decals;
 
 public enum SurfaceType
 {
@@ -16,9 +18,9 @@ public class SurfaceData : ScriptableObject
 	public SurfaceType SurfaceType { get; private set; }
 
 	[field: SerializeField, Header("Impact sprites")]
-	public bool ReceivesExplosionMarks = true;
+	public bool ReceivesExplosionImpacts { get; private set; } = true;
 	[field: SerializeField]
-	public Sprite[] BulletHoles;
+	public DecalData[] BulletHoles { get; private set; }
 	[field: SerializeField]
-	public Sprite[] EnergyMarks;
+	public DecalData[] EnergyImpacts { get; private set; }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using kTools.Decals;
 
 public enum ImpactType
 {
@@ -29,27 +30,32 @@ public class ImpactController : MonoSingleton<ImpactController>
 		ValidatePrefab(decals[0]);
 	}
 
-	public void SpawnDecal(Vector3 point, Vector3 normal, Transform targetTransform, ImpactType type)
+	public void SpawnDecal(Vector3 point, Vector3 normal, Transform targetTransform, ImpactType type, float scale)
 	{
 		SurfaceDataHolder holder = targetTransform.GetComponentInParent<SurfaceDataHolder>();
 		if (!holder || !holder.SurfaceData)
 			return;
 		
-		GameObject decal = NextDecal();
-		if (!decal)
+		GameObject decalObj = NextDecal();
+		if (!decalObj)
 			return;
 		
-		SpriteRenderer spriteRenderer = decal.GetComponent<SpriteRenderer>();
-		spriteRenderer.sprite = GetImpactTypeSprite(holder.SurfaceData, type);
+		DecalData decalData = GetImpactTypeData(holder.SurfaceData, type);;
+		if (!decalData)
+			return;
+		
+		Decal decal = decalObj.GetComponent<Decal>();
+		decal.transform.localScale = new Vector3(scale, scale, scale);
+		decal.decalData = GetImpactTypeData(holder.SurfaceData, type);
 
-		decal.transform.position = point;
-		decal.transform.rotation = Quaternion.FromToRotation(Vector3.forward, normal);
-		decal.transform.SetParent(targetTransform, worldPositionStays: true);
-		decal.SetActive(true);
+		decalObj.transform.position = point;
+		decalObj.transform.rotation = Quaternion.FromToRotation(-Vector3.forward, normal);
+		decalObj.transform.SetParent(targetTransform, worldPositionStays: true);
+		decalObj.SetActive(true);
 	}
 
-	public void SpawnDecal(ContactPoint contact, ImpactType type) =>
-		SpawnDecal(contact.point, contact.normal, contact.otherCollider.transform, type);
+	public void SpawnDecal(ContactPoint contact, ImpactType type, float scale) =>
+		SpawnDecal(contact.point, contact.normal, contact.otherCollider.transform, type, scale);
 
 	public void ClearDecals()
 	{
@@ -82,22 +88,24 @@ public class ImpactController : MonoSingleton<ImpactController>
 
 	private void ValidatePrefab(GameObject inst)
 	{
-		if (!inst.GetComponent<SpriteRenderer>())
+		if (!inst.GetComponent<Decal>())
 			throw new Exception(
-				$"Invalid prefab specified in {this}, make sure it has a {typeof(SpriteRenderer)} component"
+				$"Invalid prefab specified in {this}, make sure it has a {typeof(Decal)} component"
 			);
 	}
 
-	private Sprite GetImpactTypeSprite(SurfaceData surfaceData, ImpactType type)
+	private static DecalData GetImpactTypeData(SurfaceData surfaceData, ImpactType type)
 	{
 		switch (type)
 		{
 			case ImpactType.Bullet:
-				return Utils.Pick(surfaceData.BulletHoles);
+				return PickDecal(surfaceData.BulletHoles);
 			case ImpactType.Energy:
-				return Utils.Pick(surfaceData.EnergyMarks);
+				return PickDecal(surfaceData.EnergyImpacts);
 			default:
-				return null;
+				throw new Exception($"Invalid {typeof(ImpactType)} specified: {type}");
 		}
 	}
+
+	private static DecalData PickDecal(DecalData[] data) => data.Length > 0 ? Utils.Pick(data) : null;
 }
