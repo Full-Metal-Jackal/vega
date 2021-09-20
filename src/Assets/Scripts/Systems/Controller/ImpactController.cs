@@ -17,17 +17,15 @@ public class ImpactController : MonoSingleton<ImpactController>
 	private int nextIdx = 0;
 
 	[SerializeField]
-	private GameObject prefab;
+	private Decal decalPrefab;
 
-	private GameObject[] decals;
+	private Decal[] decals;
 
 	protected override void Awake()
 	{
-		decals = new GameObject[max];
+		decals = new Decal[max];
 		for (int i = 0; i < max; ++i)
 			decals[i] = InstantiateDecal();
-
-		ValidatePrefab(decals[0]);
 	}
 
 	public void SpawnDecal(Vector3 point, Vector3 normal, Transform targetTransform, ImpactType type, float scale)
@@ -36,22 +34,21 @@ public class ImpactController : MonoSingleton<ImpactController>
 		if (!holder || !holder.SurfaceData)
 			return;
 		
-		GameObject decalObj = NextDecal();
-		if (!decalObj)
+		Decal decal = NextDecal();
+		if (!decal)
 			return;
 		
-		DecalData decalData = GetImpactTypeData(holder.SurfaceData, type);;
+		DecalData decalData = GetImpactTypeData(holder.SurfaceData, type);
 		if (!decalData)
 			return;
 		
-		Decal decal = decalObj.GetComponent<Decal>();
 		decal.transform.localScale = new Vector3(scale, scale, scale);
-		decal.decalData = GetImpactTypeData(holder.SurfaceData, type);
+		decal.decalData = decalData;
 
-		decalObj.transform.position = point;
-		decalObj.transform.rotation = Quaternion.FromToRotation(-Vector3.forward, normal);
-		decalObj.transform.SetParent(targetTransform, worldPositionStays: true);
-		decalObj.SetActive(true);
+		decal.transform.position = point;
+		decal.transform.rotation = Quaternion.FromToRotation(-Vector3.forward, normal);
+		decal.transform.SetParent(targetTransform, worldPositionStays: true);
+		decal.gameObject.SetActive(true);
 	}
 
 	public void SpawnDecal(ContactPoint contact, ImpactType type, float scale) =>
@@ -59,39 +56,31 @@ public class ImpactController : MonoSingleton<ImpactController>
 
 	public void ClearDecals()
 	{
-		foreach (GameObject decal in decals)
+		foreach (Decal decal in decals)
 			ResetDecal(decal);
 	}
 
-	private GameObject InstantiateDecal()
+	private Decal InstantiateDecal()
 	{
-		GameObject spawned = Instantiate(prefab);
-		ResetDecal(spawned);
+		Decal decal = Instantiate(decalPrefab);
+		ResetDecal(decal);
 
-		return spawned;
+		return decal;
 	}
 
-	private GameObject NextDecal()
+	private Decal NextDecal()
 	{
-		GameObject decal = decals[nextIdx];
+		Decal decal = decals[nextIdx];
 		if (++nextIdx == max)
 			nextIdx = 0;
 
 		return decal;
 	}
 
-	private void ResetDecal(GameObject decal)
+	private void ResetDecal(Decal decal)
 	{
 		decal.transform.SetParent(transform);
-		decal.SetActive(false);
-	}
-
-	private void ValidatePrefab(GameObject inst)
-	{
-		if (!inst.GetComponent<Decal>())
-			throw new Exception(
-				$"Invalid prefab specified in {this}, make sure it has a {typeof(Decal)} component"
-			);
+		decal.gameObject.SetActive(false);
 	}
 
 	private static DecalData GetImpactTypeData(SurfaceData surfaceData, ImpactType type)

@@ -48,8 +48,6 @@ public class Gun : Weapon
 	public override string SlotText =>
 		$"{AmmoCount}/{ClipSize}";
 
-	public virtual ImpactType ImpactType => ImpactType.Bullet;
-
 	protected override void Awake()
 	{
 		base.Awake();
@@ -101,7 +99,6 @@ public class Gun : Weapon
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
-		projectile.OnImpact += (collision) => ImpactController.Instance.SpawnDecal(collision.GetContact(0), ImpactType, scale: 0.1f);
 
 		PostFire(direction, projectile);
 
