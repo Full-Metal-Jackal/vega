@@ -2,7 +2,7 @@
 
 ### **Установка и поднятие проекта**
 * `git clone git@github.com:Full-Metal-Jackal/vega.git`
-* Поставить *Unity 2020.**
+* Поставить *Unity 2020.3.10f1*
 * Поставить *Visual Studio 2019*
 * В юнити перейти в `Edit > Preferences > External Tools`, в поле `External Script Editor` выбрать *Visual Studio 2019*
   * Если в списке нет, то вот пример: `C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\devenv.exe`

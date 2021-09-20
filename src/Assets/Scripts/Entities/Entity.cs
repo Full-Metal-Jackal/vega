@@ -1,58 +1,36 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
-	public string Name = "unnamed entity";
-	public Rigidbody Body { get; protected set; }
 	public bool Initialized { get; private set; } = false;
 
-	void Start()
-	{
-		enabled = false;
-		Initialize();
-	}
+	[field: SerializeField]
+	public virtual string Name { get; set; } = "unnamed entity";
 
-	void Update()
-	{
-		float delta = Time.deltaTime;
-		Tick(delta);
-		MovePhysics(delta);
-	}
+	[field: SerializeField]
+	public bool CanHideWalls { get; set; } = false;
 
-	protected virtual bool Initialize()
-	{
-		if (Initialized)
-		{
-			Debug.LogWarning($"Multiple initialization attempts of {this}!");
-			return false;
-		}
-		Body = GetComponent<Rigidbody>();
-		Initialized = true;
-		enabled = true;
-		return true;
-	}
+	public Outline Outline { get; private set; }
 
-	public virtual bool Spawn(Vector3 pos)
-	{
-		if (!(Initialized || Initialize()))
-			return false;
-
-		Body.MovePosition(pos);
-		return true;
-	}
-
-	protected virtual void Tick(float delta)
-	{
-	}
+	public IEnumerable<Collider> Colliders => GetComponentsInChildren<Collider>();
 
 	/// <summary>
-	/// Handles the entity's movement.
+	/// If this entity should be transfered between levels.
 	/// </summary>
-	/// <param name="delta">delta between two ticks</param>
-	public virtual void MovePhysics(float delta)
+	public bool Persistent { get; protected set; }
+
+	protected virtual void Awake()
+	{
+		Outline = GetComponent<Outline>();
+	}
+
+	protected virtual void Start()
+	{
+	}
+
+	protected virtual void Update()
 	{
 	}
 

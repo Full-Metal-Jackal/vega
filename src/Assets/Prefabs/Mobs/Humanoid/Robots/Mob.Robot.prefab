@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7522459965451628606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622062584962711657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856230e24cf1de443835b442bc2077df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Robot Base
+  <MaxHealth>k__BackingField: 200
+  <Health>k__BackingField: 200
+  <Stamina>k__BackingField: 200
+  <MaxStamina>k__BackingField: 200
+  <Animator>k__BackingField: {fileID: 2795941060204793722}
+  <MoveSpeed>k__BackingField: 200
+  <MaxTurningSpeed>k__BackingField: 20
+  <WalkSpeedFactor>k__BackingField: 0.6
+  <DodgeCooldown>k__BackingField: 2
+  <DodgeStaminaCost>k__BackingField: 50
+  <SprintStaminaCost>k__BackingField: 15
+  <SprintSpeedFactor>k__BackingField: 1.5
+  rightHandSocket: {fileID: 0}
+  aimPosSmoothing: 0.2
+--- !u!1001 &6316399873171731602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_Name
+      value: Mob.Robot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984297054901032012, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: <Owner>k__BackingField
+      value: 
+      objectReference: {fileID: 7522459965451628606}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+--- !u!1 &8622062584962711657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+  m_PrefabInstance: {fileID: 6316399873171731602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2795941060204793722 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8171062085197151208, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+  m_PrefabInstance: {fileID: 6316399873171731602}
+  m_PrefabAsset: {fileID: 0}

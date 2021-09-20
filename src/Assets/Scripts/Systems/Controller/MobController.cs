@@ -1,55 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MobController : MonoBehaviour
+public abstract class MobController : MonoBehaviour
 {
-    /// <summary>
-    /// Tells the controller what mob should be possessed as the level starts.
-    /// Needed only in specific cases to possess mobs in the editor where the controller can't be attached to the mob itself.
-    /// </summary>
-    public Mob possessAtStart;
-    public Mob Possessed { get; protected set; }
+	/// <summary>
+	/// Tells the controller what mob should be possessed as the level starts.
+	/// Needed only in specific cases to possess mobs in the editor where the controller can't be attached to the mob itself.
+	/// </summary>
+	public Mob possessAtStart;
+	public Mob Possessed { get; protected set; }
 
-    public bool Initialized { get; protected set; }
+	protected static int TotalControllers { get; private set; } = 0;
+	public int Id { get; private set; }
 
-    protected int Id { get; private set; }
+	public Vector3 movement;
 
-    private Vector3 Movement;
+	protected virtual void Awake()
+	{
+		Id = TotalControllers++;
+	}
 
-    public void Start()
-    {
-        Initialize();
-    }
+	protected virtual void Start()
+	{
+		if ((possessAtStart is Mob mob) || TryGetComponent(out mob))
+			PossessMob(mob);
+	}
 
-    protected virtual bool Initialize()
-    {
-        if ((possessAtStart is Mob mob) || TryGetComponent(out mob))
-            PossessMob(mob);
-        return Initialized = true;
-    }
+	/// <summary>
+	/// Assumes control of the mob.
+	/// </summary>
+	/// <param name="mob">The mob to take control of.</param>
+	public virtual void PossessMob(Mob mob)
+	{
+		mob.SetPossessed(this);
+		Possessed = mob;
+		Debug.Log($"Controller {Id} possessed {mob}.");
+	}
 
-    public virtual bool PossessMob(Mob mob)
-    {
-        if (!(mob is IPossessable possessable))
-            return false;
-        possessable.SetPossessed(this);
-        Possessed = mob;
-        Debug.Log($"Controller {Id} possessed {mob}.");
-        return true;
-    }
+	private void Update()
+	{
+		if (!Possessed)
+			return;
 
-    private void Update()
-    {
-        if (!Possessed)
-            return;
-        Movement = GetMovement();
-    }
+		OnUpdate(Time.deltaTime);
+	}
 
-    protected virtual Vector3 GetMovement() => Vector3.zero;
+	protected virtual void OnUpdate(float delta)
+	{
+	}
 
-    private void FixedUpdate()
-    {
-        Possessed.Move(Time.fixedDeltaTime, Movement);
-    }
+	protected virtual Vector3 UpdateMovementInput() => Vector3.zero;
+
+	private void FixedUpdate()
+	{
+		if (Possessed)
+			Possessed.Move(Time.fixedDeltaTime, movement);
+	}
 }

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2584591846866440297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125004719389808162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b689f0edeec2f41867cbb3f3fbd63f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Human Base
+  <CanHideWalls>k__BackingField: 0
+  <MaxHealth>k__BackingField: 100
+  __health: 0
+  __stamina: 0
+  <MaxStamina>k__BackingField: 100
+  <StaminaRegenSpeed>k__BackingField: 20
+  <StaminaRegenDelay>k__BackingField: 0.75
+  CanTakeCover: 0
+  <MoveSpeed>k__BackingField: 5
+  turnsToMovementDirection: 1
+  <MaxTurningSpeed>k__BackingField: 20
+  <AimHeight>k__BackingField: 1.7
+  <WalkSpeedFactor>k__BackingField: 0.5
+  <DodgeCooldown>k__BackingField: 1
+  <DodgeStaminaCost>k__BackingField: 25
+  <SprintStaminaCost>k__BackingField: 15
+  <SprintSpeedFactor>k__BackingField: 1.5
+  rightHandSocket: {fileID: 0}
+  aimPosSmoothing: 0.2
+--- !u!1001 &7426515666677834457
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_Name
+      value: Mob.Human
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3984297054901032012, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: <Owner>k__BackingField
+      value: 
+      objectReference: {fileID: 2584591846866440297}
+    - target: {fileID: 8266176949140227112, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+      propertyPath: headIkWeight
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+--- !u!1 &5125004719389808162 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
+  m_PrefabInstance: {fileID: 7426515666677834457}
+  m_PrefabAsset: {fileID: 0}
