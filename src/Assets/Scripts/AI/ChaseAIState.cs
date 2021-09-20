@@ -7,7 +7,10 @@ namespace AI
 {
 	public class ChaseAIState : AIState
 	{
-		public CombatStanceAIState combatStanceState;
+		[SerializeField]
+		private CombatStanceAIState combatStanceState;
+		[SerializeField]
+		private IdleAIState idleState;
 
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
@@ -17,6 +20,10 @@ namespace AI
 			if (aiManager.isPerfomingAction)
 			{
 				return this;
+			}
+			if (aiManager.currentTarget == null)
+			{
+				return idleState;
 			}
 			float delta = Time.deltaTime;
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);

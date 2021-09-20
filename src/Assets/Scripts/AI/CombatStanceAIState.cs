@@ -7,9 +7,16 @@ namespace AI
 {
 	public class CombatStanceAIState : AIState
 	{
-		public AttackAIState attackState;
-		public ChaseAIState chaseState;
-		public IdleAIState idleState;
+		[SerializeField]
+		private AttackAIState attackState;
+		[SerializeField]
+		private ChaseAIState chaseState;
+		[SerializeField]
+		private IdleAIState idleState;
+
+		private const int normalAvoidanceAngle = 45;
+		private const int closeAvoidanceAngle = 90;
+
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
@@ -20,6 +27,12 @@ namespace AI
 			//prioritize moving to cover
 
 			//if ready to attack return attack State
+			if (aiManager.currentTarget == null)
+			{
+				aiManager.NavMeshAgent.enabled = false;
+				aiManager.NavMeshObstacle.enabled = true;
+				return idleState;
+			}
 
 			if (aiManager.currentCover != null)
 			{
@@ -98,18 +111,21 @@ namespace AI
 
 			Vector3 newPosDir = (randomPoint - transform.position).normalized;
 			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
-			if (Mathf.Abs(angle) < 90)  //Checking that the new point is not in the target's direction
+
+			if (aiManager.distanceFromTarget < aiManager.dangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
 			{
 				point = Vector3.zero;
 				return false;
 			}
-			else
+			else if (Mathf.Abs(angle) < normalAvoidanceAngle)
 			{
-				if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-				{
-					point = hit.position;
-					return true;
-				}
+				point = Vector3.zero;
+				return false;
+			}
+			else if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+			{
+				point = hit.position;
+				return true;
 			}
 			point = Vector3.zero;
 			return false;

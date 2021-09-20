@@ -6,8 +6,10 @@ namespace AI
 {
 	public class IdleAIState : AIState
 	{
-		public ChaseAIState chaseState;
-		public CombatStanceAIState combatStance;
+		[SerializeField]
+		private ChaseAIState chaseState;
+		[SerializeField]
+		private CombatStanceAIState combatStance;
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Look for target
@@ -24,7 +26,7 @@ namespace AI
 					/* TODO
 					 *  Check for team. If AI can attack each other.
 					 */
-					if (character == aiManager.Player)
+					if (character == aiManager.Player && character.Alive)
 					{
 						Vector3 targetDirection = character.transform.position - transform.position;
 						float viewAngle = Vector3.Angle(targetDirection, transform.forward);
