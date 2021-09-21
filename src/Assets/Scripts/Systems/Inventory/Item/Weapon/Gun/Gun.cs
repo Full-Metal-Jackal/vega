@@ -98,7 +98,6 @@ public class Gun : Weapon
 		Projectile projectile = CreateProjectile(Damage);
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
-
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
 
 		PostFire(direction, projectile);
