@@ -12,7 +12,7 @@ namespace UI.HUD
 
 		private Mob player;
 
-		private void Start()
+		private void Awake()
 		{
 			enabled = false;
 			PlayerController.Instance.OnPossessed += (player) =>

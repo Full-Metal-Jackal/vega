@@ -25,7 +25,7 @@ namespace UI.HUD
 			}
 		}
 
-		private void Start()
+		private void Awake()
 		{
 			PlayerController.Instance.OnPossessed += (player) => Player = player;
 		}

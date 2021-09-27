@@ -8,7 +8,7 @@ namespace UI.HUD
 		[SerializeField]
 		private Image image;
 
-	//	private void Start() =>
+	//	private void Awake() =>
 	//		PlayerController.Instance.OnPossessed += (player) =>
 	//		{
 	//			image.sprite = player.PersonData.mediumPortrait;

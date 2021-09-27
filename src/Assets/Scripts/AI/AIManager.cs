@@ -11,7 +11,6 @@ namespace AI
 	public class AIManager : MobController
 	{
 		public bool CanSeeTarget { get; private set; }
-		public Mob Player { get; private set; }
 		private Mob mob;
 		private float currentRecoveryTime = 0;
 
@@ -65,8 +64,6 @@ namespace AI
 		protected override void Awake()
 		{
 			base.Awake();
-
-			Player = PlayerController.Instance.possessAtStart;
 
 			NavMeshAgent = transform.GetComponentInChildren<NavMeshAgent>();
 			NavMeshObstacle = transform.GetComponentInChildren<NavMeshObstacle>();
@@ -163,9 +160,8 @@ namespace AI
 			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
 			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius, obstacleLayer))
 			{
-				print(hit.transform.name);
-				var detection = hit.transform;
-				if (detection.TryGetComponent<Mob>(out Mob mob) && mob == Player)
+				Transform detection = hit.transform;
+				if (detection.TryGetComponent(out Mob mob) && mob.Faction is Faction.Player)
 				{
 					CanSeeTarget = true;
 				}

@@ -4,7 +4,7 @@
 	{
 		private Mob player;
 
-		private void Start() =>
+		private void Awake() =>
 			PlayerController.Instance.OnPossessed += SetPlayer;
 
 		private void SetPlayer(Mob mobPlayer)

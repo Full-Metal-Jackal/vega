@@ -1,18 +1,30 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoSingleton<LevelLoader>
 {
 	public static readonly float neededProgress = .9f;
+	
+	[SerializeField]
+	private List<GameObject> instantiateAtStart;
+
+	[SerializeField]
+	private Mob possessAtStart;
 
 	protected override void Awake()
 	{
 		if (!Game.Initialized)
 			Game.Initialize();
+
+		foreach (GameObject prefab in instantiateAtStart)
+			Instantiate(prefab);
+		PlayerController.Instance.possessAtStart = possessAtStart;
 	}
 
-	private void Start() => Game.StartLevel();
+	private void Start() =>
+		Game.StartLevel();
 
 	public void ChangeLevel(string sceneName)
 	{
@@ -30,13 +42,4 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 		while (!loading.isDone)
 			yield return null;
 	}
-
-	// <TODO> Must be relocated somewhere else
-	/// <summary>
-	/// Since Unity cannot handle properties, there's a setter for this one.
-	/// Must not be used anywhere in code.
-	/// </summary>
-	/// <param name="isPlaying">New state of PlayingScene.</param>
-	public void SetPlayingScene(bool isPlaying) =>
-		Game.PlayingScene = isPlaying;
 }

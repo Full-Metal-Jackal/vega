@@ -12,6 +12,7 @@ public class CameraController : MonoSingleton<CameraController>
 	/// </summary>
 	[SerializeField]
 	private float cursorWeight = .33f;
+
 	private bool followingCursor = true;
 
 	/// <summary>
@@ -37,6 +38,7 @@ public class CameraController : MonoSingleton<CameraController>
 		{
 			__inScene = value;
 			followSmoothing = __inScene ? sceneSmoothing : inGameSmoothing;
+			followingCursor = !__inScene;
 		}
 	}
 
