@@ -8,7 +8,7 @@ namespace UI.HUD
 		[SerializeField]
 		private TMP_Text text;
 
-		private void Start() =>
+		private void Awake() =>
 			PlayerController.Instance.OnPossessed += player => text.text = player.Name;
 	}
 }

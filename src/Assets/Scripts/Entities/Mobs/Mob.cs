@@ -17,6 +17,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;
 
+	[field: SerializeField]
+	public Faction Faction { get; private set; } = Faction.Neutral;
+
 	[SerializeField, EditorEx.Prop(ReadOnly = true, Name = "Health")]
 	private float __health;
 	public float Health
@@ -429,7 +432,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// <param name="force">Damage that caused the mob's death, influences animations mostly.</param>
 	public virtual void Die(Damage damage)
 	{
-		Debug.Log($"{this} died.");
+		if (damage.inflictor)
+			Debug.Log($"{this} has been killed by {damage.inflictor}.");
+		else
+			Debug.Log($"{this} died.");
+
 		State = MobState.Dead;
 
 		OnDefeated?.Invoke(this);

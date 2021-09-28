@@ -11,4 +11,7 @@ public class Containers : MonoSingleton<Containers>
 
 	[field: SerializeField]
 	public Transform Mobs { get; private set; }
+
+	[field: SerializeField]
+	public Transform Interscene { get; private set; }
 }

@@ -26,7 +26,7 @@ namespace AI
 					/* TODO
 					 *  Check for team. If AI can attack each other.
 					 */
-					if (character == aiManager.Player && character.Alive)
+					if (character.Faction is Faction.Player && character.Alive)
 					{
 						Vector3 targetDirection = character.transform.position - transform.position;
 						float viewAngle = Vector3.Angle(targetDirection, transform.forward);

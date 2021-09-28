@@ -37,7 +37,6 @@ public abstract class Projectile : DynamicEntity
 
 	public virtual void Impact(GameObject other)
 	{
-		
 	}
 
 	public void Suicide() =>
