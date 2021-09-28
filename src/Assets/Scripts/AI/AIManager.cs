@@ -161,7 +161,7 @@ namespace AI
 			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius, obstacleLayer))
 			{
 				Transform detection = hit.transform;
-				if (detection.TryGetComponent(out Mob mob) && mob.Faction is Faction.Player)
+				if (detection.TryGetComponent(out Mob mob) && mob.Faction == Faction.Player)
 				{
 					CanSeeTarget = true;
 				}

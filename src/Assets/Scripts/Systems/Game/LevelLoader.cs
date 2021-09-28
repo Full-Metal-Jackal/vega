@@ -19,7 +19,7 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 			Game.Initialize();
 
 		foreach (GameObject prefab in instantiateAtStart)
-			Instantiate(prefab);
+			Instantiate(prefab, Containers.Instance.Interscene);
 		PlayerController.Instance.possessAtStart = possessAtStart;
 	}
 
