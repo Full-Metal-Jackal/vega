@@ -36,11 +36,12 @@ namespace AI
 					if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 					{
 						aiManager.isPerfomingAction = true;
-						mob.Fire();
+						mob.SetTrigger(true);
 						aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 						currentAttack = null;
 						return combateStance;
 					}
+					mob.SetTrigger(false);
 					/*
 					Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 					aiManager.viewableAngle = Vector3.Angle(targetDirection, transform.forward);

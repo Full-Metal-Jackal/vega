@@ -374,10 +374,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual void Fire()
+	public virtual void SetTrigger(bool held)
 	{
 		if (ActiveItem && CanFire)
-			ActiveItem.Fire(AimPos);
+			ActiveItem.SetTrigger(AimPos, held);
 	}
 
 	public virtual void Reload()
@@ -389,7 +389,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual void Throw()
 	{
 		ThrowableItem.SetupModel();
-		ThrowableItem.Fire(AimPos);
+		ThrowableItem.SetTrigger(AimPos);
 	}
 
 	public virtual void DropItem() => DropItem(ActiveItem);

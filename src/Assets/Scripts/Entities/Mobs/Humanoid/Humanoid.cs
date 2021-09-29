@@ -333,7 +333,7 @@ public abstract class Humanoid : Mob
 
 	public void OnThrowEnd()
 	{
-		ThrowableItem.Fire(AimPos);
+		ThrowableItem.SetTrigger(AimPos);
 		IsBusy = false;
 		if (ActiveItem && ActiveItem.Model)
 			ActiveItem.Model.gameObject.SetActive(true);

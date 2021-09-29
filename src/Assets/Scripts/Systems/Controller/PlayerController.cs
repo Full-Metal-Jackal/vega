@@ -56,11 +56,13 @@ public class PlayerController : MobController
 
 		Actions.World.Use.performed += ctx => OnUsePressed();
 		Actions.World.Dodge.performed += ctx => OnDodgePressed();
-		Actions.World.Fire.performed += ctx => OnFirePressed();
 		Actions.World.Reload.performed += ctx => OnReloadPressed();
 		Actions.World.Throw.performed += ctx => OnThrowPressed();
 		Actions.World.SpecialAbilty.performed += ctx => OnSpecialAbilityPressed();
 		Actions.World.Drop.performed += ctx => OnDropPressed();
+
+		Actions.World.Fire.performed += ctx => OnTriggerInput(true);
+		Actions.World.Fire.canceled += ctx => OnTriggerInput(false);
 
 		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
 		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
@@ -92,7 +94,8 @@ public class PlayerController : MobController
 			Possessed.Use(interaction);
 	}
 
-	public void OnFirePressed() => Possessed.Fire();
+	public void OnTriggerInput(bool held) => Possessed.SetTrigger(held);
+
 	public void OnReloadPressed() => Possessed.Reload();
 	public void OnThrowPressed() => Possessed.Throw();
 	private void OnDodgePressed() => Possessed.DashAction();
