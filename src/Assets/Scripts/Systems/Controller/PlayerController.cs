@@ -94,7 +94,7 @@ public class PlayerController : MobController
 			Possessed.Use(interaction);
 	}
 
-	public void OnTriggerInput(bool held) => Possessed.SetTrigger(held);
+	public void OnTriggerInput(bool held) => Possessed.UseItem(held);
 
 	public void OnReloadPressed() => Possessed.Reload();
 	public void OnThrowPressed() => Possessed.Throw();

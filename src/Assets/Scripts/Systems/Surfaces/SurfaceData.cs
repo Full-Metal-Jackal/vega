@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using kTools.Decals;
 
@@ -19,8 +19,13 @@ public class SurfaceData : ScriptableObject
 
 	[field: SerializeField, Header("Impact sprites")]
 	public bool ReceivesExplosionImpacts { get; private set; } = true;
+
 	[field: SerializeField]
 	public DecalData[] BulletHoles { get; private set; }
+
 	[field: SerializeField]
 	public DecalData[] EnergyImpacts { get; private set; }
+
+	[field: SerializeField]
+	public DecalData[] ExplosionImpacts { get; private set; }
 }

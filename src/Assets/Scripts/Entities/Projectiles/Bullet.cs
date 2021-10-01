@@ -2,8 +2,6 @@
 
 public class Bullet : Projectile
 {
-	public override ImpactType ImpactType => ImpactType.Bullet;
-	
 	public override void Impact(GameObject other)
 	{
 		base.Impact(other);

@@ -12,7 +12,8 @@ public abstract class Projectile : DynamicEntity
 	/// </summary>
 	public Entity Source { get; protected set; }
 
-	public abstract ImpactType ImpactType { get; }
+	[SerializeField]
+	private ImpactType impactType;
 
 	public virtual void Setup(Entity source, Damage damage)
 	{
@@ -30,7 +31,7 @@ public abstract class Projectile : DynamicEntity
 	{
 		Impact(collision.gameObject);
 
-		ImpactController.Instance.SpawnDecal(collision.GetContact(0), ImpactType, scale: 0.1f);
+		ImpactController.Instance.SpawnDecal(collision.GetContact(0), impactType, scale: 0.1f);
 
 		OnImpact?.Invoke(collision);
 	}

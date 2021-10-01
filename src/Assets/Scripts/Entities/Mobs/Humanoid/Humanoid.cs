@@ -4,8 +4,6 @@ using Inventory;
 
 public abstract class Humanoid : Mob
 {
-	public delegate void GunPutDownAction(bool isgunPutDown);
-
 	/// <summary>
 	/// The multiplier of the mob's walking speed.
 	/// </summary>
@@ -64,7 +62,18 @@ public abstract class Humanoid : Mob
 	public bool IsAiming
 	{
 		get => __isAiming;
-		protected set => Animator.SetBool("IsAiming", __isAiming = value);
+		protected set
+		{
+			if (__isAiming == value)
+				return;
+
+			__isAiming = value;
+
+			if (ActiveItem.Automatic)
+				UpdateItemTrigger();
+
+			Animator.SetBool("IsAiming", __isAiming);
+		}
 	}
 
 	private bool __isBusy;
