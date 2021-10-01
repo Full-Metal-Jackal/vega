@@ -126,6 +126,12 @@ ModelImporter:
   - first:
       74: 5917330019226890303
     second: Humanoid|aiming.rifle
+  - first:
+      74: 5981925732195307652
+    second: Humanoid|aiming.minigun
+  - first:
+      74: -6212917125969718407
+    second: Humanoid|reloading.rifle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -141,13 +147,18 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Humanoid|table_flip' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'finger.1.0.L' has translation animation
-      that will be discarded.\n\nClip 'Humanoid|walk.male' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'thigh.L' has translation animation that
-      will be discarded.\n\t'thigh.R' has translation animation that will be discarded.\n"
+    animationImportWarnings: "\nClip 'Humanoid|reloading.rifle' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'shoulder.L' has translation
+      animation that will be discarded.\n\t'shoulder.R' has translation animation
+      that will be discarded.\n\nClip 'Humanoid|table_flip' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'finger.1.0.L' has translation
+      animation that will be discarded.\n\nClip 'Humanoid|walk.male' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'thigh.L' has translation
+      animation that will be discarded.\n\t'thigh.R' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -201,7 +212,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -1502,6 +1513,64 @@ ModelImporter:
       internalID: 0
       firstFrame: 0
       lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {fileID: 31900000, guid: 21d463ba308f7784c8780ab0f60a316e, type: 2}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Humanoid|aiming.minigun
+      takeName: Humanoid|aiming.minigun
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {fileID: 31900000, guid: 21d463ba308f7784c8780ab0f60a316e, type: 2}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Humanoid|reloading.rifle
+      takeName: Humanoid|reloading.rifle
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -130,7 +130,9 @@ public abstract class Humanoid : Mob
 			case HoldType.Shotgun:
 				animatorValue = 4;
 				break;
-
+			case HoldType.Minigun:
+				animatorValue = 5;
+				break;
 			}
 			Animator.SetInteger("HoldType", animatorValue);
 		}

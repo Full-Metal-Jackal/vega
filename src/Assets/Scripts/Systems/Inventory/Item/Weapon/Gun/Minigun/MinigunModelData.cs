@@ -10,7 +10,7 @@ public class MinigunModelData : GunModelData
 	[field: SerializeField]
 	public Transform BarrelsBase { get; private set; }
 
-   [field: SerializeField]
+   [SerializeField]
 	protected Transform[] barrels;
 
 	private int currentBarrel = 0;
