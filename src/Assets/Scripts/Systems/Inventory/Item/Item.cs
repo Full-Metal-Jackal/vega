@@ -53,6 +53,17 @@ namespace Inventory
 		public virtual bool CanFire => true;
 
 		/// <summary>
+		/// If the item is being used continuously, e.g. a gun's trigger is held.
+		/// </summary>
+		protected virtual bool IsTriggerHeld { get; private set; } = false;
+
+		/// <summary>
+		/// If the trigger has to be held in order to use this item.
+		/// </summary>
+		[field: SerializeField]
+		public bool Automatic { get; private set; } = false;
+
+		/// <summary>
 		/// If this item can be reloaded right now.
 		/// </summary>
 		public virtual bool CanReload => false;
@@ -86,11 +97,23 @@ namespace Inventory
 		/// </summary>
 		/// <param name="target">The target position. Might be unused.</param>
 		/// <returns>true if the item has been fired successfully, false otherwise.</returns>
-		public virtual bool Fire(Vector3 target)
+		public virtual void SetTrigger(Vector3 target, bool held = true)
 		{
-			if (!CanFire)
-				return false;
-			return true;
+			bool result = CanFire && held;
+			
+			if (!IsTriggerHeld && result)
+				SingleUse(target);
+
+			IsTriggerHeld = held;
+		}
+
+		/// <summary>
+		/// Called once when the trigger is pressed.
+		/// </summary>
+		/// <param name="target">The target position. Might be unused.</param>
+		/// <returns>true if the item has been fired successfully, false otherwise.</returns>
+		public virtual void SingleUse(Vector3 target)
+		{
 		}
 
 		/// <summary>
@@ -147,6 +170,7 @@ namespace Inventory
 					CursorMode.Auto
 				);
 
+			IsTriggerHeld = false;
 			Owner.ActiveItem = this;
 		}
 
@@ -161,6 +185,7 @@ namespace Inventory
 			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(Game.defaultCursor, Vector2.zero, CursorMode.Auto);
 
+			IsTriggerHeld = false;
 			Owner.ActiveItem = null;
 		}
 

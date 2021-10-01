@@ -6,5 +6,5 @@ public class GunModelData : ItemModelData
 	/// The gun's barrel position.
 	/// </summary>
 	[field: SerializeField]
-	public Transform Barrel { get; private set; }
+	public virtual Transform Barrel { get; private set; }
 }

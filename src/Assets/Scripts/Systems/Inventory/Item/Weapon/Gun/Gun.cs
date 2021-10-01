@@ -29,11 +29,11 @@ public class Gun : Weapon
 	public float FireRate { get; protected set; } = 120;
 
 	/// <summary>
-	/// Shortcut to convert shots per minute to delay between shots.
+	/// Delay between shots.
 	/// </summary>
-	public float FireDelay => 60 / FireRate;
+	public virtual float FireDelay => 60 / FireRate;
 
-	private float currentFireDelay = 0;
+	protected float currentFireDelay = 0;
 
 	public int AmmoCount { get; protected set; }
 
@@ -83,11 +83,11 @@ public class Gun : Weapon
 		return true;
 	}
 
-	public override bool Fire(Vector3 target)
-	{
-		if (!base.Fire(target))
-			return false;
+	public override void SingleUse(Vector3 target) =>
+		Fire(target);
 
+	protected virtual bool Fire(Vector3 target)
+	{
 		Vector3 direction = (target - Owner.transform.position);
 		direction.y = (target - Barrel.position).y;  // <TODO> Change if causes shooting inaccuracy.
 		direction.Normalize();
@@ -113,10 +113,11 @@ public class Gun : Weapon
 			return false;
 		}
 
-		direction = Quaternion.AngleAxis(
-			UnityEngine.Random.Range(-Spread, Spread),
-			Barrel.up
-		) * direction;
+		if (Spread > 0)
+			direction = Quaternion.AngleAxis(
+				UnityEngine.Random.Range(-Spread, Spread),
+				Barrel.up
+			) * direction;
 
 		AmmoCount--;
 
@@ -155,5 +156,7 @@ public class Gun : Weapon
 	{
 		if (currentFireDelay > 0)
 			currentFireDelay -= Time.deltaTime;
+		else if (Owner && Automatic && IsTriggerHeld)
+			SingleUse(Owner.AimPos);
 	}
 }

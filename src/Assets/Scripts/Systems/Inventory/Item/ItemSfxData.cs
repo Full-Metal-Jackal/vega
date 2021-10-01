@@ -16,7 +16,10 @@ namespace Inventory
 		private void Awake() =>
 			audioSource = GetComponent<AudioSource>();
 
-		public void Play(AudioClip clip) =>
-			audioSource.PlayOneShot(clip);
+		public void Play(AudioClip clip)
+		{
+			if (clip)
+				audioSource.PlayOneShot(clip);
+		}
 	}
 }

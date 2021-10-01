@@ -2,8 +2,6 @@
 
 public class GrenadeProjectile : ThrowableProjectile
 {
-	public override ImpactType ImpactType => ImpactType.Explosion;
-
 	[SerializeField]
 	private float explosionRadius = 3f;
 

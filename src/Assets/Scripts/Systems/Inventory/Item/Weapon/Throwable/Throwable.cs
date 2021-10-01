@@ -38,11 +38,11 @@ public class Throwable : Item<Throwable>
 
 	private ItemModelData model;
 
-	public override bool Fire(Vector3 target)
-	{
-		if (!base.Fire(target))
-			return false;
+	public override void SingleUse(Vector3 target) =>
+		Throw(target);
 
+	protected bool Throw(Vector3 target)
+	{
 		Amount--;
 		UpdateSlotText();
 

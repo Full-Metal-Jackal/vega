@@ -74,9 +74,17 @@ MonoBehaviour:
   <Name>k__BackingField: Sample Gun
   <Desc>k__BackingField: Really shouldn't be used in the game in any way
   <Mass>k__BackingField: 2
+  <SlotType>k__BackingField: 0
   <SelectOnPickUp>k__BackingField: 1
   <HoldType>k__BackingField: 4
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField:
+    amount: 0
+    type: 0
+    incapacitating: 0
+    inflictor: {fileID: 0}
+    force: 0
+    direction: {x: 0, y: 0, z: 0}
+    hitPoint: {x: 0, y: 0, z: 0}
   <ProjectilePrefab>k__BackingField: {fileID: 0}
   <ProjectileSpeed>k__BackingField: 15
   <Spread>k__BackingField: 0
@@ -249,10 +257,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemData.Gun
       objectReference: {fileID: 0}
-    - target: {fileID: 1305000215961585880, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 23cd8b9c015e1e841b2f50ca680fd79b, type: 3}
     - target: {fileID: 2333250823551792457, guid: 1055640a51708fd41beaae0fb3934971, type: 3}
       propertyPath: m_RootOrder
       value: 0

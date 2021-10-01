@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using kTools.Decals;
 
@@ -45,8 +45,7 @@ public class ImpactController : MonoSingleton<ImpactController>
 		decal.transform.localScale = new Vector3(scale, scale, scale);
 		decal.decalData = decalData;
 
-		decal.transform.position = point;
-		decal.transform.rotation = Quaternion.FromToRotation(-Vector3.forward, normal);
+		decal.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(-Vector3.forward, normal));
 		decal.transform.SetParent(targetTransform, worldPositionStays: true);
 		decal.gameObject.SetActive(true);
 	}
@@ -87,12 +86,16 @@ public class ImpactController : MonoSingleton<ImpactController>
 	{
 		switch (type)
 		{
-			case ImpactType.Bullet:
-				return PickDecal(surfaceData.BulletHoles);
-			case ImpactType.Energy:
-				return PickDecal(surfaceData.EnergyImpacts);
-			default:
-				throw new Exception($"Invalid {typeof(ImpactType)} specified: {type}");
+		case ImpactType.Bullet:
+			return PickDecal(surfaceData.BulletHoles);
+		case ImpactType.Energy:
+			return PickDecal(surfaceData.EnergyImpacts);
+		case ImpactType.Explosion:
+			if (!surfaceData.ReceivesExplosionImpacts)
+				return null;
+			return PickDecal(surfaceData.ExplosionImpacts);
+		default:
+			throw new Exception($"Invalid {typeof(ImpactType)} specified: {type}");
 		}
 	}
 

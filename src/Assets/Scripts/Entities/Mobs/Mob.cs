@@ -100,6 +100,12 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual Vector3 AimPos { get; set; }
 
+	/// <summary>
+	/// Ensures the mob starts to press the trigger as soon as the active item is available
+	/// e.g. the mob starts aiming or picks a gun up.
+	/// </summary>
+	protected bool shouldHoldTrigger = false;
+
 	public Vector3 AimDir => AimPos - transform.position;
 	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
@@ -374,10 +380,26 @@ public abstract class Mob : DynamicEntity, IDamageable
 		}
 	}
 
-	public virtual void Fire()
+	/// <summary>
+	/// Updates the active item's trigger state.
+	/// Should be called for automatic items to make sure the fire continues as soon as possible.
+	/// </summary>
+	protected virtual void UpdateItemTrigger()
 	{
-		if (ActiveItem && CanFire)
-			ActiveItem.Fire(AimPos);
+		if (!ActiveItem)
+			return;
+
+		ActiveItem.SetTrigger(AimPos, CanFire && shouldHoldTrigger);
+	}
+
+	/// <summary>
+	/// Makes mob start or stop to attempt to use item.
+	/// </summary>
+	/// <param name="holdTrigger">Pass true if the mob should hold the item's trigger, false in case the mob should release it.</param>
+	public void UseItem(bool holdTrigger)
+	{
+		shouldHoldTrigger = holdTrigger;
+		UpdateItemTrigger();
 	}
 
 	public virtual void Reload()
@@ -389,14 +411,14 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public virtual void Throw()
 	{
 		ThrowableItem.SetupModel();
-		ThrowableItem.Fire(AimPos);
+		ThrowableItem.SetTrigger(AimPos);
 	}
 
 	public virtual void DropItem() => DropItem(ActiveItem);
 
 	public virtual void DropItem(Item item)
 	{
-		if (item is null)
+		if (!item)
 			return;
 
 		if (!CanDropItems)

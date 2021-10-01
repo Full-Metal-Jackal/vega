@@ -10,6 +10,7 @@
 	TwoHandsPistol,
 	AssaultRifle,
 	Shotgun,
+	Minigun,
 
 	Club,
 	Sword
