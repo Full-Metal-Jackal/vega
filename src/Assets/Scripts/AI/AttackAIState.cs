@@ -36,7 +36,11 @@ namespace AI
 					if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 					{
 						aiManager.isPerfomingAction = true;
+						
 						mob.UseItem(true);
+						if (!mob.ActiveItem.Automatic)
+							mob.UseItem(false);
+
 						aiManager.CurrentRecoveryTime = currentAttack.recoveryTime;
 						currentAttack = null;
 						return combateStance;
