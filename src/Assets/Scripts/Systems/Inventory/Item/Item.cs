@@ -156,12 +156,14 @@ namespace Inventory
 			}
 
 			Model = model;
-			Model.transform.localScale = Vector3.one;
-			if (Model.Origin)
+			if (Model.ParentingOrigin)
 			{
-				Model.transform.localPosition += Model.Origin.localRotation * Model.Origin.localPosition;
-				Model.transform.localRotation *= Model.Origin.localRotation;
+				Model.transform.localRotation *= Quaternion.Inverse(Model.ParentingOrigin.localRotation);
+				// Model.transform.localPosition = Model.Origin.localRotation * Model.Origin.localPosition;
+				Model.transform.localPosition = -Model.ParentingOrigin.localPosition;
 			}
+
+			print($"Mysterious difference: {Vector3.Distance(Model.ParentingOrigin.position, socket.position)}");
 
 			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(

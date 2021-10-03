@@ -33,6 +33,10 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected int UpperBodyLayer { get; private set; }
 	private float[] previousLayersWeight;
 
+	[SerializeField]
+	private float aimPosSmoothing = .2f;
+	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -119,7 +123,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	{
 		if (LookAtIkEnabled)
 		{
-			float lookAtDistance = HorizontalDistance(humanoid.SmoothedAimPos, Mob.transform.position);
+			float lookAtDistance = HorizontalDistance(SmoothedAimPos, Mob.transform.position);
 			float weight = ikTransition;
 			if (!humanoid.IsAiming)
 			{
@@ -127,7 +131,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 				weight *= lookAtIkNonAimingFactor;
 			}
 			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
-			Animator.SetLookAtPosition(humanoid.SmoothedAimPos);
+			Animator.SetLookAtPosition(SmoothedAimPos);
 		}
 		else
 		{
@@ -142,16 +146,6 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		else
 		{
 			SetIkWeights(AvatarIKGoal.LeftHand, 0f);
-		}
-
-		if (rightHandIkTarget)
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, ikTransition);
-			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
-		}
-		else
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, 0f);
 		}
 	}
 
@@ -169,6 +163,15 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected override void Update()
 	{
 		base.Update();
+
+		UpdateSmoothedAimPos();
+
+		if (humanoid.IsAiming)
+		{
+			Vector3 smoothedAinDir = SmoothedAimPos - humanoid.transform.position;
+			smoothedAinDir.y = 0;
+			humanoid.ItemSocket.forward = smoothedAinDir;
+		}
 
 		if (ikTransitionGoal == ikTransition)
 			return;
@@ -192,5 +195,28 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	{
 		for (int i = 1; i < Animator.layerCount; i++)
 			Animator.SetLayerWeight(i, previousLayersWeight[i]);
+	}
+
+	public Vector3 SmoothedAimPos { get; protected set; }
+	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
+			SmoothedAimPos,
+			humanoid.AimPos,
+			ref aimPosSmoothingVelocity,
+			aimPosSmoothing
+		);
+
+	private void OnDrawGizmosSelected()
+	{
+
+		if (!leftHandIkTarget)
+			return;
+
+		Gizmos.color = (Color.yellow + Color.red) * .5f;
+		Gizmos.DrawWireSphere(leftHandIkTarget.position, .025f);
+		Gizmos.DrawRay(leftHandIkTarget.position, leftHandIkTarget.forward * .065f);
+
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawRay(humanoid.AimPos, SmoothedAimPos - humanoid.AimPos);
+		Gizmos.DrawWireSphere(SmoothedAimPos, .1f);
 	}
 }

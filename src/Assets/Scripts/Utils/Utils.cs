@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class Utils
+public class Utils
 {
 	/// <summary>
 	/// Omits y components of two points and returns distance between them.

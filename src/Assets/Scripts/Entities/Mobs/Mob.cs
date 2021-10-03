@@ -463,4 +463,15 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		OnDefeated?.Invoke(this);
 	}
+
+	protected virtual void OnDrawGizmosSelected()
+	{
+		Vector3 aimOrigin = transform.position + Vector3.up * AimHeight;
+		Gizmos.color = Color.green;
+		Gizmos.DrawRay(aimOrigin, AimPos - aimOrigin);
+		Gizmos.DrawWireSphere(AimPos, .1f);
+
+		Gizmos.color = Color.red;
+		Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
+	}
 }

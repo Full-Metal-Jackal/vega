@@ -44,17 +44,6 @@ public abstract class Humanoid : Mob
 	private Transform rightHandSocket;
 	public override Transform ItemSocket => rightHandSocket;
 
-	[SerializeField]
-	private float aimPosSmoothing = .2f;
-	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
-	public Vector3 SmoothedAimPos { get; protected set; }
-	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
-			SmoothedAimPos,
-			AimPos,
-			ref aimPosSmoothingVelocity,
-			aimPosSmoothing
-		);
-
 	private bool __isAiming = false;
 	/// <summary>
 	/// Is the mob should currently aim, used for animation.
@@ -87,6 +76,8 @@ public abstract class Humanoid : Mob
 		{
 			__isBusy = value;
 			Animator.SetBool("IsBusy", __isBusy);
+
+			UpdateItemTrigger();
 		}
 	}
 
@@ -268,7 +259,7 @@ public abstract class Humanoid : Mob
 	protected virtual void UpdateAiming(float delta)
 	{
 		if (IsAiming &= AimDistance >= MinAimDistance)
-			TurnTo(delta, SmoothedAimPos - transform.position);
+			TurnTo(delta, AimDir);
 		else
 			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
 	}
@@ -286,6 +277,8 @@ public abstract class Humanoid : Mob
 
 	public void OnDodgeRoll()
 	{
+		UpdateItemTrigger();
+
 		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
 		direction.y = 0f;
 		direction.Normalize();
@@ -305,12 +298,8 @@ public abstract class Humanoid : Mob
 		State = MobState.Sprinting;
 
 		lastStaminaDrain = Time.time;
-	}
 
-	protected override void Update()
-	{
-		base.Update();
-		UpdateSmoothedAimPos();
+		UpdateItemTrigger();
 	}
 
 	public override void Reload()
