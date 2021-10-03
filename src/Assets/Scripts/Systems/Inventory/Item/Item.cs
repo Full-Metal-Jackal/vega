@@ -72,7 +72,7 @@ namespace Inventory
 		/// How this item should be held in hands. If it shouldn't appear in hands at all, leave it as None.
 		/// </summary>
 		[field: SerializeField]
-		public HoldType HoldType { get; protected set; } = HoldType.None;
+		public HoldType HoldType { get; protected set; } = null;
 
 		/// <summary>
 		/// Shortcut for item slot's owner.
@@ -159,11 +159,8 @@ namespace Inventory
 			if (Model.ParentingOrigin)
 			{
 				Model.transform.localRotation *= Quaternion.Inverse(Model.ParentingOrigin.localRotation);
-				// Model.transform.localPosition = Model.Origin.localRotation * Model.Origin.localPosition;
 				Model.transform.localPosition = -Model.ParentingOrigin.localPosition;
 			}
-
-			print($"Mysterious difference: {Vector3.Distance(Model.ParentingOrigin.position, socket.position)}");
 
 			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(

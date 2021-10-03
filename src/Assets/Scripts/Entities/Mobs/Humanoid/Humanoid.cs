@@ -93,37 +93,24 @@ public abstract class Humanoid : Mob
 	/// </summary>
 	public virtual float AimEnableDistance => 1f;
 
-	private HoldType __holdState = HoldType.None;
+	private HoldType __holdType = null;
 	/// <summary>
 	/// Represents the aiming animation that is being played right now.
 	/// </summary>
-	public virtual HoldType HoldState
+	public virtual HoldType HoldType
 	{
-		get => __holdState;
+		get => __holdType;
 		protected set
 		{
-			__holdState = value;
+			__holdType = value;
 			if (!Animator)
 				return;
 
 			int animatorValue = 0;
-			switch (__holdState)
+			if (__holdType)
 			{
-			case HoldType.SingleHandPistol:
-				animatorValue = 1;
-				break;
-			case HoldType.TwoHandsPistol:
-				animatorValue = 2;
-				break;
-			case HoldType.AssaultRifle:
-				animatorValue = 3;
-				break;
-			case HoldType.Shotgun:
-				animatorValue = 4;
-				break;
-			case HoldType.Minigun:
-				animatorValue = 5;
-				break;
+				animatorValue = __holdType.AnimatorValue;
+				ItemSocket.localPosition = __holdType.SocketOffset;
 			}
 			Animator.SetInteger("HoldType", animatorValue);
 		}
@@ -177,7 +164,7 @@ public abstract class Humanoid : Mob
 		get => base.ActiveItem;
 		set
 		{
-			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+			HoldType = (base.ActiveItem = value) ? value.HoldType : null;
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
@@ -262,6 +249,14 @@ public abstract class Humanoid : Mob
 			TurnTo(delta, AimDir);
 		else
 			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+	}
+
+	public override void TurnTo(float delta, Vector3 rotateTo)
+	{
+		if (HoldType)
+			rotateTo = HoldType.AngleOffset * rotateTo;
+
+		base.TurnTo(delta, rotateTo);
 	}
 
 	public override void DashAction() => DodgeRoll();
