@@ -106,12 +106,7 @@ public abstract class Humanoid : Mob
 			if (!Animator)
 				return;
 
-			int animatorValue = 0;
-			if (__holdType)
-			{
-				animatorValue = __holdType.AnimatorValue;
-				ItemSocket.localPosition = __holdType.SocketOffset;
-			}
+			int animatorValue = __holdType ? __holdType.AnimatorValue : 0;
 			Animator.SetInteger("HoldType", animatorValue);
 		}
 	}
