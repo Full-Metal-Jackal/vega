@@ -19,7 +19,7 @@ public class ItemModelData : MonoBehaviour
 	/// Usually matches RightHandGrip.
 	/// </summary>
 	[field: SerializeField]
-	public Transform ParentingOrigin { get; private set; }
+	public Transform ParentingOffset { get; private set; }
 
 	public void Suicide() => Destroy(gameObject);
 

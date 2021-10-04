@@ -143,25 +143,28 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
 			Animator.SetLookAtPosition(SmoothedAimPos);
 		}
+		else if (layer == ArmsLayer)
+		{
+			if (leftHandIkTarget)
+			{
+				SetIkWeights(AvatarIKGoal.LeftHand, ikTransition);
+				SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
+			}
+			else
+			{
+				SetIkWeights(AvatarIKGoal.LeftHand, 0f);
+			}
 
-		if (leftHandIkTarget)
-		{
-			SetIkWeights(AvatarIKGoal.LeftHand, ikTransition);
-			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
-		}
-		else
-		{
-			SetIkWeights(AvatarIKGoal.LeftHand, 0f);
-		}
-
-		if (rightHandIkTarget)
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, ikTransition);
-			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
-		}
-		else
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, 0f);
+			Animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0f);
+			if (rightHandIkTarget)
+			{
+				Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, ikTransition);
+				Animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIkTarget.position);
+			}
+			else
+			{
+				Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0f);
+			}
 		}
 	}
 
@@ -189,9 +192,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 			// <TODO> this piece of code is needed only for holdtype offset tuning and should be deleted as soon as we determine them all.
 			//if (humanoid.HoldType)
-			//	humanoid.ItemSocket.localPosition = humanoid.HoldType.SocketOffset;
-
-			humanoid.ItemSocket.forward = smoothedAimDir;
+			//	humanoid.ItemSocket.localRotation = humanoid.HoldType.SocketRotOffset;
 		}
 
 		if (ikTransitionGoal == ikTransition)

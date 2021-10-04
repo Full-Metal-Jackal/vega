@@ -26,4 +26,17 @@ public class DebugUtils : MonoSingleton<DebugUtils>
 		InputSystem.EnableDevice(Mouse.current);
 		MouseInputDisabled = false;
 	}
+
+
+	[ContextMenu("Disable sounds")]
+	public void DisableSounds()
+	{
+		Camera.main.GetComponent<AudioListener>().enabled = false;
+	}
+
+	[ContextMenu("Enable sounds")]
+	public void EnableSounds()
+	{
+		Camera.main.GetComponent<AudioListener>().enabled = true;
+	}
 }

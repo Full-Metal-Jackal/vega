@@ -58,7 +58,7 @@ public abstract class Humanoid : Mob
 
 			__isAiming = value;
 
-			if (ActiveItem.Automatic)
+			if (ActiveItem && ActiveItem.Automatic)
 				UpdateItemTrigger();
 
 			Animator.SetBool("IsAiming", __isAiming);
@@ -106,7 +106,13 @@ public abstract class Humanoid : Mob
 			if (!Animator)
 				return;
 
-			int animatorValue = __holdType ? __holdType.AnimatorValue : 0;
+			int animatorValue = 0;
+			if (__holdType)
+			{
+				// Works fine w/o position offset for now.
+				ItemSocket.localRotation = __holdType.SocketRotOffset;
+				animatorValue = __holdType.AnimatorValue;
+			}
 			Animator.SetInteger("HoldType", animatorValue);
 		}
 	}
@@ -249,7 +255,7 @@ public abstract class Humanoid : Mob
 	public override void TurnTo(float delta, Vector3 rotateTo)
 	{
 		if (HoldType)
-			rotateTo = HoldType.AngleOffset * rotateTo;
+			rotateTo = HoldType.MobAngleOffset * rotateTo;
 
 		base.TurnTo(delta, rotateTo);
 	}

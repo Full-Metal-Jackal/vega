@@ -151,15 +151,16 @@ namespace Inventory
 
 			if (!(ItemData.PasteModel(socket.transform) is ItemModelData model))
 			{
-				Debug.LogWarning($"{this} has invalid model setup: no GunModelData detected.");
+				Debug.LogWarning($"{this} has invalid model setup: no ItemModelData detected.");
 				return;
 			}
 
 			Model = model;
-			if (Model.ParentingOrigin)
+
+			if (Model.ParentingOffset)
 			{
-				Model.transform.localRotation *= Quaternion.Inverse(Model.ParentingOrigin.localRotation);
-				Model.transform.localPosition = -Model.ParentingOrigin.localPosition;
+				Model.transform.localRotation = Quaternion.Inverse(Model.ParentingOffset.localRotation);
+				Model.transform.localPosition = -Model.ParentingOffset.localPosition;
 			}
 
 			if (Owner.IsPlayer && ItemData.Cursor)
