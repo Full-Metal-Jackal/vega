@@ -44,7 +44,7 @@ public class CameraController : MonoSingleton<CameraController>
 	[SerializeField]
 	private float positionTolerance = .02f;
 
-	[SerializeField, MinAttribute(0.01f)]
+	[SerializeField, Min(.01f)]
 	private float defaultDistance = 20f;
 	[SerializeField]
 	private float defaultFOV = 30f;
