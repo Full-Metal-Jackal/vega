@@ -72,7 +72,7 @@ namespace Inventory
 		/// How this item should be held in hands. If it shouldn't appear in hands at all, leave it as None.
 		/// </summary>
 		[field: SerializeField]
-		public HoldType HoldType { get; protected set; } = HoldType.None;
+		public HoldType HoldType { get; protected set; } = null;
 
 		/// <summary>
 		/// Shortcut for item slot's owner.
@@ -151,16 +151,16 @@ namespace Inventory
 
 			if (!(ItemData.PasteModel(socket.transform) is ItemModelData model))
 			{
-				Debug.LogWarning($"{this} has invalid model setup: no GunModelData detected.");
+				Debug.LogWarning($"{this} has invalid model setup: no ItemModelData detected.");
 				return;
 			}
 
 			Model = model;
-			Model.transform.localScale = Vector3.one;
-			if (Model.Origin)
+
+			if (Model.ParentingOffset)
 			{
-				Model.transform.localPosition += Model.Origin.localRotation * Model.Origin.localPosition;
-				Model.transform.localRotation *= Model.Origin.localRotation;
+				Model.transform.localRotation = Quaternion.Inverse(Model.ParentingOffset.localRotation);
+				Model.transform.localPosition = -Model.ParentingOffset.localPosition;
 			}
 
 			if (Owner.IsPlayer && ItemData.Cursor)

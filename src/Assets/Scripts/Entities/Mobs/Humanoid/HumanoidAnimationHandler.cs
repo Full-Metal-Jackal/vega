@@ -31,7 +31,12 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected Transform rightHandIkTarget;
 
 	protected int UpperBodyLayer { get; private set; }
+	protected int ArmsLayer { get; private set; }
 	private float[] previousLayersWeight;
+
+	[SerializeField]
+	private float aimPosSmoothing = .2f;
+	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
 
 	protected override void Awake()
 	{
@@ -42,6 +47,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 		previousLayersWeight = new float[Animator.layerCount];
 		UpperBodyLayer = Animator.GetLayerIndex("UpperBody");
+		ArmsLayer = Animator.GetLayerIndex("Arms");
 	}
 
 	public void SetupHandsIkForItem(Inventory.Item item)
@@ -115,43 +121,50 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 		TransitIkWeightTo(1f, .1f);
 	}
 
-	private void OnAnimatorIK()
+	private void OnAnimatorIK(int layer)
 	{
-		if (LookAtIkEnabled)
+		if (layer == UpperBodyLayer)
 		{
-			float lookAtDistance = HorizontalDistance(humanoid.SmoothedAimPos, Mob.transform.position);
+			if (!LookAtIkEnabled)
+			{
+				Animator.SetLookAtWeight(0);
+				return;
+			}
+
+			float lookAtDistance = HorizontalDistance(SmoothedAimPos, Mob.transform.position);
 			float weight = ikTransition;
+
 			if (!humanoid.IsAiming)
 			{
 				weight *= Mathf.Clamp01((lookAtDistance - humanoid.MinAimDistance) / ikBlendingDistance);
 				weight *= lookAtIkNonAimingFactor;
 			}
+
 			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
-			Animator.SetLookAtPosition(humanoid.SmoothedAimPos);
+			Animator.SetLookAtPosition(SmoothedAimPos);
 		}
-		else
+		else if (layer == ArmsLayer)
 		{
-			Animator.SetLookAtWeight(0);
-		}
+			if (leftHandIkTarget)
+			{
+				SetIkWeights(AvatarIKGoal.LeftHand, ikTransition);
+				SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
+			}
+			else
+			{
+				SetIkWeights(AvatarIKGoal.LeftHand, 0f);
+			}
 
-		if (leftHandIkTarget)
-		{
-			SetIkWeights(AvatarIKGoal.LeftHand, ikTransition);
-			SetIkTransform(AvatarIKGoal.LeftHand, leftHandIkTarget);
-		}
-		else
-		{
-			SetIkWeights(AvatarIKGoal.LeftHand, 0f);
-		}
-
-		if (rightHandIkTarget)
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, ikTransition);
-			SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
-		}
-		else
-		{
-			SetIkWeights(AvatarIKGoal.RightHand, 0f);
+			Animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0f);
+			if (rightHandIkTarget)
+			{
+				Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, ikTransition);
+				Animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIkTarget.position);
+			}
+			else
+			{
+				Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0f);
+			}
 		}
 	}
 
@@ -169,6 +182,18 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	protected override void Update()
 	{
 		base.Update();
+
+		UpdateSmoothedAimPos();
+
+		if (humanoid.IsAiming)
+		{
+			Vector3 smoothedAimDir = humanoid.AimPos - humanoid.transform.position;
+			smoothedAimDir.y = 0;
+
+			// <TODO> this piece of code is needed only for holdtype offset tuning and should be deleted as soon as we determine them all.
+			//if (humanoid.HoldType)
+			//	humanoid.ItemSocket.localRotation = humanoid.HoldType.SocketRotOffset;
+		}
 
 		if (ikTransitionGoal == ikTransition)
 			return;
@@ -192,5 +217,27 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	{
 		for (int i = 1; i < Animator.layerCount; i++)
 			Animator.SetLayerWeight(i, previousLayersWeight[i]);
+	}
+
+	public Vector3 SmoothedAimPos { get; protected set; }
+	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
+			SmoothedAimPos,
+			humanoid.AimPos,
+			ref aimPosSmoothingVelocity,
+			aimPosSmoothing
+		);
+
+	private void OnDrawGizmosSelected()
+	{
+		if (!leftHandIkTarget)
+			return;
+
+		Gizmos.color = (Color.yellow + Color.red) * .5f;
+		Gizmos.DrawWireSphere(leftHandIkTarget.position, .025f);
+		Gizmos.DrawRay(leftHandIkTarget.position, leftHandIkTarget.forward * .065f);
+
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawRay(humanoid.AimPos, SmoothedAimPos - humanoid.AimPos);
+		Gizmos.DrawWireSphere(SmoothedAimPos, .1f);
 	}
 }

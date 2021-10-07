@@ -89,7 +89,7 @@ public class Gun : Weapon
 	protected virtual bool Fire(Vector3 target)
 	{
 		Vector3 direction = (target - Owner.transform.position);
-		direction.y = (target - Barrel.position).y;  // <TODO> Change if causes shooting inaccuracy.
+		direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
 		direction.Normalize();
 
 		if (!PreFire(ref direction))

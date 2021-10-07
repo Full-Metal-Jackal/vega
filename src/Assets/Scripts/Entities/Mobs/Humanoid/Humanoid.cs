@@ -44,17 +44,6 @@ public abstract class Humanoid : Mob
 	private Transform rightHandSocket;
 	public override Transform ItemSocket => rightHandSocket;
 
-	[SerializeField]
-	private float aimPosSmoothing = .2f;
-	private Vector3 aimPosSmoothingVelocity = Vector3.zero;
-	public Vector3 SmoothedAimPos { get; protected set; }
-	public void UpdateSmoothedAimPos() => SmoothedAimPos = Vector3.SmoothDamp(
-			SmoothedAimPos,
-			AimPos,
-			ref aimPosSmoothingVelocity,
-			aimPosSmoothing
-		);
-
 	private bool __isAiming = false;
 	/// <summary>
 	/// Is the mob should currently aim, used for animation.
@@ -69,7 +58,7 @@ public abstract class Humanoid : Mob
 
 			__isAiming = value;
 
-			if (ActiveItem.Automatic)
+			if (ActiveItem && ActiveItem.Automatic)
 				UpdateItemTrigger();
 
 			Animator.SetBool("IsAiming", __isAiming);
@@ -87,6 +76,8 @@ public abstract class Humanoid : Mob
 		{
 			__isBusy = value;
 			Animator.SetBool("IsBusy", __isBusy);
+
+			UpdateItemTrigger();
 		}
 	}
 
@@ -102,37 +93,25 @@ public abstract class Humanoid : Mob
 	/// </summary>
 	public virtual float AimEnableDistance => 1f;
 
-	private HoldType __holdState = HoldType.None;
+	private HoldType __holdType = null;
 	/// <summary>
 	/// Represents the aiming animation that is being played right now.
 	/// </summary>
-	public virtual HoldType HoldState
+	public virtual HoldType HoldType
 	{
-		get => __holdState;
+		get => __holdType;
 		protected set
 		{
-			__holdState = value;
+			__holdType = value;
 			if (!Animator)
 				return;
 
 			int animatorValue = 0;
-			switch (__holdState)
+			if (__holdType)
 			{
-			case HoldType.SingleHandPistol:
-				animatorValue = 1;
-				break;
-			case HoldType.TwoHandsPistol:
-				animatorValue = 2;
-				break;
-			case HoldType.AssaultRifle:
-				animatorValue = 3;
-				break;
-			case HoldType.Shotgun:
-				animatorValue = 4;
-				break;
-			case HoldType.Minigun:
-				animatorValue = 5;
-				break;
+				// Works fine w/o position offset for now.
+				ItemSocket.localRotation = __holdType.SocketRotOffset;
+				animatorValue = __holdType.AnimatorValue;
 			}
 			Animator.SetInteger("HoldType", animatorValue);
 		}
@@ -186,7 +165,7 @@ public abstract class Humanoid : Mob
 		get => base.ActiveItem;
 		set
 		{
-			HoldState = (base.ActiveItem = value) ? value.HoldType : HoldType.None;
+			HoldType = (base.ActiveItem = value) ? value.HoldType : null;
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
@@ -268,9 +247,17 @@ public abstract class Humanoid : Mob
 	protected virtual void UpdateAiming(float delta)
 	{
 		if (IsAiming &= AimDistance >= MinAimDistance)
-			TurnTo(delta, SmoothedAimPos - transform.position);
+			TurnTo(delta, AimDir);
 		else
 			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+	}
+
+	public override void TurnTo(float delta, Vector3 rotateTo)
+	{
+		if (HoldType)
+			rotateTo = HoldType.MobAngleOffset * rotateTo;
+
+		base.TurnTo(delta, rotateTo);
 	}
 
 	public override void DashAction() => DodgeRoll();
@@ -286,6 +273,8 @@ public abstract class Humanoid : Mob
 
 	public void OnDodgeRoll()
 	{
+		UpdateItemTrigger();
+
 		Vector3 direction = activeDirection.magnitude > 0f ? activeDirection : transform.forward;
 		direction.y = 0f;
 		direction.Normalize();
@@ -305,12 +294,8 @@ public abstract class Humanoid : Mob
 		State = MobState.Sprinting;
 
 		lastStaminaDrain = Time.time;
-	}
 
-	protected override void Update()
-	{
-		base.Update();
-		UpdateSmoothedAimPos();
+		UpdateItemTrigger();
 	}
 
 	public override void Reload()

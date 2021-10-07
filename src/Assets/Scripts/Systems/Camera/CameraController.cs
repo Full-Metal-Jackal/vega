@@ -8,7 +8,6 @@ public class CameraController : MonoSingleton<CameraController>
 
 	/// <summary>
 	/// How much the camera position is influenced by the cursor.
-	/// 1 is default weight.
 	/// </summary>
 	[SerializeField]
 	private float cursorWeight = .33f;
@@ -45,7 +44,7 @@ public class CameraController : MonoSingleton<CameraController>
 	[SerializeField]
 	private float positionTolerance = .02f;
 
-	[SerializeField]
+	[SerializeField, Min(.01f)]
 	private float defaultDistance = 20f;
 	[SerializeField]
 	private float defaultFOV = 30f;
@@ -64,13 +63,7 @@ public class CameraController : MonoSingleton<CameraController>
 	public float Distance
 	{
 		get => Vector3.Distance(Camera.transform.position, transform.position);
-		set
-		{
-			if (value <= 0)
-				throw new System.Exception("Camera distance should be greater than zero!");
-
-			Camera.transform.position = transform.position + (Camera.transform.position - transform.position).normalized * value;
-		}
+		set => Camera.transform.position = transform.position - Camera.transform.forward * value;
 	}
 
 	private Vector3 currentVelocity = Vector3.zero;
@@ -121,7 +114,7 @@ public class CameraController : MonoSingleton<CameraController>
 		int totalPoints = points.Count;
 
 		Vector3 cursorPos = Vector3.zero;
-		bool cursorActive = followingCursor && !Game.Paused;
+		bool cursorActive = followingCursor && !Game.Paused && !DebugUtils.Instance.MouseInputDisabled;
 		if (cursorActive)
 		{
 			totalPoints++;
