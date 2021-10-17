@@ -45,19 +45,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7427965520082307453
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320954820425204204}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.19683358, y: 0.16662282, z: 0.13992196}
-  m_Center: {x: -0.000000059604645, y: 0.08331132, z: -0.004885569}
 --- !u!144 &3577414838608552063
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -104,6 +91,19 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!135 &7661749877496981163
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320954820425204204}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0.09, z: 0}
 --- !u!54 &5034521479020203200
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1390,7 +1390,9 @@ Cloth:
   - {fileID: 1540639659020964681}
   - {fileID: 3383312624974938616}
   - {fileID: 7431363219114449400}
-  m_SphereColliders: []
+  m_SphereColliders:
+  - first: {fileID: 7661749877496981163}
+    second: {fileID: 0}
   m_SelfCollisionDistance: 0
   m_SelfCollisionStiffness: 0.2
   m_SelfAndInterCollisionIndices: 
@@ -1502,27 +1504,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: 0.0000011026859
+      value: 0.026787236
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: 0.03616917
+      value: 0.035594463
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: 0.47988814
+      value: 0.47083977
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.26610562
+      value: 0.16741739
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.1654943
+      value: 0.1651878
       objectReference: {fileID: 0}
     - target: {fileID: 6253973866725822439, guid: 4677e022d646e794b86c759695f1f786, type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.42082018
+      value: 0.42986855
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4677e022d646e794b86c759695f1f786, type: 3}
