@@ -19,9 +19,20 @@ namespace AI
 
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
+			//Сбор информации об окружении на текущий тик
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
 			Vector3 pos;
+			CoverSpot[] coverSpots; //Добавить информацию о свободных укрытиях
+
+			//Выбрать паттерн иходя их собранной информации
+
+			//Выполнить паттерн
+
+			//Повторить
+
+
+			/*
 
 			//Check for attack range
 			//prioritize moving to cover
@@ -100,8 +111,10 @@ namespace AI
 			{
 				return this;
 			}
+			*/
 		}
 
+		/*
 		private bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
 		{
 			NavMeshHit hit;
@@ -154,5 +167,7 @@ namespace AI
 			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 			aiManager.movement = moveToPos;
 		}
+		*/
+			
 	}
 }
