@@ -59,11 +59,11 @@ namespace AI
 			}
 			else
 			{
-				AssignNewAttack(aiManager);
+				//AssignNewAttack(aiManager);
 			}
 			return combateStance;
 		}
-
+		/*
 		private void AssignNewAttack(AIManager aiManager)
 		{
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
@@ -77,7 +77,7 @@ namespace AI
 
 			int maxScore = 0;
 
-			foreach (AIAttackAction aiAttackAction in aiManager.aiAttacks)
+			foreach (AIAttackAction aiAttackAction in aiManager.aiCombatPatterns)
 			{
 				if (aiManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
 					&& aiManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
@@ -92,6 +92,6 @@ namespace AI
 					}
 				}
 			}
-		}
+		}*/
 	}
 }

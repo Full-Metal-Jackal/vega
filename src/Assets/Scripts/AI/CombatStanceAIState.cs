@@ -13,21 +13,36 @@ namespace AI
 		private ChaseAIState chaseState;
 		[SerializeField]
 		private IdleAIState idleState;
+		[SerializeField]
+		private DefaultPattern defaultPattern;
+		[SerializeField]
+		private AgressivePattern agressivePattern;
+		[SerializeField]
+		private DeffensivePattern deffensivePattern;
 
 		private const int normalAvoidanceAngle = 45;
 		private const int closeAvoidanceAngle = 90;
+		private const float agressiveTreshhold = 0.75f;
+		private const float deffensiveTreshhold = 0.25f;
 
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Сбор информации об окружении на текущий тик
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
-			Vector3 pos;
-			CoverSpot[] coverSpots; //Добавить информацию о свободных укрытиях
+			Dictionary<string, float> data = CollectData(aiManager);
 
-			//Выбрать паттерн иходя их собранной информации
+			//Выбрать паттерн исходя их собранной информации
+
+			CombatPattern pattern = SelectPattern(aiManager, data);
 
 			//Выполнить паттерн
+
+			float timer = 0;
+			while(timer < pattern.duration)
+			{
+				pattern.Tick(aiManager, mob);
+				timer++;
+			}
 
 			//Повторить
 
@@ -112,6 +127,7 @@ namespace AI
 				return this;
 			}
 			*/
+			return chaseState;
 		}
 
 		/*
@@ -168,6 +184,49 @@ namespace AI
 			aiManager.movement = moveToPos;
 		}
 		*/
+
+		private CombatPattern SelectPattern(AIManager aiManager, Dictionary<string, float> data)
+		{
+			CombatPattern pattern = null;
+
+			/*
+			 * MinMaxScaller сюда воткнуть
+			 */
+
+			//Вычисляется status моба по формуле
+			float status = 0.5f;
+
+			if (status <= deffensiveTreshhold)
+			{
+				return deffensivePattern;
+			}
+			else if (status >= agressiveTreshhold)
+			{
+				return agressivePattern;
+			}
+			else 
+			{
+				return defaultPattern;
+			}
+		}
+
+		private Dictionary<string, float> CollectData(AIManager aiManager)
+		{
+			//aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			float mobHp = aiManager.Possessed.Health;
+			float targetHp = aiManager.currentTarget.Health;
+			float targetKS = 1;
+
+			Dictionary<string, float> data = new Dictionary<string, float>();
+			data.Add("mobHp", mobHp);
+			data.Add("targetHp", targetHp);
+			data.Add("targetKS", targetKS);
+			data.Add("DistanceFromTarget", distanceFromTarget);
+
+			return data;
+
+		}
 			
 	}
 }

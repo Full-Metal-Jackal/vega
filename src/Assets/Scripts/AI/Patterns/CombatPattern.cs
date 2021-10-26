@@ -8,16 +8,15 @@ namespace AI
 {
 	public abstract class CombatPattern : MonoBehaviour
 	{
-		protected int weight;
-		protected float duration;
+		public float duration;  //Колличество Тиков патерна
 		protected bool isAvailable;
 
 		protected const int normalAvoidanceAngle = 45;
 		protected const int closeAvoidanceAngle = 90;
 
-		public abstract CombatPattern Tick();
+		public abstract void Tick(AIManager aiManager, Mob mob);
 
-		public bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
+		protected bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
 		{
 			NavMeshHit hit;
 			Vector3 pointInSphere = Random.insideUnitSphere * aiManager.maxAttackRange;
@@ -46,7 +45,7 @@ namespace AI
 			return false;
 		}
 
-		private bool FixCoverPos(CoverSpot cover, out Vector3 point)
+		protected bool FixCoverPos(CoverSpot cover, out Vector3 point)
 		{
 			NavMeshHit hit;
 			Vector3 pointInSphere = Random.insideUnitSphere * cover.radius;
@@ -62,7 +61,7 @@ namespace AI
 			return false;
 		}
 
-		private void MoveToLastPos(AIManager aiManager)
+		protected void MoveToLastPos(AIManager aiManager)
 		{
 			aiManager.NavMeshVisualizer.DrawPath(aiManager.NavMeshAgent.path);
 			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
