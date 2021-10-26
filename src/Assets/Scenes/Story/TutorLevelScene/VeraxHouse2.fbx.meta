@@ -3,7 +3,117 @@ guid: 2f26694c0c7c5eb468eee105feb3762b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.BathroomFloor
+    second: {fileID: 2100000, guid: 7943d234c7aa1b049a6cd47b81c98bdd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.BathroomWall
+    second: {fileID: 2100000, guid: 5b95f5bd7caac164c92e26248ffe1586, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.BedroomEntrance
+    second: {fileID: 2100000, guid: 26155f9ac02a18e4db5a6aae5289646d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.BedroomFloor
+    second: {fileID: 2100000, guid: 86c731cfa7913a14fb44af875311270b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.BedroomWindow
+    second: {fileID: 2100000, guid: 0756528eb08bc5a42b6eb080f9487fa9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.Closet
+    second: {fileID: 2100000, guid: 6b8f1bf5ebf306f448f3a39d0fa8546f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.Foundation
+    second: {fileID: 2100000, guid: cae6dde46f49689479337106b816b674, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GaiusEntrance
+    second: {fileID: 2100000, guid: 327a395a4bfab604cb58bda680863678, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GaiusFloor
+    second: {fileID: 2100000, guid: 8d0a2ced1df36ac47bb5933e8afaf014, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GaiusWall
+    second: {fileID: 2100000, guid: b26a142eb2fdfd14d9724b5998a5b56e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GarageDoor
+    second: {fileID: 2100000, guid: 8128405048623774d8c42ee47fc00921, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GarageFloor
+    second: {fileID: 2100000, guid: 29544d5766196c74a8c9520c98223a7b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GarageStairs
+    second: {fileID: 2100000, guid: bc577dc670fa63042affbd6636b90a4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GarageWall
+    second: {fileID: 2100000, guid: 72020625516aa4d4c97ed31fcdbac47a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.KitchenArch
+    second: {fileID: 2100000, guid: 5be4048236277ad4e8bc550552e6afcf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.KitchenFloor
+    second: {fileID: 2100000, guid: 59ae698a2c66fa3479fc30550dd158f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.KitchenWall
+    second: {fileID: 2100000, guid: 901015efcde7253418cae98df3482f62, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.LivingRoomFloor
+    second: {fileID: 2100000, guid: 2e9569a160ae15a4bafb811d77c3fc06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.LivingRoomWall
+    second: {fileID: 2100000, guid: e45e112eed467a9428975a22d3807fb7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.PitchBlack
+    second: {fileID: 2100000, guid: 881b4ffe6b88b1942b247c1f509dbab7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.WallWindowed
+    second: {fileID: 2100000, guid: 8ada0d2b3d95578408dbf68167217fee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TT_color_00
+    second: {fileID: 2100000, guid: f436d16d357c6584a857516a282a7dae, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +155,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
