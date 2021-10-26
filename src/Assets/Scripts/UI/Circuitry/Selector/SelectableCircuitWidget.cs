@@ -52,7 +52,9 @@ namespace UI.CircuitConstructor
 		public void CreateTooltip()
 		{
 			tooltip = Instantiate(tooltipPrefab);
-			tooltip.transform.SetParent(CircuitConstructor.Instance.transform);
+			tooltip.transform.SetParent(
+				GameObject.FindGameObjectWithTag(TagUtils.CircuitConstructorOverlay).transform
+			);
 			
 			tooltip.Setup(CircuitPrefab);
 		}

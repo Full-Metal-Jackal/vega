@@ -35,6 +35,6 @@ namespace UI.CircuitConstructor
 				pins.Add(circuit.AddPin(pulseOutputPrefab, output));
 		}
 
-		public IEnumerable<PinWidget> Pins => new HashSet<PinWidget>(pins);
+		public IEnumerable<PinWidget> Pins => pins;
 	}
 }

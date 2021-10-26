@@ -31,7 +31,10 @@ namespace UI.CircuitConstructor
 		private void CreateGhost()
 		{
 			ghost = Instantiate(circuitGhostPrefab);
-			ghost.RectTransform.SetParent(CircuitConstructor.Instance.transform, false);
+			ghost.RectTransform.SetParent(
+				GameObject.FindGameObjectWithTag(TagUtils.CircuitConstructorOverlay).transform,
+				worldPositionStays: false
+			);
 			ghost.Setup(this, CircuitPrefab);
 		}
 

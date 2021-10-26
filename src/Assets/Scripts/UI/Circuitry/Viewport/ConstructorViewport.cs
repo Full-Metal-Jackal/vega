@@ -10,8 +10,8 @@ namespace UI.CircuitConstructor
 		[field: SerializeField]
 		public RectTransform Content { get; private set; }
 
-		public float minZoom = .6f, maxZoom = 3f;
-		public float zoomSensivity = .1f;
+		public float minZoom = .3f, maxZoom = 1.0f;
+		public float zoomSensivity = .05f;
 		
 		private float __zoom;
 		public float Zoom
@@ -37,7 +37,7 @@ namespace UI.CircuitConstructor
 				return false;
 			}
 
-			Zoom = 1f;
+			Zoom = (maxZoom + minZoom) * 0.5f;
 
 			return Initialized = true;
 		}
