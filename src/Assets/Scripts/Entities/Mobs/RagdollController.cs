@@ -55,4 +55,7 @@ public class RagdollController : MonoBehaviour
 			return;
 		closestBone.AddForceAtPosition(force, point, ForceMode.Impulse);
 	}
+
+	public void OnRagdoll() =>
+		ToggleRagdoll(true);
 }
