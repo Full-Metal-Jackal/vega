@@ -69,5 +69,4 @@ namespace AI
 			aiManager.movement = moveToPos;
 		}
 	}
-
 }

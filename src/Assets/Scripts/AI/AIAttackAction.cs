@@ -20,4 +20,3 @@ namespace AI
 		public float maximumDistanceNeededToAttack = 2;
 	}
 }
-
