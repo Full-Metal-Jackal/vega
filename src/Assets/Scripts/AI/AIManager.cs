@@ -54,7 +54,7 @@ namespace AI
 		public float maxMovementRecoveryTime = 5;
 		public LayerMask detectionLayer;
 		public LayerMask coverSpotsLayer;
-		public AIAttackAction[] aiAttacks;
+		public CombatPattern[] aiCombatPatterns;
 
 		public NavMeshAgent NavMeshAgent { get; private set; }
 		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
@@ -73,10 +73,6 @@ namespace AI
 
 			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
-			foreach (AIAttackAction attack in aiAttacks)
-			{
-				maxAttackRange = Mathf.Max(maxAttackRange, attack.maximumDistanceNeededToAttack);
-			}
 			StoppingDistance = maxAttackRange * rangeCoefficient;
 
 			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) 

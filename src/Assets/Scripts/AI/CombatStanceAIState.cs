@@ -8,20 +8,45 @@ namespace AI
 	public class CombatStanceAIState : AIState
 	{
 		[SerializeField]
-		private AttackAIState attackState;
-		[SerializeField]
 		private ChaseAIState chaseState;
 		[SerializeField]
 		private IdleAIState idleState;
+		[SerializeField]
+		private DefaultPattern defaultPattern;
+		[SerializeField]
+		private AgressivePattern agressivePattern;
+		[SerializeField]
+		private DeffensivePattern deffensivePattern;
 
 		private const int normalAvoidanceAngle = 45;
 		private const int closeAvoidanceAngle = 90;
+		private const float agressiveTreshhold = 0.75f;
+		private const float deffensiveTreshhold = 0.25f;
 
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
+			//Сбор информации об окружении на текущий тик
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
-			Vector3 pos;
+			Dictionary<string, float> data = CollectData(aiManager);
+
+			//Выбрать паттерн исходя их собранной информации
+
+			CombatPattern pattern = SelectPattern(aiManager, data);
+
+			//Выполнить паттерн
+
+			float timer = 0;
+			while(timer < pattern.duration)
+			{
+				pattern.Tick(aiManager, mob);
+				timer++;
+				AttackAction(aiManager, mob);
+			}
+
+			//Повторить
+
+
+			/*
 
 			//Check for attack range
 			//prioritize moving to cover
@@ -100,59 +125,80 @@ namespace AI
 			{
 				return this;
 			}
+			*/
+			return chaseState;
 		}
 
-		private bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
+		private CombatPattern SelectPattern(AIManager aiManager, Dictionary<string, float> data)
 		{
-			NavMeshHit hit;
-			Vector3 pointInSphere = Random.insideUnitSphere * aiManager.maxAttackRange;
-			pointInSphere.y = 0;
-			Vector3 randomPoint = transform.position + pointInSphere;
+			CombatPattern pattern = null;
 
-			Vector3 newPosDir = (randomPoint - transform.position).normalized;
-			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
+			/*
+			 * MinMaxScaller сюда воткнуть
+			 */
 
-			if (aiManager.distanceFromTarget < aiManager.dangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
+			//Вычисляется status моба по формуле
+			float status = 0.5f;
+			print($"{aiManager.Possessed} switched to pattern {pattern}");
+			if (status <= deffensiveTreshhold)
 			{
-				point = Vector3.zero;
-				return false;
+				return deffensivePattern;
 			}
-			else if (Mathf.Abs(angle) < normalAvoidanceAngle)
+			else if (status >= agressiveTreshhold)
 			{
-				point = Vector3.zero;
-				return false;
+				return agressivePattern;
 			}
-			else if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+			else 
 			{
-				point = hit.position;
-				return true;
+				return defaultPattern;
 			}
-			point = Vector3.zero;
-			return false;
 		}
 
-		private bool FixCoverPos(CoverSpot cover, out Vector3 point)
+		private Dictionary<string, float> CollectData(AIManager aiManager)
 		{
-			NavMeshHit hit;
-			Vector3 pointInSphere = Random.insideUnitSphere * cover.radius;
-			Vector3 randomPoint = cover.transform.position + pointInSphere;
-			Vector3 randP = randomPoint;
-			randP.y = 0;
-			if (NavMesh.SamplePosition(randomPoint, out hit, 0.1f, -1 << NavMesh.GetAreaFromName("Cover")))
-			{
-				point = hit.position;
-				return true;
-			}
-			point = Vector3.zero;
-			return false;
+			//aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			float mobHp = aiManager.Possessed.Health;
+			float targetHp = aiManager.currentTarget.Health;
+			float targetKS = 1;
+
+			Dictionary<string, float> data = new Dictionary<string, float>();
+			data.Add("mobHp", mobHp);
+			data.Add("targetHp", targetHp);
+			data.Add("targetKS", targetKS);
+			data.Add("DistanceFromTarget", distanceFromTarget);
+
+			return data;
+
 		}
 
-		private void MoveToLastPos(AIManager aiManager)
+		private void AttackAction(AIManager aiManager, Mob mob)
 		{
-			aiManager.NavMeshVisualizer.DrawPath(aiManager.NavMeshAgent.path);
-			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
-			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
-			aiManager.movement = moveToPos;
-		}
+			//Нужно получать от оружия
+			int minimumDistanceNeededToAttack = 1;
+			int maximumDistanceNeededToAttack = 10;
+			float recoveryTime = 0.2f;
+
+
+			if (aiManager.distanceFromTarget <= minimumDistanceNeededToAttack)
+			{
+				return;
+			}
+			else if (aiManager.distanceFromTarget <= maximumDistanceNeededToAttack)
+			{
+				if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
+				{
+					aiManager.isPerfomingAction = true;
+
+					mob.UseItem(true);
+					if (!mob.ActiveItem.Automatic)
+						mob.UseItem(false);
+
+					aiManager.CurrentRecoveryTime = recoveryTime;
+					return;
+				}
+				mob.UseItem(false);
+			}
+		}	
 	}
 }
