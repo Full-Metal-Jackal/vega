@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.CircuitConstructor
@@ -31,10 +29,7 @@ namespace UI.CircuitConstructor
 		private void CreateGhost()
 		{
 			ghost = Instantiate(circuitGhostPrefab);
-			ghost.RectTransform.SetParent(
-				GameObject.FindGameObjectWithTag(TagUtils.CircuitConstructorOverlay).transform,
-				worldPositionStays: false
-			);
+			ghost.RectTransform.SetParent(CircuitConstructor.Instance.Overlay, worldPositionStays: false);
 			ghost.Setup(this, CircuitPrefab);
 		}
 

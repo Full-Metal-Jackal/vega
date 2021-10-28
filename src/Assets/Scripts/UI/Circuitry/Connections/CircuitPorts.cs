@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 using Circuitry;
@@ -35,6 +34,6 @@ namespace UI.CircuitConstructor
 				pins.Add(circuit.AddPin(pulseOutputPrefab, output));
 		}
 
-		public IEnumerable<PinWidget> Pins => pins;
+		public IEnumerable<PinWidget> Pins => new HashSet<PinWidget>(pins);
 	}
 }

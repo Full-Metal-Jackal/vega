@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
-using Circuitry;
 
 namespace UI.CircuitConstructor
 {
@@ -52,9 +47,7 @@ namespace UI.CircuitConstructor
 		public void CreateTooltip()
 		{
 			tooltip = Instantiate(tooltipPrefab);
-			tooltip.transform.SetParent(
-				GameObject.FindGameObjectWithTag(TagUtils.CircuitConstructorOverlay).transform
-			);
+			tooltip.transform.SetParent(CircuitConstructor.Instance.Overlay);
 			
 			tooltip.Setup(CircuitPrefab);
 		}
