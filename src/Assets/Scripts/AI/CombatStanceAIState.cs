@@ -139,7 +139,7 @@ namespace AI
 
 			//Вычисляется status моба по формуле
 			float status = 0.5f;
-			print("time to swap pattern");
+			print($"{aiManager.Possessed} switched to pattern {pattern}");
 			if (status <= deffensiveTreshhold)
 			{
 				return deffensivePattern;
