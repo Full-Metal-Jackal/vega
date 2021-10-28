@@ -4,7 +4,7 @@ namespace Circuitry
 {
 	public static class Logging
 	{
-		public static bool echoToConsole = false;
+		public static bool echoToConsole = true;
 
 		public static void Log(string text)
 		{

@@ -10,6 +10,9 @@ namespace UI.CircuitConstructor
 		[field: SerializeField]
 		public AssemblyWidget AssemblyWidget { get; private set; }
 
+		[field: SerializeField]
+		public RectTransform Overlay { get; private set; }
+
 		public Vector3 GridScale => AssemblyWidget.Grid.transform.lossyScale;
 
 		public bool IsOpened => gameObject.activeInHierarchy;

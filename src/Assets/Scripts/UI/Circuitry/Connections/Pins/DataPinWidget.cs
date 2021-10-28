@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 using Circuitry;
 
@@ -24,7 +23,7 @@ namespace UI.CircuitConstructor
 
 		public void UpdateValue(Data value)
 		{
-			Value.text = $"{value}";
+			Value.text = value.ToString();
 		}
 
 		public override void Setup(DataPin pin)
