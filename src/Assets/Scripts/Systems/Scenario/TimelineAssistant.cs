@@ -33,8 +33,7 @@ namespace Scenario
 			if (!mob)
 				throw new System.Exception($"MobAnimationHandler {animationHandler} was not assigned as a child of a mob.");
 
-			mob.transform.position = animationHandler.transform.position;
-			mob.transform.rotation = animationHandler.transform.rotation;
+			mob.transform.SetPositionAndRotation(animationHandler.transform.position, animationHandler.transform.rotation);
 
 			animationHandler.transform.localPosition = Vector3.zero;
 			animationHandler.transform.localRotation = Quaternion.identity;
