@@ -283,8 +283,6 @@ public abstract class Humanoid : Mob
 		else
 			distance = horAimDir.magnitude;
 
-		print(distance);
-
 		if (IsAiming &= distance >= MinAimDistance)
 			TurnTo(delta, AimDir);
 		else
