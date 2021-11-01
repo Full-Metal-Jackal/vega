@@ -471,7 +471,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Gizmos.DrawRay(aimOrigin, AimPos - aimOrigin);
 		Gizmos.DrawWireSphere(AimPos, .1f);
 
-		Gizmos.color = Color.red;
-		Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
+		if (ItemSocket)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
+		}
 	}
 }

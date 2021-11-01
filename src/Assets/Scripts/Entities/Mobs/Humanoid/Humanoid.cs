@@ -40,9 +40,13 @@ public abstract class Humanoid : Mob
 	[field: SerializeField]
 	public float SprintSpeedFactor { get; private set; } = 1.5f;
 
-	[SerializeField]
-	private Transform rightHandSocket;
-	public override Transform ItemSocket => rightHandSocket;
+
+	[field: SerializeField]
+	public Transform LeftHandSocket { get; private set; }
+
+	[field: SerializeField]
+	public Transform RightHandSocket { get; private set; }
+	public override Transform ItemSocket => RightHandSocket;
 
 	private bool __isAiming = false;
 	/// <summary>
@@ -110,7 +114,7 @@ public abstract class Humanoid : Mob
 			if (__holdType)
 			{
 				// Works fine w/o position offset for now.
-				ItemSocket.localRotation = __holdType.SocketRotOffset;
+				// ItemSocket.localRotation = __holdType.SocketRotOffset;
 				animatorValue = __holdType.AnimatorValue;
 			}
 			Animator.SetInteger("HoldType", animatorValue);
@@ -169,6 +173,28 @@ public abstract class Humanoid : Mob
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		SocketFallback();
+	}
+
+	// A fallback for sockets assignement.
+	private void SocketFallback()
+	{
+		if (!RightHandSocket)
+		{
+			Debug.LogWarning($"{this} has no RightHandSocket assigned!");
+			RightHandSocket = Utils.FindChildRecursively(Animator.transform, "socket.hand.R");
+		}
+		if (!LeftHandSocket)
+		{
+			Debug.LogWarning($"{this} has no LeftHandSocket assigned!");
+			LeftHandSocket = Utils.FindChildRecursively(Animator.transform, "socket.hand.L");
+		}
+	}
 
 	public override void Move(float delta, Vector3 direction, bool affectY = false)
 	{
