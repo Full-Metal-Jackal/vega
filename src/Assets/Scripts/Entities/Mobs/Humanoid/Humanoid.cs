@@ -322,6 +322,7 @@ public abstract class Humanoid : Mob
 			ActiveItem.Model.gameObject.SetActive(false);
 		ThrowableItem.SetupModel(ItemSocket);
 
+		ThrowableItem.SetTrigger(AimPos, false);
 		IsBusy = true;
 
 		Animator.SetTrigger("ThrowTrigger");

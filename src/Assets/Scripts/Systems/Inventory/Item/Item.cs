@@ -100,7 +100,7 @@ namespace Inventory
 		public virtual void SetTrigger(Vector3 target, bool held = true)
 		{
 			bool result = CanFire && held;
-			
+
 			if (!IsTriggerHeld && result)
 				SingleUse(target);
 
