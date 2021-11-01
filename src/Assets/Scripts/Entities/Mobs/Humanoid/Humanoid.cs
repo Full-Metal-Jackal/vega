@@ -91,11 +91,11 @@ public abstract class Humanoid : Mob
 	/// <summary>
 	/// The minimum AimDistance required to aim.
 	/// </summary>
-	public virtual float MinAimDistance => 1f;
+	public virtual float MinAimDistance => .75f;
 	/// <summary>
 	/// Additive distance for MinAimDistance to start aiming.
 	/// </summary>
-	public virtual float AimEnableDistance => 1f;
+	public virtual float AimEnableDistance => .1f;
 
 	private HoldType __holdType = null;
 	/// <summary>
@@ -272,10 +272,23 @@ public abstract class Humanoid : Mob
 	/// <param name="delta"></param>
 	protected virtual void UpdateAiming(float delta)
 	{
-		if (IsAiming &= AimDistance >= MinAimDistance)
+		Vector3 aimOrigin = transform.position + Vector3.up * AimHeight;
+		Vector3 horAimDir = AimPos - transform.position;
+		horAimDir.y = 0;
+		Ray ray = new Ray(aimOrigin, horAimDir);
+
+		float distance;
+		if (Physics.Raycast(ray, out RaycastHit hit, AimEnableDistance + MinAimDistance))
+			distance = hit.distance;
+		else
+			distance = horAimDir.magnitude;
+
+		print(distance);
+
+		if (IsAiming &= distance >= MinAimDistance)
 			TurnTo(delta, AimDir);
 		else
-			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+			IsAiming = distance >= AimEnableDistance + MinAimDistance;
 	}
 
 	public override void TurnTo(float delta, Vector3 rotateTo)

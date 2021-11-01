@@ -107,7 +107,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected bool shouldHoldTrigger = false;
 
 	public Vector3 AimDir => AimPos - transform.position;
-	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
 	protected readonly float movementHaltThreshold = .01f;
 
