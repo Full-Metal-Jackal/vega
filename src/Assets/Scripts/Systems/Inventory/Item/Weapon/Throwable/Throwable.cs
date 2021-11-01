@@ -38,11 +38,8 @@ public class Throwable : Item<Throwable>
 
 	private ItemModelData model;
 
-	public override void SingleUse(Vector3 target)
-	{
+	public override void SingleUse(Vector3 target) =>
 		Throw(target);
-		SetTrigger(target, false);
-	}
 
 	protected bool Throw(Vector3 target)
 	{
@@ -76,7 +73,6 @@ public class Throwable : Item<Throwable>
 
 	protected virtual void Update()
 	{
-		print(IsTriggerHeld);
 		Recharge(Time.deltaTime);
 	}
 
