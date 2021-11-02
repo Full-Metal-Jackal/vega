@@ -1286,8 +1286,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371965925}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 4.81, z: -4.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 17.67, y: 3.76, z: -5.11}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -2136,7 +2136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4649418097881579423, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693334909936306800, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -2443,6 +2443,10 @@ PrefabInstance:
     - target: {fileID: 4649418097881579423, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_Name
       value: Sec.Human (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649418097881579423, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693334909936306800, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -4444,6 +4448,10 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.00015720358
       objectReference: {fileID: 0}
+    - target: {fileID: 7845752995604743098, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: duration
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7984249030614607322, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_Radius
       value: 0.0012
@@ -4464,6 +4472,10 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.00000087171844
       objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: debugCube
+      value: 
+      objectReference: {fileID: 371965925}
     - target: {fileID: 8760109556910469680, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -0.08761709

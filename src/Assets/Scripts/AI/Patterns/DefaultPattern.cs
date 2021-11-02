@@ -22,6 +22,7 @@ namespace AI
 						aiManager.NavMeshAgent.enabled = true;
 						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
+						aiManager.debugCube.transform.position = pos;
 						aiManager.NavMeshAgent.SetDestination(pos);
 						aiManager.currentMovementRecoveryTime = aiManager.maxMovementRecoveryTime;
 					}
