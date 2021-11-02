@@ -21,9 +21,9 @@ namespace AI
 			NavMeshHit hit;
 			Vector3 pointInSphere = Random.insideUnitSphere * aiManager.maxAttackRange;
 			pointInSphere.y = 0;
-			Vector3 randomPoint = transform.position + pointInSphere;
+			//Vector3 randomPoint = transform.position + pointInSphere;
 
-			//aiManager.debugCube.transform.position = randomPoint;
+			Vector3 randomPoint = aiManager.currentTarget.transform.position + pointInSphere;
 
 			Vector3 newPosDir = (randomPoint - transform.position).normalized;
 			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
