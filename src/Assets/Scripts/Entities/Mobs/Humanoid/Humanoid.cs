@@ -40,9 +40,13 @@ public abstract class Humanoid : Mob
 	[field: SerializeField]
 	public float SprintSpeedFactor { get; private set; } = 1.5f;
 
-	[SerializeField]
-	private Transform rightHandSocket;
-	public override Transform ItemSocket => rightHandSocket;
+
+	[field: SerializeField]
+	public Transform LeftHandSocket { get; private set; }
+
+	[field: SerializeField]
+	public Transform RightHandSocket { get; private set; }
+	public override Transform ItemSocket => RightHandSocket;
 
 	private bool __isAiming = false;
 	/// <summary>
@@ -87,11 +91,11 @@ public abstract class Humanoid : Mob
 	/// <summary>
 	/// The minimum AimDistance required to aim.
 	/// </summary>
-	public virtual float MinAimDistance => 1f;
+	public virtual float MinAimDistance => .75f;
 	/// <summary>
 	/// Additive distance for MinAimDistance to start aiming.
 	/// </summary>
-	public virtual float AimEnableDistance => 1f;
+	public virtual float AimEnableDistance => .1f;
 
 	private HoldType __holdType = null;
 	/// <summary>
@@ -110,7 +114,7 @@ public abstract class Humanoid : Mob
 			if (__holdType)
 			{
 				// Works fine w/o position offset for now.
-				ItemSocket.localRotation = __holdType.SocketRotOffset;
+				// ItemSocket.localRotation = __holdType.SocketRotOffset;
 				animatorValue = __holdType.AnimatorValue;
 			}
 			Animator.SetInteger("HoldType", animatorValue);
@@ -169,6 +173,28 @@ public abstract class Humanoid : Mob
 		}
 	}
 	public bool HasAimableItem => ActiveItem && ActiveItem.IsAimable;
+
+	protected override void Awake()
+	{
+		base.Awake();
+
+		SocketFallback();
+	}
+
+	// A fallback for sockets assignement.
+	private void SocketFallback()
+	{
+		if (!RightHandSocket)
+		{
+			Debug.LogWarning($"{this} has no RightHandSocket assigned!");
+			RightHandSocket = Utils.FindChildRecursively(Animator.transform, "socket.hand.R");
+		}
+		if (!LeftHandSocket)
+		{
+			Debug.LogWarning($"{this} has no LeftHandSocket assigned!");
+			LeftHandSocket = Utils.FindChildRecursively(Animator.transform, "socket.hand.L");
+		}
+	}
 
 	public override void Move(float delta, Vector3 direction, bool affectY = false)
 	{
@@ -246,10 +272,21 @@ public abstract class Humanoid : Mob
 	/// <param name="delta"></param>
 	protected virtual void UpdateAiming(float delta)
 	{
-		if (IsAiming &= AimDistance >= MinAimDistance)
+		Vector3 aimOrigin = transform.position + Vector3.up * AimHeight;
+		Vector3 horAimDir = AimPos - transform.position;
+		horAimDir.y = 0;
+		Ray ray = new Ray(aimOrigin, horAimDir);
+
+		float distance;
+		if (Physics.Raycast(ray, out RaycastHit hit, AimEnableDistance + MinAimDistance))
+			distance = hit.distance;
+		else
+			distance = horAimDir.magnitude;
+
+		if (IsAiming &= distance >= MinAimDistance)
 			TurnTo(delta, AimDir);
 		else
-			IsAiming = AimDistance >= AimEnableDistance + MinAimDistance;
+			IsAiming = distance >= AimEnableDistance + MinAimDistance;
 	}
 
 	public override void TurnTo(float delta, Vector3 rotateTo)

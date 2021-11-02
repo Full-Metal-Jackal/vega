@@ -52,14 +52,22 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 
 	public void SetupHandsIkForItem(Inventory.Item item)
 	{
-		if (item && item.Model)
+		leftHandIkTarget = rightHandIkTarget = null;
+
+		if (!(item && item.Model))
+			return;
+
+		if (!(item.HoldType && item.HoldType.UsesHandIk))
+			return;
+
+		switch (item.HoldType.Socket)
 		{
+		case HoldType.SocketType.RightHand:
 			leftHandIkTarget = item.Model.LeftHandGrip;
+			break;
+		case HoldType.SocketType.LeftHand:
 			rightHandIkTarget = item.Model.RightHandGrip;
-		}
-		else
-		{
-			leftHandIkTarget = rightHandIkTarget = null;
+			break;
 		}
 	}
 
@@ -155,11 +163,10 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 				SetIkWeights(AvatarIKGoal.LeftHand, 0f);
 			}
 
-			Animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0f);
 			if (rightHandIkTarget)
 			{
-				Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, ikTransition);
-				Animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIkTarget.position);
+				SetIkWeights(AvatarIKGoal.RightHand, ikTransition);
+				SetIkTransform(AvatarIKGoal.RightHand, rightHandIkTarget);
 			}
 			else
 			{

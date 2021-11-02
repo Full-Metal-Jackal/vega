@@ -107,7 +107,6 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected bool shouldHoldTrigger = false;
 
 	public Vector3 AimDir => AimPos - transform.position;
-	public float AimDistance => HorizontalDistance(transform.position, AimPos);
 
 	protected readonly float movementHaltThreshold = .01f;
 
@@ -471,7 +470,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Gizmos.DrawRay(aimOrigin, AimPos - aimOrigin);
 		Gizmos.DrawWireSphere(AimPos, .1f);
 
-		Gizmos.color = Color.red;
-		Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
+		if (ItemSocket)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
+		}
 	}
 }

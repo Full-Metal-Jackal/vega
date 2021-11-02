@@ -68,4 +68,21 @@ public static class Utils
 	/// <param name="list">The array to pick from</param>
 	/// <returns>A random element from the array</returns>
 	public static T Pick<T>(T[] arr) => arr[Random.Range(0, arr.Length)];
+
+	/// <summary>
+	/// Searches for child transform of transfrom parent with given name.
+	/// </summary>
+	/// <param name="parent">Start point of the search.</param>
+	/// <param name="name">The name of the game object to find.</param>
+	public static Transform FindChildRecursively(Transform parent, string name)
+	{
+		if (parent.name.Equals(name))
+			return parent;
+
+		foreach (Transform child in parent)
+			if (FindChildRecursively(child, name) is Transform result)
+				return result;
+
+		return null;
+	}
 }

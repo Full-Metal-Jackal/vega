@@ -143,7 +143,7 @@ namespace Inventory
 				return;
 			}
 
-			if (!(Owner.ItemSocket is Transform socket))
+			if (!(HoldType.GetSocket(Owner) is Transform socket))
 			{
 				Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
 				return;
@@ -155,13 +155,12 @@ namespace Inventory
 				return;
 			}
 
-			Model = model;
-
-			if (Model.ParentingOffset)
+			if (model.ParentingOffset)
 			{
-				Model.transform.localRotation = Quaternion.Inverse(Model.ParentingOffset.localRotation);
-				Model.transform.localPosition = -Model.ParentingOffset.localPosition;
+				model.transform.localRotation = model.ParentingOffset.localRotation;
+				model.transform.localPosition = model.ParentingOffset.localPosition;
 			}
+			Model = model;
 
 			if (Owner.IsPlayer && ItemData.Cursor)
 				Cursor.SetCursor(
