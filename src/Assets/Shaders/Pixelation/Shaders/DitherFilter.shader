@@ -141,7 +141,7 @@ Shader "Pixelation/DepthDither"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl"
 
-			#include "Assets/Shaders/Pixelation/PixelationDefines.hlsl"
+			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
     
             #define DITHER_PRECISION 0.99
             int _PixelSize;  // <TODO> make friends with PIXEL_SIZE

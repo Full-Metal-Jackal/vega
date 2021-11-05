@@ -21,7 +21,7 @@ Shader "Unlit/DGPixelation"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-			#include "Assets/Shaders/Pixelation/PixelationDefines.hlsl"
+			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
             
 			#pragma vertex vert
 			#pragma fragment frag
