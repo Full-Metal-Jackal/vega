@@ -1,4 +1,4 @@
-Shader "Unlit/DGPixelation"
+Shader "Pixelation/DGPixelation"
 {
 	Properties 
 	{
@@ -73,12 +73,10 @@ Shader "Unlit/DGPixelation"
                 half4 col = half4(1, 0, 1, 0);
                 float nearestDepth = 0;
 
-                float searchOffset = PIXEL_SIZE / 2;
-                [unroll]
-				for (int v = -searchOffset; v < searchOffset; v++)
+                int searchOffset = PIXELATION_PIXEL_SIZE * 0.5f;
+				for (int v = -searchOffset; v <= searchOffset; v++)
 				{
-                    [unroll]
-					for (int u = -searchOffset; u < searchOffset; u++)
+					for (int u = -searchOffset; u <= searchOffset; u++)
 					{
                         float2 pixel = i.uv + float2(u, v) / _ScreenParams.xy;
                         float d = sampleDepth(pixel);

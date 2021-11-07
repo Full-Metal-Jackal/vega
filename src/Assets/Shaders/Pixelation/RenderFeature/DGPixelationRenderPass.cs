@@ -7,15 +7,14 @@ public class DGRenderPass : ScriptableRenderPass
 {
 	const string profilerTag = "DGPixelationPass";
 
-	private Material material;
+	private readonly Material material;
 
 	private RenderTargetIdentifier cameraColorTex, pixelTex, ditheredDepthTex;
-	static int ditheredDepthTexID = Shader.PropertyToID("_DitheredDepthTexture");
-	static int pixelTexID = Shader.PropertyToID("_PixelTex");
+	private static readonly int ditheredDepthTexID = Shader.PropertyToID("_DitheredDepthTexture");
+	private static readonly int pixelTexID = Shader.PropertyToID("_PixelTex");
 
-	// Madalaski tutorial
-	private ProfilingSampler dgProfilingSampler;
-	private ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
+	private readonly ProfilingSampler dgProfilingSampler;
+	private static readonly ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
 	private FilteringSettings filteringSettings;
 
 	public DGRenderPass(DGPixelationRenderFeature.Settings settings)
@@ -25,7 +24,8 @@ public class DGRenderPass : ScriptableRenderPass
 		renderPassEvent = settings.renderPassEvent;
 		filteringSettings = new FilteringSettings(
 			RenderQueueRange.all,  // <TODO> Might be related to transparent rendering issue.
-			settings.layerMask
+			settings.layerMask,
+			1u << (settings.rendererLayerMask - 1)
 		);
 		material = settings.material;
 	}
@@ -36,7 +36,7 @@ public class DGRenderPass : ScriptableRenderPass
 		
 		RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
 
-		descriptor.colorFormat = RenderTextureFormat.ARGB1555;
+		descriptor.colorFormat = RenderTextureFormat.ARGB4444;
 		cmd.GetTemporaryRT(pixelTexID, descriptor, FilterMode.Point);
 		pixelTex = new RenderTargetIdentifier(pixelTexID);
 

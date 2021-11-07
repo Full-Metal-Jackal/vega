@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 6934764484916982949}
   - component: {fileID: 6934764484916982874}
   - component: {fileID: 6934764484916982872}
-  - component: {fileID: 6934764484916982875}
   - component: {fileID: 6934764484916982948}
   m_Layer: 0
   m_Name: MainCamera
@@ -140,12 +139,12 @@ Camera:
   near clip plane: 0.01
   far clip plane: 1000
   field of view: 1.5
-  orthographic: 0
+  orthographic: 1
   orthographic size: 2.77
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 159
+    m_Bits: 1048599
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -165,19 +164,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6934764484916982873}
   m_Enabled: 1
---- !u!114 &6934764484916982875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6934764484916982873}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3b8b6aab3e70d40b323936b079cb36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: ea170e4f660dfd44f855299dab32c608, type: 2}
 --- !u!114 &6934764484916982948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorWeight: 0.33
-  supressCursor: 0
   inGameSmoothing: 0.04
   sceneSmoothing: 0.1
   positionTolerance: 0.02

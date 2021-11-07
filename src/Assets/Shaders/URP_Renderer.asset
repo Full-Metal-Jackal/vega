@@ -105,8 +105,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: -7721124549875331238}
+  - {fileID: 6308829078396462841}
   - {fileID: 3698535444805518936}
-  m_RendererFeatureMap: 5a0f2252210ed9945806d33064d65333
+  m_RendererFeatureMap: 5a0f2252210ed994f9e679069f768d575806d33064d65333
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -124,7 +125,7 @@ MonoBehaviour:
     m_Bits: 55
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 1048631
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -152,5 +153,26 @@ MonoBehaviour:
     renderPassEvent: 250
     layerMask:
       serializedVersion: 2
-      m_Bits: 1048576
+      m_Bits: 1048577
+    rendererLayerMask: 3
     material: {fileID: 2100000, guid: e5803fb354c7a37429f88a12a47fd562, type: 2}
+--- !u!114 &6308829078396462841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1468ccd1a53a4459a693d23d86283b, type: 3}
+  m_Name: CameraPixelation
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1048577
+    rendererLayerMask: 2
+    material: {fileID: 2100000, guid: fd242827f5efbf84a99a609ee3d4d557, type: 2}

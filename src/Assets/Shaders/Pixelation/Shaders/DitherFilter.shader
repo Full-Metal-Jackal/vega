@@ -1,4 +1,6 @@
-Shader "Pixelation/DepthDither"
+// This shader is basically a copy of URP Lit with some functions overriden.
+
+Shader "Pixelation/DitherFilter"
 {
     Properties
     {
@@ -77,7 +79,14 @@ Shader "Pixelation/DepthDither"
         // Universal Pipeline tag is required. If Universal render pipeline is not set in the graphics settings
         // this Subshader will fail. One can add a subshader below or fallback to Standard built-in to make this
         // material work with both Universal Render Pipeline and Builtin Unity Pipeline
-        Tags{"RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "UniversalMaterialType" = "Lit" "IgnoreProjector" = "True" "ShaderModel"="4.5"}
+        Tags
+        {
+            "RenderType" = "Opaque"
+            "RenderPipeline" = "UniversalPipeline"
+            "UniversalMaterialType" = "Lit"
+            "IgnoreProjector" = "True"
+            "ShaderModel"="4.5"
+        }
         LOD 300
 
         // ------------------------------------------------------------------
@@ -87,7 +96,10 @@ Shader "Pixelation/DepthDither"
             // Lightmode matches the ShaderPassName set in UniversalRenderPipeline.cs. SRPDefaultUnlit and passes with
             // no LightMode tag are also rendered by Universal Render Pipeline
             Name "ForwardLit"
-            Tags{"LightMode" = "UniversalForward"}
+            Tags
+            {
+                "LightMode" = "UniversalForward"
+            }
 
             Blend[_SrcBlend][_DstBlend]
             ZWrite[_ZWrite]
@@ -143,36 +155,13 @@ Shader "Pixelation/DepthDither"
 
 			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
     
-            #define DITHER_PRECISION 0.99
-            int _PixelSize;  // <TODO> make friends with PIXEL_SIZE
-
-            // <TODO> optimization needed!
-            // Original idea by Elliot Bentine.
-            inline float Dither(float4 posCS)
-            {
-                float2 originPosCS = mul(UNITY_MATRIX_MVP, float4(0, 0, 0, 1)).xy;
-                posCS.xy += originPosCS * half2(-0.5, 0.5) * _ScreenParams.xy;
-
-                int xfactor = step(
-                    fmod(
-                        abs(floor(posCS.x)),
-                        PIXEL_SIZE
-                    ), DITHER_PRECISION
-                );
-                int yfactor = step(
-                    fmod(
-                        abs(floor(posCS.y - PIXEL_SIZE)),
-                        PIXEL_SIZE
-                    ), DITHER_PRECISION
-                );
-
-                return xfactor * yfactor;
-            }
-
             half4 LitPassFragmentDither(Varyings input) : SV_Target
             {
                 clip(Dither(input.positionCS) - 1);
-                return LitPassFragment(input);
+
+                half4 col = LitPassFragment(input);
+                col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
+                return col;
             }
 
             ENDHLSL

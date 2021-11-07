@@ -9,6 +9,7 @@ public class DGPixelationRenderFeature : ScriptableRendererFeature
 	{
 		public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
 		public LayerMask layerMask = ~0;
+		public int rendererLayerMask = 1;
 		public Material material;
 	}
 	public Settings settings = new Settings();
