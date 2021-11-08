@@ -70,10 +70,6 @@ Shader "Pixelation/CameraPixelation"
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                depth = sampleDepth(input.uv);
-                return sampleColor(input.uv);
-                ////////////////////////////////////////////
-
                 int pixelSize = PIXELATION_PIXEL_SIZE;
 
                 // float4 cameraOffset = mul(
@@ -83,20 +79,29 @@ Shader "Pixelation/CameraPixelation"
 
                 // shit just won't work <TODO>
 
-                float4 cameraOffset = mul(
-                    UNITY_MATRIX_VP,
-                    // unity_CameraProjection,
-                    float4(_WorldSpaceCameraPos, 1)
-                );
-                cameraOffset *= half4(0.5f, -0.5f);
+                // float2 cameraOffset = mul(
+                //     // UNITY_MATRIX_V,
+                //     // UNITY_MATRIX_P,
+                //     // UNITY_MATRIX_VP,
+                //     // UNITY_MATRIX_MVP,
+
+                //     // UNITY_MATRIX_VP,
+
+                //     // unity_CameraProjection,
+                //     // float4(_WorldSpaceCameraPos, 1)
+                //     float4(0, 0, 0, 1)
+                // );
+                float2 cameraOffset = mul(unity_CameraInvProjection, float4(0, 0, 0, 1)).xy;
+                // cameraOffset *= half2(0.0f, -0.5f);
+                cameraOffset *= _ScreenParams;
 
                 float2 offset = -pixelSize * 0.5f;
                 offset.x += fmod(
-                    floor(input.vertex.x + cameraOffset.x * _ScreenParams.x * magicMul.x),
+                    floor(input.vertex.x + cameraOffset.x),
                     pixelSize
                 );
                 offset.y += fmod(
-                    floor(input.vertex.y + cameraOffset.y * _ScreenParams.y * magicMul.y),
+                    floor(input.vertex.y + cameraOffset.y),
                     pixelSize
                 );
                 offset /= _ScreenParams.xy;
