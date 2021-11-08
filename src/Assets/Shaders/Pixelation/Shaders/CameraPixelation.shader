@@ -30,7 +30,6 @@ Shader "Pixelation/CameraPixelation"
             SAMPLER(sampler_MainTex);
 
             TEXTURE2D(_CameraPixelationDepthTexture);
-            SAMPLER(sampler_CameraPixelationDepthTexture);
 
             struct Attributes
             {
@@ -63,7 +62,7 @@ Shader "Pixelation/CameraPixelation"
             }
             float sampleDepth(float2 uv)
             {
-                return SAMPLE_TEXTURE2D(_CameraPixelationDepthTexture, sampler_CameraPixelationDepthTexture, uv).x;
+                return SAMPLE_TEXTURE2D(_CameraPixelationDepthTexture, sampler_MainTex, uv).x;
             }
 
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
@@ -72,28 +71,9 @@ Shader "Pixelation/CameraPixelation"
 
                 int pixelSize = PIXELATION_PIXEL_SIZE;
 
-                // float4 cameraOffset = mul(
-                //     UNITY_MATRIX_VP,
-                //     float4(_WorldSpaceCameraPos, 1)
-                // );
-
                 // shit just won't work <TODO>
-
-                // float2 cameraOffset = mul(
-                //     // UNITY_MATRIX_V,
-                //     // UNITY_MATRIX_P,
-                //     // UNITY_MATRIX_VP,
-                //     // UNITY_MATRIX_MVP,
-
-                //     // UNITY_MATRIX_VP,
-
-                //     // unity_CameraProjection,
-                //     // float4(_WorldSpaceCameraPos, 1)
-                //     float4(0, 0, 0, 1)
-                // );
-                float2 cameraOffset = mul(unity_CameraInvProjection, float4(0, 0, 0, 1)).xy;
-                // cameraOffset *= half2(0.0f, -0.5f);
-                cameraOffset *= _ScreenParams;
+                float2 cameraOffset = mul(UNITY_MATRIX_MVP, float4(0, 0, 0, 1)).xy;
+                cameraOffset *= float2(-0.5, 0.5) * _ScreenParams.xy;
 
                 float2 offset = -pixelSize * 0.5f;
                 offset.x += fmod(
@@ -107,9 +87,12 @@ Shader "Pixelation/CameraPixelation"
                 offset /= _ScreenParams.xy;
 
                 float2 targetPixel = input.uv - offset;
-                depth = sampleDepth(targetPixel);
-                half4 col = sampleColor(targetPixel);
+                
+                // <TODO> Maybe implement same depth corner-only pixelation thing for the DGPixelation?
+                float d = sampleDepth(input.uv);
+                depth = d == 0 ? sampleDepth(targetPixel) : d;
 
+                half4 col = sampleColor(targetPixel);
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
                 return col;
             }

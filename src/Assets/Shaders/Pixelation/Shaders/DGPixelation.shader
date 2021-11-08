@@ -30,7 +30,6 @@ Shader "Pixelation/DGPixelation"
             SAMPLER(sampler_MainTex);
 
             TEXTURE2D(_DitheredDepthTexture);
-            SAMPLER(sampler_DitheredDepthTexture);
 
             struct Attributes
             {
@@ -63,7 +62,7 @@ Shader "Pixelation/DGPixelation"
             }
             float sampleDepth(float2 uv)
             {
-                return SAMPLE_TEXTURE2D(_DitheredDepthTexture, sampler_DitheredDepthTexture, uv).x;
+                return SAMPLE_TEXTURE2D(_DitheredDepthTexture, sampler_MainTex, uv).x;
             }
 
             half4 frag(Varyings i, out float depth : SV_Depth) : SV_Target 
