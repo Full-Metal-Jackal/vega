@@ -143,13 +143,23 @@ namespace Inventory
 				return;
 			}
 
-			if (!(HoldType.GetSocket(Owner) is Transform socket))
-			{
-				Debug.LogWarning($"Couldn't find socket for {this} in {Owner}.");
-				return;
-			}
+			if (ItemData && HoldType.GetSocket(Owner) is Transform socket)
+				SetupModel(socket);
 
-			if (!(ItemData.PasteModel(socket.transform) is ItemModelData model))
+			if (Owner.IsPlayer && ItemData && ItemData.Cursor)
+				Cursor.SetCursor(
+					ItemData.Cursor,
+					new Vector2(ItemData.Cursor.width / 2, ItemData.Cursor.height / 2),
+					CursorMode.Auto
+				);
+
+			IsTriggerHeld = false;
+			Owner.ActiveItem = this;
+		}
+
+		public virtual void SetupModel(Transform parent)
+		{
+			if (!(ItemData.PasteModel(parent) is ItemModelData model))
 			{
 				Debug.LogWarning($"{this} has invalid model setup: no ItemModelData detected.");
 				return;
@@ -161,17 +171,8 @@ namespace Inventory
 				model.transform.localPosition = model.ParentingOffset.localPosition;
 			}
 			Model = model;
-
-			if (Owner.IsPlayer && ItemData.Cursor)
-				Cursor.SetCursor(
-					ItemData.Cursor,
-					new Vector2(ItemData.Cursor.width / 2, ItemData.Cursor.height / 2),
-					CursorMode.Auto
-				);
-
-			IsTriggerHeld = false;
-			Owner.ActiveItem = this;
 		}
+		public void SetupModel() => SetupModel(transform);
 
 		protected virtual void Unequip()
 		{

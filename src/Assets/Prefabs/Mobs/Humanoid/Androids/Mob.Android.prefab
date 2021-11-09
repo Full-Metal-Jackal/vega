@@ -13,20 +13,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Robot Base
+  <CanHideWalls>k__BackingField: 0
   <MaxHealth>k__BackingField: 200
-  <Health>k__BackingField: 200
-  <Stamina>k__BackingField: 200
+  <Faction>k__BackingField: 1
+  __health: 0
+  __stamina: 0
   <MaxStamina>k__BackingField: 200
-  <Animator>k__BackingField: {fileID: 2795941060204793722}
+  <StaminaRegenSpeed>k__BackingField: 20
+  <StaminaRegenDelay>k__BackingField: 0.75
+  CanTakeCover: 0
   <MoveSpeed>k__BackingField: 200
+  turnsToMovementDirection: 1
   <MaxTurningSpeed>k__BackingField: 20
+  <AimHeight>k__BackingField: 1.7
   <WalkSpeedFactor>k__BackingField: 0.6
   <DodgeCooldown>k__BackingField: 2
   <DodgeStaminaCost>k__BackingField: 50
   <SprintStaminaCost>k__BackingField: 15
   <SprintSpeedFactor>k__BackingField: 1.5
-  rightHandSocket: {fileID: 0}
-  aimPosSmoothing: 0.2
+  <LeftHandSocket>k__BackingField: {fileID: 0}
+  <RightHandSocket>k__BackingField: {fileID: 0}
 --- !u!1001 &6316399873171731602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36,7 +42,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
       propertyPath: m_Name
-      value: Mob.Robot
+      value: Mob.Android
       objectReference: {fileID: 0}
     - target: {fileID: 2662829887086841173, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
       propertyPath: m_RootOrder
@@ -91,10 +97,5 @@ PrefabInstance:
 --- !u!1 &8622062584962711657 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2310315845271336187, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
-  m_PrefabInstance: {fileID: 6316399873171731602}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2795941060204793722 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8171062085197151208, guid: 59ec209dd01f2ba4d84aed9909abde75, type: 3}
   m_PrefabInstance: {fileID: 6316399873171731602}
   m_PrefabAsset: {fileID: 0}

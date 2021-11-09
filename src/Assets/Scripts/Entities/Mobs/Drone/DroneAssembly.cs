@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Circuitry;
 
-public class Drone : Mob
+public class DroneAssembly : Drone
 {
 	public Assembly assembly;
 }

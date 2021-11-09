@@ -4,6 +4,10 @@ public class LaserMinigun : EnergyGun
 {
 	private Transform barrelsBase;
 
+	private Transform[] barrels;
+	public override Transform Barrel => barrels[++currentBarrel % barrels.Length];
+	private int currentBarrel = 0;
+
 	/// <summary>
 	/// Measured in degrees per second.
 	/// </summary>
@@ -39,7 +43,10 @@ public class LaserMinigun : EnergyGun
 		base.Equip();
 
 		if (Model is MinigunModelData minigunModel)
+		{
 			barrelsBase = minigunModel.BarrelsBase;
+			barrels = minigunModel.Barrels;
+		}
 	}
 
 	protected override void Update()
