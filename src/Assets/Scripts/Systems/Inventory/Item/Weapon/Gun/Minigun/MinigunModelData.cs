@@ -10,9 +10,6 @@ public class MinigunModelData : GunModelData
 	[field: SerializeField]
 	public Transform BarrelsBase { get; private set; }
 
-   [SerializeField]
-	protected Transform[] barrels;
-
-	private int currentBarrel = 0;
-	public override Transform Barrel => barrels[++currentBarrel % barrels.Length];
+	[field: SerializeField]
+	public Transform[] Barrels { get; private set; }
 }

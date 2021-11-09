@@ -7,7 +7,9 @@ public class Gun : Weapon
 	public event Action OnAfterFire;
 	public event Action OnAfterReloaded;
 
-	public Transform Barrel { get; protected set; }
+	public virtual Transform Barrel { get; protected set; }
+
+	[field: SerializeField]
 	public GunSfxData SoundEffects { get; protected set; }
 
 	[field: SerializeField]
@@ -58,17 +60,17 @@ public class Gun : Weapon
 	{
 		base.Equip();
 
+		if (!SoundEffects && ItemData)
+			SetupSfx(); 
+
+		if (Model is GunModelData gunModel && !(Barrel = gunModel.Barrel))
+			Debug.LogWarning($"{this} has invalid GunModelData: couldn't locate Barrel transform.");
+	}
+
+	protected void SetupSfx()
+	{
 		if (!(SoundEffects = ItemData.PasteSfx(Model.transform) as GunSfxData))
 			Debug.LogError($"{this} has no GunSfxData assigned.");
-
-		if (!(Model is GunModelData gunModel) || !gunModel.Barrel)
-		{
-			Debug.LogWarning($"{this} has invalid GunModelData: couldn't locate Barrel transform.");
-			Barrel = Model.transform;
-			return;
-		}
-
-		Barrel = gunModel.Barrel;
 	}
 
 	public override bool Reload()
@@ -107,7 +109,7 @@ public class Gun : Weapon
 
 	public virtual bool PreFire(ref Vector3 direction)
 	{
-		if (AmmoCount <= 0)
+		if (!ConsumeAmmo())
 		{
 			OnNoAmmo();
 			return false;
@@ -119,8 +121,20 @@ public class Gun : Weapon
 				Barrel.up
 			) * direction;
 
-		AmmoCount--;
 
+		return true;
+	}
+
+	/// <summary>
+	/// Tries to consume the gun's ammo.
+	/// </summary>
+	/// <returns>true if the ammo has been consumed successfully, false otherwise.</returns>
+	public virtual bool ConsumeAmmo()
+	{
+		if (AmmoCount <= 0)
+			return false;
+
+		AmmoCount--;
 		return true;
 	}
 

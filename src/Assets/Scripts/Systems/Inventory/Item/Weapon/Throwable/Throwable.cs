@@ -94,7 +94,6 @@ public class Throwable : Item<Throwable>
 	}
 
 	// Creates model to reparent to the projectile later.
-	public void SetupModel(Transform parent) =>
+	public override void SetupModel(Transform parent) =>
 		model = ItemData.PasteModel(parent);
-	public void SetupModel() => SetupModel(transform);
 }
