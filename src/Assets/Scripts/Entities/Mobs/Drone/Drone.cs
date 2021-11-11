@@ -5,7 +5,7 @@ using UnityEngine;
 public class Drone : Mob
 {
 	[field: SerializeField]
-	private List<Transform> Aimables = new List<Transform>();
+	protected Transform AimPosTransform { get; private set; }
 
 	[field: SerializeField]
 	public Gun DroneGun { get; protected set; }
@@ -16,11 +16,7 @@ public class Drone : Mob
 		set
 		{
 			base.AimPos = value;
-			
-			foreach (Transform aimable in Aimables)
-			{
-				aimable.up = AimPos - aimable.position;
-			}
+			AimPosTransform.position = AimPos;
 		}
 	}
 
@@ -29,12 +25,28 @@ public class Drone : Mob
 		base.Move(delta, direction, affectY);
 
 		TurnTo(delta, AimDir);
+		UpdateAnimations();
+	}
+
+	protected virtual void UpdateAnimations()
+	{
+		Vector3 horDir = transform.forward;
+		horDir.y = 0;
+
+		Vector3 movementDir = Quaternion.AngleAxis(
+				Vector3.SignedAngle(horDir, activeDirection, Vector3.up),
+				Vector3.up
+			) * Vector3.forward;
+		movementDir *= Body.velocity.magnitude;  // / MoveSpeed;
+
+		Animator.SetFloat("MovementSide", movementDir.x);
+		Animator.SetFloat("MovementForward", movementDir.z);
 	}
 
 	protected override void Start()
 	{
 		base.Start();
 
-		print($"picked up {PickUpItem(DroneGun)}, {ActiveItem}");
+		PickUpItem(DroneGun);
 	}
 }
