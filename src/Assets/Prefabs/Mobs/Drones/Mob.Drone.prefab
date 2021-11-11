@@ -1,33 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &368228564536663330
-MonoBehaviour:
+--- !u!1 &4068645316253168488
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8623003264516372350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cb94bdcde4cea4fb2381acc29e491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Name>k__BackingField: Drone Base
-  <CanHideWalls>k__BackingField: 0
-  <MaxHealth>k__BackingField: 50
-  <Faction>k__BackingField: 0
-  __health: 0
-  __stamina: 0
-  <MaxStamina>k__BackingField: 100
-  <StaminaRegenSpeed>k__BackingField: 20
-  <StaminaRegenDelay>k__BackingField: 0.75
-  CanTakeCover: 0
-  <MoveSpeed>k__BackingField: 300
-  turnsToMovementDirection: 0
-  <MaxTurningSpeed>k__BackingField: 10
-  <AimHeight>k__BackingField: 1.7
-  Aimables: []
-  <DroneGun>k__BackingField: {fileID: 9150540476914378396}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6120500065991089621}
+  m_Layer: 0
+  m_Name: AimPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6120500065991089621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068645316253168488}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.055, y: 0.392, z: 1.226}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8079940095630238231}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4857563035059875138
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +288,47 @@ MonoBehaviour:
   <Fire>k__BackingField: {fileID: 0}
   <DryFire>k__BackingField: {fileID: 0}
   <Reload>k__BackingField: {fileID: 0}
+--- !u!114 &368228564536663330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623003264516372350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0cb94bdcde4cea4fb2381acc29e491a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Drone Base
+  <CanHideWalls>k__BackingField: 0
+  <MaxHealth>k__BackingField: 50
+  <Faction>k__BackingField: 0
+  __health: 0
+  __stamina: 0
+  <MaxStamina>k__BackingField: 100
+  <StaminaRegenSpeed>k__BackingField: 20
+  <StaminaRegenDelay>k__BackingField: 0.75
+  CanTakeCover: 0
+  <MoveSpeed>k__BackingField: 300
+  turnsToMovementDirection: 0
+  <MaxTurningSpeed>k__BackingField: 10
+  <AimHeight>k__BackingField: 1.7
+  <AimPosTransform>k__BackingField: {fileID: 6120500065991089621}
+  <DroneGun>k__BackingField: {fileID: 9150540476914378396}
+--- !u!114 &6731160150075814575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8893032674924017837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acc340d786aed648ba9a2fe7115e0fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constraints: []
 --- !u!1001 &1903038870342251630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -361,11 +404,22 @@ PrefabInstance:
       propertyPath: <Slots>k__BackingField.Array.data[0]
       value: 
       objectReference: {fileID: 7116503514419601473}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3755270706502844177, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
 --- !u!1 &8623003264516372350 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7909442504868135696, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
+  m_PrefabInstance: {fileID: 1903038870342251630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8893032674924017837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6990314346581265603, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
+  m_PrefabInstance: {fileID: 1903038870342251630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8079940095630238231 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7658728989514225273, guid: aa1bc6ac452bb0e47a2a2c2d0d7c45b2, type: 3}
   m_PrefabInstance: {fileID: 1903038870342251630}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &3268078158582065284 stripped

@@ -1,18 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
-public class DroneAnimationHandler : MonoBehaviour
+public class DroneAnimationHandler : MobAnimationHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField]
+	private List<LookAtConstraint> constraints = new List<LookAtConstraint>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public bool AnimationsEnabled
+	{
+		set
+		{
+			foreach (LookAtConstraint constraint in constraints)
+			{
+				constraint.weight = value ? 1f : 0f;
+				constraint.enabled = value;
+			}
+		}
+	}
 }
