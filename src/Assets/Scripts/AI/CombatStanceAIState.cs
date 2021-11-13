@@ -26,25 +26,33 @@ namespace AI
 		public override AIState Tick(AIManager aiManager, Mob mob)
 		{
 			//Сбор информации об окружении на текущий тик
-			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
-			Dictionary<string, float> data = CollectData(aiManager);
-
-			//Выбрать паттерн исходя их собранной информации
-
-			CombatPattern pattern = SelectPattern(aiManager, data);
-
-			//Выполнить паттерн
-
-			float timer = 0;
-			while(timer < pattern.duration)
+			if (aiManager.PatternRecoveryTime <= 0)
 			{
-				pattern.Tick(aiManager, mob);
-				timer++;
-				AttackAction(aiManager, mob);
-			}
+				aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+				Dictionary<string, float> data = CollectData(aiManager);
 
+				//Выбрать паттерн исходя их собранной информации
+
+				CombatPattern pattern = SelectPattern(aiManager, data);
+				aiManager.PatternRecoveryTime = pattern.duration;
+
+				//Выполнить паттерн
+
+				aiManager.currentPattern = pattern;
+			}
+			
 			//Повторить
 
+			if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
+			{
+				aiManager.NavMeshAgent.enabled = false;
+				aiManager.NavMeshObstacle.enabled = true;
+				return chaseState;
+			}
+			else
+			{
+				return this;
+			}
 
 			/*
 
@@ -126,7 +134,7 @@ namespace AI
 				return this;
 			}
 			*/
-			return chaseState;
+
 		}
 
 		private CombatPattern SelectPattern(AIManager aiManager, Dictionary<string, float> data)

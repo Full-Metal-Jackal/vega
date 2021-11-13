@@ -13,6 +13,8 @@ namespace AI
 		public bool CanSeeTarget { get; private set; }
 		private Mob mob;
 		private float currentRecoveryTime = 0;
+		private float patternRecoveryTime = 0;
+
 
 		[HideInInspector]
 		public bool isPerfomingAction;
@@ -29,6 +31,8 @@ namespace AI
 		[HideInInspector]
 		public CoverSpot currentCover;
 
+		public CombatPattern currentPattern;
+
 		private int obstacleLayer;
 
 		private const float rangeCoefficient = 0.5f;
@@ -40,8 +44,17 @@ namespace AI
 			set => currentRecoveryTime = value; 
 		}
 
+		public float PatternRecoveryTime
+		{
+			get => patternRecoveryTime;
+			set => patternRecoveryTime = value;
+		}
+
 		[field: SerializeField]
 		public ItemData StartItemData { get; private set; }
+
+		[field: SerializeField]
+		public GameObject debugCube;
 
 		[Header("A.I Settings")]
 		public float detectionRadius = 5;
@@ -96,6 +109,7 @@ namespace AI
 			CheckTargetVisibility();
 			CheckIfInCover();
 			HandleStateMachine(delta);
+			HandlePattern(delta);
 			HandleRecoveryTime(delta);
 		}
 
@@ -109,6 +123,14 @@ namespace AI
 				{
 					SwitchToNextState(nextState);
 				}
+			}
+		}
+
+		private void HandlePattern(float delta)
+		{
+			if (currentPattern != null)
+			{
+				currentPattern.Tick(this, mob);
 			}
 		}
 
@@ -131,6 +153,11 @@ namespace AI
 			if (currentMovementRecoveryTime > 0)
 			{
 				currentMovementRecoveryTime -= delta;
+			}
+			
+			if (patternRecoveryTime > 0)
+			{
+				patternRecoveryTime -= delta;
 			}
 		}
 
