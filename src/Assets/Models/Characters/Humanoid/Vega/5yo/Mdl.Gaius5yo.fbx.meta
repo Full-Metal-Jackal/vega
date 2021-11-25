@@ -55,11 +55,75 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Avatar creation failed:\n\tParent for 'finger.0.0.L' differs
-      from one found in HumanDescription. 'palm.0.L' was found instead of 'palm.0.L.001'.\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Gaius5yo|dancing_around_happily' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'shoulder.L' has translation
+      animation that will be discarded.\n\t'palm.0.L' has translation animation that
+      will be discarded.\n\t'palm.0.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.0.0.L' has translation animation
+      that will be discarded.\n\t'palm.1.L' has translation animation that will be
+      discarded.\n\t'palm.1.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.1.0.L' has translation animation
+      that will be discarded.\n\t'palm.2.L' has translation animation that will be
+      discarded.\n\t'palm.2.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.2.0.L' has translation animation
+      that will be discarded.\n\t'palm.3.L' has translation animation that will be
+      discarded.\n\t'palm.3.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.3.0.L' has translation animation
+      that will be discarded.\n\t'shoulder.R' has translation animation that will
+      be discarded.\n\nClip 'Gaius5yo|jump_out_of_narnia' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'shoulder.L' has translation animation that
+      will be discarded.\n\t'palm.0.L' has translation animation that will be discarded.\n\t'palm.0.L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'finger.0.0.L'
+      has translation animation that will be discarded.\n\t'palm.1.L' has translation
+      animation that will be discarded.\n\t'palm.1.L' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'finger.1.0.L' has translation
+      animation that will be discarded.\n\t'palm.2.L' has translation animation that
+      will be discarded.\n\t'palm.2.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.2.0.L' has translation animation
+      that will be discarded.\n\t'palm.3.L' has translation animation that will be
+      discarded.\n\t'palm.3.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.3.0.L' has translation animation
+      that will be discarded.\n\t'shoulder.R' has translation animation that will
+      be discarded.\n\t'finger.0.0.R' has translation animation that will be discarded.\n\t'palm.1.R'
+      has translation animation that will be discarded.\n\t'palm.1.R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'finger.1.0.R'
+      has translation animation that will be discarded.\n\t'palm.2.R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'finger.2.0.R'
+      has translation animation that will be discarded.\n\t'palm.3.R' has translation
+      animation that will be discarded.\n\t'palm.3.R' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'finger.3.0.R' has translation
+      animation that will be discarded.\n\t'thigh.L' has translation animation that
+      will be discarded.\n\t'thigh.R' has translation animation that will be discarded.\n\nClip
+      'Gaius5yo|step_out_of_narnia' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'shoulder.L' has translation animation that will be discarded.\n\t'palm.0.L'
+      has translation animation that will be discarded.\n\t'palm.0.L' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'finger.0.0.L'
+      has translation animation that will be discarded.\n\t'palm.1.L' has translation
+      animation that will be discarded.\n\t'palm.1.L' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'finger.1.0.L' has translation
+      animation that will be discarded.\n\t'palm.2.L' has translation animation that
+      will be discarded.\n\t'palm.2.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.2.0.L' has translation animation
+      that will be discarded.\n\t'palm.3.L' has translation animation that will be
+      discarded.\n\t'palm.3.L' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'finger.3.0.L' has translation animation
+      that will be discarded.\n\t'shoulder.R' has translation animation that will
+      be discarded.\n\t'finger.0.0.R' has translation animation that will be discarded.\n\t'palm.1.R'
+      has translation animation that will be discarded.\n\t'palm.1.R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'finger.1.0.R'
+      has translation animation that will be discarded.\n\t'palm.2.R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'finger.2.0.R'
+      has translation animation that will be discarded.\n\t'palm.3.R' has translation
+      animation that will be discarded.\n\t'palm.3.R' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'finger.3.0.R' has translation
+      animation that will be discarded.\n\t'thigh.L' has translation animation that
+      will be discarded.\n\t'thigh.R' has translation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -87,8 +151,8 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -108,7 +172,7 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 51
       wrapMode: 0
-      orientationOffsetY: 180
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
@@ -116,9 +180,9 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
