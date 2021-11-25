@@ -19,6 +19,7 @@ namespace Scenario
 		private Vector3 lookVelocity;
 
 		public void LookAt(GameObject target) => LookAt(target.transform.position);
+		public void LookAt(Mob mob) => LookAt(mob.transform.position + Vector3.up*mob.AimHeight);
 
 		public void LookAt(Vector3 target)
 		{

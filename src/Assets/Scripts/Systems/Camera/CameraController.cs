@@ -176,7 +176,11 @@ public class CameraController : MonoSingleton<CameraController>
 	// There are separate methods because unity won't serialize 2 arguments by default.
 	public void AddPOI(GameObject poi) => AddPOI(poi.transform, 1f);
 	public void AddPOI(GameObject poi, float weight) => AddPOI(poi.transform, weight);
-	public void AddPOI(Transform poi, float weight = 1f) => points.Add(poi, weight);
+	public void AddPOI(Transform poi, float weight = 1f)
+	{
+		if (!points.ContainsKey(poi))
+			points.Add(poi, weight);
+	}
 
 	public bool RemovePOI(GameObject poi) => RemovePOI(poi.transform);
 	public bool RemovePOI(Transform poi) => points.Remove(poi);
