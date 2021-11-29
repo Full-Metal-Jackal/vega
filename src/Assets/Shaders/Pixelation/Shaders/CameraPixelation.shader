@@ -72,24 +72,20 @@ Shader "Pixelation/CameraPixelation"
                 int pixelSize = PIXELATION_PIXEL_SIZE;
                 pixelSize = 1;
 
-                float4 pos = float4(0, 0, 0, 1);// float4(_WorldSpaceCameraPos, 1);
-                // float2 cameraOffset = mul(unity_CameraProjection, pos).xy;
-                float2 cameraOffset = mul(unity_CameraProjection, pos).xy;
+                float4 pos = float4(0, 0, 0, 1);
+                pos = float4(_WorldSpaceCameraPos, 1);
+                pos = mul(unity_WorldToObject, pos);
+                // pos = mul(unity_ObjectToWorld, pos);
+                // pos = mul(UNITY_MATRIX_MVP, pos);
+                pos = mul(unity_CameraProjection, pos);
+                float2 cameraOffset = pos.xy;
                 cameraOffset *= _ScreenParams.xy * float2(0.5, 0.5);
 
                 float2 offset = -pixelSize * 0.5f;
-                offset.x += fmod(
-                    floor(input.vertex.x + cameraOffset.x),
+                offset += fmod(
+                    floor(input.vertex.xy + cameraOffset),
                     pixelSize
                 );
-                offset.y += fmod(
-                    floor(input.vertex.y + cameraOffset.y),
-                    pixelSize
-                );
-                // offset += fmod(
-                //     floor(input.vertex + cameraOffset),
-                //     pixelSize
-                // );
                 offset /= _ScreenParams.xy;
 
                 float2 targetPixel = input.uv - offset;
@@ -102,8 +98,8 @@ Shader "Pixelation/CameraPixelation"
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
 
                 // Pixelation offset testing
-                float2 gridOffset = fmod(floor(input.vertex + cameraOffset), 32);
-                offset /= _ScreenParams.xy;
+                float2 gridOffset = fmod(floor(input.vertex.xy + cameraOffset), 32);
+                gridOffset /= _ScreenParams.xy;
                 if (gridOffset.x * gridOffset.y == 0)
                     return float4(0, 1, 0, 1);
 
