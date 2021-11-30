@@ -17,16 +17,19 @@ Shader "Pixelation/CameraPixelation"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
 
-            CGPROGRAM
+            HLSLPROGRAM
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+
+			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
             
 			#pragma vertex vert
 			#pragma fragment frag
 
-            #include "UnityCG.cginc"
-            #include "PixelationDefines.hlsl"
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
 
-            sampler2D _MainTex;
-            sampler2D _CameraPixelationDepthTexture;
+            TEXTURE2D(_CameraPixelationDepthTexture);
 
             struct Attributes
             {
@@ -38,13 +41,16 @@ Shader "Pixelation/CameraPixelation"
             {
                 float2 uv        : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                UNITY_VERTEX_OUTPUT_STEREO
             };
             
             Varyings vert(Attributes input)
             {
                 Varyings output = (Varyings)0;
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
-                output.vertex = UnityObjectToClipPos(input.positionOS.xyz);
+                VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+                output.vertex = vertexInput.positionCS;
                 output.uv = input.uv;
 
                 return output;
@@ -52,40 +58,26 @@ Shader "Pixelation/CameraPixelation"
             
             half4 sampleColor(float2 uv)
             {
-                return tex2D(_MainTex, uv);
+                return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
             }
             float sampleDepth(float2 uv)
             {
-                return tex2D(_CameraPixelationDepthTexture, uv);
+                return SAMPLE_TEXTURE2D(_CameraPixelationDepthTexture, sampler_MainTex, uv).x;
             }
 
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
                 int pixelSize = PIXELATION_PIXEL_SIZE;
                 pixelSize = 1;
 
-                float4 pos = float4(1, 1, 1, 1);
-
-                // pos = mul(unity_WorldToObject, pos);
-                // pos = UnityObjectToClipPos(pos);
-                
-                // The Jedi way
-                // /*
-                // pos = float4(-_WorldSpaceCameraPos, 1);
-                pos = mul(unity_WorldToObject, pos);
-                pos = mul(unity_CameraProjection, pos);
-                // */
-
-                // The API projection way
-                /*
+                float4 pos = float4(0, 0, 0, 1);
                 pos = float4(_WorldSpaceCameraPos, 1);
-                pos = mul(UNITY_MATRIX_P, pos);
-                pos.xy *= float2(-0.5, 0.5);
-                // */
-                
-                // pos = ComputeScreenPos(pos);
-                // pos.xy *= _ScreenParams.xy;
-
+                pos = mul(unity_WorldToObject, pos);
+                // pos = mul(unity_ObjectToWorld, pos);
+                // pos = mul(UNITY_MATRIX_MVP, pos);
+                pos = mul(unity_CameraProjection, pos);
                 float2 cameraOffset = pos.xy;
                 cameraOffset *= _ScreenParams.xy * float2(0.5, 0.5);
 
@@ -114,7 +106,7 @@ Shader "Pixelation/CameraPixelation"
                 return col;
             }
 
-			ENDCG
+			ENDHLSL
 		}
         
 	} 
