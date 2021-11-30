@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
 
 public class GrenadeProjectile : ThrowableProjectile
 {
@@ -7,6 +8,10 @@ public class GrenadeProjectile : ThrowableProjectile
 
 	[SerializeField]
 	private float detonationTime = 3f;
+
+	[SerializeField]
+	private VisualEffect explosionEffect;
+	const float explosionLife = 3f;
 
 	private float life;
 
@@ -46,6 +51,13 @@ public class GrenadeProjectile : ThrowableProjectile
 			{
 				collider.attachedRigidbody.AddExplosionForce(damage.force, explosionPos, explosionRadius);
 			}
+		}
+
+		if (explosionEffect)
+		{
+			explosionEffect.transform.SetParent(Containers.Instance.Items);
+			explosionEffect.Play();
+			Destroy(explosionEffect.gameObject, explosionLife);
 		}
 
 		Suicide();
