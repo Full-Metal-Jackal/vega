@@ -18,18 +18,21 @@ Shader "Pixelation/CameraPixelation"
             ZWrite On
 
             HLSLPROGRAM
+            
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
-            
+
 			#pragma vertex vert
 			#pragma fragment frag
-
+            
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
             TEXTURE2D(_CameraPixelationDepthTexture);
+
+            float2 _CameraOffset;
 
             struct Attributes
             {
@@ -41,13 +44,11 @@ Shader "Pixelation/CameraPixelation"
             {
                 float2 uv        : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                UNITY_VERTEX_OUTPUT_STEREO
             };
             
             Varyings vert(Attributes input)
             {
                 Varyings output = (Varyings)0;
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
                 VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
                 output.vertex = vertexInput.positionCS;
@@ -67,21 +68,15 @@ Shader "Pixelation/CameraPixelation"
 
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
             {
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-
                 int pixelSize = PIXELATION_PIXEL_SIZE;
-
-                // shit just won't work <TODO>
-                float2 cameraOffset = mul(UNITY_MATRIX_MVP, float4(0, 0, 0, 1)).xy;
-                cameraOffset *= float2(-0.5, 0.5) * _ScreenParams.xy;
 
                 float2 offset = -pixelSize * 0.5f;
                 offset.x += fmod(
-                    floor(input.vertex.x + cameraOffset.x),
+                    floor(input.vertex.x + _CameraOffset.x),
                     pixelSize
                 );
                 offset.y += fmod(
-                    floor(input.vertex.y + cameraOffset.y),
+                    floor(input.vertex.y + _CameraOffset.y),
                     pixelSize
                 );
                 offset /= _ScreenParams.xy;
@@ -90,10 +85,19 @@ Shader "Pixelation/CameraPixelation"
                 
                 // <TODO> Maybe implement same depth corner-only pixelation thing for the DGPixelation?
                 float d = sampleDepth(input.uv);
-                depth = d == 0 ? sampleDepth(targetPixel) : d;
+                depth = (d == 0) ? sampleDepth(targetPixel) : d;
 
                 half4 col = sampleColor(targetPixel);
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
+
+                // Pixelation offset testing
+                /*
+                float2 gridOffset = fmod(floor(input.vertex.xy + _CameraOffset), 32);
+                gridOffset /= _ScreenParams.xy;
+                if (gridOffset.x * gridOffset.y == 0)
+                    return float4(0, 1, 0, 1);
+                */
+
                 return col;
             }
 

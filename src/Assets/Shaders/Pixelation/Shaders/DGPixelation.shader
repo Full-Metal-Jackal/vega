@@ -47,7 +47,6 @@ Shader "Pixelation/DGPixelation"
             Varyings vert(Attributes input)
             {
                 Varyings output = (Varyings)0;
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
                 VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
                 output.vertex = vertexInput.positionCS;
@@ -67,8 +66,6 @@ Shader "Pixelation/DGPixelation"
 
             half4 frag(Varyings i, out float depth : SV_Depth) : SV_Target 
             {
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-
                 half4 col = half4(1, 0, 1, 0);
                 float nearestDepth = 0;
 

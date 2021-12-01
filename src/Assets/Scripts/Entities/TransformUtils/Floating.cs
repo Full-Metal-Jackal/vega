@@ -21,6 +21,6 @@ public class Floating : MonoBehaviour
 	private void Update()
 	{
 		float shift = floatingRange * Mathf.Cos(Time.time * floatingSpeed);
-		transform.position += direction * Time.deltaTime * shift;
+		transform.position += (transform.rotation * (Time.deltaTime * direction)) * shift;
 	}
 }
