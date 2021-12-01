@@ -30,7 +30,7 @@ Shader "Pixelation/CameraPixelation"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
-            TEXTURE2D(_DitheredDepthTexture);
+            TEXTURE2D(_CameraPixelationDepthTexture);
 
             float2 _CameraOffset;
 
@@ -63,7 +63,7 @@ Shader "Pixelation/CameraPixelation"
             }
             float sampleDepth(float2 uv)
             {
-                return SAMPLE_TEXTURE2D(_DitheredDepthTexture, sampler_MainTex, uv).x;
+                return SAMPLE_TEXTURE2D(_CameraPixelationDepthTexture, sampler_MainTex, uv).x;
             }
 
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
@@ -84,13 +84,11 @@ Shader "Pixelation/CameraPixelation"
                 float2 targetPixel = input.uv - offset;
                 
                 // <TODO> Maybe implement same depth corner-only pixelation thing for the DGPixelation?
-                // float d = sampleDepth(input.uv);
-                // depth = (d == 0) ? sampleDepth(targetPixel) : d;
-                depth = sampleDepth(targetPixel);
+                float d = sampleDepth(input.uv);
+                depth = (d == 0) ? sampleDepth(targetPixel) : d;
 
                 half4 col = sampleColor(targetPixel);
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
-                // col = float4((d == 0) ? sampleDepth(targetPixel) : d, 0, 0, 1);
 
                 // Pixelation offset testing
                 /*
