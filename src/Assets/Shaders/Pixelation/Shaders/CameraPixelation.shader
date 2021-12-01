@@ -3,6 +3,8 @@ Shader "Pixelation/CameraPixelation"
 	Properties 
 	{
 	    [HideInInspector] _MainTex ("BaseMap", 2D) = "white" {}
+	    [HideInInspector] _CameraRotation ("CameraRotation", Vector) = (1, 0, 0, 0)
+	    [HideInInspector] _RotatedCamPos ("RotatedCameraPosition", Vector) = (0, 0, 0, 0)
 	}
 	SubShader 
 	{
@@ -27,6 +29,8 @@ Shader "Pixelation/CameraPixelation"
 
             sampler2D _MainTex;
             sampler2D _CameraPixelationDepthTexture;
+            float4 _CameraRotation;
+            float3 _RotatedCamPos;
 
             struct Attributes
             {
@@ -59,32 +63,41 @@ Shader "Pixelation/CameraPixelation"
                 return tex2D(_CameraPixelationDepthTexture, uv);
             }
 
+            // from https://gist.github.com/patricknelson/f4dcaedda9eea5f5cf2c359f68aa35fd
+            float4 multQuat(float4 q1, float4 q2) {
+                return float4(
+                    q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z,
+                    q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x,
+                    q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y,
+                    q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+                );
+            }
+            // from https://gist.github.com/patricknelson/f4dcaedda9eea5f5cf2c359f68aa35fd
+            float3 rotateVector(float4 quat, float3 vec) {
+                float4 qv = multQuat(
+                    quat,
+                    float4(vec, 0.0)
+                );
+                return multQuat(
+                    qv,
+                    float4(-quat.x, -quat.y, -quat.z, quat.w)
+                ).xyz;
+            }
+
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
             {
                 int pixelSize = PIXELATION_PIXEL_SIZE;
-                pixelSize = 1;
 
                 float4 pos = float4(1, 1, 1, 1);
 
-                // pos = mul(unity_WorldToObject, pos);
-                // pos = UnityObjectToClipPos(pos);
-                
-                // The Jedi way
-                // /*
-                // pos = float4(-_WorldSpaceCameraPos, 1);
-                pos = mul(unity_WorldToObject, pos);
+                // pos = float4(_WorldSpaceCameraPos, 1);
+                // pos.xyz = rotateVector(
+                //     _CameraRotation,
+                //     pos
+                // );
+                pos.xyz = _RotatedCamPos; 
+                pos.y *= -1;
                 pos = mul(unity_CameraProjection, pos);
-                // */
-
-                // The API projection way
-                /*
-                pos = float4(_WorldSpaceCameraPos, 1);
-                pos = mul(UNITY_MATRIX_P, pos);
-                pos.xy *= float2(-0.5, 0.5);
-                // */
-                
-                // pos = ComputeScreenPos(pos);
-                // pos.xy *= _ScreenParams.xy;
 
                 float2 cameraOffset = pos.xy;
                 cameraOffset *= _ScreenParams.xy * float2(0.5, 0.5);

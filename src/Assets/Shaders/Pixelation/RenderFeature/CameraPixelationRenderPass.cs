@@ -12,6 +12,7 @@ public class CameraPixelationRenderPass : ScriptableRenderPass
 	private RenderTargetIdentifier cameraColorTex, pixelTex, ditheredDepthTex;
 	private static readonly int ditheredDepthTexID = Shader.PropertyToID("_CameraPixelationDepthTexture");
 	private static readonly int pixelTexID = Shader.PropertyToID("_CameraPixelTex");
+	private static readonly int cameraRotationID = Shader.PropertyToID("_CameraRotation");
 
 	private readonly ProfilingSampler cameraPixelationProfilingSampler;
 	private static readonly ShaderTagId shaderTagId = new ShaderTagId("UniversalForward");
@@ -68,6 +69,16 @@ public class CameraPixelationRenderPass : ScriptableRenderPass
 			context.ExecuteCommandBuffer(cmd);
 			cmd.Clear();
 
+			Quaternion rotation = Camera.main.transform.rotation;
+			Vector4 rotVec = new Vector4(
+				-rotation.w,
+				-rotation.z,
+				rotation.y,
+				rotation.x
+			);
+			Debug.Log($"{rotVec.x}   {rotVec.y}   {rotVec.z}   {rotVec.w}");
+			//Shader.SetGlobalVector(cameraRotationID, rotVec);
+			material.SetVector(cameraRotationID, rotVec);
 			context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref filteringSettings);
 			cmd.Blit(pixelTex, cameraColorTex, material);
 
