@@ -3,8 +3,6 @@ Shader "Pixelation/CameraPixelation"
 	Properties 
 	{
 	    [HideInInspector] _MainTex ("BaseMap", 2D) = "white" {}
-	    [HideInInspector] _CameraRotation ("CameraRotation", Vector) = (1, 0, 0, 0)
-	    [HideInInspector] _RotatedCamPos ("RotatedCameraPosition", Vector) = (0, 0, 0, 0)
 	}
 	SubShader 
 	{
@@ -19,18 +17,22 @@ Shader "Pixelation/CameraPixelation"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
 
-            CGPROGRAM
+            HLSLPROGRAM
             
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+
+			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
+
 			#pragma vertex vert
 			#pragma fragment frag
+            
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
 
-            #include "UnityCG.cginc"
-            #include "PixelationDefines.hlsl"
+            TEXTURE2D(_DitheredDepthTexture);
 
-            sampler2D _MainTex;
-            sampler2D _CameraPixelationDepthTexture;
-            float4 _CameraRotation;
-            float3 _RotatedCamPos;
+            float2 _CameraOffset;
 
             struct Attributes
             {
@@ -48,7 +50,8 @@ Shader "Pixelation/CameraPixelation"
             {
                 Varyings output = (Varyings)0;
 
-                output.vertex = UnityObjectToClipPos(input.positionOS.xyz);
+                VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+                output.vertex = vertexInput.positionCS;
                 output.uv = input.uv;
 
                 return output;
@@ -56,55 +59,24 @@ Shader "Pixelation/CameraPixelation"
             
             half4 sampleColor(float2 uv)
             {
-                return tex2D(_MainTex, uv);
+                return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
             }
             float sampleDepth(float2 uv)
             {
-                return tex2D(_CameraPixelationDepthTexture, uv);
-            }
-
-            // from https://gist.github.com/patricknelson/f4dcaedda9eea5f5cf2c359f68aa35fd
-            float4 multQuat(float4 q1, float4 q2) {
-                return float4(
-                    q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z,
-                    q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x,
-                    q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y,
-                    q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
-                );
-            }
-            // from https://gist.github.com/patricknelson/f4dcaedda9eea5f5cf2c359f68aa35fd
-            float3 rotateVector(float4 quat, float3 vec) {
-                float4 qv = multQuat(
-                    quat,
-                    float4(vec, 0.0)
-                );
-                return multQuat(
-                    qv,
-                    float4(-quat.x, -quat.y, -quat.z, quat.w)
-                ).xyz;
+                return SAMPLE_TEXTURE2D(_DitheredDepthTexture, sampler_MainTex, uv).x;
             }
 
             half4 frag(Varyings input, out float depth : SV_Depth) : SV_Target 
             {
                 int pixelSize = PIXELATION_PIXEL_SIZE;
 
-                float4 pos = float4(1, 1, 1, 1);
-
-                // pos = float4(_WorldSpaceCameraPos, 1);
-                // pos.xyz = rotateVector(
-                //     _CameraRotation,
-                //     pos
-                // );
-                pos.xyz = _RotatedCamPos; 
-                pos.y *= -1;
-                pos = mul(unity_CameraProjection, pos);
-
-                float2 cameraOffset = pos.xy;
-                cameraOffset *= _ScreenParams.xy * float2(0.5, 0.5);
-
                 float2 offset = -pixelSize * 0.5f;
-                offset += fmod(
-                    floor(input.vertex.xy + cameraOffset),
+                offset.x += fmod(
+                    floor(input.vertex.x + _CameraOffset.x),
+                    pixelSize
+                );
+                offset.y += fmod(
+                    floor(input.vertex.y + _CameraOffset.y),
                     pixelSize
                 );
                 offset /= _ScreenParams.xy;
@@ -112,22 +84,26 @@ Shader "Pixelation/CameraPixelation"
                 float2 targetPixel = input.uv - offset;
                 
                 // <TODO> Maybe implement same depth corner-only pixelation thing for the DGPixelation?
-                float d = sampleDepth(input.uv);
-                depth = d == 0 ? sampleDepth(targetPixel) : d;
+                // float d = sampleDepth(input.uv);
+                // depth = (d == 0) ? sampleDepth(targetPixel) : d;
+                depth = sampleDepth(targetPixel);
 
                 half4 col = sampleColor(targetPixel);
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
+                // col = float4((d == 0) ? sampleDepth(targetPixel) : d, 0, 0, 1);
 
                 // Pixelation offset testing
-                float2 gridOffset = fmod(floor(input.vertex.xy + cameraOffset), 32);
+                /*
+                float2 gridOffset = fmod(floor(input.vertex.xy + _CameraOffset), 32);
                 gridOffset /= _ScreenParams.xy;
                 if (gridOffset.x * gridOffset.y == 0)
                     return float4(0, 1, 0, 1);
+                */
 
                 return col;
             }
 
-			ENDCG
+			ENDHLSL
 		}
         
 	} 
