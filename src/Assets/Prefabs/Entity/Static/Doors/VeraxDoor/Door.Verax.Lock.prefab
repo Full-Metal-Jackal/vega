@@ -60,8 +60,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2274925425930083046}
+  - component: {fileID: 9019858102822599748}
+  - component: {fileID: 5078112136790214316}
   m_Layer: 0
-  m_Name: Door.Verax.NoWindow
+  m_Name: Door.Verax.Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,6 +84,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &9019858102822599748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274925425930083049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65eed35ad8b4a0408aef592c7037bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Door
+  <CanHideWalls>k__BackingField: 0
+--- !u!114 &5078112136790214316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274925425930083049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9360d100dcef0254ca814cd052275d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Radius>k__BackingField: 3
+  <Opened>k__BackingField: 0
+  <Active>k__BackingField: 0
+  animator: {fileID: 2274925425334571031}
 --- !u!1001 &2274925425652925355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,12 +178,20 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 8135df065f7377541bb72eafdf89c399, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8135df065f7377541bb72eafdf89c399, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5606357ec4027c242b12b06085b95907, type: 2}
     - target: {fileID: 919132149155446097, guid: 8135df065f7377541bb72eafdf89c399, type: 3}
       propertyPath: m_Name
       value: Mdl.DoorFrame
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8135df065f7377541bb72eafdf89c399, type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8135df065f7377541bb72eafdf89c399, type: 3}
@@ -214,6 +254,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a392afcd5179f3342b272bf0e1423924, type: 3}
       propertyPath: m_Name
       value: Mdl.Door.NoWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1737685834592370639, guid: a392afcd5179f3342b272bf0e1423924, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970332962851233816, guid: a392afcd5179f3342b272bf0e1423924, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a392afcd5179f3342b272bf0e1423924, type: 3}
