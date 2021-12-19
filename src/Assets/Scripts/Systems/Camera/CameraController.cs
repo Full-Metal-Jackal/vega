@@ -60,6 +60,12 @@ public class CameraController : MonoSingleton<CameraController>
 		set => Camera.fieldOfView = value;
 	}
 
+	public float OrthographicSize
+	{
+		get => Camera.orthographicSize;
+		set => Camera.orthographicSize = value;
+	}
+
 	public float Distance
 	{
 		get => Vector3.Distance(Camera.transform.position, transform.position);
