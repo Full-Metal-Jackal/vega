@@ -13,6 +13,8 @@ public class ScriptedZoom : MonoBehaviour
 
 	public void SetOrthographicSize(float size) =>
 		CameraController.Instance.OrthographicSize = size;
+	public void SetLerpSpeed(float speed) =>
+		lerpSpeed = speed;
 
 	public void LerpToOrthographicSize(float size)
 	{
