@@ -139,6 +139,8 @@ public class CameraController : MonoSingleton<CameraController>
 
 		Vector3 target = center + shift;
 
+		target = LimitCamera(target);
+
 		if (Vector3.Distance(target, transform.position) < positionTolerance)
 			return;
 
@@ -190,4 +192,16 @@ public class CameraController : MonoSingleton<CameraController>
 
 	public bool RemovePOI(GameObject poi) => RemovePOI(poi.transform);
 	public bool RemovePOI(Transform poi) => points.Remove(poi);
+
+	public Vector3 LimitCamera(Vector3 target)
+	{
+		if (!CameraBorders.Instance)
+			return target;
+		
+		return Utils.ClampVector(
+			target,
+			CameraBorders.Instance.Min,
+			CameraBorders.Instance.Max
+		);
+	}
 }
