@@ -48,32 +48,7 @@ namespace Scenario
 			}
 		}
 
-		public void Cease()
-		{
+		public void Cease() =>
 			active = false;
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			Gizmos.color = Color.cyan;
-
-			float size = .2f;
-
-			Gizmos.DrawLine(
-				mob.transform.position + mob.AimHeight * Vector3.up,
-				lookAtTarget
-			);
-
-			Gizmos.DrawWireSphere(lookAtTarget, size);
-
-			Gizmos.DrawLine(
-				lookAtTarget + size * Vector3.back,
-				lookAtTarget + size * Vector3.forward
-			);
-			Gizmos.DrawLine(
-				lookAtTarget + size * Vector3.left,
-				lookAtTarget + size * Vector3.right
-			);
-		}
 	}
 }
