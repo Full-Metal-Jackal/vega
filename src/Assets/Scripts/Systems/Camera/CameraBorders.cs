@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class CameraBorders : MonoSingleton<CameraBorders>
 {
-	[SerializeField]
-	private Transform min;
-	public Vector3 Min => min.position;
+	[field: SerializeField]
+	public Vector3 Min { get; private set; }
 
-	[SerializeField]
-	private Transform max;
-	public Vector3 Max => max.position;
+	[field: SerializeField]
+	public Vector3 Max { get; private set; }
 
 	private void OnDrawGizmosSelected()
 	{
