@@ -9,12 +9,12 @@ public class Door : Interaction
 	public bool Opened { get; private set; } = false;
 
 	[field: SerializeField]
-	public bool Active { get; private set; } = false;
+	public bool Locked { get; private set; } = false;
 
 	[SerializeField]
 	private Animator animator;
 
-	public override bool CanBeUsedBy(Mob mob) => !Active;
+	public override bool CanBeUsedBy(Mob mob) => !Locked;
 
 	public override bool OnUse(Mob mob)
 	{
