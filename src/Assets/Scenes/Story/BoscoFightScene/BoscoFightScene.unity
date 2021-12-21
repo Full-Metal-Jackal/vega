@@ -4042,19 +4042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnFinish:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 163040746}
-        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   emergingTransform: {fileID: 665464961}
   speed: 2
   depth: 5
@@ -4651,8 +4639,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1665558323}
-        m_TargetAssemblyTypeName: ScenarioController, Assembly-CSharp
+      - m_Target: {fileID: 1665558324}
+        m_TargetAssemblyTypeName: ScriptedZoom, Assembly-CSharp
         m_MethodName: SetOrthographicSize
         m_Mode: 4
         m_Arguments:
@@ -21030,7 +21018,7 @@ MonoBehaviour:
     {\r\n            \"$type\": \"UnityEngine.AudioClip, UnityEngine.AudioModule\"\r\n         
     },\r\n          \"<Name>k__BackingField\": \"Gaius\",\r\n          \"<TypingSpeed>k__BackingField\":
     2.0\r\n        },\r\n        \"EditorInfo\": {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
-    Assembly-CSharp\",\r\n          \"xPos\": 279.5,\r\n          \"yPos\": 171.0,\r\n         
+    Assembly-CSharp\",\r\n          \"xPos\": 351.5,\r\n          \"yPos\": 22.0,\r\n         
     \"isRoot\": true\r\n        },\r\n        \"ID\": 0,\r\n        \"Text\": \"Surrender
     buccaneer! There's nowhere to run!\",\r\n        \"Connections\": {\r\n         
     \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
@@ -21060,7 +21048,7 @@ MonoBehaviour:
     },\r\n          \"<Name>k__BackingField\": \"Grey Bosco, the Ravager of Trados\",\r\n         
     \"<TypingSpeed>k__BackingField\": 2.0\r\n        },\r\n        \"EditorInfo\":
     {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
-    Assembly-CSharp\",\r\n          \"xPos\": 535.0,\r\n          \"yPos\": 346.0,\r\n         
+    Assembly-CSharp\",\r\n          \"xPos\": 607.0,\r\n          \"yPos\": 197.0,\r\n         
     \"isRoot\": false\r\n        },\r\n        \"ID\": 1,\r\n        \"Text\": \"Ha-ha,
     poor Imperial! You walked right into my trap. Here, at my pirate den, nothing
     can defeat me!\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
@@ -21090,7 +21078,7 @@ MonoBehaviour:
     },\r\n          \"<Name>k__BackingField\": \"Grey Bosco, the Ravager of Trados\",\r\n         
     \"<TypingSpeed>k__BackingField\": 2.0\r\n        },\r\n        \"EditorInfo\":
     {\r\n          \"$type\": \"DialogueEditor.EditableConversationNode+EditorArgs,
-    Assembly-CSharp\",\r\n          \"xPos\": 450.0,\r\n          \"yPos\": 457.0,\r\n         
+    Assembly-CSharp\",\r\n          \"xPos\": 522.0,\r\n          \"yPos\": 308.0,\r\n         
     \"isRoot\": false\r\n        },\r\n        \"ID\": 3,\r\n        \"Text\": \"Drones,
     attack!\",\r\n        \"Connections\": {\r\n          \"$type\": \"System.Collections.Generic.List`1[[DialogueEditor.EditableConnection,
     Assembly-CSharp]], mscorlib\",\r\n          \"$values\": []\r\n        },\r\n       
@@ -21116,29 +21104,17 @@ MonoBehaviour:
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
+      m_Calls: []
+  OnFinished:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1746659168}
+      - m_Target: {fileID: 163040746}
         m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
         m_MethodName: Activate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnFinished:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21373,13 +21349,13 @@ MonoBehaviour:
   OnFinished:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 163040746}
+        m_TargetAssemblyTypeName: Scenario.ScenarioNode, Assembly-CSharp
+        m_MethodName: Activate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -107,6 +107,10 @@ namespace Scenario
 
 				Gizmos.DrawWireSphere(gizmoPath[i], size);
 			}
+
+			Gizmos.color = Color.green;
+			foreach (Transform transform in pathNodes)
+				Gizmos.DrawWireSphere(transform.position, .05f);
 		}
 	}
 }
