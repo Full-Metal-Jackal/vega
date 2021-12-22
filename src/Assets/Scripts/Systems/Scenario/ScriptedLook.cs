@@ -48,9 +48,7 @@ namespace Scenario
 			}
 		}
 
-		public void Cease()
-		{
+		public void Cease() =>
 			active = false;
-		}
 	}
 }

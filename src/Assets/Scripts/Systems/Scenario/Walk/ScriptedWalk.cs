@@ -84,5 +84,33 @@ namespace Scenario
 
 			base.Finish();
 		}
+
+		private void OnDrawGizmosSelected()
+		{
+			CreatePath();
+			Vector3[] gizmoPath = Path;
+
+			Gizmos.color = Color.green;
+			for (int i = 0; i < gizmoPath.Length - 1; i++)
+				Gizmos.DrawLine(gizmoPath[i], gizmoPath[i + 1]);
+
+			for (int i = 0; i < gizmoPath.Length; i++)
+			{
+				Gizmos.color = Color.yellow;
+				float size = .05f;
+
+				if (i == 0 || i == gizmoPath.Length - 1)
+				{
+					Gizmos.color = Color.green;
+					size = .1f;
+				}
+
+				Gizmos.DrawWireSphere(gizmoPath[i], size);
+			}
+
+			Gizmos.color = Color.green;
+			foreach (Transform transform in pathNodes)
+				Gizmos.DrawWireSphere(transform.position, .1f);
+		}
 	}
 }

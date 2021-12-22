@@ -13,6 +13,9 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 	[SerializeField]
 	private Mob possessAtStart;
 
+	[SerializeField]
+	private float orthographicSize = 2f;
+
 	protected override void Awake()
 	{
 		if (!Game.Initialized)
@@ -20,7 +23,9 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 
 		foreach (GameObject prefab in instantiateAtStart)
 			Instantiate(prefab, Containers.Instance.Interscene);
+
 		PlayerController.Instance.possessAtStart = possessAtStart;
+		CameraController.Instance.OrthographicSize = orthographicSize;
 	}
 
 	private void Start() =>

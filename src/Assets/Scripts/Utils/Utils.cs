@@ -85,4 +85,13 @@ public static class Utils
 
 		return null;
 	}
+
+	public static Vector3 ClampVector(Vector3 vec, Vector3 min, Vector3 max)
+	{
+		vec.x = Mathf.Clamp(vec.x, min.x, max.x);
+		vec.y = Mathf.Clamp(vec.y, min.y, max.y);
+		vec.z = Mathf.Clamp(vec.z, min.z, max.z);
+
+		return vec;
+	}
 }
