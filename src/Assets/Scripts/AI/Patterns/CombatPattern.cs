@@ -24,7 +24,7 @@ namespace AI
 		protected bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
 		{
 			NavMeshHit hit;
-			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * aiManager.maxAttackRange;
+			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * aiManager.MaxAttackRange;
 			pointInSphere.y = 0;
 			//Vector3 randomPoint = transform.position + pointInSphere;
 
@@ -33,7 +33,7 @@ namespace AI
 			Vector3 newPosDir = (randomPoint - transform.position).normalized;
 			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
 
-			if (aiManager.distanceFromTarget < aiManager.dangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
+			if (aiManager.distanceFromTarget < aiManager.DangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
 			{
 				point = Vector3.zero;
 				return false;
@@ -70,30 +70,25 @@ namespace AI
 
 		protected void MoveToLastPos(AIManager aiManager)
 		{
-			aiManager.NavMeshVisualizer.DrawPath(aiManager.NavMeshAgent.path);
 			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
 			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 			aiManager.movement = moveToPos;
 		}
 
-		protected bool MoveAroundTarget(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
+		protected bool MoveAroundTarget(AIManager aiManager, out Vector3 point)
 		{
 			NavMeshHit hit;
 			float step = 20f;
-			float radius = aiManager.maxAttackRange * 0.5f;
+			float radius = aiManager.MaxAttackRange * 0.5f;
 			float centerX = aiManager.currentTarget.transform.position.x;
 			float centerZ = aiManager.currentTarget.transform.position.z;
 			curentAngle += step;
 			double angle = Math.PI * curentAngle / 180.0;
 			float pointX = centerX + radius * (float) Math.Cos(angle);
 			float pointZ = centerZ + radius * (float) Math.Sin(angle);
-			Vector3 pointOnCyrcle = new Vector3(pointX, 0.1f, pointZ);
+			Vector3 pointOnCircle = new Vector3(pointX, 0.1f, pointZ);
 
-			Vector3 randomPoint = aiManager.currentTarget.transform.position + pointOnCyrcle;
-
-			Vector3 newPosDir = (pointOnCyrcle - transform.position).normalized;
-
-			if (NavMesh.SamplePosition(pointOnCyrcle, out hit, 0.5f, NavMesh.AllAreas))
+			if (NavMesh.SamplePosition(pointOnCircle, out hit, 0.5f, NavMesh.AllAreas))
 			{
 				point = hit.position;
 				return true;

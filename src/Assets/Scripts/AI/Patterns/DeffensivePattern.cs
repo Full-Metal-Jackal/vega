@@ -17,8 +17,6 @@ namespace AI
 			//Нужно получать от оружия
 			int minimumDistanceNeededToAttack = 1;
 			int maximumDistanceNeededToAttack = 10;
-			float recoveryTime = 0.2f;
-
 
 			if (aiManager.distanceFromTarget <= minimumDistanceNeededToAttack)
 			{
@@ -34,7 +32,7 @@ namespace AI
 					if (!mob.ActiveItem.Automatic)
 						mob.UseItem(false);
 
-					aiManager.CurrentRecoveryTime = recoveryTime;
+					aiManager.CurrentRecoveryTime = aiManager.ShootingRecoveryTime;
 					return;
 				}
 				mob.UseItem(false);

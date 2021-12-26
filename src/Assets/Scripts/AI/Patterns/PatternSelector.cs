@@ -28,18 +28,16 @@ namespace AI
 		{
 
 			EnvironmentData data = CollectData(aiManager);
-			CombatPattern pattern = defaultPattern;
 
 			/*
 			 * MinMaxScaller сюда воткнуть
 			 */
-			float statusTmp = data.mobHp / data.targetHp - data.targetKS;
-
-			print("Status value: " + statusTmp);
+			float statusTmp = data.mobHp / data.targetHp;
 
 			//Вычисляется status моба по формуле
 			float status = 0.8f;
 
+			CombatPattern pattern;
 			if (status <= deffensiveTreshhold)
 			{
 				pattern = deffensivePattern;
@@ -66,12 +64,10 @@ namespace AI
 
 			EnvironmentData data = new EnvironmentData();
 			data.distanceFromTarget = distanceFromTarget;
-			data.mobHp = mobHp;
-			data.targetHp = targetHp;
+			data.mobHp = mobHp / aiManager.Possessed.MaxHealth;
+			data.targetHp = targetHp / aiManager.currentTarget.MaxHealth;
 			data.targetKS = targetKS;
-
 			return data;
-
 		}
 	}
 }

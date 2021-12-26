@@ -11,7 +11,7 @@ namespace AI
 		{
 			Vector3 pos;
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
-			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.MaxAttackRange && aiManager.CanSeeTarget)
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 
@@ -23,7 +23,7 @@ namespace AI
 						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
-						aiManager.currentMovementRecoveryTime = aiManager.maxMovementRecoveryTime;
+						aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
 					}
 				}
 
@@ -34,7 +34,25 @@ namespace AI
 
 		public override void AttackAction(AIManager aiManager, Mob mob)
 		{
-			throw new System.NotImplementedException();
+			//Нужно получать от оружия
+			int minimumDistanceNeededToAttack = 1;
+			int maximumDistanceNeededToAttack = 10;
+
+			if (aiManager.distanceFromTarget <= maximumDistanceNeededToAttack && aiManager.distanceFromTarget >= minimumDistanceNeededToAttack)
+			{
+				if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
+				{
+					aiManager.isPerfomingAction = true;
+
+					mob.UseItem(true);
+					if (!mob.ActiveItem.Automatic)
+						mob.UseItem(false);
+
+					aiManager.CurrentRecoveryTime = aiManager.ShootingRecoveryTime;
+					return;
+				}
+				mob.UseItem(false);
+			}
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace AI
 		public Mob currentTarget;
 		[HideInInspector]
 		public CoverSpot currentCover;
-
+		[HideInInspector]
 		public CombatPattern currentPattern;
 
 		private int obstacleLayer;
@@ -54,17 +54,35 @@ namespace AI
 		public ItemData StartItemData { get; private set; }
 
 		[Header("A.I Settings")]
-		public float detectionRadius = 5;
-		public float dangerThreshhold = 2.5f;
-		public float rotationSpeed = 15f;
-		public float maxAttackRange = 5;
-		public float maxMovementRecoveryTime = 2;
-		public float agressiveMovementRecoveryTime = 1;
-		public LayerMask detectionLayer;
-		public LayerMask coverSpotsLayer;
-
+		private float detectionRadius = 5;
+		private float dangerThreshhold = 2.5f;
+		private float maxAttackRange = 5;
+		private float maxMovementRecoveryTime = 2;
+		private float agressiveMovementRecoveryTime = 1;
+		private float shootingRecoveryTime = 1;
+		private float agressiveShootingRecoveryTime = 0.5f;
+		private LayerMask detectionLayer;
+		private LayerMask coverSpotsLayer;
+		[field: SerializeField]
+		public float DetectionRadius { get; private set; }
+		[field: SerializeField]
+		public float DangerThreshhold { get; private set; }
+		[field: SerializeField]
+		public float MaxAttackRange { get; private set; }
+		[field: SerializeField]
+		public float MaxMovementRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float AgressiveMovementRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float ShootingRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float AgressiveShootingRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public LayerMask DetectionLayer { get; private set; }
+		[field: SerializeField]
+		public LayerMask CoverSpotsLayer { get; private set; }
+		[field: SerializeField]
 		public NavMeshAgent NavMeshAgent { get; private set; }
-		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
 
 		public NavMeshObstacle NavMeshObstacle { get; private set; }
 
@@ -77,8 +95,6 @@ namespace AI
 			NavMeshAgent.updateRotation = false;
 			NavMeshAgent.enabled = false;
 			NavMeshObstacle.enabled = true;
-
-			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
 
 			StoppingDistance = maxAttackRange * rangeCoefficient;
 

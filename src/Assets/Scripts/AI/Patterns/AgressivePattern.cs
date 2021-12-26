@@ -11,7 +11,7 @@ namespace AI
 		{
 			Vector3 pos;
 			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
-			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.maxAttackRange && aiManager.CanSeeTarget)
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.MaxAttackRange && aiManager.CanSeeTarget)
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 
@@ -23,7 +23,7 @@ namespace AI
 						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
-						aiManager.currentMovementRecoveryTime = aiManager.maxMovementRecoveryTime;
+						aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
 					}
 				}
 
@@ -37,7 +37,6 @@ namespace AI
 			//Нужно получать от оружия
 			int minimumDistanceNeededToAttack = 1;
 			int maximumDistanceNeededToAttack = 10;
-			float recoveryTime = 0.2f;
 
 
 			if (aiManager.distanceFromTarget <= minimumDistanceNeededToAttack)
@@ -54,7 +53,7 @@ namespace AI
 					if (!mob.ActiveItem.Automatic)
 						mob.UseItem(false);
 
-					aiManager.CurrentRecoveryTime = recoveryTime;
+					aiManager.CurrentRecoveryTime = aiManager.AgressiveShootingRecoveryTime;
 					return;
 				}
 				mob.UseItem(false);

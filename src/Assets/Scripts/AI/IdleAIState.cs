@@ -16,7 +16,7 @@ namespace AI
 			//Switch to Pursue target state
 			//if no target return this	
 
-			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.detectionRadius, aiManager.detectionLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.DetectionRadius, aiManager.DetectionLayer);
 
 			foreach (Collider colliderElem in colliders)
 			{

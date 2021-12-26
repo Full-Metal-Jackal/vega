@@ -31,16 +31,13 @@ namespace AI
 				aiManager.currentPattern = pattern;
 			}
 
-			if (aiManager.distanceFromTarget > aiManager.maxAttackRange || !aiManager.CanSeeTarget)
+			if (aiManager.distanceFromTarget > aiManager.MaxAttackRange || !aiManager.CanSeeTarget)
 			{
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;
 				return chaseState;
 			}
-			else
-			{
-				return this;
-			}
+			return this;
 		}
 	}
 }
