@@ -195,7 +195,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 	public Vector3 LimitCamera(Vector3 target)
 	{
-		if (!CameraBorders.Instance)
+		if (!(CameraBorders.Instance && CameraBorders.Instance.isActiveAndEnabled))
 			return target;
 		
 		return Utils.ClampVector(
