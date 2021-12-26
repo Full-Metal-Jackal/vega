@@ -29,11 +29,6 @@ namespace AI
 
 			EnvironmentData data = CollectData(aiManager);
 
-			/*
-			 * MinMaxScaller сюда воткнуть
-			 */
-			float statusTmp = data.mobHp / data.targetHp;
-
 			//Вычисляется status моба по формуле
 			float status = 0.8f;
 
@@ -56,7 +51,6 @@ namespace AI
 
 		protected EnvironmentData CollectData(AIManager aiManager)
 		{
-			//aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 			float mobHp = aiManager.Possessed.Health;
 			float targetHp = aiManager.currentTarget.Health;

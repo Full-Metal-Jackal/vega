@@ -120,18 +120,20 @@ MonoBehaviour:
   currentCover: {fileID: 0}
   currentPattern: {fileID: 0}
   <StartItemData>k__BackingField: {fileID: 0}
-  detectionRadius: 15
-  dangerThreshhold: 2.5
-  rotationSpeed: 15
-  maxAttackRange: 15
-  maxMovementRecoveryTime: 1
-  agressiveMovementRecoveryTime: 0.25
-  detectionLayer:
+  <DetectionRadius>k__BackingField: 10
+  <DangerThreshhold>k__BackingField: 2.5
+  <MaxAttackRange>k__BackingField: 10
+  <MaxMovementRecoveryTime>k__BackingField: 0.8
+  <AgressiveMovementRecoveryTime>k__BackingField: 0.3
+  <ShootingRecoveryTime>k__BackingField: 0.6
+  <AgressiveShootingRecoveryTime>k__BackingField: 0.2
+  <DetectionLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 16384
-  coverSpotsLayer:
+  <CoverSpotsLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
+  <NavMeshAgent>k__BackingField: {fileID: 8487903409530630962}
 --- !u!1 &8487903409095064647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,7 +1624,7 @@ GameObject:
   - component: {fileID: 8487903410238161114}
   - component: {fileID: 8487903410441770948}
   m_Layer: 0
-  m_Name: Drone.Mixer
+  m_Name: Drone.Mixer.AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

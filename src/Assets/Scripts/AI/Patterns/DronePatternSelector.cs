@@ -11,7 +11,7 @@ namespace AI
 		public override CombatPattern SelectPattern(AIManager aiManager)
 		{
 			EnvironmentData data = CollectData(aiManager);
-			float status = data.targetHp / 100;
+			float status = data.targetHp;
 
 			CombatPattern pattern;
 			if (status <= agressiveTreshhold)

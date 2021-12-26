@@ -24,13 +24,13 @@ namespace AI
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
-		[HideInInspector]
+		//[HideInInspector]
 		public AIState currentState;
 		[HideInInspector]
 		public Mob currentTarget;
 		[HideInInspector]
 		public CoverSpot currentCover;
-		[HideInInspector]
+		//[HideInInspector]
 		public CombatPattern currentPattern;
 
 		private int obstacleLayer;
@@ -53,16 +53,6 @@ namespace AI
 		[field: SerializeField]
 		public ItemData StartItemData { get; private set; }
 
-		[Header("A.I Settings")]
-		private float detectionRadius = 5;
-		private float dangerThreshhold = 2.5f;
-		private float maxAttackRange = 5;
-		private float maxMovementRecoveryTime = 2;
-		private float agressiveMovementRecoveryTime = 1;
-		private float shootingRecoveryTime = 1;
-		private float agressiveShootingRecoveryTime = 0.5f;
-		private LayerMask detectionLayer;
-		private LayerMask coverSpotsLayer;
 		[field: SerializeField]
 		public float DetectionRadius { get; private set; }
 		[field: SerializeField]
@@ -96,7 +86,7 @@ namespace AI
 			NavMeshAgent.enabled = false;
 			NavMeshObstacle.enabled = true;
 
-			StoppingDistance = maxAttackRange * rangeCoefficient;
+			StoppingDistance = MaxAttackRange * rangeCoefficient;
 
 			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) 
 				| (1 << LayerMask.NameToLayer("Covers")) 
@@ -191,7 +181,7 @@ namespace AI
 			}
 			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
 			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
-			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius, obstacleLayer))
+			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, DetectionRadius, obstacleLayer))
 			{
 				Transform detection = hit.transform;
 				if (detection.TryGetComponent(out Mob mob) && mob.Faction == Faction.Player)
@@ -207,7 +197,7 @@ namespace AI
 
 		public bool FindCover(out CoverSpot cover)
 		{
-			Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, coverSpotsLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, DetectionRadius, CoverSpotsLayer);
 			foreach (Collider colliderElem in colliders)
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
@@ -225,7 +215,7 @@ namespace AI
 
 		private void CheckIfInCover()
 		{
-			Collider[] colliders = Physics.OverlapSphere(transform.position, 1.0f, coverSpotsLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, 1.0f, CoverSpotsLayer);
 			foreach (Collider colliderElem in colliders)
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out CoverSpot cover))
@@ -262,7 +252,7 @@ namespace AI
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(transform.position, detectionRadius);
+			Gizmos.DrawWireSphere(transform.position, DetectionRadius);
 
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(transform.position, 0.5f);

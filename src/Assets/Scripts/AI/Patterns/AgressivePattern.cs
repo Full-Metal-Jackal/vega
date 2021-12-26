@@ -38,12 +38,7 @@ namespace AI
 			int minimumDistanceNeededToAttack = 1;
 			int maximumDistanceNeededToAttack = 10;
 
-
-			if (aiManager.distanceFromTarget <= minimumDistanceNeededToAttack)
-			{
-				return;
-			}
-			else if (aiManager.distanceFromTarget <= maximumDistanceNeededToAttack)
+			if (aiManager.distanceFromTarget <= maximumDistanceNeededToAttack && aiManager.distanceFromTarget >= minimumDistanceNeededToAttack)
 			{
 				if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
 				{

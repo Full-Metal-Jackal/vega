@@ -26,7 +26,6 @@ namespace AI
 			NavMeshHit hit;
 			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * aiManager.MaxAttackRange;
 			pointInSphere.y = 0;
-			//Vector3 randomPoint = transform.position + pointInSphere;
 
 			Vector3 randomPoint = aiManager.currentTarget.transform.position + pointInSphere;
 

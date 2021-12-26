@@ -170,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4649418097881579423, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_Name
-      value: Sec.Human
+      value: Sec.Human.AI
       objectReference: {fileID: 0}
     - target: {fileID: 4649418097881579423, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_IsActive
@@ -316,6 +316,46 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.00000033527633
       objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <NavMeshAgent>k__BackingField
+      value: 
+      objectReference: {fileID: 1817531184644638800}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <MaxAttackRange>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <DetectionRadius>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <DangerThreshhold>k__BackingField
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <ShootingRecoveryTime>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <DetectionLayer>k__BackingField.m_Bits
+      value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <CoverSpotsLayer>k__BackingField.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <MaxMovementRecoveryTime>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <AgressiveMovementRecoveryTime>k__BackingField
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653092350484894206, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+      propertyPath: <AgressiveShootingRecoveryTime>k__BackingField
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8760109556910469680, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -0.08761714
@@ -333,6 +373,11 @@ PrefabInstance:
     - {fileID: 7845752995604743098, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
     - {fileID: 1048780744554771367, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+--- !u!195 &1817531184644638800 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 6106530945675145169, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
+  m_PrefabInstance: {fileID: 5586692733442320257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4651342100520213926 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 939855453134158375, guid: d868a07e670686143b7730ff0f1a963a, type: 3}
