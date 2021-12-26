@@ -29,8 +29,8 @@ namespace AI
 			Vector3 targetDirection = GetNavMeshDirection(delta, aiManager);
 			float distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
 
-			NavMeshPath path = aiManager.NavMeshAgent.path;
-			aiManager.NavMeshVisualizer.DrawPath(path);
+			//NavMeshPath path = aiManager.NavMeshAgent.path;
+			//aiManager.NavMeshVisualizer.DrawPath(path);
 
 			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 

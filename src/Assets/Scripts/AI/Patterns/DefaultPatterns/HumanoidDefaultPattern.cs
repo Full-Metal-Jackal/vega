@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace AI
 {
-	public class DefaultPattern : CombatPattern
+	public class HumanoidDefaultPattern : DefaultPattern
 	{
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
@@ -34,7 +33,32 @@ namespace AI
 
 		public override void AttackAction(AIManager aiManager, Mob mob)
 		{
-			throw new System.NotImplementedException();
+			//Нужно получать от оружия
+			int minimumDistanceNeededToAttack = 1;
+			int maximumDistanceNeededToAttack = 10;
+			float recoveryTime = 0.8f;
+
+
+			if (aiManager.distanceFromTarget <= minimumDistanceNeededToAttack)
+			{
+				return;
+			}
+			else if (aiManager.distanceFromTarget <= maximumDistanceNeededToAttack)
+			{
+				if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
+				{
+					aiManager.isPerfomingAction = true;
+
+					mob.UseItem(true);
+					if (!mob.ActiveItem.Automatic)
+						mob.UseItem(false);
+
+					aiManager.CurrentRecoveryTime = recoveryTime;
+					return;
+				}
+				mob.UseItem(false);
+			}
 		}
 	}
 }
+

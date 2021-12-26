@@ -53,21 +53,15 @@ namespace AI
 		[field: SerializeField]
 		public ItemData StartItemData { get; private set; }
 
-		[field: SerializeField]
-		public GameObject debugCube;
-
 		[Header("A.I Settings")]
 		public float detectionRadius = 5;
 		public float dangerThreshhold = 2.5f;
-		public float maxDetectionAngle = 50;
-		public float minDetectionAngle = -50;
-		public float viewableAngle;
 		public float rotationSpeed = 15f;
 		public float maxAttackRange = 5;
-		public float maxMovementRecoveryTime = 5;
+		public float maxMovementRecoveryTime = 2;
+		public float agressiveMovementRecoveryTime = 1;
 		public LayerMask detectionLayer;
 		public LayerMask coverSpotsLayer;
-		public CombatPattern[] aiCombatPatterns;
 
 		public NavMeshAgent NavMeshAgent { get; private set; }
 		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
@@ -107,7 +101,7 @@ namespace AI
 		{
 			HandleTargetRelevance();
 			CheckTargetVisibility();
-			CheckIfInCover();
+			//CheckIfInCover();
 			HandleStateMachine(delta);
 			HandlePattern(delta);
 			HandleRecoveryTime(delta);

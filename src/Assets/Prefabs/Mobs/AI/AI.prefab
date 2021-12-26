@@ -267,24 +267,21 @@ MonoBehaviour:
   currentState: {fileID: 449934606032612654}
   currentTarget: {fileID: 0}
   currentCover: {fileID: 0}
+  currentPattern: {fileID: 0}
   <StartItemData>k__BackingField: {fileID: 0}
   debugCube: {fileID: 0}
   detectionRadius: 15
   dangerThreshhold: 2.5
-  maxDetectionAngle: 90
-  minDetectionAngle: -90
-  viewableAngle: 10
   rotationSpeed: 15
   maxAttackRange: 15
   maxMovementRecoveryTime: 5
+  agressiveMovementRecoveryTime: 1
   detectionLayer:
     serializedVersion: 2
     m_Bits: 16384
   coverSpotsLayer:
     serializedVersion: 2
     m_Bits: 64
-  aiCombatPatterns:
-  - {fileID: 0}
 --- !u!1 &5870959989363510882
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1890750933095346816}
+  - component: {fileID: 7289949540840698464}
   m_Layer: 0
   m_Name: Patterns
   m_TagString: Untagged
@@ -470,6 +468,21 @@ Transform:
   m_Father: {fileID: 2821194903998845698}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7289949540840698464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398877016652938208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f48e696a41c1f94690bd04a9a17ba0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultPattern: {fileID: 523728431936586365}
+  agressivePattern: {fileID: 815403557315187075}
+  deffensivePattern: {fileID: 3706285132990371080}
 --- !u!1 &7574344580001355013
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,9 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseState: {fileID: 5395083373547852339}
   idleState: {fileID: 449934606032612654}
-  defaultPattern: {fileID: 523728431936586365}
-  agressivePattern: {fileID: 815403557315187075}
-  deffensivePattern: {fileID: 3706285132990371080}
+  patternSelector: {fileID: 7289949540840698464}
 --- !u!1 &7615468147010618695
 GameObject:
   m_ObjectHideFlags: 0

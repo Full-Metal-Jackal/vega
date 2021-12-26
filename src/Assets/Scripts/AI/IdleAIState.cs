@@ -30,11 +30,7 @@ namespace AI
 					{
 						Vector3 targetDirection = character.transform.position - transform.position;
 						float viewAngle = Vector3.Angle(targetDirection, transform.forward);
-
-						if (viewAngle > aiManager.minDetectionAngle && viewAngle < aiManager.maxDetectionAngle)
-						{
-							aiManager.currentTarget = character;
-						}
+						aiManager.currentTarget = character;
 					}
 				}
 			}
