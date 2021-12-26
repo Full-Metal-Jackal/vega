@@ -31,7 +31,7 @@ public abstract class Projectile : DynamicEntity
 	{
 		Impact(collision.gameObject);
 
-		ImpactController.Instance.SpawnDecal(collision.GetContact(0), impactType, scale: 0.1f);
+		ImpactController.Instance.SpawnDecal(collision.GetContact(0), impactType, scale: 0.2f);
 
 		OnImpact?.Invoke(collision);
 	}

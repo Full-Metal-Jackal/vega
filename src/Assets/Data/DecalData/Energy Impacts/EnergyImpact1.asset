@@ -31,7 +31,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: EnergyImpact1
   m_Shader: {fileID: 4800000, guid: 285caaf1e7bca5c4a92dbeab0899f4d6, type: 3}
-  m_ShaderKeywords: _BLEND_ALPHA
+  m_ShaderKeywords: 
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -42,7 +42,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b06ec16c18ebaf34592277ef9355a424, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01bb31f53f737b94ca97cfc3fa5534ea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -67,17 +67,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
-    - _Blend: 0
+    - _Blend: 2
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DstBlend: 10
+    - _DstBlend: 1
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Smoothness: 0.5
     - _SpecularHighlights: 1
-    - _SrcBlend: 5
+    - _SrcBlend: 1
     - _WorkflowMode: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
