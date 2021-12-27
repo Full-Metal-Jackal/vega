@@ -16,7 +16,7 @@ namespace AI
 			//Switch to Pursue target state
 			//if no target return this	
 
-			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.detectionRadius, aiManager.detectionLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, aiManager.DetectionRadius, aiManager.DetectionLayer);
 
 			foreach (Collider colliderElem in colliders)
 			{
@@ -30,11 +30,7 @@ namespace AI
 					{
 						Vector3 targetDirection = character.transform.position - transform.position;
 						float viewAngle = Vector3.Angle(targetDirection, transform.forward);
-
-						if (viewAngle > aiManager.minDetectionAngle && viewAngle < aiManager.maxDetectionAngle)
-						{
-							aiManager.currentTarget = character;
-						}
+						aiManager.currentTarget = character;
 					}
 				}
 			}

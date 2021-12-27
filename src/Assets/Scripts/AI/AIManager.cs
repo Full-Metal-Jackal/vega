@@ -24,13 +24,13 @@ namespace AI
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
-		[HideInInspector]
+		//[HideInInspector]
 		public AIState currentState;
 		[HideInInspector]
 		public Mob currentTarget;
 		[HideInInspector]
 		public CoverSpot currentCover;
-
+		//[HideInInspector]
 		public CombatPattern currentPattern;
 
 		private int obstacleLayer;
@@ -54,23 +54,25 @@ namespace AI
 		public ItemData StartItemData { get; private set; }
 
 		[field: SerializeField]
-		public GameObject debugCube;
-
-		[Header("A.I Settings")]
-		public float detectionRadius = 5;
-		public float dangerThreshhold = 2.5f;
-		public float maxDetectionAngle = 50;
-		public float minDetectionAngle = -50;
-		public float viewableAngle;
-		public float rotationSpeed = 15f;
-		public float maxAttackRange = 5;
-		public float maxMovementRecoveryTime = 5;
-		public LayerMask detectionLayer;
-		public LayerMask coverSpotsLayer;
-		public CombatPattern[] aiCombatPatterns;
-
+		public float DetectionRadius { get; private set; }
+		[field: SerializeField]
+		public float DangerThreshhold { get; private set; }
+		[field: SerializeField]
+		public float MaxAttackRange { get; private set; }
+		[field: SerializeField]
+		public float MaxMovementRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float AgressiveMovementRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float ShootingRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public float AgressiveShootingRecoveryTime { get; private set; }
+		[field: SerializeField]
+		public LayerMask DetectionLayer { get; private set; }
+		[field: SerializeField]
+		public LayerMask CoverSpotsLayer { get; private set; }
+		[field: SerializeField]
 		public NavMeshAgent NavMeshAgent { get; private set; }
-		public NavMeshPathVisualizer NavMeshVisualizer { get; private set; }
 
 		public NavMeshObstacle NavMeshObstacle { get; private set; }
 
@@ -84,9 +86,7 @@ namespace AI
 			NavMeshAgent.enabled = false;
 			NavMeshObstacle.enabled = true;
 
-			NavMeshVisualizer = transform.GetComponentInChildren<NavMeshPathVisualizer>();
-
-			StoppingDistance = maxAttackRange * rangeCoefficient;
+			StoppingDistance = MaxAttackRange * rangeCoefficient;
 
 			obstacleLayer = (1 << LayerMask.NameToLayer("Obstacles")) 
 				| (1 << LayerMask.NameToLayer("Covers")) 
@@ -107,7 +107,7 @@ namespace AI
 		{
 			HandleTargetRelevance();
 			CheckTargetVisibility();
-			CheckIfInCover();
+			//CheckIfInCover();
 			HandleStateMachine(delta);
 			HandlePattern(delta);
 			HandleRecoveryTime(delta);
@@ -181,7 +181,7 @@ namespace AI
 			}
 			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
 			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
-			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, detectionRadius, obstacleLayer))
+			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, DetectionRadius, obstacleLayer))
 			{
 				Transform detection = hit.transform;
 				if (detection.TryGetComponent(out Mob mob) && mob.Faction == Faction.Player)
@@ -197,7 +197,7 @@ namespace AI
 
 		public bool FindCover(out CoverSpot cover)
 		{
-			Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, coverSpotsLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, DetectionRadius, CoverSpotsLayer);
 			foreach (Collider colliderElem in colliders)
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out cover))
@@ -215,7 +215,7 @@ namespace AI
 
 		private void CheckIfInCover()
 		{
-			Collider[] colliders = Physics.OverlapSphere(transform.position, 1.0f, coverSpotsLayer);
+			Collider[] colliders = Physics.OverlapSphere(transform.position, 1.0f, CoverSpotsLayer);
 			foreach (Collider colliderElem in colliders)
 			{
 				if (colliderElem.TryGetComponent<CoverSpot>(out CoverSpot cover))
@@ -252,7 +252,7 @@ namespace AI
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(transform.position, detectionRadius);
+			Gizmos.DrawWireSphere(transform.position, DetectionRadius);
 
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(transform.position, 0.5f);

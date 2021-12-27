@@ -46,52 +46,9 @@ namespace AI
 						return combateStance;
 					}
 					mob.UseItem(false);
-					/*
-					Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
-					aiManager.viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-					if (aiManager.viewableAngle <= currentAttack.maximumAttackAngle &&
-						aiManager.viewableAngle >= currentAttack.minimumAttackAngle)
-					{
-						
-					}
-					*/
 				}
-			}
-			else
-			{
-				//AssignNewAttack(aiManager);
 			}
 			return combateStance;
 		}
-		/*
-		private void AssignNewAttack(AIManager aiManager)
-		{
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - transform.position;
-			float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, transform.position);
-
-			if (currentAttack != null)
-			{
-				return;
-			}
-
-			int maxScore = 0;
-
-			foreach (AIAttackAction aiAttackAction in aiManager.aiCombatPatterns)
-			{
-				if (aiManager.distanceFromTarget <= aiAttackAction.maximumDistanceNeededToAttack
-					&& aiManager.distanceFromTarget >= aiAttackAction.minimumDistanceNeededToAttack)
-				{
-					if (viewableAngle <= aiAttackAction.maximumAttackAngle && viewableAngle >= aiAttackAction.minimumAttackAngle)
-					{
-						if (aiAttackAction.attackScore > maxScore)
-						{
-							maxScore = aiAttackAction.attackScore;
-							currentAttack = aiAttackAction;
-						}
-					}
-				}
-			}
-		}*/
 	}
 }
