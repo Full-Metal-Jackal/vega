@@ -161,6 +161,18 @@ namespace AI
 			}
 		}
 
+		public void PerfomeAction(float time)
+		{
+			StartCoroutine(waitFor(time));
+		}
+
+		private IEnumerator waitFor(float waitTime)
+		{
+			isPerfomingAction = true;
+			yield return new WaitForSeconds(waitTime);
+			isPerfomingAction = false;
+		}
+
 		private void GiveStartItem()
 		{
 			if (!StartItemData)

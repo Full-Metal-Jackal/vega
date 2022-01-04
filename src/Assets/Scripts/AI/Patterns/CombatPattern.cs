@@ -95,5 +95,21 @@ namespace AI
 			point = Vector3.zero;
 			return false;
 		}
+
+		protected void DashInRandomDirection(AIManager aiManager, Mob mob)
+		{
+			NavMeshHit hit;
+			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere;
+			pointInSphere.y = 0;
+
+			Vector3 randomPoint = mob.transform.position + pointInSphere;
+
+			Vector3 dodgesDir = (randomPoint - transform.position).normalized;
+			
+			if (mob.CanMoveActively)
+			{
+				mob.DashAction();
+			}
+		}
 	}
 }
