@@ -67,11 +67,32 @@ namespace AI
 			return false;
 		}
 
+		protected bool FixPos(Vector3 pos, out Vector3 point)
+		{
+			NavMeshHit hit;
+			
+			if (NavMesh.SamplePosition(pos, out hit, 0.1f, NavMesh.AllAreas))
+			{
+				point = hit.position;
+				return true;
+			}
+			point = Vector3.zero;
+			return false;
+		}
+
 		protected void MoveToLastPos(AIManager aiManager)
+		{
+			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
+			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;	
+			aiManager.movement = moveToPos;
+		}
+
+		protected void DashToLastPos(AIManager aiManager, Mob mob)
 		{
 			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
 			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 			aiManager.movement = moveToPos;
+			mob.DashAction();
 		}
 
 		protected bool MoveAroundTarget(AIManager aiManager, out Vector3 point)
@@ -96,7 +117,53 @@ namespace AI
 			return false;
 		}
 
+		protected Vector3 MovePointAroundCenter(AIManager aiManager, Vector3 center, float radius, Vector3 curentPos)
+		{
+			float step = 5f;
+			float offsetX = center.x - curentPos.x;
+			float offsetZ = center.z - curentPos.z;
+
+			//curentAngle += step;
+			double angle = Math.PI * step / 180.0;
+			float pointX = offsetX * (float)Math.Cos(angle) - offsetZ * (float)Math.Sin(angle) + center.x;
+			float pointZ = offsetX * (float)Math.Sin(angle) + offsetZ * (float)Math.Cos(angle) + center.z;
+
+			return new Vector3(pointX, curentPos.y, pointZ);
+		}
+
+		protected Vector3 AimWithPrediction(AIManager aiManager, Mob mob, Vector3 targetDirection)
+		{
+			float projectileSpeed = 15f; //Достать из пушки
+			//вектор его движения умножить на расстояние до него и разделить на скорость полета снаряда
+			//понадобится корректировочный множитель, находимый опытным путем
+
+			Vector3 targetVelocity = aiManager.currentTarget.GetComponent<Rigidbody>().velocity;
+			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
+			//Vector3 aimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+			Vector3 aimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + targetVelocity * aiManager.distanceFromTarget / projectileSpeed + Vector3.up * mob.AimHeight;
+			//aiManager.DebugCube.transform.position = aimPos;
+			return aimPos;
+		}
+
 		protected void DashInRandomDirection(AIManager aiManager, Mob mob)
+		{
+			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere;
+			pointInSphere.y = 0;
+
+			Vector3 randomPoint = mob.transform.position + pointInSphere;
+
+			Vector3 dashDir = (randomPoint - transform.position).normalized;
+
+			aiManager.DebugCube.transform.position = mob.transform.position + dashDir;
+			
+			if (mob.CanMoveActively)
+			{
+				//aiManager.movement = dashDir;
+				mob.DashAction();
+			}
+		}
+
+		protected bool DashFromPlayer(AIManager aiManager, Mob mob, Vector3 targetDirection, out Vector3 point)
 		{
 			NavMeshHit hit;
 			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere;
@@ -104,12 +171,27 @@ namespace AI
 
 			Vector3 randomPoint = mob.transform.position + pointInSphere;
 
-			Vector3 dodgesDir = (randomPoint - transform.position).normalized;
-			
-			if (mob.CanMoveActively)
+			Vector3 dashDir = (randomPoint - transform.position).normalized;
+
+			float angle = Vector3.SignedAngle(dashDir, targetDirection.normalized, Vector3.up);
+
+			if (aiManager.distanceFromTarget < aiManager.DangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
 			{
-				mob.DashAction();
+				point = Vector3.zero;
+				return false;
 			}
+			else if (Mathf.Abs(angle) < normalAvoidanceAngle)
+			{
+				point = Vector3.zero;
+				return false;
+			}
+			else if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+			{
+				point = hit.position;
+				return true;
+			}
+			point = Vector3.zero;
+			return false;
 		}
 	}
 }

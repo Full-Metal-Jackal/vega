@@ -6,7 +6,7 @@ namespace AI
 {
 	public class BoscoPatternSelector : PatternSelector
 	{
-		private const float deffensiveTreshhold = 1f;
+		private const float deffensiveTreshhold = 2f;
 		public override CombatPattern SelectPattern(AIManager aiManager)
 		{
 			EnvironmentData data = CollectData(aiManager);
@@ -15,14 +15,21 @@ namespace AI
 			CombatPattern pattern;
 			if (status >= deffensiveTreshhold)
 			{
-				pattern = defaultPattern;
+				float n = Random.Range(0, 2);
+				// pattern = n <= 0.5f ? defaultPattern : agressivePattern;
+				if (n < 1)
+					pattern = defaultPattern;
+				else
+					pattern = agressivePattern;
+				pattern = agressivePattern;
 			}
 			else
 			{
+				print("Deffense");
 				pattern = deffensivePattern;
 			}
+
 			return pattern;
 		}
 	}
 }
-

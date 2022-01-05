@@ -38,6 +38,7 @@ namespace AI
 			{
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;
+				aiManager.movement = Vector3.zero;
 				return combatStanceState;
 			}
 
