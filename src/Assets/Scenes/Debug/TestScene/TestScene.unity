@@ -1296,40 +1296,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!1 &245514110 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8881240654015363426, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-  m_PrefabInstance: {fileID: 1072410769}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &245514112 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 718248772823667518, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-  m_PrefabInstance: {fileID: 1072410769}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245514110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0cb94bdcde4cea4fb2381acc29e491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &245514115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 245514110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f01ff1524f801e43992d51713c379b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  possesed: {fileID: 245514112}
-  target: {fileID: 548386015}
-  attackRecoveryTime: 2
-  defaultAttackInterval: 1
-  specialAttackInterval: 4
-  IsDefaultState: 1
 --- !u!43 &246718709
 Mesh:
   m_ObjectHideFlags: 0
@@ -4651,30 +4617,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 762137014}
     m_Modifications:
-    - target: {fileID: 718248772823667518, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 718248772823667518, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <Name>k__BackingField
-      value: Turret
-      objectReference: {fileID: 0}
-    - target: {fileID: 718248772823667518, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <MoveSpeed>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 718248772823667518, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <MaxTurningSpeed>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3166600924837041245, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_Name
       value: Mesh.Turret
       objectReference: {fileID: 0}
     - target: {fileID: 3264829068369924578, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3553748972103446827, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 548386015}
     - target: {fileID: 6348928651701556169, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.51
@@ -4707,42 +4661,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7894540215952998209, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Height
-      value: 3.7738209
-      objectReference: {fileID: 0}
-    - target: {fileID: 7894540215952998209, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Radius
-      value: 1.8869104
-      objectReference: {fileID: 0}
-    - target: {fileID: 7894540215952998209, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Center.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7894540215952998209, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7894540215952998209, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_Center.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8220985273195915392, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <FireRate>k__BackingField
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 8220985273195915392, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <ProjectilePrefab>k__BackingField
-      value: 
-      objectReference: {fileID: 2287223000048794827, guid: 6c418f519208dc647a58d09bca276aab, type: 3}
-    - target: {fileID: 8220985273195915392, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <Barrels>k__BackingField.Array.data[0]
-      value: 
-      objectReference: {fileID: 1418095840}
-    - target: {fileID: 8220985273195915392, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: <Barrels>k__BackingField.Array.data[1]
-      value: 
-      objectReference: {fileID: 1840567742}
     - target: {fileID: 8881240654015363426, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_Name
       value: Mob.Drone.Turret
@@ -4750,18 +4668,6 @@ PrefabInstance:
     - target: {fileID: 8881240654015363439, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_Constraints
       value: 116
-      objectReference: {fileID: 0}
-    - target: {fileID: 8992061369837038603, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8992061369837038603, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8992061369837038603, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 9203986513691902156, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
       propertyPath: m_RootOrder
@@ -7482,11 +7388,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!4 &1418095840 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5774278372658046377, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-  m_PrefabInstance: {fileID: 1072410769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1460912380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8732,11 +8633,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!4 &1840567742 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5233017937636975402, guid: 707fa7a19c02f2e4cb8df00a2dda7e4f, type: 3}
-  m_PrefabInstance: {fileID: 1072410769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1878250411
 PrefabInstance:
   m_ObjectHideFlags: 0
