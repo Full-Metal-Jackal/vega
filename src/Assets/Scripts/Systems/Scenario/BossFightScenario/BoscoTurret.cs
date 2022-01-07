@@ -15,6 +15,8 @@ public class BoscoTurret : MonoBehaviour
 	private float valleyRecoveryTime;
 	[field: SerializeField]
 	private float machinegunAttackInterval;
+	[field: SerializeField]
+	private Spawner spawner;
 
 
 	private bool attacking = false;
@@ -94,7 +96,7 @@ public class BoscoTurret : MonoBehaviour
 	//spawn new dangerous zone
 	private void LaunchValley()
 	{
-		
+		spawner.SpawnOn(target.transform);
 	}
 }
 

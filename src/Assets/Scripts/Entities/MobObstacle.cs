@@ -9,6 +9,7 @@ public class MobObstacle : MonoBehaviour
 	private void Awake()
 	{
 		stoppingCollider = GetComponent<Collider>();
+
 		mobCollider = transform.parent.GetComponent<CapsuleCollider>();
 	}
 
