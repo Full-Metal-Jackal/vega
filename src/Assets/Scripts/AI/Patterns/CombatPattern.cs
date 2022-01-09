@@ -116,6 +116,17 @@ namespace AI
 			point = Vector3.zero;
 			return false;
 		}
+		
+		protected Vector3 RotatePointOnAngle(Vector3 pointToRotate, Vector3 centerPoint, float angleInDegrees)
+		{
+			double angleInRadians = Math.PI * angleInDegrees / 180.0;
+			float cosTheta = (float) Math.Cos(angleInRadians);
+			float sinTheta = (float) Math.Sin(angleInRadians);
+
+			float X = cosTheta * (pointToRotate.x - centerPoint.x) - sinTheta * (pointToRotate.z - centerPoint.z) + centerPoint.x;
+			float Z = sinTheta * (pointToRotate.x - centerPoint.x) + cosTheta * (pointToRotate.z - centerPoint.z) + centerPoint.z;
+			return new Vector3(X, 0, Z);
+		}
 
 		protected Vector3 MovePointAroundCenter(AIManager aiManager, Vector3 center, float radius, Vector3 curentPos)
 		{

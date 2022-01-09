@@ -57,13 +57,22 @@ public class BoscoFightScenario : MonoBehaviour
 		if (wavesLeft > 0 && dronesLeft <= 0)
 		{
 			wavesLeft--;
-			//SpawnWave(); //Найти где
+			//SpawnWave();
 			//dronesLeft = Сколько дронов заспавнилось
 		}
+		if (wavesLeft <= 0 && dronesLeft <= 0)
+		{
+			currentStageNumber = 2;
+		}	
 	}
 
 	private void ManageThirdStage()
 	{
-
+		/*
+		 * Разово
+			//Заспавнить боса
+			//Активировать турели
+		*/
+		// Проверка услвия уничтожения
 	}
 }

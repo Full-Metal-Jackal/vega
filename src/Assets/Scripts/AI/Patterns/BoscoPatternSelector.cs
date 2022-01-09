@@ -21,7 +21,7 @@ namespace AI
 					pattern = defaultPattern;
 				else
 					pattern = agressivePattern;
-				pattern = agressivePattern;
+				pattern = defaultPattern;
 			}
 			else
 			{

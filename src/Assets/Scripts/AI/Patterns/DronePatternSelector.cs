@@ -22,6 +22,7 @@ namespace AI
 			{
 				pattern = defaultPattern;
 			}
+			pattern = defaultPattern;
 			return pattern;
 		}
 	}
