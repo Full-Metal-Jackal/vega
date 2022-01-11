@@ -10,7 +10,7 @@ public class MobObstacle : MonoBehaviour
 	{
 		stoppingCollider = GetComponent<Collider>();
 
-		mobCollider = transform.parent.GetComponent<CapsuleCollider>();
+		mobCollider = transform.parent.GetComponent<Collider>();
 	}
 
 	public virtual void Start()
