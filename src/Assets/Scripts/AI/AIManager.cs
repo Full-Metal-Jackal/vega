@@ -21,6 +21,8 @@ namespace AI
 		[HideInInspector]
 		public float currentMovementRecoveryTime = 0;
 		[HideInInspector]
+		public float currentDashRecoveryTime = 0;
+		[HideInInspector]
 		public float distanceFromTarget;
 		[HideInInspector]
 		public bool inCover = false;
@@ -62,6 +64,8 @@ namespace AI
 		[field: SerializeField]
 		public float MaxMovementRecoveryTime { get; private set; }
 		[field: SerializeField]
+		public float DashRecoveryTime { get; private set; }
+		[field: SerializeField]
 		public float AgressiveMovementRecoveryTime { get; private set; }
 		[field: SerializeField]
 		public float ShootingRecoveryTime { get; private set; }
@@ -75,6 +79,8 @@ namespace AI
 		public NavMeshAgent NavMeshAgent { get; private set; }
 
 		public NavMeshObstacle NavMeshObstacle { get; private set; }
+
+		public GameObject DebugCube;
 
 		protected override void Awake()
 		{
@@ -154,11 +160,28 @@ namespace AI
 			{
 				currentMovementRecoveryTime -= delta;
 			}
-			
+
+			if (currentDashRecoveryTime > 0)
+			{
+				currentDashRecoveryTime -= delta;
+			}
+
 			if (patternRecoveryTime > 0)
 			{
 				patternRecoveryTime -= delta;
 			}
+		}
+
+		public void PerfomeAction(float time)
+		{
+			StartCoroutine(waitFor(time));
+		}
+
+		private IEnumerator waitFor(float waitTime)
+		{
+			isPerfomingAction = true;
+			yield return new WaitForSeconds(waitTime);
+			isPerfomingAction = false;
 		}
 
 		private void GiveStartItem()

@@ -6,7 +6,8 @@ namespace AI
 {
 	public class DronePatternSelector : PatternSelector
 	{
-		private const float agressiveTreshhold = 0.4f;
+		[field : SerializeField]
+		private float agressiveTreshhold = 0.4f;
 
 		public override CombatPattern SelectPattern(AIManager aiManager)
 		{

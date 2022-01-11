@@ -239,7 +239,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual void TakeDamage(Damage damage)
 	{
-		Debug.Log($"{this} took {damage.amount} points of {damage.type} damage from {damage.inflictor}.");
+		//Debug.Log($"{this} took {damage.amount} points of {damage.type} damage from {damage.inflictor}.");
 
 		if ((Health -= damage.amount) < 0f)
 			Die(damage);
