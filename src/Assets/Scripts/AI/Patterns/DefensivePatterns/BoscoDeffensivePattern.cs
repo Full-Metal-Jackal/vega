@@ -36,21 +36,22 @@ namespace AI
 			{
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
-					print("Should checking");
-					aiManager.movement = Vector3.zero;
 					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
 					{
-						print("Should dashing");
 						aiManager.NavMeshAgent.enabled = true;
 						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
 						aiManager.DebugCube.transform.position = pos;
 						aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-						//DashInRandomDirection(aiManager, mob);
+					}
+					if (aiManager.currentDashRecoveryTime <= 0)
+					{
+						MoveToLastPos(aiManager);
+						mob.DashAction();
+						aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
 					}
 					MoveToLastPos(aiManager);
-					mob.DashAction();
 				}
 			}
 			else
@@ -60,13 +61,13 @@ namespace AI
 				aiManager.DebugCube.transform.position = mob.AimPos;
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;
-				charging = true;
 				StartCoroutine(waiter(aiManager));
 			}
 		}
 
 		private IEnumerator attackSequence( AIManager aiManager)
 		{
+			charging = true;
 			float counter = 0;
 			while (counter < chargingTime)
 			{
@@ -104,8 +105,6 @@ namespace AI
 		// Использовать стан
 		public void AttackAction(AIManager aiManager, Mob mob, Vector3 targetDirection)
 		{
-			//mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
-
 			mob.UseItem(true);
 			if (!mob.ActiveItem.Automatic)
 				mob.UseItem(false);

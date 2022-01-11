@@ -16,16 +16,14 @@ namespace AI
 			if (status >= deffensiveTreshhold)
 			{
 				float n = Random.Range(0, 2);
-				// pattern = n <= 0.5f ? defaultPattern : agressivePattern;
 				if (n < 1)
 					pattern = defaultPattern;
 				else
 					pattern = agressivePattern;
-				pattern = defaultPattern;
 			}
 			else
 			{
-				print("Deffense");
+				Debug.Log("Entered deffensive pattern");
 				pattern = deffensivePattern;
 			}
 

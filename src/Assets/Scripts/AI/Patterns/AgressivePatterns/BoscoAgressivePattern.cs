@@ -6,18 +6,12 @@ namespace AI
 {
 	public class BoscoAgressivePattern : AgressivePattern
 	{
-		private bool test1 = false;
-		private bool test2 = false;
-		private bool test3 = false;
-		private bool test4 = false;
 		private bool aiming = false;
 		private bool attacking = false;
 		[field: SerializeField]
 		private float aimingTime = 1.5f;
 		[field: SerializeField]
 		private float shootingTime = 5;
-		[field: SerializeField]
-		private float testTime = 2;
 		//Нужно получать от оружия
 		private int minimumDistanceNeededToAttack = 1;
 		private int maximumDistanceNeededToAttack = 10;
@@ -52,11 +46,13 @@ namespace AI
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
 						aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-						aiManager.DebugCube.transform.position = pos;
 					}
 					MoveToLastPos(aiManager);
 					if (aiManager.currentDashRecoveryTime <= 0)
 					{
+						Vector3 targetMovementDir = aiManager.currentTarget.GetComponent<Rigidbody>().velocity.normalized;
+						targetMovementDir = mob.transform.position - targetMovementDir;
+						mob.SnapTurnTo(new Vector3(targetMovementDir.x, mob.AimPos.y, targetMovementDir.z));
 						mob.DashAction();
 						aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
 					}
@@ -68,96 +64,6 @@ namespace AI
 				}
 			}
 		} 
-
-		/*
-		public override void Tick(AIManager aiManager, Mob mob)
-		{
-			Vector3 pos;
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
-			mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
-			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
-
-			if (test1)
-			{
-				if (aiManager.currentMovementRecoveryTime <= 0)
-				{
-					aiManager.NavMeshAgent.enabled = true;
-					aiManager.NavMeshObstacle.enabled = false;
-					pos = new Vector3(20, 0.23f, -25);
-					FixPos(pos, out pos);
-					aiManager.NavMeshAgent.SetDestination(pos);
-					aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-					aiManager.DebugCube.transform.position = pos;
-				}
-				MoveToLastPos(aiManager);
-				if (aiManager.currentDashRecoveryTime <= 0)
-				{
-					mob.DashAction();
-					aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
-				}
-			}
-			else if (test2)
-			{
-				if (aiManager.currentMovementRecoveryTime <= 0)
-				{
-					aiManager.NavMeshAgent.enabled = true;
-					aiManager.NavMeshObstacle.enabled = false;
-					pos = new Vector3(20, 0.23f, -35);
-					FixPos(pos, out pos);
-					aiManager.NavMeshAgent.SetDestination(pos);
-					aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-					aiManager.DebugCube.transform.position = pos;
-				}
-				MoveToLastPos(aiManager);
-				if (aiManager.currentDashRecoveryTime <= 0)
-				{
-					mob.DashAction();
-					aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
-				}
-			}
-			else if (test3)
-			{
-				if (aiManager.currentMovementRecoveryTime <= 0)
-				{
-					aiManager.NavMeshAgent.enabled = true;
-					aiManager.NavMeshObstacle.enabled = false;
-					pos = new Vector3(5, 0.23f, -35);
-					FixPos(pos, out pos);
-					aiManager.NavMeshAgent.SetDestination(pos);
-					aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-					aiManager.DebugCube.transform.position = pos;
-				}
-				MoveToLastPos(aiManager);
-				if (aiManager.currentDashRecoveryTime <= 0)
-				{
-					mob.DashAction();
-					aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
-				}
-			}
-			else if (test4)
-			{
-				if (aiManager.currentMovementRecoveryTime <= 0)
-				{
-					aiManager.NavMeshAgent.enabled = true;
-					aiManager.NavMeshObstacle.enabled = false;
-					pos = new Vector3(5, 0.23f, -25);
-					FixPos(pos, out pos);
-					aiManager.NavMeshAgent.SetDestination(pos);
-					aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
-					aiManager.DebugCube.transform.position = pos;
-				}
-				MoveToLastPos(aiManager);
-				if (aiManager.currentDashRecoveryTime <= 0)
-				{
-					mob.DashAction();
-					aiManager.currentDashRecoveryTime = aiManager.DashRecoveryTime;
-				}
-			}
-			else
-			{
-				StartCoroutine(test(aiManager));
-			}
-		}*/
 
 		private IEnumerator attackSequence(AIManager aiManager)
 		{
@@ -190,66 +96,11 @@ namespace AI
 			yield return attackSequence(aiManager);
 		}
 
-		private IEnumerator test(AIManager aiManager)
+		public override void AttackAction(AIManager aiManager, Mob mob)
 		{
-			yield return testSequence(aiManager);
-		}
-
-		private IEnumerator testSequence(AIManager aiManager)
-		{
-			float counter = 0;
-			int repeatNumber = 5;
-			for (int i = 0; i < repeatNumber; i++)
-			{
-				test1 = true;
-				while (counter < testTime)
-				{
-					counter += Time.deltaTime;
-					yield return null;
-				}
-				test1 = false;
-				test2 = true;
-
-				counter = 0;
-				while (counter < testTime)
-				{
-					counter += Time.deltaTime;
-					yield return null;
-				}
-
-				test2 = false;
-				test3 = true;
-
-				counter = 0;
-				while (counter < testTime)
-				{
-					counter += Time.deltaTime;
-					yield return null;
-				}
-
-				test3 = false;
-				test4 = true;
-
-				counter = 0;
-				while (counter < testTime)
-				{
-					counter += Time.deltaTime;
-					yield return null;
-				}
-				test4 = false;
-			}
-			aiManager.CurrentRecoveryTime = aiManager.ShootingRecoveryTime;
-		}
-
-
-		public void AttackAction(AIManager aiManager, Mob mob)
-		{
-			//mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
-
 			mob.UseItem(true);
 			if (!mob.ActiveItem.Automatic)
 				mob.UseItem(false);
 		}
 	}
-
 }

@@ -18,6 +18,7 @@ namespace AI
 		private float chargingTime;
 		[field: SerializeField]
 		private float attackingTime;
+		private int dir;
 
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
@@ -30,17 +31,20 @@ namespace AI
 				// + вызов анимации или еще чего
 				mob.AimPos = aiManager.currentTarget.transform.position + Vector3.up * mob.AimHeight;
 				targetMovementDir = aiManager.currentTarget.GetComponent<Rigidbody>().velocity.normalized;
+				Vector3 predictedTargetDir = aiManager.currentTarget.transform.position - aiManager.transform.position + targetMovementDir;
+				dir = Vector3.SignedAngle(predictedTargetDir, targetDirection, Vector3.up) < 0 ? -1 : 1;
 				aiManager.movement = Vector3.zero;
 			}
 			else if (attacking)
 			{
 				aiManager.movement = Vector3.zero;
-				AttackAction(aiManager, mob, targetDirection);
+				AttackAction(aiManager, mob, dir);
 			}
 			else
 			{
 				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 				aiManager.DebugCube.transform.position = mob.AimPos;
+				mob.UseItem(false);
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
@@ -90,16 +94,13 @@ namespace AI
 			yield return attackSequence(aiManager);
 		}
 
-		public void AttackAction(AIManager aiManager, Mob mob, Vector3 targetDirection)
+		public void AttackAction(AIManager aiManager, Mob mob, int dir)
 		{
-			mob.AimPos = RotatePointOnAngle(mob.AimPos, mob.transform.position, angle) + Vector3.up * mob.AimHeight;
-			
-			aiManager.DebugCube.transform.position = mob.AimPos;
+			mob.AimPos = RotatePointOnAngle(mob.AimPos, mob.transform.position, angle, dir) + Vector3.up * mob.AimHeight;
 
 			mob.UseItem(true);
 			if (!mob.ActiveItem.Automatic)
 				mob.UseItem(false);
 		}
 	}
-
 }

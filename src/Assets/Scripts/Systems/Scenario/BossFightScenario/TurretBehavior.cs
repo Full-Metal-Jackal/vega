@@ -23,11 +23,6 @@ public class TurretBehavior : MonoBehaviour
 
 	void Update()
 	{
-		//target dir
-		//aim pos
-		//time between attacks
-		//if default state attack in interval
-		//else attack long
 		Vector3 targetDirection = target.transform.position - possesed.transform.position;
 		possesed.AimPos = target.transform.position + Vector3.up * possesed.AimHeight;
 		possesed.TurnTo(Time.deltaTime, possesed.AimDir);
@@ -80,5 +75,3 @@ public class TurretBehavior : MonoBehaviour
 		}
 	}
 }
-
-

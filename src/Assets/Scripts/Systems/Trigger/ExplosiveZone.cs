@@ -8,15 +8,14 @@ public class ExplosiveZone : MonoBehaviour
 	private float radius;
 	[field: SerializeField]
 	private float timeToLive = 3;
-    private float counter;
-	private SphereCollider collider;
-	private List<Mob> targetsToDamage = new List<Mob>();
 	[field: SerializeField]
 	private Damage damage;
+	private float counter;
+	private List<Mob> targetsToDamage = new List<Mob>();
+
     private void Awake()
     {
-		collider = transform.GetComponent<SphereCollider>();
-		collider.radius = radius;
+		transform.GetComponent<SphereCollider>().radius = radius;
 		counter = timeToLive;
     }
 
@@ -28,7 +27,7 @@ public class ExplosiveZone : MonoBehaviour
 		}
 		else
 		{
-			print(this + " Explode!!!");
+			Debug.Log(this + " Explode!!!");
 			foreach (Mob mob in targetsToDamage)
 			{
 				mob.TakeDamage(damage);
