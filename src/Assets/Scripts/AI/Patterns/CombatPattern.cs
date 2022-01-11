@@ -23,7 +23,6 @@ namespace AI
 		
 		protected bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
 		{
-			NavMeshHit hit;
 			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * aiManager.MaxAttackRange;
 			pointInSphere.y = 0;
 
@@ -42,7 +41,7 @@ namespace AI
 				point = Vector3.zero;
 				return false;
 			}
-			else if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+			else if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
 			{
 				point = hit.position;
 				return true;
@@ -53,12 +52,11 @@ namespace AI
 
 		protected bool FixCoverPos(CoverSpot cover, out Vector3 point)
 		{
-			NavMeshHit hit;
 			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * cover.radius;
 			Vector3 randomPoint = cover.transform.position + pointInSphere;
 			Vector3 randP = randomPoint;
 			randP.y = 0;
-			if (NavMesh.SamplePosition(randomPoint, out hit, 0.1f, -1 << NavMesh.GetAreaFromName("Cover")))
+			if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 0.1f, -1 << NavMesh.GetAreaFromName("Cover")))
 			{
 				point = hit.position;
 				return true;
@@ -69,9 +67,7 @@ namespace AI
 
 		protected bool FixPos(Vector3 pos, out Vector3 point)
 		{
-			NavMeshHit hit;
-			
-			if (NavMesh.SamplePosition(pos, out hit, 0.1f, NavMesh.AllAreas))
+			if (NavMesh.SamplePosition(pos, out NavMeshHit hit, 0.1f, NavMesh.AllAreas))
 			{
 				point = hit.position;
 				return true;
@@ -89,7 +85,6 @@ namespace AI
 
 		protected bool MoveAroundTarget(AIManager aiManager, out Vector3 point)
 		{
-			NavMeshHit hit;
 			float step = 20f;
 			float radius = aiManager.MaxAttackRange * 0.5f;
 			float centerX = aiManager.currentTarget.transform.position.x;
@@ -100,7 +95,7 @@ namespace AI
 			float pointZ = centerZ + radius * (float) Math.Sin(angle);
 			Vector3 pointOnCircle = new Vector3(pointX, 0.1f, pointZ);
 
-			if (NavMesh.SamplePosition(pointOnCircle, out hit, 0.5f, NavMesh.AllAreas))
+			if (NavMesh.SamplePosition(pointOnCircle, out NavMeshHit hit, 0.5f, NavMesh.AllAreas))
 			{
 				point = hit.position;
 				return true;
@@ -134,7 +129,7 @@ namespace AI
 
 		protected Vector3 AimWithPrediction(AIManager aiManager, Mob mob, Vector3 targetDirection)
 		{
-			float projectileSpeed = 15f; //Достать из пушки
+			float projectileSpeed = (mob.ActiveItem is Gun gun) ? gun.ProjectileSpeed : 15f;
 
 			Vector3 targetVelocity = aiManager.currentTarget.GetComponent<Rigidbody>().velocity;
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);

@@ -11,7 +11,7 @@ namespace AI
 		[SerializeField]
 		protected AgressivePattern agressivePattern;
 		[SerializeField]
-		protected DeffensivePattern deffensivePattern;
+		protected DefensivePattern deffensivePattern;
 
 		private const float agressiveTreshhold = 0.75f;
 		private const float deffensiveTreshhold = 0.25f;
