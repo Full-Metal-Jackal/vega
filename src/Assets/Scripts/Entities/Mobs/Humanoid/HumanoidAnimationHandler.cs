@@ -223,7 +223,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 	public void EnableAdditionalLayers()
 	{
 		for (int i = 1; i < Animator.layerCount; i++)
-			Animator.SetLayerWeight(i, previousLayersWeight[i]);
+			Animator.SetLayerWeight(i, 1f); //TODO PreviousWeight incorrect behavior
 	}
 
 	public Vector3 SmoothedAimPos { get; protected set; }

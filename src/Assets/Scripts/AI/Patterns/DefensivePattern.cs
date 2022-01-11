@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace AI 
 {
-	public class DeffensivePattern : CombatPattern
+	public class DefensivePattern : CombatPattern
 	{
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
