@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace AI
 {
-	public class BoscoDeffensivePattern : DeffensivePattern
+	public class BoscoDefensivePattern : DefensivePattern
 	{
 		private bool charging = false;
 		private bool attacking = false;
