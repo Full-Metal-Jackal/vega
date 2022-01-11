@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &31664209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582834237256967973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56559062aa810a04fa7876c593f8ecb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 6
+  chargingTime: 1.5
+  attackingTime: 0.5
+  dashingTime: 3
+--- !u!114 &31664210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4633080425402261887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfcc7358f2718f4da5f944cf6ae7c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 10
+  aimingTime: 1.5
+  shootingTime: 0.5
 --- !u!114 &31664211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,38 +46,6 @@ MonoBehaviour:
   defaultPattern: {fileID: 31664208}
   agressivePattern: {fileID: 31664210}
   deffensivePattern: {fileID: 31664209}
---- !u!114 &31664210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4633080425402261887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adfcc7358f2718f4da5f944cf6ae7c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 5
-  aimingTime: 1.5
-  shootingTime: 0.5
-  testTime: 3
---- !u!114 &31664209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582834237256967973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56559062aa810a04fa7876c593f8ecb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 5
-  chargingTime: 1.5
-  attackingTime: 0.5
-  dashingTime: 3
 --- !u!114 &31664208
 MonoBehaviour:
   m_ObjectHideFlags: 0
