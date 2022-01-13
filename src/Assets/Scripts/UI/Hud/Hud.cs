@@ -6,8 +6,6 @@ namespace UI.HUD
 	[RequireComponent(typeof(CanvasScaler))]
 	public sealed class Hud : MonoSingleton<Hud>
 	{
-		// public 
-
-		public void Toggle(bool toggle) => gameObject.SetActive(toggle);
+		public void Toggle(bool toggle) => gameObject.SetActive(!Game.PlayingScene && toggle);
 	}
 }
