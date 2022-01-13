@@ -2225,7 +2225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6788587536529279941, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: <MoveSpeed>k__BackingField
-      value: 6
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 6788587536529279941, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: <DodgeSpeed>k__BackingField
@@ -2233,7 +2233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6788587536529279941, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: <WalkSpeedFactor>k__BackingField
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6960954451836965017, guid: 34e2242eff642f54a80859ead1d95ba9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2865,6 +2865,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
         m_MethodName: ResetPOI
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1665558323}
+        m_TargetAssemblyTypeName: ScenarioController, Assembly-CSharp
+        m_MethodName: SetPlayingScene
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
