@@ -300,12 +300,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -890,9 +885,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1114,6 +1107,67 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &730659638
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1672093726}
+    m_Modifications:
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806549785754464141, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: startItemData
+      value: 
+      objectReference: {fileID: 2658289993476553843, guid: c20cc456e626b56429f9fe341bc55f94, type: 3}
+    - target: {fileID: 7671168363193461622, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
+      propertyPath: m_Name
+      value: Item.IEDMine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
 --- !u!43 &765111862
 Mesh:
   m_ObjectHideFlags: 0
@@ -1389,8 +1443,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2454,8 +2507,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4202,7 +4254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 6373089015932157579, guid: bc7ea6bc24e63934b9d277b127f8df16, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4791,8 +4843,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
