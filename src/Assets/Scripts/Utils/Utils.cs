@@ -94,4 +94,27 @@ public static class Utils
 
 		return vec;
 	}
+
+	public static float BellCurve(float x, float sigma = .3333f, float mu = 1f)
+	{
+		const float sqrt2pi = 2.5067f;
+
+		float power = - Mathf.Pow(x - mu, 2) / (2 * Mathf.Pow(sigma, 2));
+
+		return Mathf.Exp(power) / (sigma * sqrt2pi);
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="minX">Value of X, represents triple sigma offset from the maxX.</param>
+	/// <param name="maxX">Value of X in which y takes the max value.</param>
+	/// <returns>Corresponding y value scaled from 0 to 1.</returns>
+	public static float BellCurveNormalized(float x, float minX, float maxX)
+	{
+		float sigma = Mathf.Abs(maxX - minX) / 3f;
+		float mu = maxX;
+		return BellCurve(x, sigma: sigma, mu: mu) * 2.5f;
+	}
 }
