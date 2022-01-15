@@ -104,8 +104,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15082788, y: 0.07081793, z: 0.17258345}
-  m_Center: {x: -0.0061561316, y: 0.033278093, z: 0.00014144927}
+  m_Size: {x: 0.30542782, y: 0.13769913, z: 0.33836997}
+  m_Center: {x: -0.010418579, y: 0.0667187, z: 0.0019375384}
 --- !u!1 &8675730789530166097
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashingLight: {fileID: 2343378779515945730}
   flashingSpeed: 10
+  minIntensity: 0
   maxIntensity: 0.25
 --- !u!1001 &3513325896718035301
 PrefabInstance:
@@ -242,16 +243,28 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
+      propertyPath: <Damage>k__BackingField.force
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
+      propertyPath: <Damage>k__BackingField.amount
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
       propertyPath: <ProjectilePrefab>k__BackingField
       value: 
-      objectReference: {fileID: 1633575084191925459, guid: 82dc6a5011fb886459db72b159aba68d, type: 3}
+      objectReference: {fileID: 3859614156872982949, guid: b3d8ef13c9a021148b964f17add03cad, type: 3}
     - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
       propertyPath: <ThrowingTorque>k__BackingField.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
       propertyPath: <ThrowingTorque>k__BackingField.y
-      value: 180
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071349178327657464, guid: c73ec254058aea441b4fc0964993d751, type: 3}
+      propertyPath: <Damage>k__BackingField.incapacitating
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3078284081126552083, guid: c73ec254058aea441b4fc0964993d751, type: 3}
       propertyPath: m_RootOrder

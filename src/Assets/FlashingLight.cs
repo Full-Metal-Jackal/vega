@@ -11,13 +11,21 @@ public class FlashingLight : MonoBehaviour
 	private float flashingSpeed = 10f;
 
 	[SerializeField]
+	private float minIntensity = 0f;
+	[SerializeField]
 	private float maxIntensity = 1f;
+	private float intensityRange = 1f;
+
+	private void Awake()
+	{
+		intensityRange = maxIntensity - minIntensity;
+	}
 
 	private void Update()
 	{
 		if (!flashingLight)
 			return;
 
-		flashingLight.intensity = Mathf.Sin(Time.time * flashingSpeed) * maxIntensity;
+		flashingLight.intensity = minIntensity + Mathf.Sin(Time.time * flashingSpeed) * intensityRange;
 	}
 }
