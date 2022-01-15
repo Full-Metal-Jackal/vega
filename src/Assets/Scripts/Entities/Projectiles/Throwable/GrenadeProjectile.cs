@@ -36,7 +36,9 @@ public class GrenadeProjectile : ThrowableProjectile
 				&& entity is IDamageable damageable)
 			{
 				Vector3 impactVector = collider.ClosestPoint(explosionPos) - explosionPos;
-				float fraction = Utils.BellCurveNormalized(impactVector.magnitude, explosionRadius, 0);
+				float fraction = Mathf.Clamp01(
+					1f - (impactVector.magnitude / explosionRadius)
+				);
 
 				Damage damage = this.damage;
 				damage.amount *= fraction;

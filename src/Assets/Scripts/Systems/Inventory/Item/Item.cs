@@ -218,18 +218,5 @@ namespace Inventory
 
 			return true;
 		}
-
-		protected virtual void OnDrawGizmos()
-		{
-			MeshFilter meshFilter = ItemData.GetComponentInChildren<MeshFilter>();
-
-			if (!(meshFilter && meshFilter.sharedMesh != null))
-			{
-				Gizmos.DrawWireSphere(Vector3.zero, 1f);
-				return;
-			}
-
-			// Gizmos.DrawMesh(meshFilter.sharedMesh, transform.position, transform.rotation);
-		}
 	}
 }
