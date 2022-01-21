@@ -13,6 +13,7 @@ public abstract class Humanoid : Mob
 	/// <summary>
 	/// The velocity with which this mob is forced forward when dodgeing.
 	/// </summary>
+	[field: SerializeField]
 	public float DodgeSpeed { get; private set; } = 8f;
 	protected float dodgeAngle = 10f;
 
