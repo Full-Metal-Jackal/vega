@@ -221,6 +221,11 @@ namespace Inventory
 
 		protected virtual void OnDrawGizmos()
 		{
+			if (!ItemData)
+				return;
+
+			Gizmos.color = Color.blue;
+
 			MeshFilter meshFilter = ItemData.GetComponentInChildren<MeshFilter>();
 
 			if (!(meshFilter && meshFilter.sharedMesh != null))
