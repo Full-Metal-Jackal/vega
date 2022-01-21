@@ -77,6 +77,8 @@ public class PlayerController : MobController
 		base.PossessMob(mob);
 
 		CameraController.Instance.SetTrackedMob(mob);
+		CameraController.Instance.followingCursor = true;
+
 		OnPossessed?.Invoke(mob);
 	}
 

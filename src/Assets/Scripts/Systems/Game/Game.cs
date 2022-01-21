@@ -32,6 +32,7 @@ public static class Game
 		set
 		{
 			__playingScene = value;
+
 			CameraController.Instance.InScene = __playingScene;
 			UI.HUD.Hud.Instance.Toggle(!__playingScene);
 

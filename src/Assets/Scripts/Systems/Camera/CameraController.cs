@@ -12,7 +12,7 @@ public class CameraController : MonoSingleton<CameraController>
 	[SerializeField]
 	private float cursorWeight = .33f;
 
-	private bool followingCursor = true;
+	public bool followingCursor = true;
 
 	/// <summary>
 	/// Smoothing applied to the camera movement in game.
@@ -60,6 +60,8 @@ public class CameraController : MonoSingleton<CameraController>
 		set => Camera.fieldOfView = value;
 	}
 
+	[SerializeField]
+	private float defaultOrthographicSize = 2.75f;
 	public float OrthographicSize
 	{
 		get => Camera.orthographicSize;
@@ -85,7 +87,6 @@ public class CameraController : MonoSingleton<CameraController>
 		this.mob = mob;
 		AddPOI(mob.transform);
 		mob.CanHideWalls = true;
-		followingCursor = true;
 	}
 
 	// Since the camera is not rotating in game, it would be better
@@ -100,6 +101,7 @@ public class CameraController : MonoSingleton<CameraController>
 
 		FOV = defaultFOV;
 		Distance = defaultDistance;
+		OrthographicSize = defaultOrthographicSize;
 	}
 
 	private void RecalculateRotation()
@@ -118,6 +120,8 @@ public class CameraController : MonoSingleton<CameraController>
 	private void Follow()
 	{
 		int totalPoints = points.Count;
+		if (totalPoints <= 0)
+			return;
 
 		Vector3 cursorPos = Vector3.zero;
 		bool cursorActive = followingCursor && !Game.Paused && !DebugUtils.Instance.MouseInputDisabled;
