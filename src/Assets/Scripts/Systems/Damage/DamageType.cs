@@ -3,5 +3,6 @@
 	Kinetic,
 	Light,
 	Thermal,
-	Electric
+	Electric,
+	Fall
 }

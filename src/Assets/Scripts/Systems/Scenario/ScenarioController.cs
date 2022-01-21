@@ -20,4 +20,7 @@ public class ScenarioController : MonoBehaviour
 	// <TODO> I'm not sure this one belongs here
 	public void SetPlayer(Mob mob) =>
 		PlayerController.Instance.PossessMob(mob);
+
+	public void ResetMovementType(Mob mob) =>
+		mob.MovementType = MovementType.Running;
 }

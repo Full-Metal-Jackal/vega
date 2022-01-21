@@ -174,10 +174,10 @@ namespace AI
 
 		public void PerfomeAction(float time)
 		{
-			StartCoroutine(waitFor(time));
+			StartCoroutine(WaitFor(time));
 		}
 
-		private IEnumerator waitFor(float waitTime)
+		private IEnumerator WaitFor(float waitTime)
 		{
 			isPerfomingAction = true;
 			yield return new WaitForSeconds(waitTime);

@@ -56,6 +56,7 @@ public static class Game
 		if (!Initialized)
 			throw new System.Exception("Attempted to start uninitialized Game instance.");
 
+		Debug.Log("The game has been started.");
 		PlayerInput.UpdateInput();
 	}
 

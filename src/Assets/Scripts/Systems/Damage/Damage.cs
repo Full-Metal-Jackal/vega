@@ -22,4 +22,28 @@ public struct Damage
 	public Vector3 hitPoint;
 
 	public bool AppliesForce => type is DamageType.Kinetic;
+
+	public Damage(
+		float amount,
+		DamageType type,
+
+		bool incapacitating = false,
+
+		float force = 0f,
+		Vector3 direction = new Vector3(),
+		Vector3 hitPoint = new Vector3(),
+
+		Entity inflictor = null
+		)
+	{
+		this.amount = amount;
+		this.type = type;
+		this.incapacitating = incapacitating;
+
+		this.inflictor = inflictor;
+
+		this.force = force;
+		this.direction = direction;
+		this.hitPoint = hitPoint;
+	}
 }

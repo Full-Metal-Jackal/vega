@@ -10,9 +10,6 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 	[SerializeField]
 	private List<GameObject> instantiateAtStart;
 
-	[SerializeField]
-	private Mob possessAtStart;
-
 	protected override void Awake()
 	{
 		if (!Game.Initialized)
@@ -20,8 +17,6 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 
 		foreach (GameObject prefab in instantiateAtStart)
 			Instantiate(prefab, Containers.Instance.Interscene);
-
-		PlayerController.Instance.possessAtStart = possessAtStart;
 	}
 
 	private void Start() =>
