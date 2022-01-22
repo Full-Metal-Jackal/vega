@@ -5,6 +5,7 @@ public struct Damage
 {
 	public float amount;
 	public DamageType type;
+
 	// If this damage can cause the mob to drop incapacitated if they have to stamina, e.g. taser or tear gas or EMP for robots.
 	public bool incapacitating;
 
@@ -21,6 +22,9 @@ public struct Damage
 	[HideInInspector]
 	public Vector3 hitPoint;
 
+	// <TODO> Not implemented in Mob.cs yet!!
+	public bool ignoresShield;
+
 	public bool AppliesForce => type is DamageType.Kinetic;
 
 	public Damage(
@@ -28,6 +32,7 @@ public struct Damage
 		DamageType type,
 
 		bool incapacitating = false,
+		bool ignoresShield = false,
 
 		float force = 0f,
 		Vector3 direction = new Vector3(),
@@ -38,7 +43,9 @@ public struct Damage
 	{
 		this.amount = amount;
 		this.type = type;
+		
 		this.incapacitating = incapacitating;
+		this.ignoresShield = ignoresShield;
 
 		this.inflictor = inflictor;
 

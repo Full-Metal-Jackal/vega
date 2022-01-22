@@ -19,7 +19,7 @@ public class DeathPit : MonoSingleton<DeathPit>
 		Gizmos.color = new Vector4(1f, 0f, 0f, .25f);
 
 		BoxCollider boxCollider = GetComponent<BoxCollider>();
-		Gizmos.DrawCube(boxCollider.center, boxCollider.size);
+		Gizmos.DrawCube(transform.position + boxCollider.center, boxCollider.size);
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -30,7 +30,8 @@ public class DeathPit : MonoSingleton<DeathPit>
 		Damage fallDamage = new Damage(
 			damage,
 			DamageType.Fall,
-			incapacitating: false
+			incapacitating: false,
+			ignoresShield: true
 			);
 
 		if (!mob.IsPlayer)

@@ -463,12 +463,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Physics.Raycast(ray, out RaycastHit hit, groundedRange);
 		// <TODO> Implement Physics.CheckCapsule() if raycast is insufficient
 
-		bool grounded = hit.collider && hit.distance < groundedRange;
-
-		if (grounded)
-			print(hit.distance);
-
-		if (grounded)
+		if (hit.collider && hit.distance < groundedRange)
 			lastGroundPos = transform.position;
 	}
 
