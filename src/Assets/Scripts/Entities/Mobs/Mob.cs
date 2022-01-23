@@ -245,7 +245,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual void TakeDamage(Damage damage)
 	{
-		if (invincibility > 0f)
+		if (!Alive || invincibility > 0f)
 			return;
 
 		string message = $"{this} took {damage.amount} points of {damage.type} damage";
