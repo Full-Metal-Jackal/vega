@@ -12,6 +12,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
+	public event Action<Mob> OnDamaged;
 	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
@@ -252,6 +253,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 			message += $" from {damage.inflictor}";
 		message += ".";
 		Debug.Log(message);
+
+		OnDamaged?.Invoke(this);
 
 		if ((Health -= damage.amount) < 0f)
 			Die(damage);
@@ -524,4 +527,11 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public void UpdateInvincibility(float delta) =>
 		invincibility -= delta;
+
+	public virtual void PlayDamageEffects()
+	{
+		// MaterialFlashFX flashFX;
+		// flashFX.Flash();
+		// PlaySingleClip
+	}
 }
