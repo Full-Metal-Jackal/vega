@@ -12,8 +12,7 @@ public class MobDamageFlasherFX : MonoBehaviour
 	private Renderer[] mobRenderers;
 
 	// <TODO> Should be bound to mob's OnActiveItemChanged, not implemented yet.
-	//private MeshRenderer[] itemsMeshRenderers;
-
+	//private Renderer[] itemsMeshRenderers;
 
 	private Material[] materials;
 
@@ -56,7 +55,7 @@ public class MobDamageFlasherFX : MonoBehaviour
 	{
 		enabled = true;
 
-		this.peakIntensity = intensity;
+		peakIntensity = intensity;
 		currentFlashLife = targetFlashLife = flashTime;
 	}
 }

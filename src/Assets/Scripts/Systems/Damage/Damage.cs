@@ -30,16 +30,13 @@ public struct Damage
 	public Damage(
 		float amount,
 		DamageType type,
-
 		bool incapacitating = false,
 		bool ignoresShield = false,
-
 		float force = 0f,
 		Vector3 direction = new Vector3(),
 		Vector3 hitPoint = new Vector3(),
-
 		Entity inflictor = null
-		)
+	)
 	{
 		this.amount = amount;
 		this.type = type;

@@ -125,7 +125,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public bool Alive { get; protected set; } = true;
 
-	private readonly float fallRecoveryTime = 1.5f;
+	private const float fallRecoveryTime = 1.5f;
 	private Vector3 lastGroundPos;
 
 	public MobController Controller { get; set; }
