@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.VFX;
 using kTools.Decals;
 
 public enum ImpactType
@@ -50,8 +51,23 @@ public class ImpactController : MonoSingleton<ImpactController>
 		decal.gameObject.SetActive(true);
 	}
 
-	public void SpawnDecal(ContactPoint contact, ImpactType type, float scale) =>
-		SpawnDecal(contact.point, contact.normal, contact.otherCollider.transform, type, scale);
+	public void SpawnDecal(Vector3 point,ContactPoint contact, ImpactType type, float scale) =>
+		SpawnDecal(point, contact.normal, contact.otherCollider.transform, type, scale);
+
+	public void SpawnImpactEffect(Vector3 point, Vector3 normal, Transform targetTransform, VisualEffect impactEffect, float lifespan)
+	{
+		if (impactEffect)
+		{
+			impactEffect.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(-Vector3.forward, normal));
+			impactEffect.transform.SetParent(targetTransform, worldPositionStays: true);
+			impactEffect.enabled = true;
+			impactEffect.Play();
+			Destroy(impactEffect.gameObject, lifespan);
+		}
+	}
+
+	public void SpawnImpactEffect(Vector3 point, ContactPoint contact, VisualEffect impactEffect, float lifespan) =>
+		SpawnImpactEffect(point, contact.normal, contact.otherCollider.transform, impactEffect, lifespan);
 
 	public void ClearDecals()
 	{
