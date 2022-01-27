@@ -43,7 +43,8 @@ public abstract class Projectile : DynamicEntity
 		Vector3 pos = projectileTip ? projectileTip.position : cp.point;
 
 		ImpactController.Instance.SpawnDecal(pos, cp, impactType, scale: 0.2f);
-		ImpactController.Instance.SpawnImpactEffect(pos, cp, impactEffect, impactEffectLife);
+		if (impactEffect)
+			ImpactController.Instance.SpawnImpactEffect(pos, cp, impactEffect, impactEffectLife);
 
 		OnImpact?.Invoke(collision);
 	}

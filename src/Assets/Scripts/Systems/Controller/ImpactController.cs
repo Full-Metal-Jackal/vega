@@ -56,14 +56,11 @@ public class ImpactController : MonoSingleton<ImpactController>
 
 	public void SpawnImpactEffect(Vector3 point, Vector3 normal, Transform targetTransform, VisualEffect impactEffect, float lifespan)
 	{
-		if (impactEffect)
-		{
-			impactEffect.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(-Vector3.forward, normal));
-			impactEffect.transform.SetParent(targetTransform, worldPositionStays: true);
-			impactEffect.enabled = true;
-			impactEffect.Play();
-			Destroy(impactEffect.gameObject, lifespan);
-		}
+		impactEffect.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(-Vector3.forward, normal));
+		impactEffect.transform.SetParent(targetTransform, worldPositionStays: true);
+		impactEffect.enabled = true;
+		impactEffect.Play();
+		Destroy(impactEffect.gameObject, lifespan);
 	}
 
 	public void SpawnImpactEffect(Vector3 point, ContactPoint contact, VisualEffect impactEffect, float lifespan) =>
