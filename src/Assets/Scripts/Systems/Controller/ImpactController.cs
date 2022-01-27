@@ -57,7 +57,7 @@ public class ImpactController : MonoSingleton<ImpactController>
 	public void SpawnImpactEffect(Vector3 point, Vector3 normal, Transform targetTransform, VisualEffect impactEffect, float lifespan)
 	{
 		impactEffect.transform.SetPositionAndRotation(point, Quaternion.FromToRotation(-Vector3.forward, normal));
-		impactEffect.transform.SetParent(targetTransform, worldPositionStays: true);
+		impactEffect.transform.SetParent(null, worldPositionStays: true);
 		impactEffect.enabled = true;
 		impactEffect.Play();
 		Destroy(impactEffect.gameObject, lifespan);
