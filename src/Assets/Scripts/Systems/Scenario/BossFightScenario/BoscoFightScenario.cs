@@ -45,6 +45,9 @@ public class BoscoFightScenario : MonoBehaviour
 
 	private void ManageFirstStage()
 	{
+		if (!boss)
+			return;
+
 		if (boss.Health < boss.MaxHealth * 0.3f)
 			currentStageNumber = 1;
 	}

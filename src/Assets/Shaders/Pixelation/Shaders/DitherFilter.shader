@@ -72,6 +72,9 @@ Shader "Pixelation/DitherFilter"
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+
+        // VEGA-specific shader variables
+        _Flash("Flash", Float) = 0
     }
 
     SubShader
@@ -155,13 +158,15 @@ Shader "Pixelation/DitherFilter"
 
 			#include "Assets/Shaders/Pixelation/Shaders/PixelationDefines.hlsl"
     
+            half _Flash;
+
             half4 LitPassFragmentDither(Varyings input) : SV_Target
             {
                 clip(Dither(input.positionCS) - 1);
 
                 half4 col = LitPassFragment(input);
                 col.xyz = gradeColor(col.xyz, PIXELATION_COLOR_VARIATION);
-                return col;
+                return col + _Flash;
             }
 
             ENDHLSL

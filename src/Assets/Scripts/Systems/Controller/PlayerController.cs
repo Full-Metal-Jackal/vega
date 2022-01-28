@@ -64,8 +64,8 @@ public class PlayerController : MobController
 		Actions.World.Fire.performed += ctx => OnTriggerInput(true);
 		Actions.World.Fire.canceled += ctx => OnTriggerInput(false);
 
-		Actions.World.Sprint.performed += ctx => OnSprintInput(true);
-		Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
+		// Actions.World.Sprint.performed += ctx => OnSprintInput(true);
+		// Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
 
 		Actions.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
 		Actions.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
@@ -103,8 +103,8 @@ public class PlayerController : MobController
 	private void OnDodgePressed() => Possessed.DashAction();
 	private void OnDropPressed() => Possessed.DropItem();
 
-	private void OnSprintInput(bool sprint) =>
-		Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
+	// private void OnSprintInput(bool sprint) =>
+	// Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
 
 	private void OnMoveInput(Vector2 inputMovement) =>
 		movement = CameraController.Instance.VerticalRotation * new Vector3(inputMovement.x, 0, inputMovement.y);

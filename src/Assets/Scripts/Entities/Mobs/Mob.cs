@@ -12,6 +12,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action<Item> OnPickedUpItem;
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
+	public event Action<Mob> OnDamaged;
 	public event Action<Mob> OnDefeated;
 
 	[field: SerializeField]
@@ -124,8 +125,13 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public bool Alive { get; protected set; } = true;
 
+	private const float fallRecoveryTime = 1.5f;
+	private Vector3 lastGroundPos;
+
 	public MobController Controller { get; set; }
 	public Speech.MobSpeaker Speaker { get; private set; }
+
+	private float invincibility = 0f;
 
 	/// <summary>
 	/// Is the mob currently engaged in a fight.
@@ -239,7 +245,16 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual void TakeDamage(Damage damage)
 	{
-		Debug.Log($"{this} took {damage.amount} points of {damage.type} damage from {damage.inflictor}.");
+		if (!Alive || invincibility > 0f)
+			return;
+
+		string message = $"{this} took {damage.amount} points of {damage.type} damage";
+		if (damage.inflictor)
+			message += $" from {damage.inflictor}";
+		message += ".";
+		Debug.Log(message);
+
+		OnDamaged?.Invoke(this);
 
 		if ((Health -= damage.amount) < 0f)
 			Die(damage);
@@ -433,7 +448,26 @@ public abstract class Mob : DynamicEntity, IDamageable
 	protected override void Update()
 	{
 		base.Update();
+
 		UpdateStaminaRegeneration(Time.deltaTime);
+		UpdateInvincibility(Time.deltaTime);
+	}
+
+	protected virtual void FixedUpdate()
+	{
+		UpdateGroundPos();
+	}
+
+	protected void UpdateGroundPos()
+	{
+		const float groundedRange = .001f;
+
+		Ray ray = new Ray(transform.position, Vector3.down);
+		Physics.Raycast(ray, out RaycastHit hit, groundedRange);
+		// <TODO> Implement Physics.CheckCapsule() if raycast is insufficient
+
+		if (hit.collider && hit.distance < groundedRange)
+			lastGroundPos = transform.position;
 	}
 
 	protected virtual void UpdateStaminaRegeneration(float delta)
@@ -475,5 +509,29 @@ public abstract class Mob : DynamicEntity, IDamageable
 			Gizmos.color = Color.red;
 			Gizmos.DrawRay(ItemSocket.position, ItemSocket.forward);
 		}
+	}
+
+	/// <summary>
+	/// Prevents the mob from getting damage for the provided amount of time,
+	/// e.g. for recovery after fall form scene.
+	/// </summary>
+	/// <param name="time"></param>
+	public void SetInvincible(float time) =>
+		invincibility = time;
+
+	public void RecoverAfterFall()
+	{
+		transform.position = lastGroundPos;
+		SetInvincible(fallRecoveryTime);
+	}
+
+	public void UpdateInvincibility(float delta) =>
+		invincibility -= delta;
+
+	public virtual void PlayDamageEffects()
+	{
+		// MaterialFlashFX flashFX;
+		// flashFX.Flash();
+		// PlaySingleClip
 	}
 }
