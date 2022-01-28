@@ -1,11 +1,19 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public abstract class Projectile : DynamicEntity
 {
 	public event Action<Collision> OnImpact;
 
 	protected Damage damage;
+
+	[SerializeField]
+	private VisualEffect impactEffect;
+	private const float impactEffectLife = 1.0f;
+
+	[SerializeField]
+	private Transform projectileTip;
 
 	/// <summary>
 	/// Who (or what) shot Kennedy.
@@ -31,7 +39,12 @@ public abstract class Projectile : DynamicEntity
 	{
 		Impact(collision.gameObject);
 
-		ImpactController.Instance.SpawnDecal(collision.GetContact(0), impactType, scale: 0.2f);
+		ContactPoint cp = collision.GetContact(0);
+		Vector3 pos = projectileTip ? projectileTip.position : cp.point;
+
+		ImpactController.Instance.SpawnDecal(pos, cp, impactType, scale: 0.2f);
+		if (impactEffect)
+			ImpactController.Instance.SpawnImpactEffect(pos, cp, impactEffect, impactEffectLife);
 
 		OnImpact?.Invoke(collision);
 	}

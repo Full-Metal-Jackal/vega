@@ -11,7 +11,7 @@ public class GrenadeProjectile : ThrowableProjectile
 
 	[SerializeField]
 	private VisualEffect explosionEffect;
-	const float explosionLife = 3f;
+	private const float explosionLife = 3f;
 
 	private float life;
 
