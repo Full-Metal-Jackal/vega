@@ -121,8 +121,17 @@ public class PlayerController : MobController
 		UpdateAimPos();
 	}
 
-	public void UpdateAimPos() =>
-		Possessed.AimPos = CameraController.GetWorldCursorPos(-Possessed.AimHeight);
+	public void UpdateAimPos()
+	{
+		float cursorHeight;
+		if (Possessed.ActiveItem != null && Possessed.ActiveItem.IsAimable)
+			cursorHeight = Possessed.ActiveItem.AimOrigin.y;
+		else
+			cursorHeight = Possessed.transform.position.y + Possessed.AimHeight;
+
+		Possessed.AimPos = CameraController.GetWorldCursorPos(heightOffset: cursorHeight);
+	}
+		
 
 	public void SetSelectedOutline(bool selected)
 	{
