@@ -1,9 +1,31 @@
 fileFormatVersion: 2
-guid: 00948ce736c00294fa57ebe9def09a0e
+guid: 96a9f503f60cbd041a9c0066a3f4bcf2
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
-  externalObjects: {}
+  internalIDToNameTable:
+  - first:
+      74: -2702246979563270891
+    second: Drone.Rover|_default_pose
+  - first:
+      74: 3054152136980053460
+    second: Drone.Rover|Drone.RoverAction
+  - first:
+      74: 3723459960832523455
+    second: Drone.Rover|fire_side_side
+  - first:
+      74: -6955034354906978885
+    second: Drone.Rover|track_flip
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.Drone.Rover
+    second: {fileID: 2100000, guid: fc44c283b1713e647b7cc8d2d9d6f740, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.Drone.Rover.Track
+    second: {fileID: 2100000, guid: d9fc311c88551b34691e53565e094943, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +95,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 0
+  importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human: []
@@ -92,7 +114,7 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
