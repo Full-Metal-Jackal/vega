@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 86386da2e1840604cb1897eb2bf847eb
+guid: 00948ce736c00294fa57ebe9def09a0e
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.GreenLaser
+    second: {fileID: 2100000, guid: ebd3adbcbd7f42a478b7dac349c9d844, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat.RedLaser
+    second: {fileID: 2100000, guid: b92555e3397449a499d940a8b03c44a4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -41,8 +51,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0

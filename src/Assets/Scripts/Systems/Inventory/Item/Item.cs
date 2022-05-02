@@ -24,6 +24,8 @@ namespace Inventory
 		public SlotType SlotType { get; private set; } = SlotType.Weapon;
 		public abstract string SlotText { get; }
 
+		public virtual Vector3 AimOrigin => Model.transform.position;
+
 		/// <summary>
 		/// The model that currently represents this item in the mob's hands.
 		/// Should be deleted when the item is not in hands.

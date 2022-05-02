@@ -9,6 +9,8 @@ public class Gun : Weapon
 
 	public virtual Transform Barrel { get; protected set; }
 
+	public override Vector3 AimOrigin => Barrel.position;
+
 	[field: SerializeField]
 	public GunSfxData SoundEffects { get; protected set; }
 
@@ -90,7 +92,9 @@ public class Gun : Weapon
 
 	protected virtual bool Fire(Vector3 target)
 	{
-		Vector3 direction = (target - Owner.transform.position);
+		// Use (target - Owner.transform.position) for shooting parallel to AimDir
+		// Use (target - Barrel.position) for shooting directly at the cursor
+		Vector3 direction = (target - Barrel.position);
 		direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
 		direction.Normalize();
 

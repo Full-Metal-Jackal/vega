@@ -139,7 +139,10 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 				return;
 			}
 
-			float lookAtDistance = HorizontalDistance(SmoothedAimPos, Mob.transform.position);
+			Vector3 heightNormalizedAimPos = SmoothedAimPos;
+			heightNormalizedAimPos.y = humanoid.transform.position.y + humanoid.AimHeight;
+
+			float lookAtDistance = Vector3.Distance(heightNormalizedAimPos, Mob.transform.position + humanoid.AimHeight*Vector3.up);
 			float weight = ikTransition;
 
 			if (!humanoid.IsAiming)
@@ -149,7 +152,7 @@ public class HumanoidAnimationHandler : MobAnimationHandler
 			}
 
 			Animator.SetLookAtWeight(weight, bodyIkWeight, headIkWeight);
-			Animator.SetLookAtPosition(SmoothedAimPos);
+			Animator.SetLookAtPosition(heightNormalizedAimPos);
 		}
 		else if (layer == ArmsLayer)
 		{
