@@ -21,7 +21,7 @@ namespace AI
 
 		public abstract void AttackAction(AIManager aiManager, Mob mob);
 		
-		protected bool RandomMovementPos(AIManager aiManager, Vector3 targetDirection, out Vector3 point)
+		protected bool RandomMovementPos(AIManager aiManager, out Vector3 point)
 		{
 			Vector3 pointInSphere = UnityEngine.Random.insideUnitSphere * aiManager.MaxAttackRange;
 			pointInSphere.y = 0;
@@ -29,7 +29,7 @@ namespace AI
 			Vector3 randomPoint = aiManager.currentTarget.transform.position + pointInSphere;
 
 			Vector3 newPosDir = (randomPoint - transform.position).normalized;
-			float angle = Vector3.SignedAngle(newPosDir, targetDirection.normalized, Vector3.up);
+			float angle = Vector3.SignedAngle(newPosDir, aiManager.DefaultTargetDirection.normalized, Vector3.up);
 
 			if (aiManager.distanceFromTarget < aiManager.DangerThreshhold && Mathf.Abs(angle) < closeAvoidanceAngle) //Checking that the new point is not in the target's direction
 			{
@@ -127,13 +127,14 @@ namespace AI
 			return new Vector3(pointX, curentPos.y, pointZ);
 		}
 
-		protected Vector3 AimWithPrediction(AIManager aiManager, Mob mob, Vector3 targetDirection)
+		protected Vector3 AimWithPrediction(AIManager aiManager, Mob mob)
 		{
 			float projectileSpeed = (mob.ActiveItem is Gun gun) ? gun.ProjectileSpeed : 15f;
 
 			Vector3 targetVelocity = aiManager.currentTarget.GetComponent<Rigidbody>().velocity;
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
-			Vector3 aimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + targetVelocity * aiManager.distanceFromTarget / projectileSpeed + Vector3.up * mob.AimHeight;
+			Vector3 aimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget +
+				targetVelocity * aiManager.distanceFromTarget / projectileSpeed + Vector3.up * aiManager.currentTarget.AimHeight;
 
 			return aimPos;
 		}

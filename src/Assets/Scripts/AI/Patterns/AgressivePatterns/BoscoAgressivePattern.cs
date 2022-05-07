@@ -19,12 +19,11 @@ namespace AI
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
 			Vector3 pos;
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 
 			if (aiming)
 			{
-				mob.AimPos = AimWithPrediction(aiManager, mob, targetDirection);
+				mob.AimPos = AimWithPrediction(aiManager, mob);
 				// + вызов анимации или еще чего
 				aiManager.movement = Vector3.zero;
 			}
@@ -35,11 +34,11 @@ namespace AI
 			}
 			else
 			{
-				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 				mob.UseItem(false);
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
-					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
+					if (RandomMovementPos(aiManager, out Vector3 newPos))
 					{
 						aiManager.NavMeshAgent.enabled = true;
 						aiManager.NavMeshObstacle.enabled = false;

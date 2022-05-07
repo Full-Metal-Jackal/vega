@@ -23,16 +23,15 @@ namespace AI
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
 			Vector3 pos;
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 
 			if (charging)
 			{
 				// + вызов анимации или еще чего
-				mob.AimPos = aiManager.currentTarget.transform.position + Vector3.up * mob.AimHeight;
+				mob.AimPos = aiManager.TargetPos;
 				targetMovementDir = aiManager.currentTarget.GetComponent<Rigidbody>().velocity.normalized;
 				Vector3 predictedTargetDir = aiManager.currentTarget.transform.position - aiManager.transform.position + targetMovementDir;
-				dir = Vector3.SignedAngle(predictedTargetDir, targetDirection, Vector3.up) < 0 ? -1 : 1;
+				dir = Vector3.SignedAngle(predictedTargetDir, aiManager.DefaultTargetDirection, Vector3.up) < 0 ? -1 : 1;
 				aiManager.movement = Vector3.zero;
 			}
 			else if (attacking)
@@ -42,13 +41,13 @@ namespace AI
 			}
 			else
 			{
-				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 				aiManager.DebugCube.transform.position = mob.AimPos;
 				mob.UseItem(false);
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
-					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
+					if (RandomMovementPos(aiManager, out Vector3 newPos))
 					{
 						aiManager.NavMeshAgent.enabled = true;
 						aiManager.NavMeshObstacle.enabled = false;
