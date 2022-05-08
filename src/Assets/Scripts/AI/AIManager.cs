@@ -10,7 +10,6 @@ namespace AI
 {
 	public class AIManager : MobController
 	{
-		[field: SerializeField]
 		public bool CanSeeTarget { get; private set; }
 		private Mob mob;
 		private float currentRecoveryTime = 0;
@@ -54,7 +53,7 @@ namespace AI
 		}
 
 		public Vector3 TargetPos => currentTarget.transform.position + currentTarget.AimHeight * Vector3.up;
-		public Vector3 DefaultTargetDirection => currentTarget.transform.position - transform.position;
+		public Vector3 DefaultTargetDirection => currentTarget.transform.position - mob.transform.position;
 
 		[field: SerializeField]
 		public ItemData StartItemData { get; private set; }
@@ -207,7 +206,7 @@ namespace AI
 				CanSeeTarget = false;
 				return;
 			}
-			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
+			Vector3 castFrom = mob.transform.position + Vector3.up * mob.AimHeight;
 			Vector3 castDir = TargetPos - castFrom;
 
 			//DebugCube.transform.position = castTo;
