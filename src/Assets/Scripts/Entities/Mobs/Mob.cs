@@ -143,6 +143,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 		protected set => Animator.SetBool("IsAlert", __isAlert = value);
 	}
 	private bool __isAlert;
+	[SerializeField]
+	private bool startAlert = true;
 
 	public virtual bool CanUseItems
 	{
@@ -238,9 +240,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 		Speaker = GetComponentInChildren<Speech.MobSpeaker>();
 		Animator = GetComponentInChildren<Animator>();
 
-		// <TODO> currently just sets true by default, but later will be used to tell mobs who're engaged in a fight
-		// from peacefully walking ones.
-		IsAlert = true;
+		IsAlert = startAlert;
 	}
 
 	public virtual void TakeDamage(Damage damage)
