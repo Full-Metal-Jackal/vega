@@ -2,8 +2,7 @@
 using System;
 
 using Inventory;
-
-using static Utils;
+using UnityEngine.Events;
 
 public abstract class Mob : DynamicEntity, IDamageable
 {
@@ -13,7 +12,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public event Action OnDroppedItem;
 	public event Action OnHealthChanged;
 	public event Action<Mob> OnDamaged;
-	public event Action<Mob> OnDefeated;
+
+	// <TODO> Added for better integration with Unity inspector, may cause unintended shit circus later, blame it all on Ocelot.
+	public UnityEvent<Mob> OnDefeated;
 
 	[field: SerializeField]
 	public virtual float MaxHealth { get; set; } = 100;

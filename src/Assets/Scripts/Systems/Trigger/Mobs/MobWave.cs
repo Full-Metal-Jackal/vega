@@ -46,14 +46,14 @@ namespace TriggerSystem
 
 		public void AddTrackedMob(Mob mob)
 		{
-			mob.OnDefeated += OnMobDefeated;
+			mob.OnDefeated.AddListener(OnMobDefeated);
 
 			trackedMobs.Add(mob);
 		}
 
 		public void OnMobDefeated(Mob mob)
 		{
-			mob.OnDefeated -= OnMobDefeated;
+			mob.OnDefeated.RemoveListener(OnMobDefeated);
 
 			trackedMobs.Remove(mob);
 
