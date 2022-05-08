@@ -50,7 +50,6 @@ public class BoscoTurret : MonoBehaviour
 		}
 		if (IsMachinegunState)
 		{
-			Vector3 targetDirection = target.transform.position - possesed.transform.position;
 			possesed.AimPos = target.transform.position + Vector3.up * possesed.AimHeight;
 			possesed.TurnTo(Time.deltaTime, possesed.AimDir);
 			if (currentMachinegunRecoveryTime <= 0)

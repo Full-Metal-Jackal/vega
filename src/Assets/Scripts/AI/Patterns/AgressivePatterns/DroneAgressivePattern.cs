@@ -9,10 +9,9 @@ namespace AI
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
 			Vector3 pos;
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
 			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.MaxAttackRange && aiManager.CanSeeTarget)
 			{
-				mob.AimPos = mob.transform.position + targetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{

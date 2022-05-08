@@ -19,7 +19,6 @@ namespace AI
 		public override void Tick(AIManager aiManager, Mob mob)
 		{
 			Vector3 pos;
-			Vector3 targetDirection = aiManager.currentTarget.transform.position - aiManager.transform.position;
 			aiManager.distanceFromTarget = Vector3.Distance(aiManager.currentTarget.transform.position, aiManager.transform.position);
 
 			if (charging)
@@ -30,13 +29,13 @@ namespace AI
 			else if (attacking)
 			{
 				aiManager.movement = Vector3.zero;
-				AttackAction(aiManager, mob, targetDirection);
+				AttackAction(aiManager, mob);
 			}
 			else if (dashing)
 			{
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
-					if (RandomMovementPos(aiManager, targetDirection, out Vector3 newPos))
+					if (RandomMovementPos(aiManager, out Vector3 newPos))
 					{
 						aiManager.NavMeshAgent.enabled = true;
 						aiManager.NavMeshObstacle.enabled = false;
@@ -103,7 +102,7 @@ namespace AI
 		}
 
 		// Использовать стан
-		public void AttackAction(AIManager aiManager, Mob mob, Vector3 targetDirection)
+		public override void AttackAction(AIManager aiManager, Mob mob)
 		{
 			mob.UseItem(true);
 			if (!mob.ActiveItem.Automatic)

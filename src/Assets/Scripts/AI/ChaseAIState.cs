@@ -43,18 +43,17 @@ namespace AI
 			}
 
 			aiManager.movement = targetDirection;
-			mob.AimPos = mob.transform.position + targetDirection.normalized * distanceFromTarget;
+			mob.AimPos = aiManager.TargetPos;
 			return this;
 
 		}
 
 		public Vector3 GetNavMeshDirection(float delta, AIManager aiManager)
 		{
-			Vector3 targetDirection;
 			//Move manualy
 			if (aiManager.isPerfomingAction)
 			{
-				targetDirection = aiManager.currentTarget.transform.position - transform.position;
+				return aiManager.DefaultTargetDirection;
 			}
 			// Move via pathfinding	
 			else
@@ -63,10 +62,8 @@ namespace AI
 				aiManager.NavMeshObstacle.enabled = false;
 				aiManager.NavMeshAgent.SetDestination(aiManager.currentTarget.transform.position);
 
-				targetDirection = aiManager.NavMeshAgent.desiredVelocity;
+				return aiManager.NavMeshAgent.desiredVelocity;
 			}
-
-			return targetDirection;
 		}
 	}
 }

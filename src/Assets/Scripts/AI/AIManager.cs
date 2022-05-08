@@ -52,6 +52,9 @@ namespace AI
 			set => patternRecoveryTime = value;
 		}
 
+		public Vector3 TargetPos => currentTarget.transform.position + currentTarget.AimHeight * Vector3.up;
+		public Vector3 DefaultTargetDirection => currentTarget.transform.position - mob.transform.position;
+
 		[field: SerializeField]
 		public ItemData StartItemData { get; private set; }
 
@@ -81,6 +84,7 @@ namespace AI
 		public NavMeshObstacle NavMeshObstacle { get; private set; }
 
 		public GameObject DebugCube;
+		public GameObject DebugCube2;
 
 		protected override void Awake()
 		{
@@ -202,9 +206,13 @@ namespace AI
 				CanSeeTarget = false;
 				return;
 			}
-			Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
-			Vector3 castTo = currentTarget.transform.position + Vector3.up * mob.AimHeight - castFrom;
-			if (Physics.Raycast(castFrom, castTo, out RaycastHit hit, DetectionRadius, obstacleLayer))
+			Vector3 castFrom = mob.transform.position + Vector3.up * mob.AimHeight;
+			Vector3 castDir = TargetPos - castFrom;
+
+			//DebugCube.transform.position = castTo;
+			//DebugCube2.transform.position = castFrom;
+
+			if (Physics.Raycast(castFrom, castDir, out RaycastHit hit, DetectionRadius, obstacleLayer))
 			{
 				Transform detection = hit.transform;
 				if (detection.TryGetComponent(out Mob mob) && mob.Faction == Faction.Player)
@@ -279,6 +287,15 @@ namespace AI
 
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireSphere(transform.position, 0.5f);
+
+			if (mob)
+			{
+				Vector3 castFrom = transform.position + Vector3.up * mob.AimHeight;
+				Vector3 castTo = TargetPos;
+				Gizmos.color = Color.red;
+				Gizmos.DrawLine(castFrom, castTo);
+			}
+
 		}
 	}
 }
