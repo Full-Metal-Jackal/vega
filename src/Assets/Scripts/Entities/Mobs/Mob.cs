@@ -141,7 +141,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 	public bool IsAlert
 	{
 		get => __isAlert;
-		protected set => Animator.SetBool("IsAlert", __isAlert = value);
+		set => Animator.SetBool("IsAlert", __isAlert = value);
 	}
 	private bool __isAlert;
 	[SerializeField]

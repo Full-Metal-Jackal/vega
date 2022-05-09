@@ -95,7 +95,7 @@ public class Gun : Weapon
 		// Use (target - Owner.transform.position) for shooting parallel to AimDir
 		// Use (target - Barrel.position) for shooting directly at the cursor
 		Vector3 direction = (target - Barrel.position);
-		direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
+		// direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
 		direction.Normalize();
 
 		if (!PreFire(ref direction))

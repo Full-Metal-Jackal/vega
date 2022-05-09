@@ -12,7 +12,7 @@ namespace AI
 			Vector3 pos;
 			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.MaxAttackRange && aiManager.CanSeeTarget)
 			{
-				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = aiManager.TargetPos;
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
