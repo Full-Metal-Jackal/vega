@@ -17,8 +17,10 @@ public class Commentable : Interaction
 	private Commentary FindCharactersCommentary(Mob mob)
 	{
 		foreach (Commentary commentary in commentaries)
-			if (mob == commentary.Character)
+			if (mob.Traits == commentary.Character)
 				return commentary;
+
+		Debug.LogWarning($"{mob} has nothing to say about {Entity}!");
 		return null;
 	}
 
@@ -33,8 +35,10 @@ public class Commentable : Interaction
 			additiveDelay = commentary.AdditiveDelay;
 		}
 
+		mob.Speaker.DisappearAtDistance(
+			null  // <TODO> Entity.transform isn't working for some unknown reason
+		);
 		mob.Speaker.Speak(text, additiveDelay, true);
-		mob.Speaker.DisappearAtDistance(Entity.transform);
 
 		return true;
 	}

@@ -1,40 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MobDamageFlasherFX : MonoBehaviour
+public class MobDamageFlasherFX : EntityShaderFX
 {
 	private float currentFlashLife, targetFlashLife;
 
 	private float peakIntensity;
 
-	[SerializeField]
-	private Renderer[] mobRenderers;
-
 	// <TODO> Should be bound to mob's OnActiveItemChanged, not implemented yet.
 	//private Renderer[] itemsMeshRenderers;
 
-	private Material[] materials;
-
 	private static readonly int flashID = Shader.PropertyToID("_Flash");
 
-	private void Awake()
+	protected override void Awake()
 	{
-		Mob mob = transform.parent.GetComponentInParent<Mob>();
-		if (!mob)
-		{
-			Debug.LogError($"No mob found for {this}. Mob's renderer FX should be two levels deeper than the mob itself.");
-			return;
-		}
+		base.Awake();
 
-		mobRenderers = mob.GetComponentsInChildren<Renderer>();
-
-		materials = new Material[mobRenderers.Length];
-		
-		for (int i = 0; i < mobRenderers.Length;  i++)
-			materials[i] = mobRenderers[i].material;
-
-		mob.OnDamaged += (Mob __) => Flash();
+		if (Entity is Mob mob)
+			mob.OnDamaged += (Mob __) => Flash();
+		else
+			Debug.LogError($"{this} should be assigned to a mob.");
 	}
 
 	private void Update()
@@ -47,7 +31,7 @@ public class MobDamageFlasherFX : MonoBehaviour
 		else
 			enabled = false;
 
-		foreach (Material material in materials)
+		foreach (Material material in Materials)
 			material.SetFloat(flashID, intensity);
 	}
 

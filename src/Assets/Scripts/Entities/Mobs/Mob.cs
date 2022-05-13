@@ -230,6 +230,9 @@ public abstract class Mob : DynamicEntity, IDamageable
 	/// </summary>
 	public virtual MovementType MovementType { get; set; } = MovementType.Running;
 
+	[field: SerializeField]
+	public MobTraits Traits { get; private set; }
+
 	protected override void Awake()
 	{
 		base.Awake();
