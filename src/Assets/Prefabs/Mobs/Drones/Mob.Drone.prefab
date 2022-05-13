@@ -90,7 +90,9 @@ MonoBehaviour:
     force: 0
     direction: {x: 0, y: 0, z: 0}
     hitPoint: {x: 0, y: 0, z: 0}
+    ignoresShield: 0
   <SoundEffects>k__BackingField: {fileID: 7796198633147986818}
+  <ProjectilesIgnoreHostiles>k__BackingField: 1
   <ProjectilePrefab>k__BackingField: {fileID: 0}
   <ProjectileSpeed>k__BackingField: 15
   <Spread>k__BackingField: 0
@@ -302,6 +304,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Drone Base
   <CanHideWalls>k__BackingField: 0
+  OnDefeated:
+    m_PersistentCalls:
+      m_Calls: []
   <MaxHealth>k__BackingField: 50
   <Faction>k__BackingField: 0
   __health: 0
@@ -314,6 +319,7 @@ MonoBehaviour:
   turnsToMovementDirection: 0
   <MaxTurningSpeed>k__BackingField: 10
   <AimHeight>k__BackingField: 1.7
+  startAlert: 1
   <AimPosTransform>k__BackingField: {fileID: 6120500065991089621}
   <DroneGun>k__BackingField: {fileID: 9150540476914378396}
 --- !u!114 &6731160150075814575

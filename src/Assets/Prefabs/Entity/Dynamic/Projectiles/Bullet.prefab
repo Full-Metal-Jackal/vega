@@ -94,6 +94,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Sample bullet
   <CanHideWalls>k__BackingField: 0
+  impactEffect: {fileID: 0}
+  projectileTip: {fileID: 0}
+  impactType: 0
 --- !u!1 &8400631703341512431
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3596652942184200369}
   - component: {fileID: 566425892708626620}
-  m_Layer: 15
+  m_Layer: 16
   m_Name: Collisions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
