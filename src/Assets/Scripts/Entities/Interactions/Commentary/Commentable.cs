@@ -35,9 +35,7 @@ public class Commentable : Interaction
 			additiveDelay = commentary.AdditiveDelay;
 		}
 
-		mob.Speaker.DisappearAtDistance(
-			null  // <TODO> Entity.transform isn't working for some unknown reason
-		);
+		mob.Speaker.DisappearAtDistance(mob.Speaker.transform.position);
 		mob.Speaker.Speak(text, additiveDelay, true);
 
 		return true;

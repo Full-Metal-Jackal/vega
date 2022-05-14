@@ -12,8 +12,8 @@ namespace Speech
 
 		private float life;
 
-		private Transform disappearAwayFrom;
-		private float disappearAtDistance;
+		private Vector3 disappearAwayFrom;
+		private float disappearAtDistance = 0;
 
 		private void Awake()
 		{
@@ -31,10 +31,12 @@ namespace Speech
 			if (life > 0)
 				text.enabled = (life -= Time.deltaTime) > 0;
 
-			if (disappearAwayFrom && Vector3.Distance(transform.position, disappearAwayFrom.position) > disappearAtDistance)
+			if (disappearAtDistance >= 0 &&
+				Utils.HorizontalDistance(transform.position, disappearAwayFrom) > disappearAtDistance
+			)
 			{
 				life = 0;
-				disappearAwayFrom = null;
+				disappearAtDistance = 0;
 				text.enabled = false;
 			}
 		}
@@ -56,9 +58,13 @@ namespace Speech
 			text.enabled = true;
 		}
 
-		public void DisappearAtDistance(Transform subjectTransform, float distance = 2f)
+
+		public void DisappearAtDistance(Vector3 interactionSpot) =>
+			DisappearAtDistance(interactionSpot, PlayerController.Instance.selectionDistance);
+
+		public void DisappearAtDistance(Vector3 interactionSpot, float distance)
 		{
-			disappearAwayFrom = subjectTransform;
+			disappearAwayFrom = interactionSpot;
 			disappearAtDistance = distance;
 		}
 
