@@ -35,7 +35,6 @@ namespace UI.Loading
 		{
 			gameObject.SetActive(true);
 			Game.Paused = true;
-			ToggleButton(false);
 
 			Debug.Log("Opening the loading screen...");
 			this.loading = loading;
@@ -44,7 +43,6 @@ namespace UI.Loading
 		public void FinishLoading()
 		{
 			finished = true;
-			ToggleButton(true);
 			progressBar.Text.text = "Continue";
 		}
 
@@ -63,13 +61,11 @@ namespace UI.Loading
 				FinishLoading();
 		}
 
-		public void ToggleButton(bool enabled)
-		{
-			continueButton.gameObject.SetActive(enabled);
-		}
-
 		public void ContinuePressed()
 		{
+			if (!finished)
+				return;
+				
 			loading.allowSceneActivation = true;
 			Close();
 		}
