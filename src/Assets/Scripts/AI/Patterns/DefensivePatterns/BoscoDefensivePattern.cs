@@ -41,7 +41,6 @@ namespace AI
 						aiManager.NavMeshObstacle.enabled = false;
 						pos = newPos;
 						aiManager.NavMeshAgent.SetDestination(pos);
-						aiManager.DebugCube.transform.position = pos;
 						aiManager.currentMovementRecoveryTime = aiManager.MaxMovementRecoveryTime;
 					}
 					if (aiManager.currentDashRecoveryTime <= 0)
@@ -57,7 +56,6 @@ namespace AI
 			{
 				aiManager.movement = Vector3.zero;
 				mob.AimPos = mob.transform.position;
-				aiManager.DebugCube.transform.position = mob.AimPos;
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;
 				StartCoroutine(waiter(aiManager));

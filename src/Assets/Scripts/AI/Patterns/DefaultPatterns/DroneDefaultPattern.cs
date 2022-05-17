@@ -11,7 +11,7 @@ namespace AI
 			Vector3 pos;
 			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.distanceFromTarget <= aiManager.MaxAttackRange && aiManager.CanSeeTarget)
 			{
-				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
+				mob.AimPos = aiManager.TargetPos;
 
 				if (aiManager.currentMovementRecoveryTime <= 0)
 				{
@@ -26,8 +26,26 @@ namespace AI
 				}
 
 				MoveToLastPos(aiManager);
+				// waitForMovement
 				AttackAction(aiManager, mob);
+				// waitForAttack
 			}
+		}
+
+		public override void AttackAction(AIManager aiManager, Mob mob)
+		{
+			if (aiManager.CurrentRecoveryTime <= 0 && aiManager.isPerfomingAction == false)
+			{
+				aiManager.isPerfomingAction = true;
+
+				mob.UseItem(true);
+				if (!mob.ActiveItem.Automatic)
+					mob.UseItem(false);
+
+				aiManager.CurrentRecoveryTime = aiManager.ShootingRecoveryTime;
+				return;
+			}
+			mob.UseItem(false);
 		}
 	}
 }

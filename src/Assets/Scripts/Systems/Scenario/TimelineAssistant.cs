@@ -37,6 +37,18 @@ namespace Scenario
 
 			animationHandler.transform.localPosition = Vector3.zero;
 			animationHandler.transform.localRotation = Quaternion.identity;
+
+			/* <TODO> This code relies on the common mobs' Model hierarchy:
+			Transform Model must have the imported .fbx as its first child.
+			If cause errors, refactor this like it's implemented in items.
+
+			The need to align the model's transform along with its controller
+			may be caused by its object's poisition being changed in the animation.
+
+			Tying our animation workflow with Unity's PlayableDirector is pretty fucky, hence the kludges.*/
+			Transform model = animationHandler.transform.GetChild(0);
+			model.localPosition = Vector3.zero;
+			model.localRotation = Quaternion.identity;
 		}
 	}
 }

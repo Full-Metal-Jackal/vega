@@ -1,6 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
+
+#if UNITY_EDITOR
 namespace EditorEx
 {
 	[CustomPropertyDrawer(typeof(PropAttribute))]
@@ -24,3 +26,4 @@ namespace EditorEx
 		}
 	}
 }
+#endif

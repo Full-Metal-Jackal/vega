@@ -42,7 +42,6 @@ namespace AI
 			else
 			{
 				mob.AimPos = mob.transform.position + aiManager.DefaultTargetDirection.normalized * aiManager.distanceFromTarget + Vector3.up * mob.AimHeight;
-				aiManager.DebugCube.transform.position = mob.AimPos;
 				mob.UseItem(false);
 
 				if (aiManager.currentMovementRecoveryTime <= 0)

@@ -6,9 +6,20 @@ public abstract class Interaction : MonoBehaviour
 	public bool Initialized { get; private set; } = false;
 
 	public Entity Entity { get; private set; }
-	public Outline Outline { get; private set; }
 
-	public bool Selectable { get; set; } = true;
+	[SerializeField]
+	private EntityOutlineFX outline;
+
+	public bool OutlineEnabled
+	{
+		set
+		{
+			if (outline != null)
+				outline.enabled = value;
+		}
+	}
+
+	public virtual bool Selectable => enabled;
 
 	protected virtual void Awake()
 	{
@@ -17,8 +28,6 @@ public abstract class Interaction : MonoBehaviour
 		
 		if (!Entity)
 			Entity = GetComponent<Entity>();
-		if (!Outline)
-			Outline = GetComponent<Outline>();
 
 		Initialized = true;
 	}

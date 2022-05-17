@@ -83,9 +83,6 @@ namespace AI
 
 		public NavMeshObstacle NavMeshObstacle { get; private set; }
 
-		public GameObject DebugCube;
-		public GameObject DebugCube2;
-
 		protected override void Awake()
 		{
 			base.Awake();
@@ -208,9 +205,6 @@ namespace AI
 			}
 			Vector3 castFrom = mob.transform.position + Vector3.up * mob.AimHeight;
 			Vector3 castDir = TargetPos - castFrom;
-
-			//DebugCube.transform.position = castTo;
-			//DebugCube2.transform.position = castFrom;
 
 			if (Physics.Raycast(castFrom, castDir, out RaycastHit hit, DetectionRadius, obstacleLayer))
 			{

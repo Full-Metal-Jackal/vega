@@ -9,7 +9,13 @@ public class IntegratedGun : Gun
 	[field: SerializeField]
 	public Transform[] Barrels { get; private set; }
 	private int currentBarrel = 0;
-	public override Transform Barrel => Barrels[++currentBarrel % Barrels.Length];
+	public override Transform Barrel => Barrels[currentBarrel % Barrels.Length];
 
 	public override bool ConsumeAmmo() => true;
+
+	public override void PostFire(Vector3 direction, Projectile projectile)
+	{
+		base.PostFire(direction, projectile);
+		currentBarrel++;
+	}
 }

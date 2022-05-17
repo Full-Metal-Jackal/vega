@@ -43,6 +43,10 @@ public static class Game
 	public static bool Initialized { get; private set; } = false;
 	public static void Initialize()
 	{
+	}
+
+	static Game()
+	{
 		if (Initialized)
 			throw new System.Exception("Multiple Game initialization attempts.");
 

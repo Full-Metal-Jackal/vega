@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MobController
@@ -135,8 +136,8 @@ public class PlayerController : MobController
 
 	public void SetSelectedOutline(bool selected)
 	{
-		if (SelectedEntity && SelectedEntity.Outline)
-			SelectedEntity.Outline.enabled = selected;
+		if (SelectedEntity)
+			SelectedEntity.OutlineEnabled = selected;
 	}
 
 	public void UpdateSelectedEntitiy()
@@ -177,13 +178,14 @@ public class PlayerController : MobController
 				|| (distance >= minDist))
 				continue;
 
-			if (!(collider.GetComponentInParent<Interaction>() is Interaction interactable)
-				|| !interactable.Selectable
-				|| !interactable.CanBeUsedBy(Possessed))
+			Interaction interaction = collider.GetComponentsInParent<Interaction>().FirstOrDefault(
+				(Interaction i) => i.Selectable && i.CanBeUsedBy(Possessed)
+			);
+			if (interaction == null)
 				continue;
 
 			minDist = distance;
-			result = interactable;
+			result = interaction;
 		}
 
 		return result;

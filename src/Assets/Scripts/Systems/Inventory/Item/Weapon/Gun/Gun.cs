@@ -15,6 +15,9 @@ public class Gun : Weapon
 	public GunSfxData SoundEffects { get; protected set; }
 
 	[field: SerializeField]
+	public bool ProjectilesIgnoreHostiles { get; protected set; } = false;
+
+	[field: SerializeField]
 	public Projectile ProjectilePrefab { get; private set; }
 
 	[field: SerializeField]
@@ -95,13 +98,13 @@ public class Gun : Weapon
 		// Use (target - Owner.transform.position) for shooting parallel to AimDir
 		// Use (target - Barrel.position) for shooting directly at the cursor
 		Vector3 direction = (target - Barrel.position);
-		direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
+		// direction.y = 0f; // <TODO> Change if causes visual inaccuracy.
 		direction.Normalize();
 
 		if (!PreFire(ref direction))
 			return false;
 
-		Projectile projectile = CreateProjectile(Damage);
+		Projectile projectile = CreateProjectile(Damage, ignoreHostiles: ProjectilesIgnoreHostiles);
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
 		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
@@ -151,13 +154,13 @@ public class Gun : Weapon
 		UpdateSlotText();
 	}
 
-	public virtual Projectile CreateProjectile(Damage damage)
+	public virtual Projectile CreateProjectile(Damage damage, bool ignoreHostiles = false)
 	{
 		Projectile projectile = Instantiate(ProjectilePrefab);
 		if (!projectile)
 			throw new Exception($"{this} received an invalid projectile prefab: {ProjectilePrefab}");
 
-		projectile.Setup(Owner, damage);
+		projectile.Setup(Owner, damage, ignoreHostiles: ignoreHostiles);
 
 		return projectile;
 	}

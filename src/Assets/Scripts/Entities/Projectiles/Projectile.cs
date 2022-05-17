@@ -12,6 +12,24 @@ public abstract class Projectile : DynamicEntity
 	private VisualEffect impactEffect;
 	private const float impactEffectLife = 1.0f;
 
+	private bool __ignoreHostiles = false;
+	public bool IgnoreHostiles
+	{
+		get => __ignoreHostiles;
+		set
+		{
+			if (__ignoreHostiles == value)
+				return;
+
+			int layer = (int)(
+				(__ignoreHostiles = value) ? Layer.ProjectilesIgnoreHostile : Layer.Projectiles
+			);
+
+			foreach (Collider collider in Colliders)
+				collider.gameObject.layer = layer;
+		}
+	}
+
 	[SerializeField]
 	private Transform projectileTip;
 
@@ -23,7 +41,7 @@ public abstract class Projectile : DynamicEntity
 	[SerializeField]
 	private ImpactType impactType;
 
-	public virtual void Setup(Entity source, Damage damage)
+	public virtual void Setup(Entity source, Damage damage, bool ignoreHostiles = false)
 	{
 		foreach (Collider sourceCollider in source.Colliders)
 			foreach (Collider collider in Colliders)
@@ -33,6 +51,8 @@ public abstract class Projectile : DynamicEntity
 
 		damage.inflictor = source;
 		this.damage = damage;
+
+		IgnoreHostiles = ignoreHostiles;
 	}
 
 	private void OnCollisionEnter(Collision collision)

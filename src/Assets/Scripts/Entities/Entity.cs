@@ -12,8 +12,6 @@ public abstract class Entity : MonoBehaviour
 	[field: SerializeField]
 	public bool CanHideWalls { get; set; } = false;
 
-	public Outline Outline { get; private set; }
-
 	public IEnumerable<Collider> Colliders => GetComponentsInChildren<Collider>();
 
 	/// <summary>
@@ -23,7 +21,6 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		Outline = GetComponent<Outline>();
 	}
 
 	protected virtual void Start()

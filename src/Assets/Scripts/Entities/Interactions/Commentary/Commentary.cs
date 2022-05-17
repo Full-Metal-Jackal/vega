@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-public class Commentary : MonoBehaviour
+[CreateAssetMenu(fileName = "CommentaryData", menuName = "Scene Data/Commentary", order = 1)]
+public class Commentary : ScriptableObject
 {
 	[field: SerializeField]
-	public Mob Character { get; private set; }
+	public MobTraits Character { get; private set; }
 
 	[field: SerializeField]
 	public string Text { get; private set; }
