@@ -40,26 +40,8 @@ public static class Game
 		}
 	}
 
-	public static bool Initialized { get; private set; } = false;
-	public static void Initialize()
-	{
-	}
-
-	static Game()
-	{
-		if (Initialized)
-			throw new System.Exception("Multiple Game initialization attempts.");
-
-		Debug.Log("The game has been initialized.");
-		Initialized = true;
-		PlayerInput.Initialize();
-	}
-
 	public static void StartLevel()
 	{
-		if (!Initialized)
-			throw new System.Exception("Attempted to start uninitialized Game instance.");
-
 		Debug.Log("The game has been started.");
 		PlayerInput.UpdateInput();
 	}

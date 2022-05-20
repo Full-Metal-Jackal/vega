@@ -6,6 +6,10 @@ namespace Input
 	{
 		public static InputActions Actions { get; private set; }
 
+		static PlayerInput() {
+			Actions = new InputActions();
+		}
+
 		public static bool WorldInputEnabled
 		{
 			get => Actions.World.enabled;
@@ -28,11 +32,6 @@ namespace Input
 				else
 					Actions.UI.Disable();
 			}
-		}
-
-		public static void Initialize()
-		{
-			Actions = new InputActions();
 		}
 
 		public static void UpdateInput()
