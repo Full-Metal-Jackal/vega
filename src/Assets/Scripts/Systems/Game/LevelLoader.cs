@@ -12,9 +12,6 @@ public class LevelLoader : MonoSingleton<LevelLoader>
 
 	protected override void Awake()
 	{
-		if (!Game.Initialized)
-			Game.Initialize();
-
 		foreach (GameObject prefab in instantiateAtStart)
 			Instantiate(prefab, Containers.Instance.Interscene);
 	}
