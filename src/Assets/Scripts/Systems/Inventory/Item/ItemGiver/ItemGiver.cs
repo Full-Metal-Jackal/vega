@@ -1,9 +1,10 @@
-﻿using Inventory;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartItemGiver : MonoBehaviour
+using Inventory;
+
+public class ItemGiver : MonoBehaviour
 {
 	[SerializeField]
 	private ItemData itemToGive;
@@ -11,7 +12,7 @@ public class StartItemGiver : MonoBehaviour
 	[SerializeField]
 	private Mob mob;
 
-	private void Start()
+	public virtual void GiveItem()
 	{
 		if (mob == null)
 			throw new System.Exception($"No {mob} assigned to item giver");

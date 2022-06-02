@@ -20,6 +20,10 @@ PrefabInstance:
       value: BoscoThePirate
       objectReference: {fileID: 0}
     - target: {fileID: 7522459965451628606, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
+      propertyPath: <Traits>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: bcc3024924ad940419ed88b05fa5b02d, type: 2}
+    - target: {fileID: 7522459965451628606, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
       propertyPath: <AimHeight>k__BackingField
       value: 1.45
       objectReference: {fileID: 0}
@@ -81,10 +85,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8622062584962711657, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
       propertyPath: m_Name
-      value: BoscoThePirate Variant
+      value: BoscoThePirate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
+--- !u!4 &7781684603842176950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8312547137923840455, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
+  m_PrefabInstance: {fileID: 1774982850265767537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7534240975142652785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8083118281379173632, guid: ae833b2172ae37d438d30059891a5f0c, type: 3}
@@ -201,3 +210,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 354429858368050696, guid: 2c705fe1002f974419cd00c0d01e213f, type: 3}
   m_PrefabInstance: {fileID: 1774982850426984013}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3751972971207438669
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7781684603842176950}
+    m_Modifications:
+    - target: {fileID: 450489967940527602, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226841719404489313, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_Name
+      value: Speaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365070047292425379, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.7307693
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365070047292425379, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.91758245
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365070047292425379, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365070047292425379, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4290439935
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9d2df08f4001e84b8b33f6d0fb9b0c3, type: 3}
