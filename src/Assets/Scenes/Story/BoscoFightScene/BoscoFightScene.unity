@@ -647,6 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 262722968}
+  - component: {fileID: 262722969}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Untagged
@@ -668,6 +669,23 @@ Transform:
   m_Father: {fileID: 1665558322}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262722969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262722967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69804d24a2e14ae4da5fd553dd4e3912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  mob: {fileID: 0}
+  health: 30
 --- !u!1 &298414781
 GameObject:
   m_ObjectHideFlags: 0
