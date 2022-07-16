@@ -81,6 +81,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96a9f503f60cbd041a9c0066a3f4bcf2, type: 3}
+--- !u!4 &6305625470916441248 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3256120069711376588, guid: 96a9f503f60cbd041a9c0066a3f4bcf2, type: 3}
+  m_PrefabInstance: {fileID: 382213302877715348}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &426915208971689202 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 45407526808479590, guid: 96a9f503f60cbd041a9c0066a3f4bcf2, type: 3}
+  m_PrefabInstance: {fileID: 382213302877715348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4119587312422210882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,6 +98,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 368228564536663330, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <Name>k__BackingField
+      value: Rover Drone
+      objectReference: {fileID: 0}
     - target: {fileID: 368228564536663330, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
       propertyPath: <AimHeight>k__BackingField
       value: 0.4
@@ -164,6 +178,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Drone.Rover
       objectReference: {fileID: 0}
+    - target: {fileID: 9150540476914378396, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <FireRate>k__BackingField
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150540476914378396, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <ProjectileSpeed>k__BackingField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150540476914378396, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <ProjectilePrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 2287223000048794827, guid: 6c418f519208dc647a58d09bca276aab, type: 3}
+    - target: {fileID: 9150540476914378396, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <Barrels>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 6305625470916441248}
+    - target: {fileID: 9150540476914378396, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
+      propertyPath: <Barrels>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 426915208971689202}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f269f119b4c0e28499f979af63a41f60, type: 3}
 --- !u!4 &5263019529744166741 stripped

@@ -35,6 +35,9 @@ public class Gun : Weapon
 	[field: SerializeField]
 	public float FireRate { get; protected set; } = 120;
 
+	[field: SerializeField]
+	public bool UseRelativeProjectileForce { get; private set; } = false;
+
 	/// <summary>
 	/// Delay between shots.
 	/// </summary>
@@ -107,7 +110,12 @@ public class Gun : Weapon
 		Projectile projectile = CreateProjectile(Damage, ignoreHostiles: ProjectilesIgnoreHostiles);
 		projectile.transform.position = Barrel.position;
 		projectile.transform.forward = direction;
-		projectile.Body.AddForce(direction * ProjectileSpeed, ForceMode.VelocityChange);
+
+		Vector3 force = direction * ProjectileSpeed;
+		if (UseRelativeProjectileForce)
+			force += Owner.Body.velocity;
+
+		projectile.Body.AddForce(force, ForceMode.VelocityChange);
 
 		PostFire(direction, projectile);
 

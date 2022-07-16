@@ -117,4 +117,17 @@ public static class Utils
 		float mu = maxX;
 		return BellCurve(x, sigma: sigma, mu: mu) * 2.5f;
 	}
+
+	/// <summary>
+	/// Creates bitmask from a colleciton of layers.
+	/// </summary>
+	/// <param name="layers"></param>
+	/// <returns></returns>
+	public static int CreateMask(IEnumerable<Layer> layers)
+	{
+		int mask = 0;
+		foreach (Layer layer in layers)
+			mask |= 1 << (int)layer;
+		return mask;
+	}
 }

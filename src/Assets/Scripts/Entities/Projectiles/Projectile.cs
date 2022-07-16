@@ -22,7 +22,7 @@ public abstract class Projectile : DynamicEntity
 				return;
 
 			int layer = (int)(
-				(__ignoreHostiles = value) ? Layer.ProjectilesIgnoreHostile : Layer.Projectiles
+				(__ignoreHostiles = value) ? Layer.ProjectilesIgnoreHostiles : Layer.Projectiles
 			);
 
 			foreach (Collider collider in Colliders)

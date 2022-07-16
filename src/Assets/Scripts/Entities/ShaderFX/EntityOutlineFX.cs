@@ -6,6 +6,7 @@ public class EntityOutlineFX : EntityShaderFX
 
 	public Color color = Color.white;
 
+	[SerializeField]
 	private bool startEnabled;
 
 	private void Start()
