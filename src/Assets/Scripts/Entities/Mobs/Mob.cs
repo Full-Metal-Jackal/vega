@@ -116,8 +116,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected readonly float movementHaltThreshold = .01f;
 
-	[SerializeField]
-	private bool turnsToMovementDirection = true;
+	[field: SerializeField]
+	protected bool TurnsToMovementDirection { get; private set; } = true;
 	protected readonly float rotationThreshold = .01f;
 
 	protected Vector3 activeDirection = Vector3.zero;
@@ -310,7 +310,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		Body.velocity = targetVelocity;
 
-		if (turnsToMovementDirection)
+		if (TurnsToMovementDirection)
 			TurnTo(delta, Body.velocity);
 	}
 

@@ -25,11 +25,11 @@ namespace FreezeeAI
 			{
 				mob.AimPos = AimWithPrediction(aiManager, mob);
 				// + вызов анимации или еще чего
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 			}
 			else if (attacking)
 			{
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 				AttackAction(aiManager, mob);
 			}
 			else

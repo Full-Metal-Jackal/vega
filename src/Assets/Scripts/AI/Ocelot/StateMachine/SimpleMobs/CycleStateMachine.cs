@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OcelotAI
+public class SequentialStateMachine : MonoBehaviour
 {
-	public class AIPattern : MonoBehaviour
-	{
-	}
+
 }

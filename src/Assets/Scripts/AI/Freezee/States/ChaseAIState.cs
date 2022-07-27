@@ -38,11 +38,11 @@ namespace FreezeeAI
 			{
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 				return combatStanceState;
 			}
 
-			aiManager.movement = targetDirection;
+			aiManager.Movement = targetDirection;
 			mob.AimPos = aiManager.TargetPos;
 			return this;
 

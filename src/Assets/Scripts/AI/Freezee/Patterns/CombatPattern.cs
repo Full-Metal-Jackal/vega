@@ -80,7 +80,7 @@ namespace FreezeeAI
 		{
 			aiManager.NavMeshAgent.transform.localPosition = Vector3.zero;
 			Vector3 moveToPos = aiManager.NavMeshAgent.desiredVelocity;
-			aiManager.movement = moveToPos;
+			aiManager.Movement = moveToPos;
 		}
 
 		protected bool MoveAroundTarget(AIManager aiManager, out Vector3 point)

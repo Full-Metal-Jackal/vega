@@ -24,11 +24,11 @@ namespace FreezeeAI
 			if (charging)
 			{
 				// + вызов анимации или еще чего
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 			}
 			else if (attacking)
 			{
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 				AttackAction(aiManager, mob);
 			}
 			else if (dashing)
@@ -54,7 +54,7 @@ namespace FreezeeAI
 			}
 			else
 			{
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 				mob.AimPos = mob.transform.position;
 				aiManager.NavMeshAgent.enabled = false;
 				aiManager.NavMeshObstacle.enabled = true;

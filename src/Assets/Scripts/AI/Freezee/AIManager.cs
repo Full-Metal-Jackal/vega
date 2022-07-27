@@ -15,6 +15,10 @@ namespace FreezeeAI
 		private float currentRecoveryTime = 0;
 		private float patternRecoveryTime = 0;
 
+		public Vector3 Movement
+		{
+			set => InputMove(value);
+		}
 
 		[HideInInspector]
 		public bool isPerfomingAction;
@@ -110,8 +114,13 @@ namespace FreezeeAI
 			GiveStartItem();
 		}
 
-		protected override void OnUpdate(float delta)
+		protected override void Update()
 		{
+			if (!Possessed)
+				return;
+
+			float delta = Time.deltaTime;
+
 			HandleTargetRelevance();
 			CheckTargetVisibility();
 			//CheckIfInCover();

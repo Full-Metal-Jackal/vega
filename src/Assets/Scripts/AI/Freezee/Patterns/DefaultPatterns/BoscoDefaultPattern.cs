@@ -32,11 +32,11 @@ namespace FreezeeAI
 				targetMovementDir = aiManager.currentTarget.GetComponent<Rigidbody>().velocity.normalized;
 				Vector3 predictedTargetDir = aiManager.currentTarget.transform.position - aiManager.transform.position + targetMovementDir;
 				dir = Vector3.SignedAngle(predictedTargetDir, aiManager.DefaultTargetDirection, Vector3.up) < 0 ? -1 : 1;
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 			}
 			else if (attacking)
 			{
-				aiManager.movement = Vector3.zero;
+				aiManager.Movement = Vector3.zero;
 				AttackAction(aiManager, mob, dir);
 			}
 			else

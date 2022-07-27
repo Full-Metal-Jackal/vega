@@ -9,5 +9,6 @@ public enum Layer
 	MobsHostile = 15,
 	Projectiles = 16,
 	ProjectilesIgnoreHostiles = 17,
-	Pixelated = 20
+	Pixelated = 20,
+	MobObstacle = 25
 }
