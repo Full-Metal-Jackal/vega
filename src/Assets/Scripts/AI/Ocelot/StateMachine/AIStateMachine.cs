@@ -25,6 +25,8 @@ namespace OcelotAI
 
 				return copy;
 			}
+			private set =>
+				_behaviours = value;
 		}
 
 		private AIBehaviour _activeBehaviour;
@@ -35,22 +37,26 @@ namespace OcelotAI
 			{
 				_activeBehaviour = value;
 
-				foreach (AIBehaviour behaviour in _behaviours)
+				foreach (AIBehaviour behaviour in Behaviours)
 					behaviour.Active = behaviour == _activeBehaviour;
 			}
 		}
 
 		protected virtual void Awake()
 		{
-			_behaviours = GetComponentsInChildren<AIBehaviour>(includeInactive: true);
-			if (_behaviours.Length == 0)
+			AIBehaviour[] behaviours = GetComponentsInChildren<AIBehaviour>(includeInactive: true);
+			
+			Behaviours = behaviours;
+			if (behaviours.Length == 0)
 				Debug.LogWarning($"{Controller} has empty state machine.");
 		}
 
 		protected virtual void Start()
 		{
-			if (_behaviours.Length > 0)
-				ActiveBehaviour = _behaviours[0];
+			AIBehaviour[] behaviours = Behaviours;
+
+			if (behaviours.Length > 0)
+				ActiveBehaviour = behaviours[0];
 		}
 
 		public virtual void UpdateBehaviour()

@@ -105,14 +105,6 @@ namespace OcelotAI
 		{
 		}
 
-		protected void OnDestroy()
-		{
-			// <TODO> Хавчик посмотри, вот этот ритуал ваще имеет смысл?
-			if (OnComplete != null)
-				foreach (Delegate subscription in OnComplete.GetInvocationList())
-					OnComplete -= subscription as Action;
-		}
-
 		// That's an awful pile of spaghetti but you can't invoke events from children classes.
 		// UnityEvents could be used as a workaround but they're not as much performant.
 		protected void MoveDirect(Vector3 direction) => OnMoveDirect?.Invoke(direction);

@@ -10,13 +10,13 @@ namespace OcelotAI
 {
 	public class AIController : MobController
 	{
-		private readonly float tickDelay = .5f;
+		private const float tickDelay = .5f;
 		private float nextTick = 0f;
 
-		private readonly float visionDistance = 100f;
+		private const float visionDistance = 100f;
 		private int visionMask;
 
-		private readonly float detectionRadius = 100f;
+		private const float detectionRadius = 100f;
 		private Collider[] detectionBuffer = new Collider[16];
 		private int detectionMask;
 		private int enemiesAround = 0;
@@ -35,13 +35,13 @@ namespace OcelotAI
 		[field: SerializeField]
 		protected AIStateMachine StateMachine { get; private set; }
 
-		private readonly float visibilityScore = 1f;
-		private readonly float persistenceScore = 1f;
-		private readonly float scorePerMeter = .01f;
-		private readonly float scorePerHealthDifference = .1f;
+		private const float visibilityScore = 1f;
+		private const float persistenceScore = 1f;
+		private const float scorePerMeter = .01f;
+		private const float scorePerHealthDifference = .1f;
 
-		private readonly float threatPerDamageRisk = .1f;
-		private readonly float threatPerHitRisk = .01f;
+		private const float threatPerDamageRisk = .1f;
+		private const float threatPerHitRisk = .01f;
 
 		public bool CanShootTarget => HasClearShot(Target);
 		public bool CanSeeTarget => CanSee(Target);
@@ -73,18 +73,17 @@ namespace OcelotAI
 				StateMachine != null && StateMachine.Controller == this,
 				$"{this} has invalid two-way link with its state machine."
 			);
+
+			foreach (AIBehaviour behaviour in StateMachine.Behaviours)
 			{
-				foreach (AIBehaviour behaviour in StateMachine.Behaviours)
-				{
-					behaviour.OnAim += InputAimPos;
-					behaviour.OnTriggerStateChanged += InputTrigger;
-					behaviour.OnThrow += InputThrow;
+				behaviour.OnAim += InputAimPos;
+				behaviour.OnTriggerStateChanged += InputTrigger;
+				behaviour.OnThrow += InputThrow;
 
-					behaviour.OnMoveDirect += InputMove;
-					behaviour.OnMoveTo += MoveTo;
+				behaviour.OnMoveDirect += InputMove;
+				behaviour.OnMoveTo += MoveTo;
 
-					behaviour.OnDodge += InputDodge;
-				}
+				behaviour.OnDodge += InputDodge;
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace OcelotAI
 		{
 			if (Possessed != null)
 			{
-				// <TODO> Unlink Possessed.OnDamaged here
+				Possessed.OnDamaged -= OnDamageHandler;
 				mob.OnActiveItemChanged -= UpdateActiveItem;
 			}
 
@@ -107,7 +106,7 @@ namespace OcelotAI
 			agent.speed = Possessed.MoveSpeed;
 			agent.angularSpeed = Possessed.Body.maxAngularVelocity;
 
-			mob.OnDamaged += (_) => UpdateTarget();
+			mob.OnDamaged += OnDamageHandler;
 
 			UpdateActiveItem(mob.ActiveItem);
 			mob.OnActiveItemChanged += UpdateActiveItem;
@@ -116,7 +115,9 @@ namespace OcelotAI
 			UpdateStateMachine();
 		}
 
-		// <TODO> This wrapper was used to pass context. May be repurposed later.
+		protected virtual void OnDamageHandler(Mob mob) => UpdateTarget();
+
+		// This wrapper was used to pass context. May be repurposed later.
 		protected virtual void UpdateStateMachine() => StateMachine.UpdateBehaviour();
 
 		protected override void Update()
@@ -351,9 +352,18 @@ namespace OcelotAI
 
 		private void OnDrawGizmosSelected()
 		{
+			string label = $"Target: {Target}\nBehaviour: ";
+			if (StateMachine.ActiveBehaviour)
+			{
+				label += $"{StateMachine.ActiveBehaviour}";
+				if (StateMachine.ActiveBehaviour.Complete)
+					label += " (Complete)";
+			}
+			else
+				label += "None";
+
 			Handles.color = Color.red;
-			Handles.Label(transform.position, $"Target: {Target}\n"+
-				$"Behaviour: {StateMachine.ActiveBehaviour}");
+			Handles.Label(transform.position, label);
 		}
 	}
 }
