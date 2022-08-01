@@ -102,6 +102,10 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	public virtual Vector3 AimPos { get; set; }
 
+	public virtual Vector3 AimOrigin => new Vector3(
+		transform.position.x, transform.position.y + AimHeight, transform.position.z
+	);
+
 	/// <summary>
 	/// Ensures the mob starts to press the trigger as soon as the active item is available
 	/// e.g. the mob starts aiming or picks a gun up.
@@ -112,8 +116,8 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 	protected readonly float movementHaltThreshold = .01f;
 
-	[SerializeField]
-	private bool turnsToMovementDirection = true;
+	[field: SerializeField]
+	protected bool TurnsToMovementDirection { get; private set; } = true;
 	protected readonly float rotationThreshold = .01f;
 
 	protected Vector3 activeDirection = Vector3.zero;
@@ -306,7 +310,7 @@ public abstract class Mob : DynamicEntity, IDamageable
 
 		Body.velocity = targetVelocity;
 
-		if (turnsToMovementDirection)
+		if (TurnsToMovementDirection)
 			TurnTo(delta, Body.velocity);
 	}
 

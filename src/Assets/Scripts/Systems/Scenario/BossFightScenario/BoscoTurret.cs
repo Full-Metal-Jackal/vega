@@ -24,7 +24,7 @@ public class BoscoTurret : MonoBehaviour
 
 
 	private bool attacking = false;
-	private bool reloading = false;
+	// private bool reloading = false;
 	private float currentAttackRecoveryTime;
 	private float currentValleyRecoveryTime;
 	private float currentMachinegunRecoveryTime;

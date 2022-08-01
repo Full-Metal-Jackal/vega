@@ -12,7 +12,7 @@ public abstract class MobController : MonoBehaviour
 	protected static int TotalControllers { get; private set; } = 0;
 	public int Id { get; private set; }
 
-	public Vector3 movement;
+	private Vector3 movement;
 
 	protected virtual void Awake()
 	{
@@ -36,23 +36,42 @@ public abstract class MobController : MonoBehaviour
 		Debug.Log($"Controller {Id} possessed {mob}.");
 	}
 
-	private void Update()
-	{
-		if (!Possessed)
-			return;
-
-		OnUpdate(Time.deltaTime);
-	}
-
-	protected virtual void OnUpdate(float delta)
+	protected virtual void Update()
 	{
 	}
 
-	protected virtual Vector3 UpdateMovementInput() => Vector3.zero;
+	protected virtual void InputUse()
+	{
+	}
+
+	protected virtual void InputTrigger(bool held) => Possessed.UseItem(held);
+	protected virtual void InputReload() => Possessed.Reload();
+	protected virtual void InputThrow() => Possessed.Throw();
+	protected virtual void InputDodge() => Possessed.DashAction();
+	protected virtual void InputDrop() => Possessed.DropItem();
+
+	protected virtual void InputMove(Vector3 inputMovement) =>
+		movement = inputMovement;
+
+	protected virtual void InputSpecialAbility()
+	{
+		if (Possessed.TryGetComponent(out SpecialAbility ability))
+			ability.Activate();
+	}
 
 	private void FixedUpdate()
 	{
 		if (Possessed)
 			Possessed.Move(Time.fixedDeltaTime, movement);
+	}
+
+	public override string ToString()
+	{
+		string result = $"mob controller #{Id}";
+
+		if (Possessed)
+			result += $" ({Possessed})";
+
+		return result;
 	}
 }

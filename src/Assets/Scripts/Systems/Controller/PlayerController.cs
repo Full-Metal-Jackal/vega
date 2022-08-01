@@ -55,22 +55,22 @@ public class PlayerController : MobController
 	{
 		base.Start();
 
-		Actions.World.Use.performed += ctx => OnUsePressed();
-		Actions.World.Dodge.performed += ctx => OnDodgePressed();
-		Actions.World.Reload.performed += ctx => OnReloadPressed();
-		Actions.World.Throw.performed += ctx => OnThrowPressed();
-		Actions.World.SpecialAbilty.performed += ctx => OnSpecialAbilityPressed();
-		Actions.World.Drop.performed += ctx => OnDropPressed();
+		Actions.World.Use.performed += ctx => InputUse();
+		Actions.World.Dodge.performed += ctx => InputDodge();
+		Actions.World.Reload.performed += ctx => InputReload();
+		Actions.World.Throw.performed += ctx => InputThrow();
+		Actions.World.SpecialAbilty.performed += ctx => InputSpecialAbility();
+		Actions.World.Drop.performed += ctx => InputDrop();
 
-		Actions.World.Fire.performed += ctx => OnTriggerInput(true);
-		Actions.World.Fire.canceled += ctx => OnTriggerInput(false);
+		Actions.World.Fire.performed += ctx => InputTrigger(true);
+		Actions.World.Fire.canceled += ctx => InputTrigger(false);
 
 		// Actions.World.Sprint.performed += ctx => OnSprintInput(true);
 		// Actions.World.Sprint.canceled += ctx => OnSprintInput(false);
 
-		Actions.World.Move.canceled += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		Actions.World.Move.performed += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
-		Actions.World.Move.started += ctx => OnMoveInput(ctx.ReadValue<Vector2>());
+		Actions.World.Move.canceled += ctx => InputMove2D(ctx.ReadValue<Vector2>());
+		Actions.World.Move.performed += ctx => InputMove2D(ctx.ReadValue<Vector2>());
+		Actions.World.Move.started += ctx => InputMove2D(ctx.ReadValue<Vector2>());
 	}
 
 	public override void PossessMob(Mob mob)
@@ -83,41 +83,11 @@ public class PlayerController : MobController
 		OnPossessed?.Invoke(mob);
 	}
 
-	protected override Vector3 UpdateMovementInput()
+	protected override void Update()
 	{
-		Vector3 move = Vector3.zero;
-		Vector3 movement = new Vector3(move.x, 0, move.y);
+		if (!Possessed)
+			return;
 
-		return movement;
-	}
-
-	private void OnUsePressed()
-	{
-		if (SelectedEntity is Interaction interaction)
-			Possessed.Use(interaction);
-	}
-
-	public void OnTriggerInput(bool held) => Possessed.UseItem(held);
-
-	public void OnReloadPressed() => Possessed.Reload();
-	public void OnThrowPressed() => Possessed.Throw();
-	private void OnDodgePressed() => Possessed.DashAction();
-	private void OnDropPressed() => Possessed.DropItem();
-
-	// private void OnSprintInput(bool sprint) =>
-	// Possessed.MovementType = sprint ? MovementType.Sprinting : MovementType.Running;
-
-	private void OnMoveInput(Vector2 inputMovement) =>
-		movement = CameraController.Instance.VerticalRotation * new Vector3(inputMovement.x, 0, inputMovement.y);
-
-	public void OnSpecialAbilityPressed()
-	{
-		if (Possessed.TryGetComponent(out SpecialAbility ability))
-			ability.Activate();
-	}
-
-	protected override void OnUpdate(float delta)
-	{
 		UpdateSelectedEntitiy();
 		UpdateAimPos();
 	}
@@ -132,13 +102,24 @@ public class PlayerController : MobController
 
 		Possessed.AimPos = CameraController.GetWorldCursorPos(heightOffset: cursorHeight);
 	}
-		
+	protected override void InputUse()
+	{
+		if (SelectedEntity is Interaction interaction)
+			Possessed.Use(interaction);
+	}
 
 	public void SetSelectedOutline(bool selected)
 	{
 		if (SelectedEntity)
 			SelectedEntity.OutlineEnabled = selected;
 	}
+
+	// Overloading the method makes it recursive, hence the different name.
+	private void InputMove2D(Vector2 inputMovement) =>
+		InputMove(
+			CameraController.Instance.VerticalRotation *
+			new Vector3(inputMovement.x, 0, inputMovement.y)
+		);
 
 	public void UpdateSelectedEntitiy()
 	{

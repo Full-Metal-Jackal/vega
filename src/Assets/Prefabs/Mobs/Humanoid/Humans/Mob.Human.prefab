@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Human Base
   <CanHideWalls>k__BackingField: 0
+  OnDefeated:
+    m_PersistentCalls:
+      m_Calls: []
   <MaxHealth>k__BackingField: 100
   <Faction>k__BackingField: 1
   __health: 0
@@ -26,8 +29,10 @@ MonoBehaviour:
   turnsToMovementDirection: 1
   <MaxTurningSpeed>k__BackingField: 20
   <AimHeight>k__BackingField: 1.65
+  startAlert: 1
+  <Traits>k__BackingField: {fileID: 0}
   <WalkSpeedFactor>k__BackingField: 0.5
-  <DodgeSpeed>k__BackingField: 8
+  <DodgeSpeed>k__BackingField: 12
   <DodgeCooldown>k__BackingField: 1
   <DodgeStaminaCost>k__BackingField: 25
   <SprintStaminaCost>k__BackingField: 15

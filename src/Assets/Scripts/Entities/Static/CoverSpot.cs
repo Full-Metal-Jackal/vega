@@ -43,7 +43,7 @@ public class CoverSpot : MonoBehaviour
 		{
 			if (currentUser == mob)
 			{
-				AI.AIManager ai = currentUser.transform.GetComponentInChildren<AI.AIManager>();
+				FreezeeAI.AIManager ai = currentUser.transform.GetComponentInChildren<FreezeeAI.AIManager>();
 				if (ai != null)
 				{
 					print(currentUser + " Exited");

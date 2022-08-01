@@ -24,7 +24,8 @@ public class Drone : Mob
 	{
 		base.Move(delta, direction, affectY);
 
-		TurnTo(delta, AimDir);
+		if (!TurnsToMovementDirection)
+			TurnTo(delta, AimDir);
 		UpdateAnimations();
 	}
 
